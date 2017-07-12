@@ -1,0 +1,15 @@
+<script src='fhir-client.js'></script>
+<script>
+  var smart = new FHIR.client({
+    serviceUrl: 'https://fhir-open-api-dstu2.smarthealthit.org',
+    auth: {
+      type: 'none'
+    }
+  });
+
+  smart.api.search({type: "Observation", query: {subject: "99912345"}
+    }).then(function(r){
+       console.log(JSON.stringify(r,null,2));
+    });
+</script>
+See JS console for results...
