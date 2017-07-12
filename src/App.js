@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ProfileView from './profile/Profile_View.js'
+import MeasurementView from './measurement/Measurement_View.js'
+import RiskScoreView from './risk/Risk_View.js'
 
 const FHIR = window.FHIR;
 
 class App extends Component {
+
   constructor(props){
     super(props); 
-
-    var smart = FHIR.client({
-        serviceUrl: 'http://fhirtest.uhn.ca/baseDstu3',
-        auth: {
-              type: 'none'
-          }
-     });
-
-    smart.api.search({type: "Observation", query: {subject: "99912345"}})
-      .then(function(r){
-        console.log("alsjdhfalsdkfjhalsdfjhasldfkjasldfajshd ",JSON.stringify(r,null,2));
-    });  
 
   }
 
@@ -26,15 +18,24 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Welcome to Ignite FHIR</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ProfileView client={this.props.smart} />
+        <MeasurementView client={this.props.smart} />
+        <RiskScoreView client={this.props.smart} />
       </div>
     );
   }
+
+}
+
+App.defaultProps = {
+  smart: FHIR.client({
+        serviceUrl: 'http://fhirtest.uhn.ca/baseDstu3',
+        auth: {
+              type: 'none'
+          }
+     }),
 }
 
 export default App;
