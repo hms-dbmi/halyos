@@ -7,12 +7,22 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Main from './Main.js'
 import Header from './Header.js'
 
+import { getURL, getPatID }  from './utils/smart_setup.js'
+
+console.log(getURL());
 const FHIR_Client = window.FHIR.client({
-        serviceUrl: 'http://fhirtest.uhn.ca/baseDstu3',
-        auth: {
-              type: 'none'
-          }
-     });
+  serviceUrl: getURL(),
+  auth: {
+        type: 'none'
+  }
+
+});
+
+const Context_FHIR_Client = window.FHIR.client({
+  serviceUrl: getURL(),
+  patientId: getPatID(),
+
+});
 
 // const Main = () => (
 //   <main>
@@ -38,8 +48,8 @@ const FHIR_Client = window.FHIR.client({
 
 const App = () => (
   <div>
-    <Header api={FHIR_Client.api} />
-    <Main api={FHIR_Client.api} />
+    <Header api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
+    <Main api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
   </div>
 )
 

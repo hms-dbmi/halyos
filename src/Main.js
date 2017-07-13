@@ -9,6 +9,11 @@ class Main extends Component {
 
   constructor(props){
     super(props); 
+    console.log("thsese are them: ", props)
+    this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['code','asc']]}})
+	      			.then(function(r){ 
+	        			console.log("alsjdhfalsdkfjhalsdfjhasldfkjasldfajshd ",JSON.stringify(r,null,2));
+		    		});
   }
 
   render() {
@@ -16,7 +21,7 @@ class Main extends Component {
 	    <main>
 			<Switch>
 			    <Route exact path='/' render={(props) => (
-  					<ProfileView api={this.props.api}/>
+  					<ProfileView {...props}/>
 				)} />
 		    	<Route exact path='/measure' render={(props) => (
   					<MeasurementView {...props}/>

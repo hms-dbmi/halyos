@@ -17,7 +17,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar inverse collapseOnSelect>
+      <Navbar fixed collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="/">Ignite FHIR</a>
@@ -28,7 +28,7 @@ class Header extends Component {
           <Nav>
             <NavDropdown eventKey={3} title="Measurements" id="basic-nav-dropdown">
               <LinkContainer to="/measure/test"><MenuItem eventKey={3.1}>Action</MenuItem></LinkContainer>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
+              <LinkContainer to="/measure/vimig"><MenuItem eventKey={3.2}>Another action</MenuItem></LinkContainer>
               <MenuItem eventKey={3.3}>Something else here</MenuItem>
             </NavDropdown>
             <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
