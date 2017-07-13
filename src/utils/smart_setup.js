@@ -1,7 +1,9 @@
+//@return returns the URL of the FHIR server; allows a programmer to easily test on different server
 export function getURL() {
   return 'http://fhirtest.uhn.ca/baseDstu3';
 }
-
+//@param patient ID
+//@ return returns the FHIR client with the patient ID
 export function getPatID(patID) {
   return 59859;
   // patientID = document.getElementById(patID).value;
