@@ -6,9 +6,7 @@ class MeasurementView extends Component {
 	constructor(props){
 		super(props);
 		//could be this.props.match...
-		if (this.props.match.params != null){
-			this.measurement = this.props.match.params.measureName;	
-		}
+		
 		
 		//This is how you refer to function clients passed through frmo the App.js
 
@@ -18,6 +16,19 @@ class MeasurementView extends Component {
         			console.log("alsjdhfalsdkfjhalsdfjhasldfkjasldfajshd ",JSON.stringify(r,null,2));
 	    		});
 		*/
+	}
+
+	componentWillReceiveProps(nextProps){
+		if (this.props.match.params !== null && this.props.match.params.measureName !== nextProps.match.params.measureName){
+			this.measurement = nextProps.match.params.measureName	
+		}
+	}
+
+	componentWillMount(){
+		console.log("here we are!")
+		if (this.props.match.params != null){
+			this.measurement = this.props.match.params.measureName;	
+		}
 	}
 
 	render(){
