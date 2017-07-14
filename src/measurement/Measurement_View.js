@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import PastGraph from '../resources/PastGraph.js';
+
 class MeasurementView extends Component {
 
 	constructor(props){
 		super(props);
-		//could be this.props.match...
-		
-		
-		//This is how you refer to function clients passed through frmo the App.js
 
-		/*this.search = this.props.client.api.search;
-		this.search({type: "Observation", query: {subject: "99912345"}})
-      			.then(function(r){ 
-        			console.log("alsjdhfalsdkfjhalsdfjhasldfkjasldfajshd ",JSON.stringify(r,null,2));
-	    		});
-		*/
+		var measurements = this.props.measurements;
+		
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -32,9 +26,11 @@ class MeasurementView extends Component {
 	}
 
 	render(){
+		console.log("adfasdfs", this.props)
 		return (
 			<div>
-				<h1>{this.measurement}</h1>
+			
+				<PastGraph />
 			</div>
 		)
 	}

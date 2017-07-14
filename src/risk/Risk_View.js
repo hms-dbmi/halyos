@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
+
 class RiskScoreView extends Component {
 
 	constructor(props){
@@ -18,7 +20,7 @@ class RiskScoreView extends Component {
 	render(){
 		return (
 			<div>
-				
+				<PastToFutureGraph />
 			</div>
 		)
 	}

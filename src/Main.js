@@ -10,7 +10,7 @@ class Main extends Component {
   constructor(props){
     super(props); 
     console.log("thsese are them: ", props)
-    
+
   }
 
   render() {
@@ -18,19 +18,19 @@ class Main extends Component {
 	    <main>
 			<Switch>
 			    <Route exact path='/' render={(props) => (
-  					<ProfileView {...props}/>
+  					<ProfileView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 		    	<Route exact path='/measure' render={(props) => (
-  					<MeasurementView {...props}/>
+  					<MeasurementView {...props} measurements={this.props.measurements} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/measure/:measureName' render={(props) => (
-  					<MeasurementView {...props}/>
+  					<MeasurementView {...props} measurements={this.props.measurements} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 		        <Route exact path='/risk' render={(props) => (
-  					<RiskScoreView {...props}/>
+  					<RiskScoreView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/risk/:riskName' render={(props) => (
-  					<RiskScoreView {...props}/>
+  					<RiskScoreView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				
 			</Switch>

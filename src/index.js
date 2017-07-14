@@ -9,7 +9,6 @@ import Header from './Header.js'
 
 import { getURL, getPatID }  from './utils/smart_setup.js'
 
-console.log(getURL());
 const FHIR_Client = window.FHIR.client({
   serviceUrl: getURL(),
   auth: {
