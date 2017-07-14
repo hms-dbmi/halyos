@@ -28,8 +28,7 @@ class MeasurementView extends Component {
 	render(){
 		console.log("adfasdfs", this.props)
 		return (
-			<div>
-			
+			<div>			
 				<PastGraph />
 			</div>
 		)

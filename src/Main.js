@@ -12,19 +12,21 @@ class Main extends Component {
     console.log("thsese are them: ", props)
 
   }
-
   render() {
+	var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc']]}});
+	var conditions = this.props.ptapi.fetchAll({type: "Condition"});
     return (
 	    <main>
 			<Switch>
 			    <Route exact path='/' render={(props) => (
-  					<ProfileView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
+  					<ProfileView {...props} observations={observations} conditions={conditions} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 		    	<Route exact path='/measure' render={(props) => (
-  					<MeasurementView {...props} measurements={this.props.measurements} api={this.props.api} ptapi={this.props.ptapi}/>
+  					<MeasurementView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/measure/:measureName' render={(props) => (
-  					<MeasurementView {...props} measurements={this.props.measurements} api={this.props.api} ptapi={this.props.ptapi}/>
+  					<MeasurementView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
+
 				)} />
 		        <Route exact path='/risk' render={(props) => (
   					<RiskScoreView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
