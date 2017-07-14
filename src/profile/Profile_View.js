@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Scale from '../logos/scale';
+import BP from '../logos/bp';
 class ProfileView extends Component {
 
 	constructor(props){
@@ -18,8 +19,8 @@ class ProfileView extends Component {
 	render(){
 		return (
 			<div>
-				<VitalTile measurementName="Weight" value="150" units="lbs" logo='Scale'/>
-				<VitalTile measurementName="Systolic BP" value="115" units="mmHg"/>
+				<VitalTile measurementName="Weight" value="150" units="lbs"><Scale/></VitalTile>
+				<VitalTile measurementName="Systolic BP" value="115" units="mmHg"><BP/></VitalTile>
 			</div>
 		)
 	}
@@ -41,7 +42,7 @@ class VitalTile extends Component {
 				        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 				            <g id="Group-4" transform="translate(18.000000, 253.000000)">
 				                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
-				                <Scale/>
+				                {this.props.children};
 				                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
 				                    <tspan x="110" y="38">{this.props.measurementName}</tspan>
 				                </text>
