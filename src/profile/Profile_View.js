@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
+import $ from 'jquery'; 
+
 class ProfileView extends Component {
 
 	constructor(props){
@@ -17,7 +19,8 @@ class ProfileView extends Component {
 	}
 
 	render(){
-		console.log("here",this.props);
+		console.log(this.props.observations);
+		console.log(this.props.conditions);
 		return (
 			<div>
 				<VitalTile measurementName="Weight" value="150" units="lbs"><Scale/></VitalTile>
