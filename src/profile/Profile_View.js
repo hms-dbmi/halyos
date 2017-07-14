@@ -17,10 +17,12 @@ class ProfileView extends Component {
 	}
 
 	render(){
+		console.log("here",this.props);
 		return (
 			<div>
 				<VitalTile measurementName="Weight" value="150" units="lbs"><Scale/></VitalTile>
 				<VitalTile measurementName="Systolic BP" value="115" units="mmHg"><BP/></VitalTile>
+				<VitalTile measurementName="Diastolic BP" value="70" units="mmHg"><Scale/></VitalTile>
 			</div>
 		)
 	}
