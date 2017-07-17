@@ -7,6 +7,7 @@ class PastGraph extends Component {
 	constructor(props){
 		super(props);
 		this.state = {};
+    console.log("graph data current: ", this.props);
 
 		
 		//could be this.props.match...
@@ -22,9 +23,9 @@ class PastGraph extends Component {
 		*/
 	}
 
-	componentWillMount(){
-		this.setState({selectedDomain: {x: [2, 4]}})
-	}
+	// componentWillMount(){
+	// 	//this.setState({selectedDomain: {x: [2, 4]}})
+	// }
 
 	handleZoom(domain) {
     	this.setState({selectedDomain: domain});
@@ -57,19 +58,10 @@ class PastGraph extends Component {
               style={{
                 data: {stroke: "tomato"}
               }}
-              data={[
-                {x: 1, y: 125},
-                {x: 2, y: 257},
-                {x: 3, y: 345},
-                {x: 4, y: 515},
-                {x: 5, y: 132},
-                {x: 6, y: 305},
-                {x: 7, y: 270},
-                {x: 8, y: 470}
-              ]}
+              data={this.props.obs_data}
             />
 
-            <VictoryBar horizontal
+{/*}             <VictoryBar horizontal
 			    style={{
 			      data: { fill: "#c43a31", fillOpacity: 0.1},
 			      parent: { border: "1px solid #ccc"}
@@ -80,9 +72,10 @@ class PastGraph extends Component {
 			    ]}
 			  />
 
+*/}
           </VictoryChart>
 
-          <VictoryChart
+        <VictoryChart
             padding={{top: 0, left: 50, right: 50, bottom: 30}}
             width={1000} height={100} scale={{x: "time"}} 
             containerComponent={
@@ -102,19 +95,10 @@ class PastGraph extends Component {
               style={{
                 data: {stroke: "tomato"}
               }}
-              data={[
-                {x: 1, y: 125},
-                {x: 2, y: 257},
-                {x: 3, y: 345},
-                {x: 4, y: 515},
-                {x: 5, y: 132},
-                {x: 6, y: 305},
-                {x: 7, y: 270},
-                {x: 8, y: 470}
-              ]}
+              data={this.props.obs_data}
             />
           </VictoryChart>
-
+          
       </div>
 		)
 	}

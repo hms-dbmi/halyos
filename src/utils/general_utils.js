@@ -48,7 +48,6 @@ export function getValueQuantities(obs, callback){
     //components exist so you have to get the quantities from there and do something with them
     if(obs.component){
         for (let comp of obs.component){
-            console.log('this is some real vaadfasdfaslue, ', comp);
                 callback(obs,comp);
 
         }

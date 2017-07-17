@@ -11,7 +11,7 @@ class MeasurementView extends Component {
 		super(props);
 
 		var measurements = this.props.measurements;
-		
+		this.state = {measurementList:[]};
 	}
 	
 	componentWillMount(){
@@ -28,39 +28,56 @@ class MeasurementView extends Component {
 		}
 		if (this.props.match.params.measureId !== nextProps.match.params.measureId){
 			this.measureId = nextProps.match.params.measureId;
+			this.setState({measurementList:[]});
+			nextProps.observations.then(this.getObservationByName.bind(this));
+
 		}
+	}
+
+	componentDidMount(){
+		this.props.observations.then(this.getObservationByName.bind(this));
+
 	}
 
 	getObservationByName(value){
 		// valueQuantity, valueCodeableConcept, valueString, valueBoolean, valueRange, valueRatio, valueSampledData, valueAttachment, valueTime, valueDateTime, or valuePeriod
 		// These are all the things that it could be instead of valueQuantity, why. I don't understand why. But maybe this is the error you're getting, eventually need to do a regex search
-		this.measurementList = [];
 		for (let obs of value){
 			//we need to check this because if a component exists, all our numbers are in there
 			getValueQuantities(obs, function(outsideValue,insideValue){
 				if (String(insideValue.code.coding[0].code) === String(this.measureId)){
-				this.measurementList.push({
-                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
-                    y:insideValue.valueQuantity.value});
+					var newArray = this.state.measurementList.slice();
+					newArray.push({
+	                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
+	                    y:insideValue.valueQuantity.value});
+					this.setState({measurementList:newArray});
 			} 
 			else if(String(obs.code.coding[0].code) === String(this.measureId)){
-				this.measurementList.push({
-                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
-                    y:insideValue.valueQuantity.value});
+				var newArray = this.state.measurementList.slice();
+					newArray.push({
+	                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
+	                    y:insideValue.valueQuantity.value});
+					this.setState({measurementList:newArray});
 			}
 			}.bind(this));
 		}
-		console.log(" these are all the obs ------", this.measurementList);
+
+				console.log("before sending it: ", this.state.measurementList);
+
 
 	}
 
 	render(){
-		this.props.observations.then(this.getObservationByName.bind(this),function(err){this.measurementList=[];});
-		return (
+		if(this.state.measurementList){
+			return (
 			<div>			
-				<PastGraph obs_data={this.measurementList}/>
+				<PastGraph obs_data={this.state.measurementList}/>
 			</div>
-		)
+			)		
+		}
+
+		return <div>Loading...</div>
+		
 	}
 
 }
