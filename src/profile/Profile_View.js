@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
 import $ from 'jquery'; 
+import {getTopObservations, getTopObservationsDemo} from '../utils/patient_view_utils.js'
+import {searchByCode} from '../utils/general_utils.js';
 
 class ProfileView extends Component {
 
 	constructor(props){
 		super(props);
-		
 		//This is how you refer to function clients passed through frmo the App.js
 
 		/*this.search = this.props.client.api.search;
@@ -17,15 +18,15 @@ class ProfileView extends Component {
 	    		});
 		*/
 	}
-
-	render(){
-		console.log(this.props.observations);
-		console.log(this.props.conditions);
+	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
 			<div>
-				<VitalTile measurementName="Weight" value="150" units="lbs"><Scale/></VitalTile>
-				<VitalTile measurementName="Systolic BP" value="115" units="mmHg"><BP/></VitalTile>
-				<VitalTile measurementName="Diastolic BP" value="70" units="mmHg"><Scale/></VitalTile>
+				<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
+				<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+				<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
 			</div>
 		)
 	}
@@ -35,6 +36,29 @@ class ProfileView extends Component {
 class VitalTile extends Component {
 	constructor(props) {
 		super();
+		this.state = {
+			name: "",
+			value: "Loading...",
+			units: "",
+		};
+	}
+	componentDidMount() {
+		//var i = {this.props.i};
+		var parentComponent = this;
+		$.when(this.props.observations).done(function(obs) {
+			var testobject = {};
+			testobject[parentComponent.props.code] = [];
+			var result = searchByCode(obs, testobject);
+			var precision = 3;
+			if (result[parentComponent.props.code][0]['value'] < 1) {
+				precision = 2;
+			}
+			parentComponent.setState({
+				measurementName: result[parentComponent.props.code][0]['text'],
+				units: result[parentComponent.props.code][0]['unit'],
+				value: result[parentComponent.props.code][0]['value'].toPrecision(precision)
+			});
+		});
 	}
 	render() {
 		return (
@@ -49,12 +73,12 @@ class VitalTile extends Component {
 				                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
 				                {this.props.children};
 				                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
-				                    <tspan x="110" y="38">{this.props.measurementName}</tspan>
+				                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
 				                </text>
 				                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="40" fontWeight="300" fill="#000000">
-				                    <tspan x="208" y="83">{this.props.value}</tspan>
+				                    <tspan x="208" y="83">{this.state.value}</tspan>
 				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
-				                    <tspan x="297.496" y="83" fontSize="20">{this.props.units}</tspan>
+				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
 				                </text>
 				            </g>
 				        </g>
