@@ -33,3 +33,24 @@ export function getTopObservations(bundle, n) {
 	}
 	return finalData;
 }
+/**@param bundle: the bundle of observations
+        n: how many top observations you want
+  @return: returns an object with n=6 observations that represent those which have been selected for demo purposes
+**/
+export function getTopObservationsDemo(bundle, n=6) {
+	var observations = {
+		'29463-7': [], //weight
+		'8480-6': [], //SysBP
+		'8462-4': [], //DiasBP
+		'2085-9': [], //HDL
+		'18262-6': [], //LDL
+		'2339-0': [] //glucose
+	};
+	for (var i in bundle) {
+		var name = bundle[i].code.coding[0].code;
+		if (observations.hasOwnProperty(name)) {
+		  observations[name].push(bundle[i]);
+		}
+	}
+	return observations;
+}

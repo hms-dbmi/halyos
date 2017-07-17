@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
 import $ from 'jquery'; 
-import {getTopObservations} from '../utils/patient_view_utils.js'
+import {getTopObservations, getTopObservationsDemo} from '../utils/patient_view_utils.js'
+import {searchByCode} from '../utils/general_utils.js';
 
 class ProfileView extends Component {
 
@@ -17,15 +18,15 @@ class ProfileView extends Component {
 	    		});
 		*/
 	}
-	render(){
+	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
 			<div>
-				<VitalTile i='0' observations={this.props.observations}/>
-				<VitalTile i='1' observations={this.props.observations}/>
-				<VitalTile i='2' observations={this.props.observations}/>
-				<VitalTile i='3' observations={this.props.observations}/>
-				<VitalTile i='4' observations={this.props.observations}/>
-				<VitalTile i='5' observations={this.props.observations}/>
+				<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
+				<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+				<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
 			</div>
 		)
 	}
@@ -45,16 +46,17 @@ class VitalTile extends Component {
 		//var i = {this.props.i};
 		var parentComponent = this;
 		$.when(this.props.observations).done(function(obs) {
-			var topObservations = getTopObservations(obs, 6);
-			console.log(topObservations);
+			var testobject = {};
+			testobject[parentComponent.props.code] = [];
+			var result = searchByCode(obs, testobject);
 			var precision = 3;
-			if (topObservations[parentComponent.props.i][0].valueQuantity.value < 1) {
+			if (result[parentComponent.props.code][0]['value'] < 1) {
 				precision = 2;
 			}
 			parentComponent.setState({
-				measurementName: topObservations[parentComponent.props.i][0].code.coding[0].display,
-				units: topObservations[parentComponent.props.i][0].valueQuantity.unit,
-				value: topObservations[parentComponent.props.i][0].valueQuantity.value.toPrecision(precision)
+				measurementName: result[parentComponent.props.code][0]['text'],
+				units: result[parentComponent.props.code][0]['unit'],
+				value: result[parentComponent.props.code][0]['value'].toPrecision(precision)
 			});
 		});
 	}
