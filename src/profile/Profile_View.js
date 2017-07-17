@@ -4,6 +4,7 @@ import BP from '../logos/bp';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo} from '../utils/patient_view_utils.js'
 import {searchByCode} from '../utils/general_utils.js';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 class ProfileView extends Component {
 
@@ -53,6 +54,12 @@ class VitalTile extends Component {
 			if (result[parentComponent.props.code][0]['value'] < 1) {
 				precision = 2;
 			}
+			if (result[parentComponent.props.code][0]['text'] == "High Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
+			}
+			if (result[parentComponent.props.code][0]['text'] == "Low Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
+			}
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
 				units: result[parentComponent.props.code][0]['unit'],
@@ -62,8 +69,8 @@ class VitalTile extends Component {
 	}
 	render() {
 		return (
-			<div>
-				<svg width="690px" height="106px" viewBox="0 0 690 106" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+			<div class = "col-xs-6">
+				<svg width="50%" height="100%" viewBox="0 0 690 106" version="1.1">
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>
@@ -71,7 +78,7 @@ class VitalTile extends Component {
 				        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 				            <g id="Group-4" transform="translate(18.000000, 253.000000)">
 				                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
-				                {this.props.children};
+			                	{this.props.children}
 				                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
 				                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
 				                </text>
@@ -80,6 +87,11 @@ class VitalTile extends Component {
 				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
 				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
 				                </text>
+				                <foreignObject width = "170px" height = "70px" x = "475px" y="60px">
+			                        <Sparklines data={[1,2,3,5,6,7,8,4,3,6]} width={100} height={20} margin={5}>
+											<SparklinesLine />
+									</Sparklines>
+								</foreignObject>
 				            </g>
 				        </g>
 				    </g>
