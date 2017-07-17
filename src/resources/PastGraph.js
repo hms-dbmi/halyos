@@ -88,7 +88,7 @@ class PastGraph extends Component {
           >
             <VictoryAxis
               tickValues={[
-                1,2,3,4,5,6,7,8
+                2012,2013,2014,2015,2016,2017
               ]}
             />
             <VictoryLine
@@ -98,7 +98,7 @@ class PastGraph extends Component {
               data={this.props.obs_data}
             />
           </VictoryChart>
-          
+
       </div>
 		)
 	}
