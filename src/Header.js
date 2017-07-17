@@ -95,11 +95,11 @@ class Header extends Component {
               }
             </NavDropdown>
             <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem>
-              <MenuItem eventKey={3.2}>Stroke</MenuItem>
-              <MenuItem eventKey={3.3}>Kidney Failure</MenuItem>
-              <MenuItem eventKey={3.4}>COPD</MenuItem>
-              <MenuItem eventKey={3.5}>Diabetes</MenuItem>
+              <LinkContainer to={'/risk/cardio'}><MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
+              <LinkContainer to={'/risk/kidneyfail'}><MenuItem eventKey={3.1}>Kidney Failure</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/copd'}><MenuItem eventKey={3.1}>COPD</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/stroke'}><MenuItem eventKey={3.1}>Stroke</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/diabetes'}><MenuItem eventKey={3.1}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
 
           </Nav>
