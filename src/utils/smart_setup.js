@@ -5,7 +5,7 @@ export function getURL() {
 //@param patient ID
 //@ return returns the FHIR client with the patient ID
 export function getPatID(patID) {
-  return 59859;
+  return 182296;
   // patientID = document.getElementById(patID).value;
   // var demo = {
   //   serviceUrl: "http://fhirtest.uhn.ca/baseDstu3",

@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
 import $ from 'jquery'; 
-import {getTopObservations, getTopObservationsDemo} from '../utils/patient_view_utils.js'
+import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
 import {searchByCode} from '../utils/general_utils.js';
-import { Sparklines, SparklinesLine } from 'react-sparklines';
+var Sparkline = require('react-sparkline');
 
 class ProfileView extends Component {
-
 	constructor(props){
 		super(props);
 		//This is how you refer to function clients passed through frmo the App.js
@@ -22,7 +21,7 @@ class ProfileView extends Component {
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
 			<div>
-				<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+				<VitalTile code='29463-7' max="60" observations={this.props.observations}><Scale/></VitalTile>
 				<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
 				<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
 				<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
@@ -54,20 +53,29 @@ class VitalTile extends Component {
 			if (result[parentComponent.props.code][0]['value'] < 1) {
 				precision = 2;
 			}
-			if (result[parentComponent.props.code][0]['text'] == "High Density Lipoprotein Cholesterol") {
+			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
 				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
 			}
-			if (result[parentComponent.props.code][0]['text'] == "Low Density Lipoprotein Cholesterol") {
+			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
+			}
+			var forSparkline = [];
+			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
+				forSparkline.push({
+					date: result[parentComponent.props.code][i]['date'],
+					value: result[parentComponent.props.code][i]['value']
+				})
 			}
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
 				units: result[parentComponent.props.code][0]['unit'],
-				value: result[parentComponent.props.code][0]['value'].toPrecision(precision)
+				value: result[parentComponent.props.code][0]['value'].toPrecision(precision),
+				data: forSparkline
 			});
 		});
 	}
 	render() {
+		console.log()
 		return (
 			<div class = "col-xs-6">
 				<svg width="50%" height="100%" viewBox="0 0 690 106" version="1.1">
@@ -87,10 +95,10 @@ class VitalTile extends Component {
 				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
 				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
 				                </text>
-				                <foreignObject width = "170px" height = "70px" x = "475px" y="60px">
-			                        <Sparklines data={[1,2,3,5,6,7,8,4,3,6]} width={100} height={20} margin={5}>
-											<SparklinesLine />
-									</Sparklines>
+				                <foreignObject width = "200px" height = "124px" x = "550px" y="60px">
+			                        <Sparkline data={this.state.data}>
+			                        	<SparklinesReferenceLine y={this.props.max}/>
+			                        </Sparkline>
 								</foreignObject>
 				            </g>
 				        </g>
