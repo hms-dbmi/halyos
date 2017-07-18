@@ -21,8 +21,9 @@ class ProfileView extends Component {
 	}
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
-			<div>
-				<VitalTile code='29463-7' max="60" observations={this.props.observations}><Scale/></VitalTile>
+			<div className = "col-md-6">
+				<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
+				<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
 				<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
 				<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
 				<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
@@ -33,13 +34,24 @@ class ProfileView extends Component {
 	}
 
 }
+
+function getPatientName (pt) {
+  if (pt.name) {
+    var names = pt.name.map(function(name) {
+      return name.given.join(" ") + " " + name.family;
+    });
+    return names[0];
+  } else {
+    return "anonymous";
+  }
+}
+
 class DemographicTile extends Component {
 	constructor(props) {
 		super();
 		this.state = {
 			name: "",
-			gender: "",
-			height: "",
+			genderheight: "",
 			dob: "",
 			lastencounter:""
 		};
@@ -50,31 +62,25 @@ class DemographicTile extends Component {
 		var parentComponent = this;
 		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
 			console.log("YO", pt, obs, encs);
-			// parentComponent.setState({
-			// 	name: ,
-			// 	gender: ,
-			// 	height: ,
-			// 	dob: ,
-			// 	lastencounter: ""
-			// });
+			var genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
+			var heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
+			genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
+			parentComponent.setState({
+				name: getPatientName(pt[0]),
+				genderheight: genderheightstring,
+				dob: "DOB: " + pt[0].birthDate
+				// lastencounter: ""
+			});
 		});
 	}
 
 	render() {
 		return (
-			<svg width="307px" height="137px" viewBox="0 0 307 137" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-			    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fontSize="36" fontFamily="Helvetica-Bold, Helvetica" fontWeight="bold">
-			        <g id="Desktop-HD" transform="translate(-210.000000, -90.000000)" fill="#000000">
-			            <text id="Samson-Mataraso-Male">
-			                <tspan x="209.945312" y="117">{this.state.name}</tspan>
-			                <tspan x="518.054688" y="117" fontFamily="Helvetica" fontWeight="normal"></tspan>
-			                <tspan x="274.79834" y="160" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.gender} — {this.state.height}</tspan>
-			                <tspan x="246.431641" y="196" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.dob}</tspan>
-			                <tspan x="218.343262" y="232" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.lastencounter}</tspan>
-			            </text>
-			        </g>
-			    </g>
-			</svg>
+			<div>
+				<h2 className="text-center">{this.state.name}</h2>
+				<h4 className="text-center">{this.state.genderheight}</h4>
+				<h4 className="text-center">{this.state.dob}</h4>
+			</div>
 		);
 	}
 }
@@ -124,8 +130,8 @@ class VitalTile extends Component {
 	}
 	render() {
 		return (
-			<div class = "col-xs-6">
-				<svg width="50%" height="100%" viewBox="0 0 690 106" version="1.1">
+			<div>
+				<svg width="100%" height="100%" viewBox="0 0 690 106" version="1.1">
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>
