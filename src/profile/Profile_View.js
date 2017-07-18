@@ -4,6 +4,7 @@ import BP from '../logos/bp';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
 import {searchByCode} from '../utils/general_utils.js';
+import { LineChart, Line, Tooltip } from 'recharts';
 var Sparkline = require('react-sparkline');
 
 class ProfileView extends Component {
@@ -32,6 +33,52 @@ class ProfileView extends Component {
 	}
 
 }
+class DemographicTile extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			name: "",
+			gender: "",
+			height: "",
+			dob: "",
+			lastencounter:""
+		};
+	}
+
+	componentDidMount() {
+		//var i = {this.props.i};
+		var parentComponent = this;
+		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
+			console.log("YO", pt, obs, encs);
+			// parentComponent.setState({
+			// 	name: ,
+			// 	gender: ,
+			// 	height: ,
+			// 	dob: ,
+			// 	lastencounter: ""
+			// });
+		});
+	}
+
+	render() {
+		return (
+			<svg width="307px" height="137px" viewBox="0 0 307 137" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+			    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fontSize="36" fontFamily="Helvetica-Bold, Helvetica" fontWeight="bold">
+			        <g id="Desktop-HD" transform="translate(-210.000000, -90.000000)" fill="#000000">
+			            <text id="Samson-Mataraso-Male">
+			                <tspan x="209.945312" y="117">{this.state.name}</tspan>
+			                <tspan x="518.054688" y="117" fontFamily="Helvetica" fontWeight="normal"></tspan>
+			                <tspan x="274.79834" y="160" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.gender} — {this.state.height}</tspan>
+			                <tspan x="246.431641" y="196" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.dob}</tspan>
+			                <tspan x="218.343262" y="232" fontFamily="Helvetica" fontSize="30" fontWeight="normal">{this.state.lastencounter}</tspan>
+			            </text>
+			        </g>
+			    </g>
+			</svg>
+		);
+	}
+}
+
 
 class VitalTile extends Component {
 	constructor(props) {
@@ -42,6 +89,7 @@ class VitalTile extends Component {
 			units: "",
 		};
 	}
+
 	componentDidMount() {
 		//var i = {this.props.i};
 		var parentComponent = this;
@@ -62,7 +110,7 @@ class VitalTile extends Component {
 			var forSparkline = [];
 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
 				forSparkline.push({
-					date: result[parentComponent.props.code][i]['date'],
+					name: result[parentComponent.props.code][i]['date'].toString(),
 					value: result[parentComponent.props.code][i]['value']
 				})
 			}
@@ -75,7 +123,6 @@ class VitalTile extends Component {
 		});
 	}
 	render() {
-		console.log()
 		return (
 			<div class = "col-xs-6">
 				<svg width="50%" height="100%" viewBox="0 0 690 106" version="1.1">
@@ -95,10 +142,8 @@ class VitalTile extends Component {
 				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
 				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
 				                </text>
-				                <foreignObject width = "200px" height = "124px" x = "550px" y="60px">
-			                        <Sparkline data={this.state.data}>
-			                        	<SparklinesReferenceLine y={this.props.max}/>
-			                        </Sparkline>
+				                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
+			                        
 								</foreignObject>
 				            </g>
 				        </g>
