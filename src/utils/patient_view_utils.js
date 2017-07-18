@@ -1,9 +1,32 @@
+
+import $ from 'jquery'; 
+import React from 'react';
+
+export class SparklinesReferenceLine extends React.Component {
+    constructor(props) {
+    	console.log("HERE");
+        super();
+    }
+
+    render() {
+        const { data } = this.props;
+        console.log(data);
+        var y = this.props.y
+        console.log(this.props.y);
+        return (
+            <line
+                x1={data[0]['date']} y1={y}
+                x2={data[0]['date']} y2={y}
+                />
+        )
+    }
+}
+
 /**@param bundle: the bundle of observations
         n: how many top observations you want
   @return: returns an object with n observations that represent those with the most prevalence
         the key is the LOINC code of the measurement and the value is a set that contains all the resource objects
 **/
-import $ from 'jquery'; 
 export function getTopObservations(bundle, n) {
 	var observations = {};
 	for (var i in bundle) {
