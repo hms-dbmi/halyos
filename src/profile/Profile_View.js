@@ -21,15 +21,20 @@ class ProfileView extends Component {
 	}
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
-			<div className = "col-md-6">
-				<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
-				<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
-				<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
-				<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
-				<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
-				<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
-				<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
+			<div>
+				<div className = "col-md-6">
+					<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
+					<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+					<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
+					<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+					<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+					<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+					<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
+				</div>
+				<div className = "col-md-6">
+				</div>
 			</div>
+
 		)
 	}
 
@@ -46,6 +51,15 @@ function getPatientName (pt) {
   }
 }
 
+class MedicationTile extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			medList: {}
+		};
+	}
+}
+
 class DemographicTile extends Component {
 	constructor(props) {
 		super();
@@ -55,6 +69,12 @@ class DemographicTile extends Component {
 			dob: "",
 			lastencounter:""
 		};
+	}
+
+	render() {
+		return (
+
+		);
 	}
 
 	componentDidMount() {
