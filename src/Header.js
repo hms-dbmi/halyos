@@ -73,9 +73,6 @@ class Header extends Component {
         </Navbar>
       )
     }
-
-    console.log("asdfasdfasfqweqdafsqwerasd", this.state.observations);
-
     return (
       <Navbar collapseOnSelect>
         <Navbar.Header>

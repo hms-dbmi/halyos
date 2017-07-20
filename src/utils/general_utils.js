@@ -56,3 +56,41 @@ export function getValueQuantities(obs, callback){
         callback(obs,obs);
 
 }
+
+/**
+  @param: obsBundle -- fetchAll observation bundle
+  @param: object -- a javascript object where keys represent the LOINC codes of interest & they correspond to empty arrays
+  @return: object -- a javascript object where the keys correspond to array of objects where each 
+  object in the array contains code, text, value, date
+  **/
+export function searchByCode(obsBundle, object) {
+  for (var j = 0; j < obsBundle.length; j++) {
+    if(obsBundle[j].component) {
+      for (var i = 0; i < obsBundle[j].component.length; i++) {
+        var code = obsBundle[j].component[i].code.coding[0].code;
+        if(object.hasOwnProperty(code)) {
+          object[code].push({
+            'code': code,
+            'text': obsBundle[j].component[i].code.coding[0].display,
+            'value': obsBundle[j].component[i].valueQuantity.value,
+            'unit': obsBundle[j].component[i].valueQuantity.unit,
+            'date': obsBundle[j].effectiveDateTime
+          });
+        }
+      }
+    }
+    else {
+      var code = obsBundle[j].code.coding[0].code;
+      if(object.hasOwnProperty(code)) {
+        object[code].push({
+          'code': code,
+          'text': obsBundle[j].code.coding[0].display,
+          'value': obsBundle[j].valueQuantity.value,
+          'unit': obsBundle[j].valueQuantity.unit,
+          'date': obsBundle[j].effectiveDateTime
+        });
+      }
+    }
+  }
+  return object;
+}
