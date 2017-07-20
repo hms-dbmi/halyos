@@ -1,109 +1,204 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
+import { VictoryTooltip, VictoryVoronoiContainer, VictoryArea, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 
 class PastToFutureGraph extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {};
-    console.log("graph data current: ", this.props);
+		this.state = {userData:[], otherLine:[], view_data:[]};
+		//{ x: new Date(2016, 7, 23), y: 84 }
+		this.FUTURE_YEAR_SUBTRACTION = 2.2;
+		this.FUTURE_YEAR_ADDITION = 3.5;
 
 	}
 
-	// componentWillMount(){
-	// 	//this.setState({selectedDomain: {x: [2, 4]}})
-	// }
+	componentDidMount(){
+		//this.setState({selectedDomain: {x: [2, 4]}})
+		console.log("Mounted");
+		this.setState({view_data:this.props.obs_data});
+		
+	}
 
-	handleZoom(domain) {
-    	this.setState({selectedDomain: domain});
-  	}
+	componentWillReceiveProps(nextProps){
+		this.setState({view_data:nextProps.obs_data});
 
-  	handleBrush(domain) {
-    	this.setState({zoomDomain: domain});
-  	}
+		if(nextProps.obs_data.length  > 0){
+			//console.log("each iter of obs_dat :", nextProps.obs_data);
+			var firstFuturePoint = { x: nextProps.futureMeasurementDate, y: nextProps.lastDataPoint }
+			this.setState({userData:[firstFuturePoint]});
+		}
+		var startingLinePts = [];
+		startingLinePts.push(firstFuturePoint);
+		startingLinePts.push(nextProps.obs_data[0]);
+		this.setState({otherLine:startingLinePts});
+		
+
+	}
+
+	// handleZoom(domain) {
+ //    	this.setState({selectedDomain: domain});
+ //  	}
+
+ //  	handleBrush(domain) {
+ //    	this.setState({zoomDomain: domain});
+ //  	}
+
+
 
 	render(){
-		var MAX_VALUE = 566.5;
-		var yVal = ((MAX_VALUE - 350)/2) + 350;
-		var widthVal = ((MAX_VALUE - 350)/2);
+    
+		Number.prototype.map = function (in_min, in_max, out_min, out_max) {
+		  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+		}
 
-		var MIN_VALUE = 112.5;
-		var yVal2 = ((200- MIN_VALUE)/2) + 200;
-		var widthVal2 = ((MIN_VALUE - 200)/2) + 200;
+	  	this.func2;
+	  	this.boundFunction = function onMouseMove(event) {
 
-	return (<div></div>)
+	  		//if the mouse is currently pressed down
+	  		if(event.which === 1){
 
+				//the below is assuming default viewBox: check this stackoverflow if that isn't the case
+				//https://stackoverflow.com/questions/29261304/how-to-get-the-click-coordinates-relative-to-svg-element-holding-the-onclick-lis
+				var maxSVGHeight = 0;
 
+				if(event.target){
+					if(event.target.nearestViewportElement){
+					 	maxSVGHeight =  event.target.farthestViewportElement.getBoundingClientRect();
+					} else {
+					 	maxSVGHeight = event.target.getBoundingClientRect();
+					}
+				}
 
+				var newYVal = event.offsetY.map(maxSVGHeight.height,0,this.props.yMin,this.props.yMax);
+				if (newYVal < this.props.yMinPadded){
+					newYVal = this.props.yMinPadded;
+				} else if (newYVal > this.props.yMaxPadded){
+					newYVal = this.props.yMaxPadded;
+				}
+		  		var movedPointLoc = { x: this.props.futureMeasurementDate, y: newYVal };
+		    	this.setState({userData:[
+				    movedPointLoc
+				]})
 
+				var otherLine = this.state.view_data.slice(0,1);
+				otherLine.push(movedPointLoc);
+				this.setState({otherLine:otherLine})
 
-//currently working on this
-// 		return (
-// 			<div>
-//           <VictoryChart width={1000} height={400} scale={{x: "time"}} 
-//             containerComponent={
-//               <VictoryZoomContainer responsive={true}
-//                 dimension="x"
-//                 zoomDomain={this.state.zoomDomain}
-//                 onDomainChange={this.handleZoom.bind(this)}
-//               />
-//             }
-//           >
-//             <VictoryLine
-//               style={{
-//                 data: {stroke: "tomato"}
-//               }}
-//               data={this.props.obs_data}
-//             />
+	  		}
+	  	}
 
-// {/*}             <VictoryBar horizontal
-// 			    style={{
-// 			      data: { fill: "#c43a31", fillOpacity: 0.1},
-// 			      parent: { border: "1px solid #ccc"}
-// 			    }}
-// 			    data={[
-// 			    	{x:yVal,y:8, width:widthVal},
-// 			    	{x:100, y:8, width:this.range}
-// 			    ]}
-// 			  />
+	  	var test1 = this.props.firstYear;
+	  	var test2 = this.props.lastYear;
 
-// */}
-//           </VictoryChart>
+	  	var firstYearPadded = new Date(test1,1);
+	  	firstYearPadded.setFullYear(firstYearPadded.getFullYear() - this.FUTURE_YEAR_SUBTRACTION);
 
-//         <VictoryChart
-//             padding={{top: 0, left: 50, right: 50, bottom: 30}}
-//             width={1000} height={100} scale={{x: "time"}} 
-//             containerComponent={
-//               <VictoryBrushContainer responsive={true}
-//                 dimension="x"
-//                 selectedDomain={this.state.selectedDomain}
-//                 onDomainChange={this.handleBrush.bind(this)}
-//               />
-//             }
-//           >
-//             <VictoryAxis
-//               tickValues={[
-//                 new Date(2012, 1, 1),
-//                 new Date(2013, 1, 1),
-//                 new Date(2014, 1, 1),
-//                 new Date(2016, 1, 1),
-//                 new Date(2017, 1, 1),
-//                 new Date(2018, 1, 1)
-//               ]}
-//               tickFormat={(x) => new Date(x).getFullYear()}
-//             />
-//             <VictoryLine
-//               style={{
-//                 data: {stroke: "tomato"}
-//               }}
-//               data={this.props.obs_data}
-//             />
-//           </VictoryChart>
+	  	var lastYearPadded = new Date(test2,1);
+	  	lastYearPadded.setFullYear(lastYearPadded.getFullYear() + this.FUTURE_YEAR_ADDITION);
 
-//       </div>
-// 		)
-	}
+	  	var yMinPadded = (this.props.yMin)*0.9;
+	  	var yMaxPadded = (this.props.yMax)*1.1;
+		
+		const hasRefRange = this.props.refRange.length !== 0;
+		return (
+		      <div>
+		          <VictoryChart width={1000} responsive={false} height={400} scale={{x: "time"}} 
+		          				domain={{x:[firstYearPadded,lastYearPadded], y:[yMinPadded,yMaxPadded]}} 
+
+		          >     
+
+		          {hasRefRange ? (<VictoryArea y0={() => this.props.refRange[0][1]} y={() => this.props.refRange[0][0]}
+						style={{
+						    data: {
+						      fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
+						    }
+						}}
+					 />
+			  //         <VictoryArea y0={() => yMinPadded} y={() => this.props.refRange[0][0]}
+				 //          style={{
+					//     	data: {
+					//       		fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
+					//     	}
+					// 	}} 
+					// /> 
+					)
+
+					: <div></div> }
+			          	<VictoryGroup 
+			          	containerComponent={
+		              		<VictoryVoronoiContainer
+		              	// labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
+		                // 		dimension="x"
+		                // zoomDomain={this.state.zoomDomain}
+		                // onDomainChange={this.handleZoom.bind(this)}
+		              		/>
+		            	}
+		            	>
+				            
+				            <VictoryLine
+				            	 style={{
+				                	data: {strokeWidth:3}
+				              	}}    
+				            	labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
+		    					labelComponent={<VictoryTooltip/>}
+								data={this.state.view_data}
+				            />
+
+				            <VictoryLine    
+								style={{
+				                	data: {stroke:"blue", strokeDasharray: "5,5"}
+				              	}}
+				              	data={this.state.otherLine}
+				            />
+
+				            <VictoryScatter 
+				            	labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
+		    					labelComponent={<VictoryTooltip/>}
+		    					name="test" ref={(ref) => this.svg = ref}
+							    style={{ data: { fill: "#c43a31",strokeWidth:3 } }}
+							    width={10}
+							    size={7}
+							    data={this.state.userData}
+							    events={[{
+							      target: "data",
+							      eventHandlers: {
+
+							      	onMouseDown: (evt) => {
+							      		return [
+							      		{
+							              target: "data",
+							              mutation: (props) => {
+							            
+							              	document.addEventListener('mousemove', this.boundFunction.bind(this));
+
+							                return null;
+							              }
+							            }];},
+
+							     //  	onMouseUp: (evt) => {
+							     //  		console.log("on mouse up triggered: ", evt);
+							     //  		return [
+							     //  		{
+							     //          target: "data",
+							     //          mutation: (props) => {
+												// document.removeEventListener('mousemove', this.func2);
+
+							     //          }
+							     //        }];}  
+							      }
+							    }]}
+				            />
+				        </VictoryGroup>
+				        
+		          
+
+		         	</VictoryChart>
+
+		      </div>
+	    );
+
+		}
 
 }
 

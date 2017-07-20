@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
+import { VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 
 class PastGraph extends Component {
 
@@ -27,16 +27,12 @@ class PastGraph extends Component {
 
 	render(){
 
-    console.log("all the datas: ", this.props.obs_data);
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 
-
-    //console.log("this is the past graph data: -------", this.props.obs_data);
-
 return (
       <div>
-          <VictoryChart width={1000} height={400} scale={{x: "time"}} 
+          <VictoryChart width={1000} height={400} scale={{x: "time"}} responsive={true}
             containerComponent={
               <VictoryZoomVoronoiContainer responsive={true} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
                 dimension="x"
@@ -45,13 +41,20 @@ return (
               />
             }
           >
-            <VictoryLine
+
+          <VictoryGroup data={this.props.obs_data}>
+            <VictoryLine 
               style={{
                 data: {stroke: "tomato"}
               }}
-              data={this.props.obs_data}
+              
             />
-
+ {/*} 
+          //removed because the tooltips get all messed up and doubled with this in there. 
+           <VictoryScatter style={{
+                data: {stroke: "tomato"}
+              }} /> */}
+            </VictoryGroup>
           </VictoryChart>
 
           <VictoryChart
