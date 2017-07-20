@@ -129,7 +129,10 @@ class DemographicTile extends Component {
 		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
 			var genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
 			var heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
-			genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
+			console.log("Height!", heightObject);
+			if(heightObject) {
+				genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
+			}
 			parentComponent.setState({
 				name: getPatientName(pt[0]),
 				genderheight: genderheightstring,
@@ -168,7 +171,7 @@ class VitalTile extends Component {
 			var testobject = {};
 			testobject[parentComponent.props.code] = [];
 			var result = searchByCode(obs, testobject);
-			var precision = 3;
+			var precision = 0;
 			if (result[parentComponent.props.code][0]['value'] < 1) {
 				precision = 2;
 			}
@@ -182,13 +185,12 @@ class VitalTile extends Component {
 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
 				forSparkline.push({
 					name: result[parentComponent.props.code][i]['date'].toString(),
-					value: result[parentComponent.props.code][i]['value']
+					value: (result[parentComponent.props.code][i]['value'])
 				})
 			}
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
-				units: result[parentComponent.props.code][0]['unit'],
-				value: result[parentComponent.props.code][0]['value'].toPrecision(precision),
+				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
 				data: forSparkline
 			});
 		});
