@@ -70,7 +70,6 @@ class MedicationTile extends Component {
 			for (var i = 0; i < meds.length; i++) {
 				medNames.push(meds[i].medicationCodeableConcept.text + ": " + meds[i].dosage[0].text);
 			}
-			console.log("hello", medNames);
 			const listItems = medNames.map((medName) =>
 	  			<li>{medName}</li>
 			);
@@ -81,7 +80,6 @@ class MedicationTile extends Component {
 	}
 
 	render() {
-		console.log("tetafa", this.state.medListText)
 		return (
 			<div>
 				<svg width="100%" height="100%" viewBox="0 0 610 150" version="1.1">
@@ -98,8 +96,8 @@ class MedicationTile extends Component {
 				                <g id="Rectangle-7">
 				                    <use fillOpacity="0.55" fill="url(#linearGradient-1)" fillRule="evenodd" xlinkHref="#path-2"></use>
 				                </g>
-				                <foreignObject width="650px" height="150px" x="15" y="49">
-				                	<div><text>{this.state.medListText}</text></div>
+				                <foreignObject width="650px" height="150px" x="10" y="49">
+				                	<div style={{fontSize: "18px"}}><ul style={{listStyleType: 'none'}}>{this.state.medListText}</ul></div>
 				                </foreignObject>
 				                <text id="Medication-Reminders" fontFamily="Helvetica" fontSize="32" fontWeight="normal" fill="#000000">
 				                    <tspan x="165" y="39">Medication Reminders</tspan>
