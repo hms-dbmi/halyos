@@ -6,6 +6,8 @@ import './App.css';
 import { Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { getValueQuantities } from './utils/general_utils.js'
+
 class Header extends Component {
 
   constructor(props){
@@ -23,9 +25,17 @@ class Header extends Component {
                 let observationList = new Set();
                 let updatedList = []
                 for (let i = 0; i < data.length; i++){
+
                   //adding stringified text so they can be compared for equality and we keep all the info, just JSON parse it
-                  observationList.add(JSON.stringify(data[i].code.coding[0]));
+                  if(data[i].component){
+                      for (let comp of data[i].component){
+                        observationList.add(JSON.stringify(comp.code.coding[0]));
+                      }
+                    } else {
+                      observationList.add(JSON.stringify(data[i].code.coding[0]));    
+                    }
                 }
+
                 for (let item of observationList){
                   updatedList.push(JSON.parse(item));
                 }
@@ -33,12 +43,6 @@ class Header extends Component {
                 this.setState({observations:updatedList})
             
             }.bind(this));
-    // console.log('list', observationList);
-    // for (let item of observationList){
-    //   console.log("item: ", item)
-    //   this.observationList.push(JSON.parse(item));
-    // }
-
   }
 
   render() {
@@ -88,11 +92,11 @@ class Header extends Component {
               }
             </NavDropdown>
             <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem>
-              <MenuItem eventKey={3.2}>Stroke</MenuItem>
-              <MenuItem eventKey={3.3}>Kidney Failure</MenuItem>
-              <MenuItem eventKey={3.4}>COPD</MenuItem>
-              <MenuItem eventKey={3.5}>Diabetes</MenuItem>
+              <LinkContainer to={'/risk/8480-6'}><MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
+              <LinkContainer to={'/risk/kidney'}><MenuItem eventKey={3.1}>Kidney Failure</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/copd'}><MenuItem eventKey={3.1}>COPD</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/stroke'}><MenuItem eventKey={3.1}>Stroke</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/diabetes'}><MenuItem eventKey={3.1}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
 
           </Nav>

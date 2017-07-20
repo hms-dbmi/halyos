@@ -37,9 +37,11 @@ export function findPrimitives (obj, callback, propName, path = []) {
 
 /**
     This method gets the value quantities for any Observation resource, regardless of if its a compound measurement (like BP) or a normal Observation, and does the callback on it
+
     @param obList: list of observations
     @param id: string to match
     @param callback: function to perform on the matches
+
     @return transformed matches after callback
 **/
 export function getValueQuantities(obs, callback){
@@ -54,6 +56,7 @@ export function getValueQuantities(obs, callback){
         callback(obs,obs);
 
 }
+
 /**
   @param: obsBundle -- fetchAll observation bundle
   @param: object -- a javascript object where keys represent the LOINC codes of interest & they correspond to empty arrays

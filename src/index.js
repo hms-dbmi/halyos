@@ -9,8 +9,9 @@ import Header from './Header.js'
 
 import { getURL, getPatID }  from './utils/smart_setup.js'
 
-console.log(getURL());
-const FHIR_Client = window.FHIR.client({
+const FHIR = window.FHIR;
+
+const FHIR_Client = FHIR.client({
   serviceUrl: getURL(),
   auth: {
         type: 'none'
@@ -18,7 +19,7 @@ const FHIR_Client = window.FHIR.client({
 
 });
 
-const Context_FHIR_Client = window.FHIR.client({
+const Context_FHIR_Client = FHIR.client({
   serviceUrl: getURL(),
   patientId: getPatID(),
 
