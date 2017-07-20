@@ -20,6 +20,7 @@ class ProfileView extends Component {
 		*/
 	}
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
+		console.log(this.props);
 		return (
 			<div>
 				<div className = "col-md-6">
