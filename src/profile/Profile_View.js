@@ -79,7 +79,6 @@ class Diabetes extends Component {
 	componentDidMount() {
 		var parentComponent = this;
 		$.when(this.props.pt, this.props.obs, this.props.conds, this.props.medreq).done(function(pt, obs, conds, meds) {
-			console.log(pt, obs, conds, meds);
 			//calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist)
 			var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
 			var bmi = pullCondition(obs, ['39156-5']);
@@ -96,14 +95,19 @@ class Diabetes extends Component {
 				false, //NEEDS TO BE FIXED
 				waist[0].valueQuantity.value);
 			parentComponent.setState({
-				score: score + "%"
+				score: score,
+				sym: "%"
 			});
 		});
 	}
 
 	render() {
+		var opacity = this.state.score/100;
 		return (
-			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+			<g>
+		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+			</g>
 		);
 	}
 }
@@ -144,14 +148,19 @@ class COPD extends Component {
 				sortedObs['8480-6'][0].value,
 				sortedObs['8462-4'][0].value);
 			parentComponent.setState({
-				score: COPDScore + "%"
+				score: COPDScore,
+				sym: "%"
 			});
 		});
 	}
 
 	render() {
+		var opacity = this.state.score/100;
 		return (
-			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+			<g>
+		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+			</g>
 		);
 	}
 }
@@ -182,15 +191,20 @@ class KFScore extends Component {
 				gfr[0].valueQuantity.value, //gfr
 				uac[0].valueQuantity.value); //uac
 				parentComponent.setState({
-					score: KFRisk + "%"
+					score: KFRisk,
+					sym: "%"
 				});
 			}
 		});
 	}
 
 	render() {
+		var opacity = this.state.score/100;
 		return (
-			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+			<g>
+		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+			</g>
 		);
 	}
 }
@@ -219,15 +233,20 @@ class CHADScore extends Component {
 			diabetes, //diabetes
 			strTIAthrom); //strTIAthrom
 			parentComponent.setState({
-				score: CHADscore + "%"
+				score: CHADscore,
+				sym: "%"
 			});
 		});
 	}
 
 	render() {
+		var opacity = this.state.score/100;
 		return (
-			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
-		)
+			<g>
+		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+			</g>
+		);
 	}
 }
 
@@ -266,14 +285,19 @@ class ReynoldsScore extends Component {
 			false, //famHist
 			pt[0].gender));
 			parentComponent.setState({
-				score: reynolds + "%"
+				score: reynolds,
+				sym: "%"
 			});
 		});
 	}
 
 	render() {
+		var opacity = this.state.score/100;
 		return (
-			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+			<g>
+		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+			</g>
 		);
 	}
 }
@@ -287,9 +311,9 @@ class RiskTile extends Component {
 		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
-				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
-				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
 				    {this.props.children}
+				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
+
 			    </g>
 			</svg>
 		);
