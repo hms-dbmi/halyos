@@ -1,7 +1,6 @@
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 	var score = Number((age >= 65)) + Number((!(confusion.size == null))) + Number((bun > 19)) +
 	Number((rr >= 30)) + Number(((sysbp < 90) || (diasbp <= 60)));
-    console.log(score);
     var mortality = 'N/A';
     switch (score) {
       case 0:

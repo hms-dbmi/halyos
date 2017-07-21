@@ -9,8 +9,8 @@ import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';
 import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
 import {calcCOPD} from '../RiskCalculators/COPD.js';
+import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
 var Sparkline = require('react-sparkline');
-
 class ProfileView extends Component {
 	constructor(props){
 		super(props);
@@ -78,8 +78,26 @@ class Diabetes extends Component {
 
 	componentDidMount() {
 		var parentComponent = this;
-		$.when(this.props.pt, this.props.obs, this.props.conds).done(function(pt, obs, conds) {
-		
+		$.when(this.props.pt, this.props.obs, this.props.conds, this.props.medreq).done(function(pt, obs, conds, meds) {
+			console.log(pt, obs, conds, meds);
+			//calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist)
+			var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
+			var bmi = pullCondition(obs, ['39156-5']);
+			var hyperglycemia = pullCondition(conds, ['80394007']);
+			if (waist.length == 0 || bmi.length == 0) {
+				alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
+				console.log(bmi, waist);
+				return;
+			}
+			var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
+				pt[0].gender,
+				bmi[0].valueQuantity.value,
+				(hyperglycemia.length == 0),
+				false, //NEEDS TO BE FIXED
+				waist[0].valueQuantity.value);
+			parentComponent.setState({
+				score: score + "%"
+			});
 		});
 	}
 
