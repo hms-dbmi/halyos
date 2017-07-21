@@ -18,7 +18,7 @@ class Main extends Component {
 	var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
 	var patient = this.props.ptapi.fetchAll({type: "Patient"});
 	var conditions = this.props.ptapi.fetchAll({type: "Condition"});
-	var encounters = this.props.ptapi.search({type: "Encounter", query:{$sort: [['date','desc']]}})
+	var encounters = this.props.ptapi.fetchAll({type: "Encounter", query:{$sort: [['date','desc']]}})
 	var medicationOrder = this.props.ptapi.fetchAll({type: "MedicationStatement"});
     
     return (

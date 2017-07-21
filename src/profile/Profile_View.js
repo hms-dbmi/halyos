@@ -3,8 +3,9 @@ import Scale from '../logos/scale';
 import BP from '../logos/bp';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
-import {searchByCode} from '../utils/general_utils.js';
+import {searchByCode, calculateAge} from '../utils/general_utils.js';
 import { LineChart, Line, Tooltip } from 'recharts';
+import {calculateReynolds} from '../RiskCalculators/reynolds.js'
 var Sparkline = require('react-sparkline');
 
 class ProfileView extends Component {
@@ -28,6 +29,24 @@ class ProfileView extends Component {
 				<div className = "col-md-6">
 					<MedicationTile meds={this.props.meds}/>
 				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+				</div>
+				<div className = "col-md-1">
+					<div><HelpRiskTile scoreName="Help"/></div>
+				</div>
 			</div>
 
 		)
@@ -46,6 +65,81 @@ function getPatientName (pt) {
   }
 }
 
+class RiskTile extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	componentDidMount() {
+		var parentComponent = this;
+		$.when(this.props.pt, this.props.obs).done(function(pt, obs) {
+			console.log("Risk data", pt, obs);
+			var codesObject = {
+				'30522-7': [], //hsCRP
+				"2093-3": [], //cholesterol
+				"2085-9": [], //HDL
+				"8480-6": [] //sysBP
+			};
+			for (var key in codesObject) {
+				if(codesObject.hasOwnProperty(key)) {
+					if(!codesObject[key]) {
+						alert("Patient does not have adequate measurements.");
+						return;
+					}
+				}
+			}
+			var sortedObs = searchByCode(obs, codesObject);
+			var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
+			sortedObs['8480-6'][0].value,
+			sortedObs['30522-7'][0].value,
+			sortedObs['2093-3'][0].value,
+			sortedObs['2085-9'][0].value,
+			false, //smoker
+			false, //famHist
+			pt[0].gender));
+			parentComponent.setState({
+				score: reynolds + "%"
+			});
+		});
+	}
+
+	render() {
+		return (
+			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
+				<g>
+				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
+				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
+				    <text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>  
+			    </g>
+			</svg>
+		);
+	}
+}
+
+class HelpRiskTile extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	render() {
+		return (
+			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
+				<g>
+				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
+				    <text x="50%" y="20%" fontSize="2vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
+				    <text x="50%" y="60%" fontSize="3vw" alignmentBaseline="middle" textAnchor="middle">?</text>  
+			    </g>
+			</svg>
+		);
+	}
+}
+
 class MedicationTile extends Component {
 	constructor(props) {
 		super();
@@ -57,19 +151,20 @@ class MedicationTile extends Component {
 
 	componentDidMount() {
 		var parentComponent = this;
-		console.log("Component mounted");
 		$.when(this.props.meds).done(function(meds) {
 			console.log("Drugs", meds);
 			const medNames = [];
-			for (var i = 0; i < meds.length; i++) {
-				medNames.push(meds[i].medicationCodeableConcept.text + ": " + meds[i].dosage[0].text);
+			if(meds) {
+				for (var i = 0; i < meds.length; i++) {
+					medNames.push(meds[i].medicationCodeableConcept.text + ": " + meds[i].dosage[0].text);
+				}
+				const listItems = medNames.map((medName) =>
+		  			<li key={medName}>{medName}</li>
+				);
+				parentComponent.setState({
+					medListText: listItems
+				});
 			}
-			const listItems = medNames.map((medName) =>
-	  			<li>{medName}</li>
-			);
-			parentComponent.setState({
-				medListText: listItems
-			});
 		});
 	}
 
@@ -122,7 +217,6 @@ class DemographicTile extends Component {
 		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
 			var genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
 			var heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
-			console.log("Height!", heightObject);
 			if(heightObject) {
 				genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
 			}
