@@ -30,20 +30,12 @@ class ProfileView extends Component {
 					<MedicationTile meds={this.props.meds}/>
 				</div>
 				<div className = "col-md-1">
-					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+					<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
 				</div>
 				<div className = "col-md-1">
-					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
+					<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
 				</div>
-				<div className = "col-md-1">
-					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
-				</div>
-				<div className = "col-md-1">
-					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
-				</div>
-				<div className = "col-md-1">
-					<div><RiskTile scoreName="General Cardiac" pt={this.props.patient} obs={this.props.observations}/></div>
-				</div>
+		
 				<div className = "col-md-1">
 					<div><HelpRiskTile scoreName="Help"/></div>
 				</div>
@@ -65,7 +57,29 @@ function getPatientName (pt) {
   }
 }
 
-class RiskTile extends Component {
+class CHADScore extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	componentDidMount() {
+		var parentComponent = this;
+		$.when(this.props.pt, this.props.conds).done(function(pt, conds) {
+			console.log("Risk Data", pt, conds);
+		});
+	}
+
+	render() {
+		return (
+			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+		)
+	}
+}
+
+class ReynoldsScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -76,7 +90,6 @@ class RiskTile extends Component {
 	componentDidMount() {
 		var parentComponent = this;
 		$.when(this.props.pt, this.props.obs).done(function(pt, obs) {
-			console.log("Risk data", pt, obs);
 			var codesObject = {
 				'30522-7': [], //hsCRP
 				"2093-3": [], //cholesterol
@@ -108,11 +121,24 @@ class RiskTile extends Component {
 
 	render() {
 		return (
+			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+		);
+	}
+}
+
+class RiskTile extends Component {
+	constructor(props) {
+		super();
+	}
+
+	render() {
+		console.log("my babies", this.props.children);
+		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
 				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
-				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
-				    <text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>  
+				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
+				    {this.props.children}
 			    </g>
 			</svg>
 		);
