@@ -3,18 +3,20 @@ import Scale from '../logos/scale';
 import BP from '../logos/bp';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
-import {searchByCode, calculateAge} from '../utils/general_utils.js';
+import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
 import { LineChart, Line, Tooltip } from 'recharts';
-import {calculateReynolds} from '../RiskCalculators/reynolds.js'
+import {calculateReynolds} from '../RiskCalculators/reynolds.js';
+import {calcCHADScore} from '../RiskCalculators/CHAD.js';
+import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
+import {calcCOPD} from '../RiskCalculators/COPD.js';
 var Sparkline = require('react-sparkline');
 
 class ProfileView extends Component {
 	constructor(props){
 		super(props);
-
 	}
+
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
-		console.log(this.props);
 		return (
 			<div>
 				<div className = "col-md-6">
@@ -34,6 +36,15 @@ class ProfileView extends Component {
 				</div>
 				<div className = "col-md-1">
 					<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
+				</div>
+				<div className = "col-md-1">
+					<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
 				</div>
 		
 				<div className = "col-md-1">
@@ -57,6 +68,115 @@ function getPatientName (pt) {
   }
 }
 
+class Diabetes extends Component {
+	constructor() {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	componentDidMount() {
+		var parentComponent = this;
+		$.when(this.props.pt, this.props.obs, this.props.conds).done(function(pt, obs, conds) {
+		
+		});
+	}
+
+	render() {
+		return (
+			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+		);
+	}
+}
+
+class COPD extends Component {
+	constructor() {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	componentDidMount() {
+		var parentComponent = this;
+		$.when(this.props.pt, this.props.obs, this.props.conds).done(function(pt, obs, conds) {
+			//calcCOPD(age, confusion, bun, rr, sbp, dbp)
+			var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+			var measurementObject = {
+				'8480-6': [], //sysBP
+				'8462-4': [], //diasBP
+				'6299-2': [], //bun
+				'9279-1': [] //rr
+			};
+			var sortedObs = searchByCode(obs, measurementObject);
+			for (var key in sortedObs) {
+				if(sortedObs.hasOwnProperty(key)) {
+					if(sortedObs[key].length == 0) {
+						alert("Patient does not have adequate measurements for COPD Risk Score.");
+						console.log(sortedObs);
+						return;
+					}
+				}
+			}
+			var COPDScore = calcCOPD(calculateAge(pt[0].birthDate),
+				confusion,
+				sortedObs['6299-2'][0].value,
+				sortedObs['9279-1'][0].value,
+				sortedObs['8480-6'][0].value,
+				sortedObs['8462-4'][0].value);
+			parentComponent.setState({
+				score: COPDScore + "%"
+			});
+		});
+	}
+
+	render() {
+		return (
+			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+		);
+	}
+}
+
+class KFScore extends Component {
+	constructor() {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+
+	componentDidMount() {
+		var parentComponent = this;
+		$.when(this.props.pt, this.props.obs).done(function(pt, obs) {
+			var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+			var uac = pullCondition(obs, ["14958-3", "14959-1"]);
+			if(gfr.length == 0 || uac.length == 0) {
+				alert("Patient does not have enough measurements for Kidney Risk Score");
+				return;
+			}
+			else {
+				if(gfr[0].component) {
+					gfr[0] = gfr[0].component[0];
+				}
+				var KFRisk = calcKFRisk(pt[0].gender, 
+				calculateAge(pt[0].birthDate), 
+				gfr[0].valueQuantity.value, //gfr
+				uac[0].valueQuantity.value); //uac
+				parentComponent.setState({
+					score: KFRisk + "%"
+				});
+			}
+		});
+	}
+
+	render() {
+		return (
+			<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}</text>
+		);
+	}
+}
+
 class CHADScore extends Component {
 	constructor(props) {
 		super();
@@ -68,7 +188,21 @@ class CHADScore extends Component {
 	componentDidMount() {
 		var parentComponent = this;
 		$.when(this.props.pt, this.props.conds).done(function(pt, conds) {
-			console.log("Risk Data", pt, conds);
+		    var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+		    var hypertension = pullCondition(conds, ["38341003"]);
+		    var vascDisease = pullCondition(conds, ["27550009"]);
+		    var diabetes = pullCondition(conds, ["73211009"]);
+		    var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+			var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
+			pt[0].gender, //gender
+			chf, //chf
+			hypertension, //hypertension
+			vascDisease, //vascDisease
+			diabetes, //diabetes
+			strTIAthrom); //strTIAthrom
+			parentComponent.setState({
+				score: CHADscore + "%"
+			});
 		});
 	}
 
@@ -96,15 +230,15 @@ class ReynoldsScore extends Component {
 				"2085-9": [], //HDL
 				"8480-6": [] //sysBP
 			};
-			for (var key in codesObject) {
-				if(codesObject.hasOwnProperty(key)) {
-					if(!codesObject[key]) {
-						alert("Patient does not have adequate measurements.");
+			var sortedObs = searchByCode(obs, codesObject);
+			for (var key in sortedObs) {
+				if(sortedObs.hasOwnProperty(key)) {
+					if(sortedObs[key].length == 0) {
+						alert("Patient does not have adequate measurements for Reynolds Risk Score.");
 						return;
 					}
 				}
 			}
-			var sortedObs = searchByCode(obs, codesObject);
 			var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
 			sortedObs['8480-6'][0].value,
 			sortedObs['30522-7'][0].value,
@@ -132,7 +266,6 @@ class RiskTile extends Component {
 	}
 
 	render() {
-		console.log("my babies", this.props.children);
 		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
@@ -178,7 +311,6 @@ class MedicationTile extends Component {
 	componentDidMount() {
 		var parentComponent = this;
 		$.when(this.props.meds).done(function(meds) {
-			console.log("Drugs", meds);
 			const medNames = [];
 			if(meds) {
 				for (var i = 0; i < meds.length; i++) {

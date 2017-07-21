@@ -106,3 +106,15 @@ export function searchByCode(obsBundle, object) {
   }
   return object;
 }
+//@param fetchResult: set of all conditions from a fetchAll call
+//@param condID: array with SNOMED ID of conditions
+//@return array of condition resources that match IDs in condID array
+export function pullCondition(fetchResult, condID) {
+  var resultSet = [];
+  for (var i = 0; i<fetchResult.length; i++) {
+    if (condID.includes(fetchResult[i].code.coding[0].code)) {
+      resultSet.push(fetchResult[i]);
+    }
+  }
+  return resultSet;
+}
