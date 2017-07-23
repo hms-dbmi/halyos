@@ -69,7 +69,7 @@ function getPatientName (pt) {
 }
 
 class Diabetes extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			score: "..."
@@ -113,7 +113,7 @@ class Diabetes extends Component {
 }
 
 class COPD extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			score: "..."
@@ -166,7 +166,7 @@ class COPD extends Component {
 }
 
 class KFScore extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			score: "..."
@@ -483,31 +483,34 @@ class VitalTile extends Component {
 		});
 	}
 	render() {
+		var link = window.location.href + 'measure/' + this.props.code;
 		return (
 			<div>
-				<svg width="100%" height="100%" viewBox="0 0 690 106" version="1.1">
+				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 690 106" version="1.1">
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>
-				    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-				        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
-				            <g id="Group-4" transform="translate(18.000000, 253.000000)">
-				                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
-			                	{this.props.children}
-				                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
-				                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
-				                </text>
-				                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="40" fontWeight="300" fill="#000000">
-				                    <tspan x="208" y="83">{this.state.value}</tspan>
-				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
-				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
-				                </text>
-				                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
-			                        
-								</foreignObject>
-				            </g>
-				        </g>
-				    </g>
+	    			<a xlinkHref={link} target="_blank">
+					    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
+					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
+					                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
+				                	{this.props.children}
+					                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
+					                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
+					                </text>
+					                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="40" fontWeight="300" fill="#000000">
+					                    <tspan x="208" y="83">{this.state.value}</tspan>
+					                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
+					                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
+					                </text>
+					                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
+				                        
+									</foreignObject>
+					            </g>
+					        </g>
+					    </g>
+				    </a>
 				</svg>
 			</div>
 		)
