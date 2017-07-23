@@ -490,12 +490,13 @@ class VitalTile extends Component {
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>
-	    			<a xlinkHref={link} target="_blank">
 					    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
 					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
-					                <rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
-				                	{this.props.children}
+					            	<a xlinkHref={link} target="_blank">
+					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
+				                		{this.props.children}
+				                	</a>
 					                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
 					                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
 					                </text>
@@ -510,7 +511,6 @@ class VitalTile extends Component {
 					            </g>
 					        </g>
 					    </g>
-				    </a>
 				</svg>
 			</div>
 		)
