@@ -6,6 +6,8 @@ import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../utils/general_utils.js'
 
+import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../profile/Profile_View.js';
+
 class MeasurementView extends Component {
 
 	constructor(props){
@@ -47,7 +49,6 @@ class MeasurementView extends Component {
 		this.MIN_VAL = Number.POSITIVE_INFINITY;
 
 		this.referenceRange = [];
-		console.log("refs: ", value);
 
 		for (let obs of value){
 
@@ -121,12 +122,26 @@ class MeasurementView extends Component {
 			var lastDate = dateList[dateList.length-1].getFullYear();
 
 		  	//console.log(" first and last date in measurement view--------", firstDate, lastDate);
-
-		  	console.log("this is reference: ", this.referenceRange);
+		  	var riskScoreString = "";
+		  	console.log(this.props.riskObject);
+		  	console.log(this.props.riskObject['General Cardiac']);
+		  	if (this.props.riskObject['General Cardiac'].includes(this.measureId)) {
+		  		riskScoreString += <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>;
+		  	}
 			return (
-			<div>			
-				<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
-			</div>
+				<div>
+					<div className="col-md-6">	
+						<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+					</div>
+					<div className="col-md-6">
+						This is just holding space for now :) <br/> <br/><br/><br/> <br/><br/><br/> <br/><br/><br/> <br/><br/>A lot of space :)
+					</div>
+					<div className="col-md-2">
+						{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+		        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+						}
+					</div>
+				</div>
 			)		
 		}
 

@@ -74,7 +74,7 @@ function getPatientName (pt) {
   }
 }
 
-class Diabetes extends Component {
+export class Diabetes extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -118,7 +118,7 @@ class Diabetes extends Component {
 	}
 }
 
-class COPD extends Component {
+export class COPD extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -171,7 +171,7 @@ class COPD extends Component {
 	}
 }
 
-class KFScore extends Component {
+export class KFScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -215,7 +215,7 @@ class KFScore extends Component {
 	}
 }
 
-class CHADScore extends Component {
+export class CHADScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -256,7 +256,7 @@ class CHADScore extends Component {
 	}
 }
 
-class ReynoldsScore extends Component {
+export class ReynoldsScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -308,7 +308,7 @@ class ReynoldsScore extends Component {
 	}
 }
 
-class RiskTile extends Component {
+export class RiskTile extends Component {
 	constructor(props) {
 		super();
 	}
