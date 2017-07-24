@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import AIQ from '../../logos/co2.js';
+import AIQ from '../../logos/aiq.js';
 //const PollenSVG = require('../../logos/pollen.svg');
 
 class AirQuality extends Component {
@@ -13,7 +13,6 @@ class AirQuality extends Component {
 
 	componentDidMount() {
 			$.getJSON('http://api.airvisual.com/v2/nearest_city?key=RaaZECPFvpEBgetio', function(data) {
-					  console.log("new data: ", data);
 					  this.setState({data:data});
 					}.bind(this));
 	

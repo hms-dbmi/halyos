@@ -100,7 +100,7 @@ class PastToFutureGraph extends Component {
 	  	var yMinPadded = (this.props.yMin)*0.9;
 	  	var yMaxPadded = (this.props.yMax)*1.1;
 		
-		const hasRefRange = this.props.refRange.length !== 0;
+		const hasRefRange = this.props.refRange && this.props.refRange.length !== 0;
 		return (
 		      <div>
 		          <VictoryChart width={1000} responsive={false} height={400} scale={{x: "time"}} 
@@ -124,7 +124,7 @@ class PastToFutureGraph extends Component {
 					// /> 
 					)
 
-					: <div></div> }
+					: <VictoryArea /> }
 			          	<VictoryGroup 
 			          	containerComponent={
 		              		<VictoryVoronoiContainer

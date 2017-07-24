@@ -3,8 +3,7 @@ import $ from 'jquery';
 
 import PollenLevel from './env/PollenLevel.js'
 import AirQuality from './env/AirQuality.js';
-
-const _aqiFeed = window._aqiFeed;
+import Flu from './env/Flu.js';
 
 class EnvironmentTile extends Component {
 	constructor(props){
@@ -19,6 +18,8 @@ class EnvironmentTile extends Component {
 		  "region_code": "MA",
 		  "city": "Boston",
 		  "zip_code": "02115",
+		  "latitude": 42.3424,
+  		  "longitude": -71.0878,
 		}
 	*/
 
@@ -39,14 +40,20 @@ class EnvironmentTile extends Component {
 			} 
 			else {
 				var fullAddress = pt[0].address[0];
-				this.setState({ptLoc:{
+				$.getJSON('https://api.opencagedata.com/geocode/v1/json?q='+ fullAddress.postalCode + '&countrycode='+ fullAddress.country+'&no_annotations=1&key=bc76774a452346449916c91155a0b96b', function(data) {
+					  //console.log("what da hell", data.results[0])
+					  this.setState({ptLoc: {
 						"country_code":fullAddress.country,
 						"region_code":fullAddress.state,
 						"city":fullAddress.city,
-						"zip_code":fullAddress.postalCode
-					}
+						"zip_code":fullAddress.postalCode,
+						"latitude":data.results[0].geometry.lat,
+						"longitude":data.results[0].geometry.lng
+						}
 				});
+					
 
+					}.bind(this));
 			}
 		}.bind(this))
 		
@@ -79,6 +86,7 @@ class EnvironmentTile extends Component {
 						<AirQuality location={this.state.ptLoc} />
 					</div>
 					<div className="col-md-4">
+						<Flu location={this.state.ptLoc} />
 					</div>
 				</div>
 				<div className="row">
