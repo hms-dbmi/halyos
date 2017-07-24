@@ -21,33 +21,39 @@ class ProfileView extends Component {
 			<div>
 				<div className = "col-md-6">
 					<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
-					<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
-					<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
-					<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
-					<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
-					<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
-					<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
+					<div className = "col-md-6">
+						<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+						<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
+						<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+					</div>
+					<div className = "col-md-6">
+						<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+						<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+						<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
+					</div>
 				</div>
 				<div className = "col-md-6">
 					<MedicationTile meds={this.props.meds}/>
+					<MedicationTile meds={this.props.meds}/>
+					<MedicationTile meds={this.props.meds}/>
 				</div>
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
 				</div>
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
 				</div>
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
 				</div>
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
 				</div>
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
 				</div>
 		
-				<div className = "col-md-1">
+				<div className = "col-md-2">
 					<div><HelpRiskTile scoreName="Help"/></div>
 				</div>
 			</div>
@@ -371,13 +377,13 @@ class MedicationTile extends Component {
 	render() {
 		return (
 			<div>
-				<svg width="100%" height="100%" viewBox="0 0 610 150" version="1.1">
+				<svg width="100%" height="100%" viewBox="0 0 610 108" version="1.1">
 				    <defs>
 				        <linearGradient x1="51.7971499%" y1="47.5635228%" x2="52.4921324%" y2="48.1654036%" id="linearGradient-1">
 				            <stop stopColor="#9198A1" offset="0%"></stop>
 				            <stop stopColor="#888D95" offset="100%"></stop>
 				        </linearGradient>
-				        <rect id="path-2" x="0" y="0" width="610" height="150" rx="7.2"></rect>
+				        <rect id="path-2" x="0" y="0" width="610" height="108" rx="7.2"></rect>
 				    </defs>
 				    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
 				        <g id="Desktop-HD" transform="translate(-732.000000, -106.000000)">
@@ -385,11 +391,11 @@ class MedicationTile extends Component {
 				                <g id="Rectangle-7">
 				                    <use fillOpacity="0.55" fill="url(#linearGradient-1)" fillRule="evenodd" xlinkHref="#path-2"></use>
 				                </g>
-				                <foreignObject width="650px" height="150px" x="10" y="49">
+				                <foreignObject width="650px" height="108px" x="0" y="34">
 				                	<div style={{fontSize: "18px"}}><ul style={{listStyleType: 'none'}}>{this.state.medListText}</ul></div>
 				                </foreignObject>
-				                <text id="Medication-Reminders" fontFamily="Helvetica" fontSize="32" fontWeight="normal" fill="#000000">
-				                    <tspan x="165" y="39">Medication Reminders</tspan>
+				                <text x="50%" y="20%" alignmentBaseline="middle" textAnchor="middle" id="Medication-Reminders" fontFamily="Helvetica" fontSize="20" fontWeight="normal" fill="#000000">
+				                    Medication Reminders
 				                </text>
 				            </g>
 				        </g>
@@ -404,10 +410,10 @@ class DemographicTile extends Component {
 	constructor(props) {
 		super();
 		this.state = {
-			name: "",
-			genderheight: "",
-			dob: "",
-			lastencounter:""
+			name: "Loading...",
+			genderheight: "Loading...",
+			dob: "Loading...",
+			lastencounter:"Loading..."
 		};
 	}
 
@@ -486,7 +492,7 @@ class VitalTile extends Component {
 		var link = window.location.href + 'measure/' + this.props.code;
 		return (
 			<div>
-				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 690 106" version="1.1">
+				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 750 180" version="1.1">
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>
@@ -494,16 +500,16 @@ class VitalTile extends Component {
 					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
 					            	<a xlinkHref={link} target="_blank">
-					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="690" height="106" rx="7.2"></rect>
+					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="750" height="180" rx="7.2"></rect>
 				                		{this.props.children}
 				                	</a>
-					                <text id="Weight" fontFamily="Helvetica" fontSize="30" fontWeight="normal" fill="#000000">
-					                    <tspan x="110" y="38">{this.state.measurementName}</tspan>
+					                <text id="Weight" fontFamily="Helvetica" fontSize="56" fontWeight="normal" fill="#000000">
+					                    <tspan x="120" y="56">{this.state.measurementName}</tspan>
 					                </text>
-					                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="40" fontWeight="300" fill="#000000">
-					                    <tspan x="208" y="83">{this.state.value}</tspan>
-					                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
-					                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
+					                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="45" fontWeight="300" fill="#000000">
+					                    <tspan x="208" y="130">{this.state.value}</tspan>
+					                    <tspan x="286.84" y="130" fontSize="32"> </tspan>
+					                    <tspan x="297.496" y="130" fontSize="20">{this.state.units}</tspan>
 					                </text>
 					                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
 				                        
