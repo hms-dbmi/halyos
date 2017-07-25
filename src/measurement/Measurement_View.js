@@ -177,6 +177,13 @@ class MeasurementView extends Component {
 class MeasurementText extends Component {
 	constructor(props) {
 		super();
+		this.state = {
+			meaning: "Loading..."
+		};
+	}
+
+	componentDidMount() {
+		//get data here
 	}
 
 	render() {
@@ -186,7 +193,22 @@ class MeasurementText extends Component {
 					About This Measurement <br/> 
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
-					What does my {this.props.measurementName} mean?
+					What does my {this.props.measurementName} mean? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.meaning} <br/>
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					What affects my {this.props.measurementName}? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.meaning} <br/>
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					How can I make it better? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.meaning} <br/>
 				</text>
 			</div>
 		);
