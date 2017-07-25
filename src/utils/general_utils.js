@@ -57,11 +57,23 @@ export function getValueQuantities(obs, callback){
 
 }
 
+//calculate age from date of birthday
+//@param dateString: date of birth @return age
+export function calculateAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
 /**
   @param: obsBundle -- fetchAll observation bundle
   @param: object -- a javascript object where keys represent the LOINC codes of interest & they correspond to empty arrays
   @return: object -- a javascript object where the keys correspond to array of objects where each 
-  object in the array contains code, text, value, date
+  object in the array contains code, text, value, date -- ordered by date (most recent is 0 indexed)
   **/
 export function searchByCode(obsBundle, object) {
   for (var j = 0; j < obsBundle.length; j++) {
@@ -95,7 +107,6 @@ export function searchByCode(obsBundle, object) {
   return object;
 }
 
-
 /**
   
     This function takes two latitude/longitude points and calculates the difference between them using the Haversine algorithm
@@ -117,4 +128,17 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
           (1 - c((lon2 - lon1) * p))/2;
 
   return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+
+//@param fetchResult: set of all conditions from a fetchAll call
+//@param condID: array with SNOMED ID of conditions
+//@return array of condition resources that match IDs in condID array
+export function pullCondition(fetchResult, condID) {
+  var resultSet = [];
+  for (var i = 0; i<fetchResult.length; i++) {
+    if (condID.includes(fetchResult[i].code.coding[0].code)) {
+      resultSet.push(fetchResult[i]);
+    }
+  }
+  return resultSet;
 }
