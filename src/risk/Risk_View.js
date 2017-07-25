@@ -48,7 +48,7 @@ class RiskView extends Component {
 
 		this.referenceRange = [];
 		console.log("refs: ", value);
-
+    
 		for (let obs of value){
 
 			//we need to check this because if a component exists, all our numbers are in there
@@ -101,7 +101,7 @@ class RiskView extends Component {
 			}.bind(this));
 		}
 
-	}
+  }
 
 	render(){
 		if(this.state.measurementList.length > 0){

@@ -5,11 +5,15 @@ import $ from 'jquery';
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
 import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
 import { LineChart, Line, Tooltip } from 'recharts';
+import EnvironmentTile from './EnvironmentFactors.js';
+
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';
 import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
 import {calcCOPD} from '../RiskCalculators/COPD.js';
 import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
+
+
 var Sparkline = require('react-sparkline');
 class ProfileView extends Component {
 	constructor(props){
@@ -34,6 +38,7 @@ class ProfileView extends Component {
 				</div>
 				<div className = "col-md-6">
 					<MedicationTile meds={this.props.meds}/>
+					<EnvironmentTile patient={this.props.patient}/>
 					<MedicationTile meds={this.props.meds}/>
 					<MedicationTile meds={this.props.meds}/>
 				</div>
@@ -445,7 +450,6 @@ class DemographicTile extends Component {
 		);
 	}
 }
-
 
 class VitalTile extends Component {
 	constructor(props) {

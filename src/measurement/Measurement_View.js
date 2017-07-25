@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import PastGraph from '../resources/PastGraph.js';
 import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
-import { getValueQuantities } from '../utils/general_utils.js'
+import { getValueQuantities } from '../utils/general_utils.js';
 
 class MeasurementView extends Component {
 
