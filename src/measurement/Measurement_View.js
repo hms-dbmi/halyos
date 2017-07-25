@@ -7,6 +7,7 @@ import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 import { getValueQuantities } from '../utils/general_utils.js'
 
 import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../profile/Profile_View.js';
+import text from './Measurement_Text.js';
 
 class MeasurementView extends Component {
 
@@ -124,7 +125,6 @@ class MeasurementView extends Component {
 			var lastDate = dateList[dateList.length-1].getFullYear();
 
 		  	//console.log(" first and last date in measurement view--------", firstDate, lastDate);
-		  	console.log(this.props);
 			return (
 				<div>
 					<div className="row">
@@ -132,7 +132,7 @@ class MeasurementView extends Component {
 							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
 						</div>
 						<div className="col-md-6">
-							<MeasurementText measurementName={this.state.name}/>
+							<MeasurementText measurementName={this.state.name} measurementCode={this.measureId}/>
 						</div>
 					</div>
 					<div className="row">
@@ -178,12 +178,22 @@ class MeasurementText extends Component {
 	constructor(props) {
 		super();
 		this.state = {
-			meaning: "Loading..."
+			meaning: "Loading...",
+			affect: "Loading...",
+			improve: "Loading..."
 		};
 	}
 
 	componentDidMount() {
-		//get data here
+		console.log(this.props.measurementCode);
+		console.log("Measurementment Text", text['text']);
+		if(text['text'][this.props.measurementCode]) {
+			this.setState({
+			meaning: text['text'][this.props.measurementCode].meaning,
+			affect: text['text'][this.props.measurementCode].affect,
+			improve: text['text'][this.props.measurementCode].improve
+			});
+		}
 	}
 
 	render() {
@@ -202,13 +212,13 @@ class MeasurementText extends Component {
 					What affects my {this.props.measurementName}? <br/>
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.meaning} <br/>
+					{this.state.affect} <br/>
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
 					How can I make it better? <br/>
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.meaning} <br/>
+					{this.state.improve} <br/>
 				</text>
 			</div>
 		);
