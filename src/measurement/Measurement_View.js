@@ -122,37 +122,51 @@ class MeasurementView extends Component {
 			var lastDate = dateList[dateList.length-1].getFullYear();
 
 		  	//console.log(" first and last date in measurement view--------", firstDate, lastDate);
-		  	var riskScoreString = "";
-		  	console.log(this.props.riskObject);
-		  	console.log(this.props.riskObject['General Cardiac']);
-		  	if (this.props.riskObject['General Cardiac'].includes(this.measureId)) {
-		  		riskScoreString += <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>;
-		  	}
+		  	console.log(this.props);
 			return (
 				<div>
-					<div className="col-md-6">	
-						<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+					<div className="row">
+						<div className="col-md-6">	
+							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+						</div>
+						<div className="col-md-6">
+							<svg width="100%" height="100%">
+								<text fontSize="34" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std" fill="#18A9DC">
+									<tspan x="10" y="50">About This Measurement</tspan>
+								</text>
+								<text fontSize="30" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std">
+									<tspan x="10" y="50">What does my {} mean?</tspan>
+								</text>
+							</svg>
+						</div>
 					</div>
-					{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
-						<div className="col-md-2">
-	        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-						</div>	
-					}
-					{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
-						<div className="col-md-2">
-	        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-						</div>	
-					}
-					{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
-						<div className="col-md-2">
-	        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-						</div>	
-					}
-					{this.props.riskObject['Diabetes'].includes(this.measureId) &&
-						<div className="col-md-2">
-	        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-						</div>	
-					}
+					<div className="row">
+					<svg width="100%" height="50px">
+							<text fontSize="20" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std">
+								<tspan x="22" y="36">Risk Scores Affected By This Measurement</tspan>
+							</text>
+					</svg>
+						{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+							<div className="col-md-2">
+		        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+							</div>	
+						}
+						{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+							<div className="col-md-2">
+		        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+							</div>	
+						}
+						{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+							<div className="col-md-2">
+		        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+							</div>	
+						}
+						{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+							<div className="col-md-2">
+		        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+							</div>	
+						}
+					</div>
 				</div>
 			)		
 		}
