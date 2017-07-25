@@ -465,9 +465,11 @@ class AppointmentsTile extends Component {
 		return (
 			<div>
 				<p style={{textAlign: 'center', fontSize: "20"}}>
-					Suggested Appointments
+					Suggested Preventative Care for You
 				</p>
-				<ul>{this.state.interventionsList}</ul>
+				<div style={{height:'100px',width:'100%',border:'1px solid #ccc',font:'16px/26px Georgia, Garamond, Serif',overflow:'auto'}}>
+					<ul>{this.state.interventionsList}</ul>
+				</div>
 			</div>
 		);
 	}
