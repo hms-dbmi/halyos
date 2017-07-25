@@ -7,14 +7,13 @@ class PastToFutureGraph extends Component {
 	constructor(props){
 		super(props);
 		this.state = {userData:[], otherLine:[], view_data:[]};
-		//{ x: new Date(2016, 7, 23), y: 84 }
+
 		this.FUTURE_YEAR_SUBTRACTION = 2.2;
 		this.FUTURE_YEAR_ADDITION = 3.5;
 
 	}
 
 	componentDidMount(){
-		//this.setState({selectedDomain: {x: [2, 4]}})
 		console.log("Mounted");
 		this.setState({view_data:this.props.obs_data});
 		
@@ -24,7 +23,6 @@ class PastToFutureGraph extends Component {
 		this.setState({view_data:nextProps.obs_data});
 
 		if(nextProps.obs_data.length  > 0){
-			//console.log("each iter of obs_dat :", nextProps.obs_data);
 			var firstFuturePoint = { x: nextProps.futureMeasurementDate, y: nextProps.lastDataPoint }
 			this.setState({userData:[firstFuturePoint]});
 		}
@@ -100,7 +98,7 @@ class PastToFutureGraph extends Component {
 	  	var yMinPadded = (this.props.yMin)*0.9;
 	  	var yMaxPadded = (this.props.yMax)*1.1;
 		
-		const hasRefRange = this.props.refRange && this.props.refRange.length !== 0;
+		const hasRefRange = this.props.refRange == true;
 		return (
 		      <div>
 		          <VictoryChart width={1000} responsive={false} height={400} scale={{x: "time"}} 
@@ -108,7 +106,7 @@ class PastToFutureGraph extends Component {
 
 		          >     
 
-		          {hasRefRange ? (<VictoryArea y0={() => this.props.refRange[0][1]} y={() => this.props.refRange[0][0]}
+		          {hasRefRange && <VictoryArea y0={() => this.props.refRange[0][1]} y={() => this.props.refRange[0][0]}
 						style={{
 						    data: {
 						      fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
@@ -122,9 +120,7 @@ class PastToFutureGraph extends Component {
 					//     	}
 					// 	}} 
 					// /> 
-					)
-
-					: <VictoryArea /> }
+					}
 			          	<VictoryGroup 
 			          	containerComponent={
 		              		<VictoryVoronoiContainer

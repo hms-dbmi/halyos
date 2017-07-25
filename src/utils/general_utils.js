@@ -72,8 +72,8 @@ export function calculateAge(dateString) {
 
 /**
   @param: obsBundle -- fetchAll observation bundle
-  @param: object -- a javascript object where keys represent the LOINC codes of interest & they correspond to empty arrays
-  @return: object -- a javascript object where the keys correspond to array of objects where each 
+  @param: object -- a javascript object where keys represent the LOINC codes of interest and their values are empty arrays
+  @return: object -- a javascript object where the LOINC code keys have values of an array of objects where each 
   object in the array contains code, text, value, date -- ordered by date (most recent is 0 indexed)
   **/
 export function searchByCode(obsBundle, object) {

@@ -100,7 +100,7 @@ function getPatientName (pt) {
   }
 }
 
-class Diabetes extends Component {
+export class Diabetes extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -144,7 +144,7 @@ class Diabetes extends Component {
 	}
 }
 
-class COPD extends Component {
+export class COPD extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -197,7 +197,7 @@ class COPD extends Component {
 	}
 }
 
-class KFScore extends Component {
+export class KFScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -241,7 +241,7 @@ class KFScore extends Component {
 	}
 }
 
-class CHADScore extends Component {
+export class CHADScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -282,7 +282,7 @@ class CHADScore extends Component {
 	}
 }
 
-class ReynoldsScore extends Component {
+export class ReynoldsScore extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -334,7 +334,7 @@ class ReynoldsScore extends Component {
 	}
 }
 
-class RiskTile extends Component {
+export class RiskTile extends Component {
 	constructor(props) {
 		super();
 	}
@@ -403,13 +403,13 @@ class MedicationTile extends Component {
 	render() {
 		return (
 			<div>
-				<svg width="100%" height="100%" viewBox="0 0 610 108" version="1.1">
+				<svg width="100%" height="100%" viewBox="0 0 610 96" version="1.1">
 				    <defs>
 				        <linearGradient x1="51.7971499%" y1="47.5635228%" x2="52.4921324%" y2="48.1654036%" id="linearGradient-1">
 				            <stop stopColor="#9198A1" offset="0%"></stop>
 				            <stop stopColor="#888D95" offset="100%"></stop>
 				        </linearGradient>
-				        <rect id="path-2" x="0" y="0" width="610" height="108" rx="7.2"></rect>
+				        <rect id="path-2" x="0" y="0" width="610" height="96" rx="7.2"></rect>
 				    </defs>
 				    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
 				        <g id="Desktop-HD" transform="translate(-732.000000, -106.000000)">
@@ -417,7 +417,7 @@ class MedicationTile extends Component {
 				                <g id="Rectangle-7">
 				                    <use fillOpacity="0.55" fill="url(#linearGradient-1)" fillRule="evenodd" xlinkHref="#path-2"></use>
 				                </g>
-				                <foreignObject width="650px" height="108px" x="0" y="34">
+				                <foreignObject width="650px" height="96px" x="0" y="26">
 				                	<div style={{fontSize: "18px"}}><ul style={{listStyleType: 'none'}}>{this.state.medListText}</ul></div>
 				                </foreignObject>
 				                <text x="50%" y="20%" alignmentBaseline="middle" textAnchor="middle" id="Medication-Reminders" fontFamily="Helvetica" fontSize="20" fontWeight="normal" fill="#000000">
@@ -428,6 +428,22 @@ class MedicationTile extends Component {
 				    </g>
 				</svg>
 			</div>
+		);
+	}
+}
+
+class AppointmentsTile extends Component {
+	constructor(props) {
+		super();
+	}
+
+	componentDidMount() {
+
+	}
+
+	render() {
+		return (
+			<iframe src="https://calendar.google.com/calendar/embed?title=Appointments&amp;showTitle=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=132&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=samson.mataraso%40berkeley.edu&amp;color=%23182C57&amp;ctz=America%2FLos_Angeles" style={{borderWidth:0}} width="610" height="132" frameborder="0" scrolling="no"></iframe>
 		);
 	}
 }
