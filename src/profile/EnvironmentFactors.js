@@ -71,8 +71,13 @@ class EnvironmentTile extends Component {
 
 		}
 
+		const tileStyle = {
+
+			border: "1px"
+		}
+
 		return (
-			<div className="container-fluid">
+			<div style={ tileStyle } className="panel panel-default container-fluid">
 				<div className="row">
 					<div className="col-md-12 text-center">
 						<text style={headingStyle}>Environmental Effects</text>

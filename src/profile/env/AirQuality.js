@@ -65,6 +65,7 @@ class AirQuality extends Component {
 					</tr>
 				</tbody>
 			</table>
+			<h6>{ currentAqiQualityLevel[3] }</h6>
 		  </Tooltip>
 		);
 
