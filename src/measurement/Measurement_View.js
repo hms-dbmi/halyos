@@ -6,11 +6,14 @@ import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../utils/general_utils.js';
 
+import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../profile/Profile_View.js';
+import text from './Measurement_Text.js';
+
 class MeasurementView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {measurementList:[], units:"", max:'', min:''};
+		this.state = {measurementList:[], units:"", max:'', min:'', name: ''};
 	}
 	
 	componentWillMount(){
@@ -47,14 +50,15 @@ class MeasurementView extends Component {
 		this.MIN_VAL = Number.POSITIVE_INFINITY;
 
 		this.referenceRange = [];
-		console.log("refs: ", value);
 
 		for (let obs of value){
 
 			//we need to check this because if a component exists, all our numbers are in there
 			getValueQuantities(obs, function(outsideValue,insideValue){
 				if (String(insideValue.code.coding[0].code) === String(this.measureId)){
-
+					this.setState({
+						name: insideValue.code.text
+					});
 					//currently only looks for normal ranges
 					if(obs.referenceRange){
 						for(let refRange of obs.referenceRange){
@@ -121,12 +125,46 @@ class MeasurementView extends Component {
 			var lastDate = dateList[dateList.length-1].getFullYear();
 
 		  	//console.log(" first and last date in measurement view--------", firstDate, lastDate);
-
-		  	console.log("this is reference: ", this.referenceRange);
 			return (
-			<div>			
-				<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
-			</div>
+				<div>
+					<div className="row">
+						<div className="col-md-6">	
+							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+						</div>
+						<div className="col-md-6">
+							<MeasurementText measurementName={this.state.name} measurementCode={this.measureId}/>
+						</div>
+					</div>
+					<div className="row">
+					<svg width="100%" height="50px">
+							<text fontSize="20" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std">
+								<tspan x="22" y="36">Risk Scores Affected By This Measurement</tspan>
+							</text>
+					</svg>
+						<div className="row">
+							{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+								</div>	
+							}
+						</div>
+					</div>
+				</div>
 			)		
 		}
 
@@ -134,6 +172,57 @@ class MeasurementView extends Component {
 		
 	}
 
+}
+
+class MeasurementText extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			meaning: "Loading...",
+			affect: "Loading...",
+			improve: "Loading..."
+		};
+	}
+
+	componentDidMount() {
+		console.log(this.props.measurementCode);
+		console.log("Measurementment Text", text['text']);
+		if(text['text'][this.props.measurementCode]) {
+			this.setState({
+			meaning: text['text'][this.props.measurementCode].meaning,
+			affect: text['text'][this.props.measurementCode].affect,
+			improve: text['text'][this.props.measurementCode].improve
+			});
+		}
+	}
+
+	render() {
+		return (
+			<div>
+				<text x='10' y='50' style={{fontSize: 38, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"#18A9DC"}}>
+					About This Measurement <br/> 
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					What does my {this.props.measurementName} mean? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.meaning} <br/>
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					What affects my {this.props.measurementName}? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.affect} <br/>
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					How can I make it better? <br/>
+				</text>
+				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+					{this.state.improve} <br/>
+				</text>
+			</div>
+		);
+	}
 }
 
 export default MeasurementView;
