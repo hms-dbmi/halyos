@@ -133,14 +133,26 @@ class MeasurementView extends Component {
 					<div className="col-md-6">	
 						<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
 					</div>
-					<div className="col-md-6">
-						This is just holding space for now :) <br/> <br/><br/><br/> <br/><br/><br/> <br/><br/><br/> <br/><br/>A lot of space :)
-					</div>
-					<div className="col-md-2">
-						{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
-		        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-						}
-					</div>
+					{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+						<div className="col-md-2">
+	        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+						</div>	
+					}
+					{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+						<div className="col-md-2">
+	        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+						</div>	
+					}
+					{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+						<div className="col-md-2">
+	        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+						</div>	
+					}
+					{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+						<div className="col-md-2">
+	        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+						</div>	
+					}
 				</div>
 			)		
 		}
