@@ -64,7 +64,7 @@ class EnvironmentTile extends Component {
 		const headingStyle = {
 
 			fontFamily:"Helvetica",
-			fontSize:"32",
+			fontSize:"20",
 			fontWeight:"normal",
 			fill:"#000000",
 			textAlign:"center"

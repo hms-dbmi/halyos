@@ -20,7 +20,7 @@ class Flu extends Component {
 		}
 
 	render() {
-		if (!this.state.data){
+		if (!this.state.data || !this.props.location){
 			return (
 				<div>Loading...</div>
 			)

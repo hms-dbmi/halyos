@@ -48,7 +48,7 @@ class VitalTile extends Component {
 	render() {
 		return (
 			<div>
-				<svg width="100%" height="100%" viewBox="0 0 690 106" version="1.1">
+				<svg viewBox="0 0 690 106" version="1.1">
 	    			<defs>
 	        			<ellipse id="path-1" cx="49.6001408" cy="49.8750284" rx="49.6001408" ry="49.8750284"></ellipse>
 	    			</defs>

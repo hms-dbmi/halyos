@@ -87,16 +87,16 @@ class Header extends Component {
               { 
                 this.state.observations.map(function(obs){
                   var link = "/measure/" + obs.code;
-                  return <LinkContainer to={link}><MenuItem eventKey={obs.code}>{obs.display}</MenuItem></LinkContainer>  
+                  return <LinkContainer to={link}><MenuItem key={obs.code}>{obs.display}</MenuItem></LinkContainer>  
                 })  
               }
             </NavDropdown>
             <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-              <LinkContainer to={'/risk/8480-6'}><MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
-              <LinkContainer to={'/risk/kidney'}><MenuItem eventKey={3.1}>Kidney Failure</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/copd'}><MenuItem eventKey={3.1}>COPD</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/stroke'}><MenuItem eventKey={3.1}>Stroke</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/diabetes'}><MenuItem eventKey={3.1}>Diabetes</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
+              <LinkContainer to={'/risk/Stroke'}><MenuItem eventKey={3.1}>Kidney Failure</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem eventKey={3.1}>COPD</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem eventKey={3.1}>Stroke</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Diabetes'}><MenuItem eventKey={3.1}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
 
           </Nav>

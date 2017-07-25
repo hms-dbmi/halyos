@@ -4,13 +4,21 @@ import { Switch, Route } from 'react-router-dom';
 import PastGraph from '../resources/PastGraph.js';
 import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
-import { getValueQuantities } from '../utils/general_utils.js'
+import { getValueQuantities, searchByCode } from '../utils/general_utils.js'
+
+const riskObject = {
+        "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
+        "Stroke": [],
+        "Kidney_Failure": ["48643-1", "48642-3", "33914-3","14958-3", "14959-1"],
+        "COPD_Mortality": ["8480-6", "8462-4","6299-2","9279-1"],
+        "Diabetes": ["56115-9", "56114-2", "56117-5", "8280-0", "8281-8","39156-5"]
+    };
 
 class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {measurementList:[], units:"", max:'', min:''};
+		this.state = {};
 	}
 	
 	componentWillMount(){
@@ -21,37 +29,71 @@ class RiskView extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps){
-		//console.log("next props", nextProps);
+		this.riskName = nextProps.match.params.riskName;
 		if (this.props.match.params === null){
 			return;
 			
 		}
 		if (this.props.match.params.riskName !== nextProps.match.params.riskName){
 			this.riskName = nextProps.match.params.riskName;
-			this.setState({measurementList:[]});
-			this.setState({units:"",max:'',min:''});
-			nextProps.observations.then(this.getObservationByName.bind(this));
 
+			//makes sure to use the already gotten observation data if we have it.
+			if(this.state.obs){
+				this.getObservationByName(this.state.obs)	
+			} 
+			else {
+				nextProps.observations.then(function(value){
+						var codeList = riskObject[this.riskName];
+						var obsObject = {};
+						for(let code of codeList){
+							obsObject[code] = [];
+						}
+
+						searchByCode(value, obsObject);
+						console.log("measurements: ", obsObject)
+						this.setState({obsByMeasurement:obsObject});
+					}.bind(this));
+			}
+
+			
 		}
 	}
 
 	componentDidMount(){
-		this.props.observations.then(this.getObservationByName.bind(this));
+		this.props.observations.then(function(value){
+
+				var codeList = riskObject[this.riskName];
+				var obsObject = {};
+				for(let code of codeList){
+					obsObject[code] = [];
+				}
+
+				searchByCode(value, obsObject);
+				console.log()
+				console.log("measurements: ", obsObject)
+				this.setState({obsByMeasurement:obsObject});
+			}.bind(this));
 
 	}
 
+/**
+	
+	Creates
+*/
+/**
 	getObservationByName(value){
+		this.setState({obs:value});
 		// valueQuantity, valueCodeableConcept, valueString, valueBoolean, valueRange, valueRatio, valueSampledData, valueAttachment, valueTime, valueDateTime, or valuePeriod
 		// These are all the things that it could be instead of valueQuantity, why. I don't understand why. But maybe this is the error you're getting, eventually need to do a regex search
 		this.MAX_VAL = Number.NEGATIVE_INFINITY;
 		this.MIN_VAL = Number.POSITIVE_INFINITY;
 
 		this.referenceRange = [];
-		console.log("refs: ", value);
     
 		for (let obs of value){
 
 			//we need to check this because if a component exists, all our numbers are in there
+			//the insideValue and outsideValue can be the same if there are no components (basically everything except BP) and if there is a component then they are different objects and the innerValue is the one actual measurement
 			getValueQuantities(obs, function(outsideValue,insideValue){
 				if (String(insideValue.code.coding[0].code) === String(this.riskName)){
 
@@ -76,94 +118,70 @@ class RiskView extends Component {
 					if (!this.state.units){
 						this.setState({units:insideValue.valueQuantity.unit})
 					}
+
 					var newArray = this.state.measurementList.slice();
 					newArray.push({
 	                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
 	                    y:insideValue.valueQuantity.value});
 					this.setState({measurementList:newArray});
-			} 
-			else if(String(obs.code.coding[0].code) === String(this.riskName)){
-					if(this.MAX_VAL < insideValue.valueQuantity.value){
-						this.MAX_VAL = insideValue.valueQuantity.value;
-					}
-					if (this.MIN_VAL > insideValue.valueQuantity.value){
-						this.MIN_VAL = insideValue.valueQuantity.value;
-					}
-				if (!this.state.units){
-						this.setState({units:insideValue.valueQuantity.unit})
-					}
-				var newArray = this.state.measurementList.slice();
-					newArray.push({
-	                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
-	                    y:insideValue.valueQuantity.value});
-					this.setState({measurementList:newArray});
-			}
+
+				} 
+				else if(String(obs.code.coding[0].code) === String(this.riskName)){
+						if(this.MAX_VAL < insideValue.valueQuantity.value){
+							this.MAX_VAL = insideValue.valueQuantity.value;
+						}
+						if (this.MIN_VAL > insideValue.valueQuantity.value){
+							this.MIN_VAL = insideValue.valueQuantity.value;
+						}
+					if (!this.state.units){
+							this.setState({units:insideValue.valueQuantity.unit})
+						}
+					var newArray = this.state.measurementList.slice();
+						newArray.push({
+		                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
+		                    y:insideValue.valueQuantity.value});
+						this.setState({measurementList:newArray});
+				}
 			}.bind(this));
 		}
-
   }
-
+*/
 	render(){
-		if(this.state.measurementList.length > 0){
+		// if(this.state.measurementList.length > 0){
 	
-			this.FUTURE_MONTH_ADDITION = 6;
-			var lastMeasurementDate = this.state.measurementList[0].x;
-			var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
-			var lastDataPoint = this.state.measurementList[0].y;
+		// 	this.FUTURE_MONTH_ADDITION = 6;
+		// 	var lastMeasurementDate = this.state.measurementList[0].x;
+		// 	var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
+		// 	var lastDataPoint = this.state.measurementList[0].y;
 
-			var dateList = [];
-			for (let item of this.state.measurementList){
-				dateList.push(item.x);
-			}
+		// 	var dateList = [];
+		// 	for (let item of this.state.measurementList){
+		// 		dateList.push(item.x);
+		// 	}
 
-			dateList.sort();
-			var firstDate = dateList[0].getFullYear();
-			var lastDate = dateList[dateList.length-1].getFullYear();
+		// 	dateList.sort();
+		// 	var firstDate = dateList[0].getFullYear();
+		// 	var lastDate = dateList[dateList.length-1].getFullYear();
 
-		  	//console.log(" first and last date in measurement view--------", firstDate, lastDate);
+		//   	console.log("this is reference: ", this.referenceRange);
+		// 	return (
+		// 	<div>			
+		// 		<PastToFutureGraph 
+		// 			obs_data={this.state.measurementList} 
+		// 			units={this.state.units} 
+		// 			futureMeasurementDate={futureMeasurementDate} 
+		// 			lastDataPoint={lastDataPoint}
+		// 			yMax={this.MAX_VAL}
+		// 			yMin={this.MIN_VAL}
+		// 			firstYear={firstDate}
+		// 			lastYear={lastDate}
+		// 			refRange={this.referenceRange}
 
-		  	console.log("this is reference: ", this.referenceRange);
-			return (
-			<div>			
-				<PastToFutureGraph 
-					obs_data={this.state.measurementList} 
-					units={this.state.units} 
-					futureMeasurementDate={futureMeasurementDate} 
-					lastDataPoint={lastDataPoint}
-					yMax={this.MAX_VAL}
-					yMin={this.MIN_VAL}
-					firstYear={firstDate}
-					lastYear={lastDate}
-					refRange={this.referenceRange}
+		// 		 />
 
-				 />
-				 <PastToFutureGraph 
-					obs_data={this.state.measurementList} 
-					units={this.state.units} 
-					futureMeasurementDate={futureMeasurementDate} 
-					lastDataPoint={lastDataPoint}
-					yMax={this.MAX_VAL}
-					yMin={this.MIN_VAL}
-					firstYear={firstDate}
-					lastYear={lastDate}
-					refRange={this.referenceRange}
-
-				 />
-				 <PastToFutureGraph 
-					obs_data={this.state.measurementList} 
-					units={this.state.units} 
-					futureMeasurementDate={futureMeasurementDate} 
-					lastDataPoint={lastDataPoint}
-					yMax={this.MAX_VAL}
-					yMin={this.MIN_VAL}
-					firstYear={firstDate}
-					lastYear={lastDate}
-					refRange={this.referenceRange}
-
-				 />
-			</div>
-			)		
-		}
+		// 	</div>
+		// 	)		
+		// }
 
 		return <div>Loading...</div>
 		
