@@ -130,38 +130,34 @@ class MeasurementView extends Component {
 					<div className="row">
 						<div className="col-md-6">	
 							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+							<text style={{fontSize: "20", fontFamily: "HiraKakuStd-W8, Hiragino Kaku Gothic Std"}}>
+								Risk Scores Affected By This Measurement
+							</text>
+							<div className="row">
+								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+									</div>	
+								}
+								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+									</div>	
+								}
+								{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+									</div>	
+								}
+								{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+									</div>	
+								}
+							</div>
 						</div>
 						<div className="col-md-6">
 							<MeasurementText measurementName={this.state.name} measurementCode={this.measureId}/>
-						</div>
-					</div>
-					<div className="row">
-					<svg width="100%" height="50px">
-							<text fontSize="20" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std">
-								<tspan x="22" y="36">Risk Scores Affected By This Measurement</tspan>
-							</text>
-					</svg>
-						<div className="row">
-							{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
-								<div className="col-md-2">
-			        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-								</div>	
-							}
-							{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
-								<div className="col-md-2">
-			        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-								</div>	
-							}
-							{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
-								<div className="col-md-2">
-			        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-								</div>	
-							}
-							{this.props.riskObject['Diabetes'].includes(this.measureId) &&
-								<div className="col-md-2">
-			        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-								</div>	
-							}
 						</div>
 					</div>
 				</div>
@@ -179,7 +175,7 @@ class MeasurementText extends Component {
 		super();
 		this.state = {
 			meaning: "Loading...",
-			affect: "Loading...",
+			important: "Loading...",
 			improve: "Loading..."
 		};
 	}
@@ -190,7 +186,7 @@ class MeasurementText extends Component {
 		if(text['text'][this.props.measurementCode]) {
 			this.setState({
 			meaning: text['text'][this.props.measurementCode].meaning,
-			affect: text['text'][this.props.measurementCode].affect,
+			important: text['text'][this.props.measurementCode].important,
 			improve: text['text'][this.props.measurementCode].improve
 			});
 		}
@@ -209,10 +205,10 @@ class MeasurementText extends Component {
 					{this.state.meaning} <br/>
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
-					What affects my {this.props.measurementName}? <br/>
+					Why is my {this.props.measurementName} important? <br/>
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.affect} <br/>
+					{this.state.important} <br/>
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
 					How can I make it better? <br/>

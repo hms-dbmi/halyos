@@ -38,7 +38,6 @@ class ProfileView extends Component {
 				</div>
 				<div className = "col-md-6">
 					<MedicationTile meds={this.props.meds}/>
-					<EnvironmentTile patient={this.props.patient}/>
 					<MedicationTile meds={this.props.meds}/>
 					<AppointmentsTile/>
 				</div>
