@@ -69,6 +69,7 @@ export function calculateAge(dateString) {
     }
     return age;
 }
+
 /**
   @param: obsBundle -- fetchAll observation bundle
   @param: object -- a javascript object where keys represent the LOINC codes of interest & they correspond to empty arrays

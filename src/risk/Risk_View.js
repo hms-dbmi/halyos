@@ -4,13 +4,13 @@ import { Switch, Route } from 'react-router-dom';
 import PastGraph from '../resources/PastGraph.js';
 import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
-import { getValueQuantities } from '../utils/general_utils.js'
+import { getValueQuantities, searchByCode } from '../utils/general_utils.js'
 
 class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {measurementList:[], units:"", max:'', min:''};
+		this.state = {measurementList:[], units:"", max:'', min:'', obs:null};
 	}
 	
 	componentWillMount(){
@@ -21,7 +21,7 @@ class RiskView extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps){
-		//console.log("next props", nextProps);
+		
 		if (this.props.match.params === null){
 			return;
 			
@@ -30,17 +30,27 @@ class RiskView extends Component {
 			this.riskName = nextProps.match.params.riskName;
 			this.setState({measurementList:[]});
 			this.setState({units:"",max:'',min:''});
-			nextProps.observations.then(this.getObservationByName.bind(this));
+			console.log("promise????: ", this.state.obs);
+			if(this.state.obs){
+				this.getObservationByName(this.state.obs)	
+			} 
+			else {
+				console.log("how did we get herE?");
+				nextProps.observations.then(this.getObservationByName.bind(this));
+			}
 
+			
 		}
 	}
 
 	componentDidMount(){
-		this.props.observations.then(this.getObservationByName.bind(this));
+		var resolvedPromise = this.props.observations.then(this.getObservationByName.bind(this));
+		//this.setState({obs:resolvedPromise});
 
 	}
 
 	getObservationByName(value){
+		this.setState({obs:value});
 		// valueQuantity, valueCodeableConcept, valueString, valueBoolean, valueRange, valueRatio, valueSampledData, valueAttachment, valueTime, valueDateTime, or valuePeriod
 		// These are all the things that it could be instead of valueQuantity, why. I don't understand why. But maybe this is the error you're getting, eventually need to do a regex search
 		this.MAX_VAL = Number.NEGATIVE_INFINITY;
@@ -137,30 +147,7 @@ class RiskView extends Component {
 					refRange={this.referenceRange}
 
 				 />
-				 <PastToFutureGraph 
-					obs_data={this.state.measurementList} 
-					units={this.state.units} 
-					futureMeasurementDate={futureMeasurementDate} 
-					lastDataPoint={lastDataPoint}
-					yMax={this.MAX_VAL}
-					yMin={this.MIN_VAL}
-					firstYear={firstDate}
-					lastYear={lastDate}
-					refRange={this.referenceRange}
 
-				 />
-				 <PastToFutureGraph 
-					obs_data={this.state.measurementList} 
-					units={this.state.units} 
-					futureMeasurementDate={futureMeasurementDate} 
-					lastDataPoint={lastDataPoint}
-					yMax={this.MAX_VAL}
-					yMin={this.MIN_VAL}
-					firstYear={firstDate}
-					lastYear={lastDate}
-					refRange={this.referenceRange}
-
-				 />
 			</div>
 			)		
 		}

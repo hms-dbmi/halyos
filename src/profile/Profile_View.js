@@ -23,43 +23,64 @@ class ProfileView extends Component {
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		return (
 			<div>
-				<div className = "col-md-6">
-					<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
-					<div className = "col-md-6">
-						<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
-						<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
-						<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+				<div className="row">
+					<div className = "col-sm-6">
+						<div className="row">
+							<div className="col-sm-12">
+								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
+							</div>
+								<div className="row">
+									<div className="col-sm-6">
+										<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+									</div>
+									<div className="col-sm-6">
+										<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+									</div>
+								</div>
+								<div className="row">
+									<div className="col-sm-6">
+										<VitalTile code='8480-6' observations={this.props.observations}><Scale/></VitalTile>
+									</div>
+									<div className="col-sm-6">
+										<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+									</div>
+								</div>
+								<div className="row">
+									<div className="col-sm-6">
+										<VitalTile code='8462-4' observations={this.props.observations}><Scale/></VitalTile>
+									</div>
+									<div className="col-sm-6">
+										<VitalTile code='2339-0' observations={this.props.observations}><Scale/></VitalTile>
+									</div> 
+								</div>
+						</div>
 					</div>
-					<div className = "col-md-6">
-						<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
-						<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
-						<VitalTile code='2339-0' observations={this.props.observations}><BP/></VitalTile>
+					<div className = "col-sm-6">
+						<MedicationTile meds={this.props.meds}/>
+						<EnvironmentTile patient={this.props.patient}/>
+						<MedicationTile meds={this.props.meds}/>
 					</div>
 				</div>
-				<div className = "col-md-6">
-					<MedicationTile meds={this.props.meds}/>
-					<EnvironmentTile patient={this.props.patient}/>
-					<MedicationTile meds={this.props.meds}/>
-					<MedicationTile meds={this.props.meds}/>
-				</div>
-				<div className = "col-md-2">
-					<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
-				</div>
-				<div className = "col-md-2">
-					<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
-				</div>
-				<div className = "col-md-2">
-					<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
-				</div>
-				<div className = "col-md-2">
-					<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
-				</div>
-				<div className = "col-md-2">
-					<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
-				</div>
-		
-				<div className = "col-md-2">
-					<div><HelpRiskTile scoreName="Help"/></div>
+				<div className="row">
+					<div className = "col-sm-2">
+						<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+					</div>
+					<div className = "col-sm-2">
+						<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
+					</div>
+					<div className = "col-sm-2">
+						<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+					</div>
+					<div className = "col-sm-2">
+						<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
+					</div>
+					<div className = "col-sm-2">
+						<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
+					</div>
+			
+					<div className = "col-sm-2">
+						<div><HelpRiskTile scoreName="Help"/></div>
+					</div>
 				</div>
 			</div>
 
