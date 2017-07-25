@@ -12,7 +12,7 @@ class MeasurementView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {measurementList:[], units:"", max:'', min:''};
+		this.state = {measurementList:[], units:"", max:'', min:'', name: ''};
 	}
 	
 	componentWillMount(){
@@ -55,7 +55,9 @@ class MeasurementView extends Component {
 			//we need to check this because if a component exists, all our numbers are in there
 			getValueQuantities(obs, function(outsideValue,insideValue){
 				if (String(insideValue.code.coding[0].code) === String(this.measureId)){
-
+					this.setState({
+						name: insideValue.code.text
+					});
 					//currently only looks for normal ranges
 					if(obs.referenceRange){
 						for(let refRange of obs.referenceRange){
@@ -130,14 +132,7 @@ class MeasurementView extends Component {
 							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
 						</div>
 						<div className="col-md-6">
-							<svg width="100%" height="100%">
-								<text fontSize="34" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std" fill="#18A9DC">
-									<tspan x="10" y="50">About This Measurement</tspan>
-								</text>
-								<text fontSize="30" fontFamily="HiraKakuStd-W8, Hiragino Kaku Gothic Std">
-									<tspan x="10" y="50">What does my {} mean?</tspan>
-								</text>
-							</svg>
+							<MeasurementText measurementName={this.state.name}/>
 						</div>
 					</div>
 					<div className="row">
@@ -146,26 +141,28 @@ class MeasurementView extends Component {
 								<tspan x="22" y="36">Risk Scores Affected By This Measurement</tspan>
 							</text>
 					</svg>
-						{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
-							<div className="col-md-2">
-		        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-							</div>	
-						}
-						{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
-							<div className="col-md-2">
-		        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-							</div>	
-						}
-						{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
-							<div className="col-md-2">
-		        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-							</div>	
-						}
-						{this.props.riskObject['Diabetes'].includes(this.measureId) &&
-							<div className="col-md-2">
-		        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-							</div>	
-						}
+						<div className="row">
+							{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+								</div>	
+							}
+							{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+								<div className="col-md-2">
+			        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+								</div>	
+							}
+						</div>
 					</div>
 				</div>
 			)		
@@ -175,6 +172,25 @@ class MeasurementView extends Component {
 		
 	}
 
+}
+
+class MeasurementText extends Component {
+	constructor(props) {
+		super();
+	}
+
+	render() {
+		return (
+			<div>
+				<text x='10' y='50' style={{fontSize: 38, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"#18A9DC"}}>
+					About This Measurement <br/> 
+				</text>
+				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+					What does my {this.props.measurementName} mean?
+				</text>
+			</div>
+		);
+	}
 }
 
 export default MeasurementView;
