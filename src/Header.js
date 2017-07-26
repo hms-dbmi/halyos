@@ -58,14 +58,14 @@ class Header extends Component {
           <Navbar.Collapse>
             <Nav>
               <NavDropdown eventKey={3} title="Measurements" id="basic-nav-dropdown">
-                <LinkContainer to="/"><MenuItem eventKey={3.1}>Loading...</MenuItem></LinkContainer>
+                <LinkContainer to="/"><MenuItem key={3.1}>Loading...</MenuItem></LinkContainer>
               </NavDropdown>
-              <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem>
-                <MenuItem eventKey={3.2}>Stroke</MenuItem>
-                <MenuItem eventKey={3.3}>Kidney Failure</MenuItem>
-                <MenuItem eventKey={3.4}>COPD</MenuItem>
-                <MenuItem eventKey={3.5}>Diabetes</MenuItem>
+              <NavDropdown key={3} title="Risk Scores" id="basic-nav-dropdown">
+                <MenuItem key={3.1}>Cardiavascular Disease</MenuItem>
+                <MenuItem key={3.2}>Stroke</MenuItem>
+                <MenuItem key={3.3}>Kidney Failure</MenuItem>
+                <MenuItem key={3.4}>COPD</MenuItem>
+                <MenuItem key={3.5}>Diabetes</MenuItem>
               </NavDropdown>
 
             </Nav>
@@ -92,11 +92,11 @@ class Header extends Component {
               }
             </NavDropdown>
             <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem eventKey={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
-              <LinkContainer to={'/risk/Stroke'}><MenuItem eventKey={3.1}>Kidney Failure</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem eventKey={3.1}>COPD</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem eventKey={3.1}>Stroke</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Diabetes'}><MenuItem eventKey={3.1}>Diabetes</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem key={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
+              <LinkContainer to={'/risk/Stroke'}><MenuItem key={3.1}>Kidney Failure</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem key={3.1}>COPD</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem key={3.1}>Stroke</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Diabetes'}><MenuItem key={3.1}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
 
           </Nav>

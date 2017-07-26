@@ -18,7 +18,7 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {obsByMeasurement:{}};
 	}
 	
 	componentWillMount(){
@@ -42,39 +42,104 @@ class RiskView extends Component {
 				this.getObservationByName(this.state.obs)	
 			} 
 			else {
-				nextProps.observations.then(function(value){
-						var codeList = riskObject[this.riskName];
-						var obsObject = {};
-						for(let code of codeList){
-							obsObject[code] = [];
-						}
-
-						searchByCode(value, obsObject);
-						console.log("measurements: ", obsObject)
-						this.setState({obsByMeasurement:obsObject});
-					}.bind(this));
-			}
-
-			
+				nextProps.observations
+					.then(this.addResultsToObsByMeasurement.bind(this))
+					.then(this.getAuxiliaryInfo.bind(this));
+			}			
 		}
 	}
 
 	componentDidMount(){
-		this.props.observations.then(function(value){
-
-				var codeList = riskObject[this.riskName];
-				var obsObject = {};
-				for(let code of codeList){
-					obsObject[code] = [];
-				}
-
-				searchByCode(value, obsObject);
-				console.log()
-				console.log("measurements: ", obsObject)
-				this.setState({obsByMeasurement:obsObject});
-			}.bind(this));
+		this.props.observations
+			.then(this.addResultsToObsByMeasurement.bind(this))
+			.then(this.getAuxiliaryInfo.bind(this));
 
 	}
+
+	getAuxiliaryInfo(){
+		var test = this.state.obsByMeasurement;	
+
+		Object.keys(test).map(function(key){
+			//console.log("this inside a functioN: ", this.state);
+			this.getRefRangeByMeasurement(test[key]);
+		}, this);
+
+		
+		console.log("back in auxiliary state", this.state.obsByMeasurement);
+				
+				
+	//console.log("this is it yo: ", this.state.obsByMeasurement);
+	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
+
+	}
+
+	addResultsToObsByMeasurement(value){
+		var codeList = riskObject[this.riskName];
+		var obsObject = {};
+		for(let code of codeList){
+			obsObject[code] = [];
+		}
+		searchByCode(value, obsObject);
+
+		var graphComponentsByMeasurement = {};
+
+		for (var key in obsObject) {
+			if (obsObject.hasOwnProperty(key)) {
+				graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
+			}
+		}
+		console.log("graphComponentsByMeasurement: ", graphComponentsByMeasurement)
+		this.setState({obsByMeasurement:graphComponentsByMeasurement});
+	}
+
+	getMinAndMaxByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+		
+		for (let result of resultList){
+			
+			//console.log("resultList: ", resultList);
+			//console.log("below conditional: ", result.refRanges === undefined)
+			if(result.refRanges !== undefined){
+				for(let refRange of result.refRanges){
+					if ((!refRange.type) || (refRange.type.coding[0].code === "normal")) {
+						codeObjectTemp['refRange'] = [refRange.low.value, refRange.high.value];
+						return;
+					}
+				} 
+			}
+		}
+			
+		codeObjectTemp['refRange'] = [];			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		this.setState({obsByMeasurement:tempObj});
+	}
+
+	//gets the reference ranges for each code if there are any and add them to the state, if not add []
+	getRefRangeByMeasurement(codeObject){
+
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+		
+		for (let result of resultList){			
+			if(result.refRanges !== undefined){
+				for(let refRange of result.refRanges){
+					if ((!refRange.type) || (refRange.type.coding[0].code === "normal")) {
+						codeObjectTemp['refRange'] = [refRange.low.value, refRange.high.value];
+						return;
+					}
+				} 
+			}
+		}
+			
+		codeObjectTemp['refRange'] = [];			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		this.setState({obsByMeasurement:tempObj});
+	}
+	
+
 
 /**
 	
@@ -146,42 +211,61 @@ class RiskView extends Component {
 		}
   }
 */
+
+	isEmpty(obj) {
+	    for(var key in obj) {
+	        if(obj.hasOwnProperty(key))
+	            return false;
+	    }
+	    return true;
+	}
+
 	render(){
-		// if(this.state.measurementList.length > 0){
-	
-		// 	this.FUTURE_MONTH_ADDITION = 6;
-		// 	var lastMeasurementDate = this.state.measurementList[0].x;
-		// 	var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
-		// 	var lastDataPoint = this.state.measurementList[0].y;
+		console.log('render');
+		if(!this.isEmpty(this.state.obsByMeasurement)){
+			//console.log("here we og!!!!!!!!!!!" , this.state.obsByMeasurement);
+			// for (var key in this.state.obsByMeasurement) {
+			// 	if (this.state.obsByMeasurement.hasOwnProperty(key)) {
+			// 		this.getRefRangeByMeasurement(this.state.obsByMeasurement[key]);
+			// 		console.log("this is it yo: ", this.state.obsByMeasurement);
+			// 		this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
+					
+			// 	}
+			// }
 
-		// 	var dateList = [];
-		// 	for (let item of this.state.measurementList){
-		// 		dateList.push(item.x);
-		// 	}
+			// this.FUTURE_MONTH_ADDITION = 6;
+			// var lastMeasurementDate = this.state.measurementList[0].x;
+			// var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
+			// var lastDataPoint = this.state.measurementList[0].y;
 
-		// 	dateList.sort();
-		// 	var firstDate = dateList[0].getFullYear();
-		// 	var lastDate = dateList[dateList.length-1].getFullYear();
+			// var dateList = [];
+			// for (let item of this.state.measurementList){
+			// 	dateList.push(item.x);
+			// }
 
-		//   	console.log("this is reference: ", this.referenceRange);
-		// 	return (
-		// 	<div>			
-		// 		<PastToFutureGraph 
-		// 			obs_data={this.state.measurementList} 
-		// 			units={this.state.units} 
-		// 			futureMeasurementDate={futureMeasurementDate} 
-		// 			lastDataPoint={lastDataPoint}
-		// 			yMax={this.MAX_VAL}
-		// 			yMin={this.MIN_VAL}
-		// 			firstYear={firstDate}
-		// 			lastYear={lastDate}
-		// 			refRange={this.referenceRange}
+			// dateList.sort();
+			// var firstDate = dateList[0].getFullYear();
+			// var lastDate = dateList[dateList.length-1].getFullYear();
 
-		// 		 />
+		 //  	console.log("this is reference: ", this.referenceRange);
+			// return (
+			// <div>			
+			// 	<PastToFutureGraph 
+			// 		obs_data={this.state.measurementList} 
+			// 		units={this.state.units} 
+			// 		futureMeasurementDate={futureMeasurementDate} 
+			// 		lastDataPoint={lastDataPoint}
+			// 		yMax={this.MAX_VAL}
+			// 		yMin={this.MIN_VAL}
+			// 		firstYear={firstDate}
+			// 		lastYear={lastDate}
+			// 		refRange={this.referenceRange}
 
-		// 	</div>
-		// 	)		
-		// }
+			// 	 />
+
+			// </div>
+			// )		
+		}
 
 		return <div>Loading...</div>
 		

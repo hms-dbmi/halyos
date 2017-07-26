@@ -87,7 +87,8 @@ export function searchByCode(obsBundle, object) {
             'text': obsBundle[j].component[i].code.coding[0].display,
             'value': obsBundle[j].component[i].valueQuantity.value,
             'unit': obsBundle[j].component[i].valueQuantity.unit,
-            'date': obsBundle[j].effectiveDateTime
+            'date': obsBundle[j].effectiveDateTime,
+            'refRanges': obsBundle[j].referenceRange
           });
         }
       }
@@ -100,7 +101,8 @@ export function searchByCode(obsBundle, object) {
           'text': obsBundle[j].code.coding[0].display,
           'value': obsBundle[j].valueQuantity.value,
           'unit': obsBundle[j].valueQuantity.unit,
-          'date': obsBundle[j].effectiveDateTime
+          'date': obsBundle[j].effectiveDateTime,
+          'refRanges': obsBundle[j].referenceRange
         });
       }
     }
