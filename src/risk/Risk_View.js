@@ -62,6 +62,7 @@ class RiskView extends Component {
 		Object.keys(test).map(function(key){
 			//console.log("this inside a functioN: ", this.state);
 			this.getRefRangeByMeasurement(test[key]);
+			this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
 		}, this);
 
 		
@@ -97,22 +98,21 @@ class RiskView extends Component {
 		var tempObj = this.state.obsByMeasurement;
 		var codeObjectTemp = codeObject;
 		
-		for (let result of resultList){
-			
-			//console.log("resultList: ", resultList);
-			//console.log("below conditional: ", result.refRanges === undefined)
-			if(result.refRanges !== undefined){
-				for(let refRange of result.refRanges){
-					if ((!refRange.type) || (refRange.type.coding[0].code === "normal")) {
-						codeObjectTemp['refRange'] = [refRange.low.value, refRange.high.value];
-						return;
-					}
-				} 
+		var minVal = Number.POSITIVE_INFINITY;
+		var maxVal = Number.NEGATIVE_INFINITY;
+
+		for (let result of resultList){			
+			if(maxVal < result.value){
+				maxVal = result.value;
+			}
+			if (minVal > result.value){
+				minVal = result.value;
 			}
 		}
 			
-		codeObjectTemp['refRange'] = [];			
-		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		codeObjectTemp['min'] = (minVal === Number.POSITIVE_INFINITY) ? null : minVal;
+		codeObjectTemp['max'] = (maxVal === Number.NEGATIVE_INFINITY) ? null : maxVal;
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
 		this.setState({obsByMeasurement:tempObj});
 	}
 
