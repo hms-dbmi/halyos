@@ -72,7 +72,6 @@ class EnvironmentTile extends Component {
 		}
 
 		const tileStyle = {
-
 			border: "1px"
 		}
 
@@ -94,14 +93,7 @@ class EnvironmentTile extends Component {
 						<Flu location={this.state.ptLoc} />
 					</div>
 				</div>
-				<div className="row">
-					<div className="col-md-6">
-					</div>
-					<div className="col-md-6">
-					</div>
-					<div className="col-md-6">
-					</div>
-				</div>
+
 			</div>
 		);
 	}

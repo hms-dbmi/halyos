@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
+import Cholesterol from '../logos/chol';
+import Glucose from '../logos/glucose';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
 import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
@@ -27,29 +29,29 @@ class ProfileView extends Component {
 					<div className = "col-sm-6">
 						<div className="row">
 							<div className="col-sm-12">
-								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
+								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/><br/>
 							</div>
 								<div className="col-sm-6">
 									<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
 								</div>
 								<div className="col-sm-6">
-									<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile code='2085-9' observations={this.props.observations}><Cholesterol/></VitalTile>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col-sm-6">
-									<VitalTile code='8480-6' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
 								</div>
 								<div className="col-sm-6">
-									<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile code='18262-6' observations={this.props.observations}><Cholesterol/></VitalTile>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col-sm-6">
-									<VitalTile code='8462-4' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
 								</div>
 								<div className="col-sm-6">
-									<VitalTile code='2339-0' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile code='2339-0' observations={this.props.observations}><Glucose/></VitalTile>
 								</div> 
 						</div>
 					</div>
@@ -80,6 +82,8 @@ class ProfileView extends Component {
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
 				</div>
+										<Glucose/>
+
 			</div>
 
 		)
@@ -532,6 +536,63 @@ class DemographicTile extends Component {
 	}
 }
 
+class VitalTiles extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			name: "",
+			value: "Loading...",
+			units: "",
+		};
+	}
+
+	componentDidMount() {
+		//var i = {this.props.i};
+		var parentComponent = this;
+		$.when(this.props.observations).done(function(obs) {
+			var testobject = {};
+			testobject[parentComponent.props.code] = [];
+			var result = searchByCode(obs, testobject);
+			var precision = 0;
+			if (result[parentComponent.props.code][0]['value'] < 1) {
+				precision = 2;
+			}
+			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Systolic BP";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
+			}
+			var forSparkline = [];
+			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
+				forSparkline.push({
+					name: result[parentComponent.props.code][i]['date'].toString(),
+					value: (result[parentComponent.props.code][i]['value'])
+				})
+			}
+			parentComponent.setState({
+				measurementName: result[parentComponent.props.code][0]['text'],
+				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
+				data: forSparkline
+			});
+		});
+	}
+	render() {
+		var link = window.location.href + 'measure/' + this.props.code;
+		return (
+			<div>
+				<div style={{width: "100%", height:"85px", borderRadius: "10px", backgroundColor: "#AECEDA", opacity: "0.9"}}> {this.props.children} </div><br/>
+			</div>
+		)
+	}
+}
+
 class VitalTile extends Component {
 	constructor(props) {
 		super();
@@ -559,6 +620,12 @@ class VitalTile extends Component {
 			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
 			}
+			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Systolic BP";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
+			}
 			var forSparkline = [];
 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
 				forSparkline.push({
@@ -585,11 +652,11 @@ class VitalTile extends Component {
 					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
 					            	<a xlinkHref={link} target="_blank">
-					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="750" height="180" rx="7.2"></rect>
-				                		{this.props.children}
+					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="760" height="180" rx="7.2"></rect>
+					               		{this.props.children}
 				                	</a>
 					                <text id="Weight" fontFamily="Helvetica" fontSize="56" fontWeight="normal" fill="#000000">
-					                    <tspan x="120" y="56">{this.state.measurementName}</tspan>
+					                    <tspan x="180" y="56">{this.state.measurementName}</tspan>
 					                </text>
 					                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="45" fontWeight="300" fill="#000000">
 					                    <tspan x="208" y="130">{this.state.value}</tspan>
