@@ -42,7 +42,7 @@ return (
             }
           >
 
-          <VictoryArea y0={() => 80} y={() => 90}
+          <VictoryArea y0={() => 160} y={() => 145}
             style={{
                 data: {
                   fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
