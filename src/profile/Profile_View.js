@@ -82,8 +82,6 @@ class ProfileView extends Component {
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
 				</div>
-										<Glucose/>
-
 			</div>
 
 		)
@@ -137,9 +135,12 @@ export class Diabetes extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.href + 'risk/Diabetes';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+	    		</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -190,9 +191,12 @@ export class COPD extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.href + 'risk/COPD_Mortality';
 		return (
 			<g>
+				<a xlinkHref={link} target="_blank">
 		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+		    	</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -234,9 +238,12 @@ export class KFScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.href + 'risk/Kidney_Failure';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -275,9 +282,12 @@ export class CHADScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.href + 'risk/Stroke';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -327,9 +337,12 @@ export class ReynoldsScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.href + 'risk/General_Cardiac';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -366,7 +379,7 @@ class HelpRiskTile extends Component {
 		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
-				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
+				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0}}/>
 				    <text x="50%" y="20%" fontSize="2vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
 				    <text x="50%" y="60%" fontSize="3vw" alignmentBaseline="middle" textAnchor="middle">?</text>  
 			    </g>
