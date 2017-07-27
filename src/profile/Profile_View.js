@@ -135,7 +135,7 @@ export class Diabetes extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
-		var link = window.location.href + 'risk/Diabetes';
+		var link = window.location.origin.toString() + '/risk/Diabetes';
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
@@ -191,7 +191,7 @@ export class COPD extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
-		var link = window.location.href + 'risk/COPD_Mortality';
+		var link = window.location.origin + '/risk/COPD_Mortality';
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
@@ -238,7 +238,7 @@ export class KFScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
-		var link = window.location.href + 'risk/Kidney_Failure';
+		var link = window.location.origin + '/risk/Kidney_Failure';
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
@@ -282,7 +282,7 @@ export class CHADScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
-		var link = window.location.href + 'risk/Stroke';
+		var link = window.location.origin + '/risk/Stroke';
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
@@ -337,7 +337,7 @@ export class ReynoldsScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
-		var link = window.location.href + 'risk/General_Cardiac';
+		var link = window.location.origin + '/risk/General_Cardiac';
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
