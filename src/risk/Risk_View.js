@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import MeasurementCard from './MeasurementCard.js';
 
-import { getValueQuantities, searchByCode } from '../utils/general_utils.js';
+import { getValueQuantities, searchByCode, pullCondition } from '../utils/general_utils.js';
 
 import Slider, { Range } from 'rc-slider';
 // We can just import Slider or Range to reduce bundle size
@@ -11,6 +11,7 @@ import Slider, { Range } from 'rc-slider';
 // import Range from 'rc-slider/lib/Range';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
+import $ from 'jquery';
 
 
 const riskObject = {
@@ -20,6 +21,57 @@ const riskObject = {
         "COPD_Mortality": ["8480-6", "8462-4","6299-2","9279-1"],
         "Diabetes": ["56115-9", "56114-2", "56117-5", "8280-0", "8281-8","39156-5"]
     };
+
+const riskObjectConditions = {
+		"General_Cardiac": [],
+        "Stroke": ['42343007','38341003','27550009','73211009','230690007', "266257000", "13713005"],
+      //       var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+		    // var hypertension = pullCondition(conds, ["38341003"]);
+		    // var vascDisease = pullCondition(conds, ["27550009"]);
+		    // var diabetes = pullCondition(conds, ["73211009"]);
+		    // var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+        "Kidney_Failure": [],
+        "COPD_Mortality": ["40917007"], //confusion
+        "Diabetes": ['80394007'] //hyperglycemia
+	};
+
+class RelevantConditions extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			conds: ""
+		};
+	}
+
+	componentDidMount(){
+		var codeList = riskObjectConditions[this.props.riskName];
+		var parentComponent = this;
+		$.when(this.props.conditions).done(function(conds) {
+			if(codeList.length != 0) {
+				var condObj = pullCondition(conds, codeList);
+				const condNames = [];
+				for (var i in condObj) {
+					condNames.push(condObj[i].code.text);
+				}
+				const listItems = condNames.map((condName) =>
+					<li key={condName}>{condName}</li>
+				);
+				parentComponent.setState({
+					conds:listItems
+				});
+			}
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<text style={{fontSize: "30"}}> Relevant Conditions </text>
+				<div style={{fontSize: "14"}}><ol>{this.state.conds}</ol></div>
+			</div>
+		);
+	}
+}
 
 class RiskView extends Component {
 
@@ -32,6 +84,7 @@ class RiskView extends Component {
 		if (this.props.match.params != null){
 			this.riskName = this.props.match.params.riskName;	
 		}
+		console.log("NAME", this.riskName);
 		
 	}
 	
@@ -101,6 +154,7 @@ class RiskView extends Component {
 		console.log("graphComponentsByMeasurement: ", graphComponentsByMeasurement)
 		this.setState({obsByMeasurement:graphComponentsByMeasurement});
 	}
+
 
 	getMinAndMaxByMeasurement(codeObject){
 		var resultList = codeObject.results;
@@ -262,7 +316,7 @@ class RiskView extends Component {
 
 	render(){
 
-		
+		console.log(this.props);
 		console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
 
@@ -276,7 +330,8 @@ class RiskView extends Component {
 							units={this.state.obsByMeasurement[key].units}
 						/>						
 					}, this)
-				}		
+				}
+				<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 				</div>
 			)
 
