@@ -3,7 +3,7 @@ import { getValueQuantities, searchByCode, pullCondition } from '../utils/genera
 import $ from 'jquery';
 
 const riskObjectConditions = {
-		"General_Cardiac": [],
+		"General_Cardiac": ['266897007'],
         "Stroke": ['42343007','38341003','27550009','73211009','230690007', "266257000", "13713005"],
       //       var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
 		    // var hypertension = pullCondition(conds, ["38341003"]);
