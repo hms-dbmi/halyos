@@ -48,10 +48,10 @@ const Context_FHIR_Client = FHIR.client({
 // )
 
 const App = () => (
-  <div>
-    <Header api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
-    <Main api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
-  </div>
+    <div>
+      <Header api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
+      <Main api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
+    </div>
 )
 
 ReactDOM.render((

@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../resources/PastGraph.js';
-import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
+import MeasurementCard from './MeasurementCard.js';
 
-import { getValueQuantities, searchByCode } from '../utils/general_utils.js'
+import { getValueQuantities, searchByCode } from '../utils/general_utils.js';
+
+import Slider, { Range } from 'rc-slider';
+// We can just import Slider or Range to reduce bundle size
+// import Slider from 'rc-slider/lib/Slider';
+// import Range from 'rc-slider/lib/Range';
+import 'rc-slider/assets/index.css';
+import Tooltip from 'rc-tooltip';
+
 
 const riskObject = {
         "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
@@ -63,6 +70,8 @@ class RiskView extends Component {
 			//console.log("this inside a functioN: ", this.state);
 			this.getRefRangeByMeasurement(test[key]);
 			this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
+			this.getUnitsByMeasurement(this.state.obsByMeasurement[key]);
+			this.addDataByMeasurement(this.state.obsByMeasurement[key]);
 		}, this);
 
 		
@@ -139,7 +148,38 @@ class RiskView extends Component {
 		this.setState({obsByMeasurement:tempObj});
 	}
 	
+	getUnitsByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
 
+		for (let result of resultList){
+			if(result.unit){
+				codeObjectTemp['units'] = result.unit;
+				return;
+			}
+		}
+
+		codeObjectTemp['units'] = null;			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		this.setState({obsByMeasurement:tempObj});
+	}
+
+	addDataByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+
+		var dataTempObj = [];
+		for (let result of resultList){
+				var tmpDate = Date.parse(result.date);
+				dataTempObj.push({x:tmpDate,y:result.value})	
+		}
+
+		codeObjectTemp['data'] = dataTempObj;			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		this.setState({obsByMeasurement:tempObj});
+	}
 
 /**
 	
@@ -221,8 +261,27 @@ class RiskView extends Component {
 	}
 
 	render(){
+
+		
 		console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
+
+
+			return (
+				<div>
+					{
+						Object.keys(this.state.obsByMeasurement).map(function(key){
+						return <MeasurementCard key={key}
+							data={this.state.obsByMeasurement[key].data}
+							units={this.state.obsByMeasurement[key].units}
+						/>						
+					}, this)
+				}		
+				</div>
+			)
+
+
+
 			//console.log("here we og!!!!!!!!!!!" , this.state.obsByMeasurement);
 			// for (var key in this.state.obsByMeasurement) {
 			// 	if (this.state.obsByMeasurement.hasOwnProperty(key)) {
