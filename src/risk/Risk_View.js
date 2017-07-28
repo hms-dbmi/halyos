@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../resources/PastGraph.js';
-import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
+import MeasurementCard from './MeasurementCard.js';
+import RelevantConditions from './Relevant_Conditions.js';
 
-import { getValueQuantities, searchByCode } from '../utils/general_utils.js'
+import { getValueQuantities, searchByCode, pullCondition } from '../utils/general_utils.js';
+
+import Slider, { Range } from 'rc-slider';
+// We can just import Slider or Range to reduce bundle size
+// import Slider from 'rc-slider/lib/Slider';
+// import Range from 'rc-slider/lib/Range';
+import 'rc-slider/assets/index.css';
+import Tooltip from 'rc-tooltip';
+
 
 const riskObject = {
         "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
@@ -18,62 +26,199 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {obsByMeasurement:{}, allObs:{}};
 	}
 	
 	componentWillMount(){
 		if (this.props.match.params != null){
 			this.riskName = this.props.match.params.riskName;	
 		}
+		console.log("NAME", this.riskName);
 		
 	}
 	
 	componentWillReceiveProps(nextProps){
-		this.riskName = nextProps.match.params.riskName;
+		this.tempNextRiskData = {};
+		//this.riskName = nextProps.match.params.riskName;
+//		console.log("next props", this.riskName);
 		if (this.props.match.params === null){
 			return;
-			
 		}
-		if (this.props.match.params.riskName !== nextProps.match.params.riskName){
+
+//		console.log("this.riskName now: ", this.riskName);
+//		console.log("nextProps.match.params.riskName", nextProps.match.params.riskName);
+
+
+		if (this.riskName !== nextProps.match.params.riskName){
 			this.riskName = nextProps.match.params.riskName;
 
 			//makes sure to use the already gotten observation data if we have it.
-			if(this.state.obs){
-				this.getObservationByName(this.state.obs)	
+			//console.log("what is happening----------------------------------------", this.state.allObs);
+			if(!this.isEmpty(this.state.allObs)) {
+//				console.log("state.allObs", this.state.allObs);
+				this.setState({obsByMeasurement:{}});
+				this.tempNextRiskData = this.addResultsToObsByMeasurement(this.state.allObs);
+//				console.log("about to get auxiliary");
+				this.getAuxiliaryInfo(this.tempNextRiskData);
+				//this.getObservationByName(this.state.obs)	
 			} 
 			else {
-				nextProps.observations.then(function(value){
-						var codeList = riskObject[this.riskName];
-						var obsObject = {};
-						for(let code of codeList){
-							obsObject[code] = [];
-						}
-
-						searchByCode(value, obsObject);
-						console.log("measurements: ", obsObject)
-						this.setState({obsByMeasurement:obsObject});
-					}.bind(this));
+				nextProps.observations
+					.then(this.setInitialAllObs.bind(this))
+					.then(this.addResultsToObsByMeasurement.bind(this))
+					.then(this.getAuxiliaryInfo.bind(this));
 			}
-
-			
 		}
 	}
 
 	componentDidMount(){
-		this.props.observations.then(function(value){
+		this.props.observations
+			.then(this.setInitialAllObs.bind(this))
+			.then(this.addResultsToObsByMeasurement.bind(this))
+			.then(this.getAuxiliaryInfo.bind(this));
 
-				var codeList = riskObject[this.riskName];
-				var obsObject = {};
-				for(let code of codeList){
-					obsObject[code] = [];
+	}
+
+
+
+	setInitialAllObs(value){
+		this.setState({allObs:value});
+		return value;
+	}
+
+	addResultsToObsByMeasurement(value){
+//		console.log("what is the value: ", value);
+//		console.log("what is the risk name: ", this.riskName);
+		var codeList = riskObject[this.riskName];
+		var obsObject = {};
+		for(let code of codeList){
+			obsObject[code] = [];
+		}
+		searchByCode(value, obsObject);
+
+		this.graphComponentsByMeasurement = {};
+
+		for (var key in obsObject) {
+			if (obsObject.hasOwnProperty(key)) {
+				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
+			}
+		}
+//		console.log("graphComponentsByMeasurement1: ", this.graphComponentsByMeasurement);
+
+		// if(!this.isEmpty(this.state.allObs)){
+		// 	console.log("made it inside the addResultsToObsByMeasurement and if statement:");
+		// 	this.setState({obsByMeasurement:graphComponentsByMeasurement},this.getAuxiliaryInfo());	
+		// 	//this.forceUpdate();
+		// }
+		return this.graphComponentsByMeasurement;
+//		console.log("graphComponentsByMeasurement2: ", this.state.obsByMeasurement);
+
+	}
+
+	getAuxiliaryInfo(intermediateObsByMeasurement){
+//		console.log("intermediateObsByMeasurement", intermediateObsByMeasurement);
+		var test = intermediateObsByMeasurement;
+//		console.log("i guess test: ", test);
+		Object.keys(test).map(function(key){
+			//console.log("this inside a functioN: ", this.state);
+			this.getRefRangeByMeasurement(test[key]);
+			this.getMinAndMaxByMeasurement(test[key]);
+			this.getUnitsByMeasurement(test[key]);
+			this.addDataByMeasurement(test[key]);
+		}, this);
+
+		this.setState({obsByMeasurement:test})
+		
+//		console.log("back in auxiliary state", test);
+				
+				
+	//console.log("this is it yo: ", this.state.obsByMeasurement);
+	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
+
+	}
+
+
+	getMinAndMaxByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+		
+		var minVal = Number.POSITIVE_INFINITY;
+		var maxVal = Number.NEGATIVE_INFINITY;
+
+		for (let result of resultList){			
+			if(maxVal < result.value){
+				maxVal = result.value;
+			}
+			if (minVal > result.value){
+				minVal = result.value;
+			}
+		}
+			
+		codeObjectTemp['min'] = (minVal === Number.POSITIVE_INFINITY) ? null : minVal;
+		codeObjectTemp['max'] = (maxVal === Number.NEGATIVE_INFINITY) ? null : maxVal;
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
+		//this.setState({obsByMeasurement:tempObj});
+	}
+
+	//gets the reference ranges for each code if there are any and add them to the state, if not add []
+	getRefRangeByMeasurement(codeObject){
+
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+		
+		for (let result of resultList){			
+			if(result.refRanges !== undefined){
+				for(let refRange of result.refRanges){
+					if ((!refRange.type) || (refRange.type.coding[0].code === "normal")) {
+						codeObjectTemp['refRange'] = [refRange.low.value, refRange.high.value];
+						return;
+					}
+				} 
+			}
+		}
+			
+		codeObjectTemp['refRange'] = [];			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		//this.setState({obsByMeasurement:tempObj});
+	}
+	
+	getUnitsByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+
+		for (let result of resultList){
+			if(result.unit){
+				codeObjectTemp['units'] = result.unit;
+				return;
+			}
+		}
+
+		codeObjectTemp['units'] = null;			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		//this.setState({obsByMeasurement:tempObj});
+	}
+
+	addDataByMeasurement(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+
+		var dataTempObj = [];
+		for (let result of resultList){
+				var tmpDate = Date.parse(result.date);
+				//sometimes the date doesn't get parsed right :(
+				if (!isNaN(tmpDate)){
+					dataTempObj.push({x:tmpDate,y:result.value});	
 				}
+				
+		}
 
-				searchByCode(value, obsObject);
-				console.log()
-				console.log("measurements: ", obsObject)
-				this.setState({obsByMeasurement:obsObject});
-			}.bind(this));
-
+		codeObjectTemp['data'] = dataTempObj;			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		//this.setState({obsByMeasurement:tempObj});
 	}
 
 /**
@@ -146,42 +291,45 @@ class RiskView extends Component {
 		}
   }
 */
+
+	isEmpty(obj) {
+	    for(var key in obj) {
+	        if(obj.hasOwnProperty(key))
+	            return false;
+	    }
+	    return true;
+	}
+
 	render(){
-		// if(this.state.measurementList.length > 0){
-	
-		// 	this.FUTURE_MONTH_ADDITION = 6;
-		// 	var lastMeasurementDate = this.state.measurementList[0].x;
-		// 	var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
-		// 	var lastDataPoint = this.state.measurementList[0].y;
 
-		// 	var dateList = [];
-		// 	for (let item of this.state.measurementList){
-		// 		dateList.push(item.x);
-		// 	}
-
-		// 	dateList.sort();
-		// 	var firstDate = dateList[0].getFullYear();
-		// 	var lastDate = dateList[dateList.length-1].getFullYear();
-
-		//   	console.log("this is reference: ", this.referenceRange);
-		// 	return (
-		// 	<div>			
-		// 		<PastToFutureGraph 
-		// 			obs_data={this.state.measurementList} 
-		// 			units={this.state.units} 
-		// 			futureMeasurementDate={futureMeasurementDate} 
-		// 			lastDataPoint={lastDataPoint}
-		// 			yMax={this.MAX_VAL}
-		// 			yMin={this.MIN_VAL}
-		// 			firstYear={firstDate}
-		// 			lastYear={lastDate}
-		// 			refRange={this.referenceRange}
-
-		// 		 />
-
-		// 	</div>
-		// 	)		
-		// }
+		//console.log('render');
+		if(!this.isEmpty(this.state.obsByMeasurement)){
+			return (
+				<div>
+					{
+						Object.keys(this.state.obsByMeasurement).map(function(key){
+							console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
+							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) || 
+											(this.state.obsByMeasurement[key].data.length == 0);
+							//console.log(".data", this.state.obsByMeasurement[key].data);
+							//console.log("isEmpty:", hasNoData);
+							if(!hasNoData){
+								return <MeasurementCard key={key}
+									data={this.state.obsByMeasurement[key].data}
+									units={this.state.obsByMeasurement[key].units}
+									name={this.state.obsByMeasurement[key].code}
+									/>	
+							} else {
+								return
+							}
+							
+					}, this)
+				}
+				<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
+				</div>
+			)
+		
+		}
 
 		return <div>Loading...</div>
 		
