@@ -46,6 +46,7 @@ const Context_FHIR_Client = FHIR.client({
 //     </nav>
 //   </header>
 // )
+console.log("firs tthing: ", window.FHIR);
 
 const App = () => (
     <div>
@@ -59,6 +60,4 @@ ReactDOM.render((
   	    <App />
     </BrowserRouter>
 ), document.getElementById('root'));
-
-registerServiceWorker();
 

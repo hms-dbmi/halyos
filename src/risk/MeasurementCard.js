@@ -67,7 +67,7 @@ class MeasurementCard extends Component {
 			<div className="panel panel-default container-fluid">
 				<div className="row">
 					<div className="col-sm-1">
-						<h1>{this.props.name}</h1>
+						<h1>{this.props.title}</h1>
 					</div>
 					<div className="col-sm-5">
 						<PastGraph 
