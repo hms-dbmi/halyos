@@ -15,10 +15,6 @@ class PastGraph extends Component {
 		//this.setState({selectedDomain: {x: [2, 4]}})
 	}
 
-	handleZoom(domain) {
-    	this.setState({selectedDomain: domain});
-  	}
-
   	handleBrush(domain) {
     	this.setState({zoomDomain: domain});
   	}
@@ -34,10 +30,9 @@ return (
       <div>
           <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
             containerComponent={
-              <VictoryZoomVoronoiContainer responsive={false} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
+              <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
                 dimension="x"
                 zoomDomain={this.state.zoomDomain}
-                onDomainChange={this.handleZoom.bind(this)}
               />
             }
           >
@@ -50,7 +45,7 @@ return (
             }}
            />
 
-        <VictoryLine data={this.props.obs_data}
+        <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
               style={{
                 data: {stroke: "tomato"}
               }}
@@ -60,12 +55,12 @@ return (
           </VictoryChart>
 
           <VictoryChart
-            padding={{top: 0, left: 50, right: 50, bottom: 30}}
+            padding={{top: 0, left: 50, right: 50, bottom: 30}} 
             width={this.props.viewWidth} height={this.props.viewHeight}  scale={{x: "time"}} 
             containerComponent={
               <VictoryBrushContainer responsive={false}
                 dimension="x"
-                selectedDomain={this.state.selectedDomain}
+                selectedDomain={{x: [new Date(2009, 1, 1), new Date(2012, 1, 1)]}}
                 onDomainChange={this.handleBrush.bind(this)}
               />
             }

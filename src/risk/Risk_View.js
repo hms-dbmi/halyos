@@ -14,6 +14,13 @@ import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
 
+import {calculateReynolds} from '../RiskCalculators/reynolds.js';
+import {calcCHADScore} from '../RiskCalculators/CHAD.js';
+import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
+import {calcCOPD} from '../RiskCalculators/COPD.js';
+import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
+
+
 const riskObject = {
     "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
     "Stroke": [],
@@ -23,11 +30,11 @@ const riskObject = {
     };
 
 const riskDisplay = {
-	"General_Cardiac": "Cardiac Risk Score",
-    "Stroke": "Stroke CHAD Score",
-    "Kidney_Failure": "Kidney Failure KFR Risk Score",
-    "COPD_Mortality": "COPD Mortality Risk",
-    "Diabetes": "Diabetes Risk"
+	"General_Cardiac": ["Cardiac Risk Score",calculateReynolds],
+    "Stroke": ["Stroke CHAD Score",calcCHADScore],
+    "Kidney_Failure": ["Kidney Failure KFR Risk Score",calcKFRisk],
+    "COPD_Mortality": ["COPD Mortality Risk",calcCOPD],
+    "Diabetes": ["Diabetes Risk",calcDiabetesRisk],
 
 }
 
@@ -35,7 +42,7 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {obsByMeasurement:{}, allObs:{}};
+		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null};
 	}
 	
 	componentWillMount(){
@@ -92,6 +99,7 @@ class RiskView extends Component {
 
 	setInitialAllObs(value){
 		this.setState({allObs:value});
+		this.setState({riskCalculator: riskDisplay[this.riskName][1]})
 		return value;
 	}
 
@@ -156,6 +164,7 @@ class RiskView extends Component {
 		for (let result of resultList){			
 			if(result.text !== undefined){
 				codeObjectTemp['name'] = result.text;
+				this.riskScoreName = result.text;
 				return;
 			}
 		}
@@ -328,10 +337,24 @@ class RiskView extends Component {
 
 	render(){
 
+		
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
+			console.log("here we:", this.state.riskCalculator);
+			var recentMeasurements = this.state.riskCalculator()
 			return (
-				<div>
+				<div className="container-fluid">
+					<div className="col-sm-12">
+						<h1>{this.riskScoreName}</h1>
+					</div>
+					<div className="row">
+						<div className="col-sm-8">
+
+						</div>
+						<div className="col-sm-4">
+						</div>
+					</div>
+					
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
 							console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
@@ -340,12 +363,12 @@ class RiskView extends Component {
 							//console.log(".data", this.state.obsByMeasurement[key].data);
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
-								return <MeasurementCard key={key}
+								return <div className="col-sm-12"><MeasurementCard key={key}
 									title={this.state.obsByMeasurement[key].name}
 									data={this.state.obsByMeasurement[key].data}
 									units={this.state.obsByMeasurement[key].units}
 									name={this.state.obsByMeasurement[key].code}
-									/>	
+									/>	</div>
 							} else {
 								return
 							}
