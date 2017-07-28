@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import MeasurementCard from './MeasurementCard.js';
+import RelevantConditions from './Relevant_Conditions.js';
 
-import { getValueQuantities, searchByCode } from '../utils/general_utils.js';
+import { getValueQuantities, searchByCode, pullCondition } from '../utils/general_utils.js';
 
 import Slider, { Range } from 'rc-slider';
 // We can just import Slider or Range to reduce bundle size
@@ -32,6 +33,7 @@ class RiskView extends Component {
 		if (this.props.match.params != null){
 			this.riskName = this.props.match.params.riskName;	
 		}
+		console.log("NAME", this.riskName);
 		
 	}
 	
@@ -134,6 +136,7 @@ class RiskView extends Component {
 	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
 
 	}
+
 
 	getMinAndMaxByMeasurement(codeObject){
 		var resultList = codeObject.results;
@@ -299,7 +302,6 @@ class RiskView extends Component {
 
 	render(){
 
-		
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
 			return (
@@ -322,7 +324,8 @@ class RiskView extends Component {
 							}
 							
 					}, this)
-				}		
+				}
+				<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 				</div>
 			)
 		

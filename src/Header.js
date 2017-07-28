@@ -57,15 +57,15 @@ class Header extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavDropdown eventKey={3} title="Measurements" id="basic-nav-dropdown">
+              <NavDropdown key={3} title="Measurements" id="basic-nav-dropdown">
                 <LinkContainer to="/"><MenuItem key={3.1}>Loading...</MenuItem></LinkContainer>
               </NavDropdown>
-              <NavDropdown key={3} title="Risk Scores" id="basic-nav-dropdown">
-                <MenuItem key={3.1}>Cardiavascular Disease</MenuItem>
-                <MenuItem key={3.2}>Stroke</MenuItem>
-                <MenuItem key={3.3}>Kidney Failure</MenuItem>
-                <MenuItem key={3.4}>COPD</MenuItem>
-                <MenuItem key={3.5}>Diabetes</MenuItem>
+              <NavDropdown key={4} title="Risk Scores" id="basic-nav-dropdown">
+                <MenuItem key={4.2}>Cardiavascular Disease</MenuItem>
+                <MenuItem key={4.3}>Stroke</MenuItem>
+                <MenuItem key={4.4}>Kidney Failure</MenuItem>
+                <MenuItem key={4.5}>COPD</MenuItem>
+                <MenuItem key={4.6}>Diabetes</MenuItem>
               </NavDropdown>
 
             </Nav>
@@ -83,22 +83,22 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavDropdown eventKey={3} title="Measurements" id="basic-nav-dropdown">
+            <NavDropdown key={5} title="Measurements" id="basic-nav-dropdown">
               { 
                 this.state.observations.map(function(obs){
                   var link = "/measure/" + obs.code;
-                  return <LinkContainer to={link}><MenuItem key={obs.code}>{obs.display}</MenuItem></LinkContainer>  
+                  console.log("obsCOde:", obs.code);
+                  return <LinkContainer key={obs.code.toString()} to={link}><MenuItem key={obs.code.toString()}>{obs.display}</MenuItem></LinkContainer>  
                 })  
               }
             </NavDropdown>
-            <NavDropdown eventKey={3} title="Risk Scores" id="basic-nav-dropdown">
-              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem key={3.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
-              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem key={3.1}>Kidney Failure</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem key={3.1}>COPD</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Stroke'}><MenuItem key={3.1}>Stroke</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Diabetes'}><MenuItem key={3.1}>Diabetes</MenuItem></LinkContainer>
+            <NavDropdown key={6} title="Risk Scores" id="basic-nav-dropdown">
+              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem key={6.1}>Cardiavascular Disease</MenuItem></LinkContainer>  
+              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem key={6.2}>Kidney Failure</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem key={6.4}>COPD</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Stroke'}><MenuItem key={6.5}>Stroke</MenuItem></LinkContainer>
+              <LinkContainer to={'/risk/Diabetes'}><MenuItem key={6.6}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
-
           </Nav>
         </Navbar.Collapse>
       </Navbar>
