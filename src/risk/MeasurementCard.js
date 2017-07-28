@@ -62,12 +62,12 @@ class MeasurementCard extends Component {
 		  },
 		};
 
-		console.log("this is the dataa?", this.props.data);
+		//console.log("this is the dataa?", this.props.data);
 		return (
 			<div className="panel panel-default container-fluid">
 				<div className="row">
 					<div className="col-sm-1">
-						<h1>BP</h1>
+						<h1>{this.props.name}</h1>
 					</div>
 					<div className="col-sm-5">
 						<PastGraph 

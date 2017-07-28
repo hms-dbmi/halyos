@@ -25,7 +25,7 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {obsByMeasurement:{}};
+		this.state = {obsByMeasurement:{}, allObs:{}};
 	}
 	
 	componentWillMount(){
@@ -36,54 +36,57 @@ class RiskView extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps){
-		this.riskName = nextProps.match.params.riskName;
+		this.tempNextRiskData = {};
+		//this.riskName = nextProps.match.params.riskName;
+//		console.log("next props", this.riskName);
 		if (this.props.match.params === null){
 			return;
-			
 		}
-		if (this.props.match.params.riskName !== nextProps.match.params.riskName){
+
+//		console.log("this.riskName now: ", this.riskName);
+//		console.log("nextProps.match.params.riskName", nextProps.match.params.riskName);
+
+
+		if (this.riskName !== nextProps.match.params.riskName){
 			this.riskName = nextProps.match.params.riskName;
 
 			//makes sure to use the already gotten observation data if we have it.
-			if(this.state.obs){
-				this.getObservationByName(this.state.obs)	
+			//console.log("what is happening----------------------------------------", this.state.allObs);
+			if(!this.isEmpty(this.state.allObs)) {
+//				console.log("state.allObs", this.state.allObs);
+				this.setState({obsByMeasurement:{}});
+				this.tempNextRiskData = this.addResultsToObsByMeasurement(this.state.allObs);
+//				console.log("about to get auxiliary");
+				this.getAuxiliaryInfo(this.tempNextRiskData);
+				//this.getObservationByName(this.state.obs)	
 			} 
 			else {
 				nextProps.observations
+					.then(this.setInitialAllObs.bind(this))
 					.then(this.addResultsToObsByMeasurement.bind(this))
 					.then(this.getAuxiliaryInfo.bind(this));
-			}			
+			}
 		}
 	}
 
 	componentDidMount(){
 		this.props.observations
+			.then(this.setInitialAllObs.bind(this))
 			.then(this.addResultsToObsByMeasurement.bind(this))
 			.then(this.getAuxiliaryInfo.bind(this));
 
 	}
 
-	getAuxiliaryInfo(){
-		var test = this.state.obsByMeasurement;	
 
-		Object.keys(test).map(function(key){
-			//console.log("this inside a functioN: ", this.state);
-			this.getRefRangeByMeasurement(test[key]);
-			this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
-			this.getUnitsByMeasurement(this.state.obsByMeasurement[key]);
-			this.addDataByMeasurement(this.state.obsByMeasurement[key]);
-		}, this);
 
-		
-		console.log("back in auxiliary state", this.state.obsByMeasurement);
-				
-				
-	//console.log("this is it yo: ", this.state.obsByMeasurement);
-	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
-
+	setInitialAllObs(value){
+		this.setState({allObs:value});
+		return value;
 	}
 
 	addResultsToObsByMeasurement(value){
+//		console.log("what is the value: ", value);
+//		console.log("what is the risk name: ", this.riskName);
 		var codeList = riskObject[this.riskName];
 		var obsObject = {};
 		for(let code of codeList){
@@ -91,15 +94,45 @@ class RiskView extends Component {
 		}
 		searchByCode(value, obsObject);
 
-		var graphComponentsByMeasurement = {};
+		this.graphComponentsByMeasurement = {};
 
 		for (var key in obsObject) {
 			if (obsObject.hasOwnProperty(key)) {
-				graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
+				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
 			}
 		}
-		console.log("graphComponentsByMeasurement: ", graphComponentsByMeasurement)
-		this.setState({obsByMeasurement:graphComponentsByMeasurement});
+//		console.log("graphComponentsByMeasurement1: ", this.graphComponentsByMeasurement);
+
+		// if(!this.isEmpty(this.state.allObs)){
+		// 	console.log("made it inside the addResultsToObsByMeasurement and if statement:");
+		// 	this.setState({obsByMeasurement:graphComponentsByMeasurement},this.getAuxiliaryInfo());	
+		// 	//this.forceUpdate();
+		// }
+		return this.graphComponentsByMeasurement;
+//		console.log("graphComponentsByMeasurement2: ", this.state.obsByMeasurement);
+
+	}
+
+	getAuxiliaryInfo(intermediateObsByMeasurement){
+//		console.log("intermediateObsByMeasurement", intermediateObsByMeasurement);
+		var test = intermediateObsByMeasurement;
+//		console.log("i guess test: ", test);
+		Object.keys(test).map(function(key){
+			//console.log("this inside a functioN: ", this.state);
+			this.getRefRangeByMeasurement(test[key]);
+			this.getMinAndMaxByMeasurement(test[key]);
+			this.getUnitsByMeasurement(test[key]);
+			this.addDataByMeasurement(test[key]);
+		}, this);
+
+		this.setState({obsByMeasurement:test})
+		
+//		console.log("back in auxiliary state", test);
+				
+				
+	//console.log("this is it yo: ", this.state.obsByMeasurement);
+	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
+
 	}
 
 	getMinAndMaxByMeasurement(codeObject){
@@ -122,7 +155,7 @@ class RiskView extends Component {
 		codeObjectTemp['min'] = (minVal === Number.POSITIVE_INFINITY) ? null : minVal;
 		codeObjectTemp['max'] = (maxVal === Number.NEGATIVE_INFINITY) ? null : maxVal;
 		tempObj[codeObjectTemp.code] = codeObjectTemp;
-		this.setState({obsByMeasurement:tempObj});
+		//this.setState({obsByMeasurement:tempObj});
 	}
 
 	//gets the reference ranges for each code if there are any and add them to the state, if not add []
@@ -145,7 +178,7 @@ class RiskView extends Component {
 			
 		codeObjectTemp['refRange'] = [];			
 		tempObj[codeObjectTemp.code] = codeObjectTemp;				
-		this.setState({obsByMeasurement:tempObj});
+		//this.setState({obsByMeasurement:tempObj});
 	}
 	
 	getUnitsByMeasurement(codeObject){
@@ -162,7 +195,7 @@ class RiskView extends Component {
 
 		codeObjectTemp['units'] = null;			
 		tempObj[codeObjectTemp.code] = codeObjectTemp;				
-		this.setState({obsByMeasurement:tempObj});
+		//this.setState({obsByMeasurement:tempObj});
 	}
 
 	addDataByMeasurement(codeObject){
@@ -178,7 +211,7 @@ class RiskView extends Component {
 
 		codeObjectTemp['data'] = dataTempObj;			
 		tempObj[codeObjectTemp.code] = codeObjectTemp;				
-		this.setState({obsByMeasurement:tempObj});
+		//this.setState({obsByMeasurement:tempObj});
 	}
 
 /**
@@ -263,18 +296,25 @@ class RiskView extends Component {
 	render(){
 
 		
-		console.log('render');
+		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
-
-
 			return (
 				<div>
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
-						return <MeasurementCard key={key}
-							data={this.state.obsByMeasurement[key].data}
-							units={this.state.obsByMeasurement[key].units}
-						/>						
+							var hasNoData = this.state.obsByMeasurement[key].data === undefined;
+							//console.log(".data", this.state.obsByMeasurement[key].data);
+							//console.log("isEmpty:", hasNoData);
+							if(!hasNoData){
+								return <MeasurementCard key={key}
+									data={this.state.obsByMeasurement[key].data}
+									units={this.state.obsByMeasurement[key].units}
+									name={this.state.obsByMeasurement[key].code}
+									/>	
+							} else {
+								return
+							}
+							
 					}, this)
 				}		
 				</div>
