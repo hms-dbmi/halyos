@@ -13,13 +13,13 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
+import { RiskTile, ReynoldsScore, CHADScore, KFScore, Diabetes, COPD } from '../profile/Profile_View.js';
 
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';
 import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
 import {calcCOPD} from '../RiskCalculators/COPD.js';
 import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
-
 
 const riskObject = {
     "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
@@ -337,7 +337,20 @@ class RiskView extends Component {
 
 	render(){
 
-		
+		var riskTile;
+
+		if(this.riskName == "General_Cardiac")
+			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+		else if(this.riskName == "COPD_Mortality")
+			riskTile = <RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+		else if(this.riskName == "Stroke")
+			riskTile = <RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+		else if(this.riskName == "Kidney_Failure")
+			riskTile = <RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+		else if(this.riskName == "Diabetes")
+			riskTile = <RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+
+
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
 			console.log("here we:", this.state.riskCalculator);
@@ -349,9 +362,11 @@ class RiskView extends Component {
 					</div>
 					<div className="row">
 						<div className="col-sm-8">
-
+							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 						</div>
 						<div className="col-sm-4">
+							<div>{React.cloneElement(riskTile,{status:"Past"})}</div>
+							<div>{React.cloneElement(riskTile,{status:"Current"})}</div>
 						</div>
 					</div>
 					
@@ -375,7 +390,7 @@ class RiskView extends Component {
 							
 					}, this)
 				}
-				<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
+				
 				</div>
 			)
 		
@@ -385,6 +400,50 @@ class RiskView extends Component {
 		
 	}
 
+}
+
+
+/** This is a better version of the risk score tile in Profile_View. Refactor the code so that you don't have two tiles for one thing
+	given a list of measurements by code (object) and a risk score function, this tile will display a risk score
+	the risk score function is any of the ones in the RiskCalculator folder
+	its not done yet though!!!!!! check issue https://github.com/hms-dbmi/fhir-ignite/issues/29
+
+*/
+class RiskScoreTile extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			score: "..."
+		};
+	}
+	componentDidMount() {
+		for (let code of Object.keys(this.props.measurements)) {
+			if(this.props.measurements.hasOwnProperty(code)) {
+				if(this.props.measurements[code].length == 0) {
+					alert("Patient does not have adequate measurements for Reynolds Risk Score.");
+					return;
+				}
+			}
+		}
+		var score = this.props.riskCalc(this.props.measurements);
+		this.setState({score:score, sym:"%"});
+	
+	}
+
+	render() {
+		var opacity = this.state.score/100;
+		return (
+			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
+				<g>
+					<g>
+		    			<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+						<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+					</g>
+				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
+				</g>
+			</svg>
+		);
+	}
 }
 
 export default RiskView;

@@ -358,9 +358,10 @@ export class RiskTile extends Component {
 		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
-				    {this.props.children}
+				    
 				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
-
+				    <text x="50%" y="80%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.status}</text>  
+				    {this.props.children}
 			    </g>
 			</svg>
 		);
