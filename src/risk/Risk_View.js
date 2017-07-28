@@ -13,7 +13,7 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
-import { RiskTile, ReynoldsScore, CHADScore, KFScore, Diabetes, COPD } from '../profile/Profile_View.js';
+import { RiskTile, ReynoldsScore, CHADScore, KFScore, Diabetes, COPD } from '../RiskCalculators/Risk_Components.js';
 
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';

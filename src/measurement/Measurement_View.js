@@ -6,7 +6,7 @@ import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../utils/general_utils.js';
 
-import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../profile/Profile_View.js';
+import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../RiskCalculators/Risk_Components.js';
 import text from './Measurement_Text.js';
 
 class MeasurementView extends Component {
@@ -161,7 +161,10 @@ class MeasurementView extends Component {
 				<div>
 					<div className="row">
 						<div className="col-md-6">	
-							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+							<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
+							mainHeight={200}
+							viewWidth={500}
+							viewHeight={50}/>
 							<text style={{fontSize: "20", fontFamily: "HiraKakuStd-W8, Hiragino Kaku Gothic Std"}}>
 								Risk Scores Affected By This Measurement
 							</text>
@@ -220,6 +223,24 @@ class MeasurementText extends Component {
 			meaning: text['text'][this.props.measurementCode].meaning,
 			important: text['text'][this.props.measurementCode].important,
 			improve: text['text'][this.props.measurementCode].improve
+			});
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log("HIYA!", this.props);
+		if(text['text'][nextProps.measurementCode]) {
+			this.setState({
+			meaning: text['text'][nextProps.measurementCode].meaning,
+			important: text['text'][nextProps.measurementCode].important,
+			improve: text['text'][nextProps.measurementCode].improve
+			});
+		}
+		else {
+			this.setState({
+				meaning: "No data available. Please consult your doctor.",
+				important: "No data available. Please consult your doctor.",
+				improvec: "No data available. Please consult your doctor."
 			});
 		}
 	}
