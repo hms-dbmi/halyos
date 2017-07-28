@@ -161,8 +161,7 @@ class MeasurementView extends Component {
 				<div>
 					<div className="row">
 						<div className="col-md-6">	
-							<PastGraph obs_data={this.state.measurementList} units={this.state.units} 
-							mainWidth={500}
+							<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
 							mainHeight={200}
 							viewWidth={500}
 							viewHeight={50}/>
