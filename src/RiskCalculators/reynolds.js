@@ -1,3 +1,20 @@
+/**
+  
+    Cardiac Reynolds Risk Score
+    
+    @param {int} age - the age of the patient (patient resource)
+    @param {int} sysbp - systolic BP (observation resource)
+    @param {int} hsCRP - C-Reactive Protein (observation resource)
+    @param {int} chol - total cholesterol the patient (observation resource)
+    @param {int} hdl - high density lipprotein cholesterol (HDL) the patient (observation resource)
+    @param {boolean} smoker - sex of the patient (user input) 
+    @param {boolean} famHist - sex of the patient (user input)
+    @param {string} gender - sex of the patient (patient resource)
+    
+    @return cardiac risk score
+
+*/
+
 const $ = window.$;
 const _ = window._;
 

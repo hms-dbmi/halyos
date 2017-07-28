@@ -6,7 +6,7 @@
     @param {string} gender - sex of the patient (patient resource)
     @param {int} bmi - body mass index (condition resource)
     @param {boolean} hyperglycemia - condition records of hyperglycemia (condition resource)
-    @param {list} historyOfAntihypDrugs - history of antihypertensive drugs (??? resource) //currently hardcoded
+    @param {boolean} historyOfAntihypDrugs - history of antihypertensive drugs (??? resource) //currently hardcoded
     @param {int} waist - waist circumference (condition resource)
 
     @return diabetes risk score

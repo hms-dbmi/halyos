@@ -4,10 +4,10 @@
 
     @param {int} age - the age of the patient (patient resource)
     @param {list} confusion - condition records of confusion (condition resource)
-    @param {list} bun - blood urea nitrogen levels (observation resource)
-    @param {list} rr - respiratory rate (observation resource)
-    @param {list} sysbp - systolic BP (observation resource)
-    @param {list} diasbp - diastolic BP (observation resource)
+    @param {int} bun - blood urea nitrogen levels (observation resource)
+    @param {int} rr - respiratory rate (observation resource)
+    @param {int} sysbp - systolic BP (observation resource)
+    @param {int} diasbp - diastolic BP (observation resource)
 
     @return COPD Mortality risk score
 
