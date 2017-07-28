@@ -15,12 +15,21 @@ import Tooltip from 'rc-tooltip';
 
 
 const riskObject = {
-        "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
-        "Stroke": [],
-        "Kidney_Failure": ["48643-1", "48642-3", "33914-3","14958-3", "14959-1"],
-        "COPD_Mortality": ["8480-6", "8462-4","6299-2","9279-1"],
-        "Diabetes": ["56115-9", "56114-2", "56117-5", "8280-0", "8281-8","39156-5"]
+    "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
+    "Stroke": [],
+    "Kidney_Failure": ["48643-1", "48642-3", "33914-3","14958-3", "14959-1"],
+    "COPD_Mortality": ["8480-6", "8462-4","6299-2","9279-1"],
+    "Diabetes": ["56115-9", "56114-2", "56117-5", "8280-0", "8281-8","39156-5"]
     };
+
+const riskDisplay = {
+	"General_Cardiac": "Cardiac Risk Score",
+    "Stroke": "Stroke CHAD Score",
+    "Kidney_Failure": "Kidney Failure KFR Risk Score",
+    "COPD_Mortality": "COPD Mortality Risk",
+    "Diabetes": "Diabetes Risk"
+
+}
 
 class RiskView extends Component {
 
@@ -100,6 +109,7 @@ class RiskView extends Component {
 
 		for (var key in obsObject) {
 			if (obsObject.hasOwnProperty(key)) {
+				console.log("herei n the obsObject, ",obsObject);
 				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
 			}
 		}
@@ -121,6 +131,7 @@ class RiskView extends Component {
 //		console.log("i guess test: ", test);
 		Object.keys(test).map(function(key){
 			//console.log("this inside a functioN: ", this.state);
+			this.getName(test[key]);
 			this.getRefRangeByMeasurement(test[key]);
 			this.getMinAndMaxByMeasurement(test[key]);
 			this.getUnitsByMeasurement(test[key]);
@@ -137,6 +148,21 @@ class RiskView extends Component {
 
 	}
 
+	getName(codeObject){
+		var resultList = codeObject.results;
+		var tempObj = this.state.obsByMeasurement;
+		var codeObjectTemp = codeObject;
+		
+		for (let result of resultList){			
+			if(result.text !== undefined){
+				codeObjectTemp['name'] = result.text;
+				return;
+			}
+		}
+			
+		codeObjectTemp['name'] = [];			
+		tempObj[codeObjectTemp.code] = codeObjectTemp;	
+	}
 
 	getMinAndMaxByMeasurement(codeObject){
 		var resultList = codeObject.results;
@@ -315,6 +341,7 @@ class RiskView extends Component {
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
 								return <MeasurementCard key={key}
+									title={this.state.obsByMeasurement[key].name}
 									data={this.state.obsByMeasurement[key].data}
 									units={this.state.obsByMeasurement[key].units}
 									name={this.state.obsByMeasurement[key].code}
