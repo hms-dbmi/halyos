@@ -6,7 +6,7 @@ import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../utils/general_utils.js';
 
-import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../profile/Profile_View.js';
+import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../RiskCalculators/Risk_Components.js';
 import text from './Measurement_Text.js';
 
 class MeasurementView extends Component {
