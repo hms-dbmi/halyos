@@ -13,14 +13,13 @@ class MeasurementView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {measurementList:[], units:"", max:'', min:'', name: ''};
+		this.state = {measurementList:[], units:"", max:'', min:'', name: '', allObs:{}};
 	}
 	
 	componentWillMount(){
 		if (this.props.match.params != null){
 			this.measureId = this.props.match.params.measureId;	
-		}
-		
+		}	
 	}
 	
 	componentWillReceiveProps(nextProps){
@@ -33,17 +32,50 @@ class MeasurementView extends Component {
 			this.measureId = nextProps.match.params.measureId;
 			this.setState({measurementList:[]});
 			this.setState({units:"",max:'',min:''});
-			nextProps.observations.then(this.getObservationByName.bind(this));
+			if (this.isEmpty(this.state.allObs)){
+				nextProps.observations.then(this.getObservationByName.bind(this));
+				console.log("its empty! should only happen once :(");
+			} 
+			else {
+				this.getObservationByName(this.state.allObs);
+				console.log("its not! use the same shit");
+			}
+			
 
 		}
 	}
 
 	componentDidMount(){
-		this.props.observations.then(this.getObservationByName.bind(this));
+		if (this.isEmpty(this.state.allObs)){
+			this.props.observations.then(this.getObservationByName.bind(this));	
+			console.log("its empty! should only happen once :(");
 
+		} 
+		else {
+			this.getObservationByName(this.state.allObs);
+			console.log("its not! use the same shit");
+
+		}
+	}
+
+	setInitialAllObs(value){
+		this.setState({allObs:value});
+		return value;
+	}
+
+	isEmpty(obj) {
+	    for(var key in obj) {
+	        if(obj.hasOwnProperty(key))
+	            return false;
+	    }
+	    return true;
 	}
 
 	getObservationByName(value){
+
+		if(this.isEmpty(this.state.allObs)){
+			this.setInitialAllObs(value);
+		}
 		// valueQuantity, valueCodeableConcept, valueString, valueBoolean, valueRange, valueRatio, valueSampledData, valueAttachment, valueTime, valueDateTime, or valuePeriod
 		// These are all the things that it could be instead of valueQuantity, why. I don't understand why. But maybe this is the error you're getting, eventually need to do a regex search
 		this.MAX_VAL = Number.NEGATIVE_INFINITY;
@@ -104,7 +136,7 @@ class MeasurementView extends Component {
 			}
 			}.bind(this));
 		}
-
+		return 
 	}
 
 	render(){
