@@ -17,7 +17,7 @@ class MeasurementCard extends Component {
 	}
 	
 	componentWillMount(){
-		
+		console.log("in measurement card: ", this.props.data);
 	}
 	
 	componentWillReceiveProps(nextProps){

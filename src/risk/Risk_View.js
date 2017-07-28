@@ -206,7 +206,11 @@ class RiskView extends Component {
 		var dataTempObj = [];
 		for (let result of resultList){
 				var tmpDate = Date.parse(result.date);
-				dataTempObj.push({x:tmpDate,y:result.value})	
+				//sometimes the date doesn't get parsed right :(
+				if (!isNaN(tmpDate)){
+					dataTempObj.push({x:tmpDate,y:result.value});	
+				}
+				
 		}
 
 		codeObjectTemp['data'] = dataTempObj;			
@@ -302,7 +306,9 @@ class RiskView extends Component {
 				<div>
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
-							var hasNoData = this.state.obsByMeasurement[key].data === undefined;
+							console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
+							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) || 
+											(this.state.obsByMeasurement[key].data.length == 0);
 							//console.log(".data", this.state.obsByMeasurement[key].data);
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
@@ -319,51 +325,7 @@ class RiskView extends Component {
 				}		
 				</div>
 			)
-
-
-
-			//console.log("here we og!!!!!!!!!!!" , this.state.obsByMeasurement);
-			// for (var key in this.state.obsByMeasurement) {
-			// 	if (this.state.obsByMeasurement.hasOwnProperty(key)) {
-			// 		this.getRefRangeByMeasurement(this.state.obsByMeasurement[key]);
-			// 		console.log("this is it yo: ", this.state.obsByMeasurement);
-			// 		this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
-					
-			// 	}
-			// }
-
-			// this.FUTURE_MONTH_ADDITION = 6;
-			// var lastMeasurementDate = this.state.measurementList[0].x;
-			// var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
-			// var lastDataPoint = this.state.measurementList[0].y;
-
-			// var dateList = [];
-			// for (let item of this.state.measurementList){
-			// 	dateList.push(item.x);
-			// }
-
-			// dateList.sort();
-			// var firstDate = dateList[0].getFullYear();
-			// var lastDate = dateList[dateList.length-1].getFullYear();
-
-		 //  	console.log("this is reference: ", this.referenceRange);
-			// return (
-			// <div>			
-			// 	<PastToFutureGraph 
-			// 		obs_data={this.state.measurementList} 
-			// 		units={this.state.units} 
-			// 		futureMeasurementDate={futureMeasurementDate} 
-			// 		lastDataPoint={lastDataPoint}
-			// 		yMax={this.MAX_VAL}
-			// 		yMin={this.MIN_VAL}
-			// 		firstYear={firstDate}
-			// 		lastYear={lastDate}
-			// 		refRange={this.referenceRange}
-
-			// 	 />
-
-			// </div>
-			// )		
+		
 		}
 
 		return <div>Loading...</div>
