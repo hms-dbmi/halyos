@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Scale from '../logos/scale';
 import BP from '../logos/bp';
+import Cholesterol from '../logos/chol';
+import Glucose from '../logos/glucose';
 import $ from 'jquery'; 
 import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
 import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
@@ -27,38 +29,36 @@ class ProfileView extends Component {
 					<div className = "col-sm-6">
 						<div className="row">
 							<div className="col-sm-12">
-								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/>
+								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/><br/>
 							</div>
-								<div className="row">
-									<div className="col-sm-6">
-										<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
-									</div>
-									<div className="col-sm-6">
-										<VitalTile code='2085-9' observations={this.props.observations}><Scale/></VitalTile>
-									</div>
+								<div className="col-sm-6">
+									<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
 								</div>
-								<div className="row">
-									<div className="col-sm-6">
-										<VitalTile code='8480-6' observations={this.props.observations}><Scale/></VitalTile>
-									</div>
-									<div className="col-sm-6">
-										<VitalTile code='18262-6' observations={this.props.observations}><Scale/></VitalTile>
-									</div>
+								<div className="col-sm-6">
+									<VitalTile code='2085-9' observations={this.props.observations}><Cholesterol/></VitalTile>
 								</div>
-								<div className="row">
-									<div className="col-sm-6">
-										<VitalTile code='8462-4' observations={this.props.observations}><Scale/></VitalTile>
-									</div>
-									<div className="col-sm-6">
-										<VitalTile code='2339-0' observations={this.props.observations}><Scale/></VitalTile>
-									</div> 
+							</div>
+							<div className="row">
+								<div className="col-sm-6">
+									<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
 								</div>
+								<div className="col-sm-6">
+									<VitalTile code='18262-6' observations={this.props.observations}><Cholesterol/></VitalTile>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col-sm-6">
+									<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+								</div>
+								<div className="col-sm-6">
+									<VitalTile code='2339-0' observations={this.props.observations}><Glucose/></VitalTile>
+								</div> 
 						</div>
 					</div>
 					<div className = "col-sm-6">
 						<MedicationTile meds={this.props.meds}/>
 						<EnvironmentTile patient={this.props.patient}/>
-						<MedicationTile meds={this.props.meds}/>
+						<AppointmentsTile patient={this.props.patient}/>
 					</div>
 				</div>
 				<div className="row">
@@ -135,9 +135,12 @@ export class Diabetes extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.origin.toString() + '/risk/Diabetes';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+	    		</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -188,9 +191,12 @@ export class COPD extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.origin + '/risk/COPD_Mortality';
 		return (
 			<g>
+				<a xlinkHref={link} target="_blank">
 		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+		    	</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -232,9 +238,12 @@ export class KFScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.origin + '/risk/Kidney_Failure';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -273,9 +282,12 @@ export class CHADScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.origin + '/risk/Stroke';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -325,9 +337,12 @@ export class ReynoldsScore extends Component {
 
 	render() {
 		var opacity = this.state.score/100;
+		var link = window.location.origin + '/risk/General_Cardiac';
 		return (
 			<g>
-		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				<a xlinkHref={link} target="_blank">
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 			</g>
 		);
@@ -364,7 +379,7 @@ class HelpRiskTile extends Component {
 		return (
 			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
-				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0.5}}/>
+				    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0}}/>
 				    <text x="50%" y="20%" fontSize="2vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
 				    <text x="50%" y="60%" fontSize="3vw" alignmentBaseline="middle" textAnchor="middle">?</text>  
 			    </g>
@@ -435,6 +450,51 @@ class MedicationTile extends Component {
 class AppointmentsTile extends Component {
 	constructor(props) {
 		super();
+		this.state = {
+			interventionsList: ""
+		};
+	}
+
+	componentDidMount() {
+		console.log(this.props.patient)
+		var parentComponent = this;
+		$.when(this.props.patient).done(function(pt){
+			var age = calculateAge(pt[0].birthDate);
+			var gender = pt[0].gender;
+			var URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=' + age + "&sex=" + gender;
+			$.get(URL).done(function(data) {
+				console.log(data);
+				var interventions = [];
+				for(var i = 0; i < data.Result.Resources.All.Resource.length; i++) {
+					interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
+				}
+				const listItems = interventions.map((int) =>
+		  			<li key={int}>{int}</li>
+				);
+				parentComponent.setState({
+					interventionsList: listItems
+				});
+			});
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<p style={{textAlign: 'center', fontSize: "20"}}>
+					Suggested Preventative Care for You
+				</p>
+				<div style={{height:'100px',width:'100%',border:'1px solid #ccc',font:'16px/26px Georgia, Garamond, Serif',overflow:'auto'}}>
+					<ul>{this.state.interventionsList}</ul>
+				</div>
+			</div>
+		);
+	}
+}
+
+class OldAppointmentsTile extends Component {
+	constructor(props) {
+		super();
 	}
 
 	componentDidMount() {
@@ -471,8 +531,8 @@ class DemographicTile extends Component {
 			parentComponent.setState({
 				name: getPatientName(pt[0]),
 				genderheight: genderheightstring,
-				dob: "DOB: " + pt[0].birthDate
-				// lastencounter: ""
+				dob: "DOB: " + pt[0].birthDate,
+				lastencounter: "Last Hospital Visit: " + encs[0].period.end.substring(0,10)
 			});
 		});
 	}
@@ -483,8 +543,66 @@ class DemographicTile extends Component {
 				<h2 className="text-center">{this.state.name}</h2>
 				<h4 className="text-center">{this.state.genderheight}</h4>
 				<h4 className="text-center">{this.state.dob}</h4>
+				<h4 className="text-center">{this.state.lastencounter}</h4>
 			</div>
 		);
+	}
+}
+
+class VitalTiles extends Component {
+	constructor(props) {
+		super();
+		this.state = {
+			name: "",
+			value: "Loading...",
+			units: "",
+		};
+	}
+
+	componentDidMount() {
+		//var i = {this.props.i};
+		var parentComponent = this;
+		$.when(this.props.observations).done(function(obs) {
+			var testobject = {};
+			testobject[parentComponent.props.code] = [];
+			var result = searchByCode(obs, testobject);
+			var precision = 0;
+			if (result[parentComponent.props.code][0]['value'] < 1) {
+				precision = 2;
+			}
+			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
+				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Systolic BP";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
+			}
+			var forSparkline = [];
+			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
+				forSparkline.push({
+					name: result[parentComponent.props.code][i]['date'].toString(),
+					value: (result[parentComponent.props.code][i]['value'])
+				})
+			}
+			parentComponent.setState({
+				measurementName: result[parentComponent.props.code][0]['text'],
+				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
+				data: forSparkline
+			});
+		});
+	}
+	render() {
+		var link = window.location.href + 'measure/' + this.props.code;
+		return (
+			<div>
+				<div style={{width: "100%", height:"85px", borderRadius: "10px", backgroundColor: "#AECEDA", opacity: "0.9"}}> {this.props.children} </div><br/>
+			</div>
+		)
 	}
 }
 
@@ -515,6 +633,12 @@ class VitalTile extends Component {
 			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
 			}
+			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Systolic BP";
+			}
+			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
+				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
+			}
 			var forSparkline = [];
 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
 				forSparkline.push({
@@ -541,11 +665,11 @@ class VitalTile extends Component {
 					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
 					            	<a xlinkHref={link} target="_blank">
-					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="750" height="180" rx="7.2"></rect>
-				                		{this.props.children}
+					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="760" height="180" rx="7.2"></rect>
+					               		{this.props.children}
 				                	</a>
 					                <text id="Weight" fontFamily="Helvetica" fontSize="56" fontWeight="normal" fill="#000000">
-					                    <tspan x="120" y="56">{this.state.measurementName}</tspan>
+					                    <tspan x="180" y="56">{this.state.measurementName}</tspan>
 					                </text>
 					                <text id="150-lbs" fontFamily="HiraKakuPro-W3, Hiragino Kaku Gothic Pro" fontSize="45" fontWeight="300" fill="#000000">
 					                    <tspan x="208" y="130">{this.state.value}</tspan>

@@ -6,7 +6,7 @@ class AIQ extends Component {
 		return (
 
 			<OverlayTrigger placement={this.props.placement} overlay={this.props.tooltip}>
-				<svg viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
+				<svg width="70%" height="70%" viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
 				    <defs>
 				        <linearGradient x1='24.38%' y1='104.275%' x2='63.682%' y2='26.23%' id='linearGradient-1'>
 				            <stop stopColor='#CECECE' offset='0%' />

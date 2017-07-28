@@ -6,7 +6,7 @@ class Syringe extends Component {
 		return (
 
 			<OverlayTrigger placement={this.props.placement} overlay={this.props.tooltip}>
-				<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" style={{enableBackground: 'new 0 0 58.45 58.45'}} xmlSpace="preserve">
+				<svg width="70%" height="70%" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" style={{enableBackground: 'new 0 0 58.45 58.45'}} xmlSpace="preserve">
 			        <g>
 			          <path style={{fill: '#DFF2F8'}} d="M49.048,39.148L18.601,8.702l-9.9,9.899l10.677,10.677v0l3.535-3.536
 					c0.391-0.391,1.023-0.391,1.414,0c0.391,0.39,0.391,1.023,0,1.414l-3.535,3.536h0l1.414,1.414v0l3.536-3.535

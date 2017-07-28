@@ -8,7 +8,7 @@ class Pollen extends Component {
 
 			<OverlayTrigger placement={this.props.placement} overlay={this.props.tooltip}>
 
-				<svg id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'>
+				<svg width="70%" height="70%" id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'>
 				    <defs>
 				        <style dangerouslySetInnerHTML={{__html: ".cls-1{fill:url(#linear-gradient);}.cls-2{fill:url(#linear-gradient-2);}.cls-3{fill:url(#linear-gradient-3);}.cls-4{fill:url(#linear-gradient-4);}.cls-5{fill:url(#linear-gradient-5);}.cls-6{fill:url(#linear-gradient-6);}.cls-7{fill:#efcc00;}.cls-8{fill:#fff;}" }} />
 				        <linearGradient id='linear-gradient' x1='35.32' y1='29.1' x2='55.9' y2='19.2'
