@@ -224,6 +224,24 @@ class MeasurementText extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		console.log("HIYA!", this.props);
+		if(text['text'][nextProps.measurementCode]) {
+			this.setState({
+			meaning: text['text'][nextProps.measurementCode].meaning,
+			important: text['text'][nextProps.measurementCode].important,
+			improve: text['text'][nextProps.measurementCode].improve
+			});
+		}
+		else {
+			this.setState({
+				meaning: "No data available. Please consult your doctor.",
+				important: "No data available. Please consult your doctor.",
+				improve: "No data available. Please consult your doctor."
+			});
+		}
+	}
+
 	render() {
 		return (
 			<div>
