@@ -1,3 +1,17 @@
+/**
+  
+    Type II Diabetes Risk Score
+    
+    @param {int} age - the age of the patient (patient resource)
+    @param {string} gender - sex of the patient (patient resource)
+    @param {int} bmi - body mass index (condition resource)
+    @param {boolean} hyperglycemia - condition records of hyperglycemia (condition resource)
+    @param {list} historyOfAntihypDrugs - history of antihypertensive drugs (??? resource) //currently hardcoded
+    @param {int} waist - waist circumference (condition resource)
+
+    @return diabetes risk score
+
+*/
 
 const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 const BMI = '39156-5';

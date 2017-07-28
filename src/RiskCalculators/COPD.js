@@ -1,3 +1,18 @@
+/**
+  
+    COPD Mortality Risk Score
+
+    @param {int} age - the age of the patient (patient resource)
+    @param {list} confusion - condition records of confusion (condition resource)
+    @param {list} bun - blood urea nitrogen levels (observation resource)
+    @param {list} rr - respiratory rate (observation resource)
+    @param {list} sysbp - systolic BP (observation resource)
+    @param {list} diasbp - diastolic BP (observation resource)
+
+    @return COPD Mortality risk score
+
+*/
+
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 	var score = Number((age >= 65)) + Number((!(confusion.size == null))) + Number((bun > 19)) +
 	Number((rr >= 30)) + Number(((sysbp < 90) || (diasbp <= 60)));
