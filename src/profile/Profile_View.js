@@ -9,7 +9,8 @@ import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.
 import { LineChart, Line, Tooltip } from 'recharts';
 import EnvironmentTile from './EnvironmentFactors.js';
 import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
-
+import { Button } from 'react-bootstrap';
+import Dialog from 'react-bootstrap-dialog'
 
 class ProfileView extends Component {
 	constructor(props){

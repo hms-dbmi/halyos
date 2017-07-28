@@ -161,7 +161,10 @@ class MeasurementView extends Component {
 				<div>
 					<div className="row">
 						<div className="col-md-6">	
-							<PastGraph obs_data={this.state.measurementList} units={this.state.units}/>
+							<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
+							mainHeight={200}
+							viewWidth={500}
+							viewHeight={50}/>
 							<text style={{fontSize: "20", fontFamily: "HiraKakuStd-W8, Hiragino Kaku Gothic Std"}}>
 								Risk Scores Affected By This Measurement
 							</text>
@@ -237,7 +240,7 @@ class MeasurementText extends Component {
 			this.setState({
 				meaning: "No data available. Please consult your doctor.",
 				important: "No data available. Please consult your doctor.",
-				improve: "No data available. Please consult your doctor."
+				improvec: "No data available. Please consult your doctor."
 			});
 		}
 	}
