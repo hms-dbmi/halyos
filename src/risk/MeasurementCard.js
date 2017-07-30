@@ -86,13 +86,12 @@ class MeasurementCard extends Component {
 		  );
 		};
 
-		const style = { float: 'left', height: 200 };
-		const parentStyle = { };
-		const firstSlider = {
-
-		}
-		const secondSlider = {
+		const firstSliderStyle = { float: 'left', height: 200, paddingLeft:"60px" };
+		const secondSliderStyle = {
 			"float":"right",
+			float: 'left',
+			height: 200,
+			paddingLeft:"50px"
 		}
 
 		const marks = {
@@ -129,17 +128,13 @@ class MeasurementCard extends Component {
 						 />
 					</div>
 					<div className="col-sm-3">
-						<div style={parentStyle}>
-    						<div style={style}>
-								<Slider disabled vertical min={-10} max={20} handle={handle} defaultValue={5}/>
-							</div>
+						<div style={firstSliderStyle}>
+							<Slider disabled vertical min={-10} max={20} handle={handle} defaultValue={5}/>
 						</div>
 					</div>
 					<div className="col-sm-3">
-						<div style={parentStyle}>
-    						<div style={style}>
-								<Slider vertical min={-10} max={20} handle={handle} defaultValue={5} onChange={this.onSlide.bind(this)} />
-							</div>
+						<div style={secondSliderStyle}>
+							<Slider vertical min={-10} max={20} handle={handle} defaultValue={5} onChange={this.onSlide.bind(this)} />
 						</div>
 					</div>
 				</div>

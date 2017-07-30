@@ -350,23 +350,23 @@ class RiskView extends Component {
 		var futureRiskTile;
 		if(this.riskName == "General_Cardiac") {
 			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "COPD_Mortality") {
 			riskTile = <RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Stroke") {
 			riskTile = <RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Kidney_Failure") {
 			riskTile = <RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "Diabetes") {
 			riskTile = <RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
 		}
 
 		//console.log('render');
@@ -376,7 +376,7 @@ class RiskView extends Component {
 			return (
 				<div className="container-fluid">
 					<div className="col-sm-12">
-						<h1>{this.state.riskScoreName}</h1>
+						<h1 style={{marginLeft:"-20px"}}>{riskDisplay[this.riskName][0]}</h1>
 					</div>
 					<div className="row">
 						<div className="col-sm-8">
