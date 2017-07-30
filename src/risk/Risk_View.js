@@ -382,20 +382,22 @@ class RiskView extends Component {
 						<div className="col-sm-8">
 							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 						</div>
-						<div className="col-sm-4">
-							<div>{React.cloneElement(riskTile,{status:"Today"})}</div>
-							<div>{React.cloneElement(futureRiskTile,{status:"Tomorrow"})}</div>
+						<div className="col-sm-2">
+							{React.cloneElement(riskTile,{status:"Today"})}
 						</div>
-					</div>
-					
+						<div className="col-sm-2">
+							{React.cloneElement(futureRiskTile,{status:"Tomorrow"})}
+						</div>
+					</div>					
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
 							console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
 							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) || 
 											(this.state.obsByMeasurement[key].data.length == 0);
-							//console.log(".data", this.state.obsByMeasurement[key].data);
+							
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
+								console.log(".data", this.state.obsByMeasurement[key].data);
 								return <div className="col-sm-12" key={key}>
 											<MeasurementCard key={key}
 												title={this.state.obsByMeasurement[key].name}

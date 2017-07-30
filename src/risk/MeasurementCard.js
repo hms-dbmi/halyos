@@ -46,7 +46,8 @@ class MeasurementCard extends Component {
 		    marginRight: '0',
 		    display: 'block',
     		fontSize: '1.5em',
-        	fontWeight: "bold" }
+        	fontWeight: "bold",
+        	cursor:"pointer" }
       } else {
         return { 
         	marginTop: '0.83em',
@@ -55,7 +56,8 @@ class MeasurementCard extends Component {
 		    marginRight: '0',
 		    display: 'block',
     		fontSize: '1.5em',
-        	fontWeight: "normal" }
+        	fontWeight: "normal",
+        	cursor:"pointer" }
       }
     }
 
@@ -86,6 +88,12 @@ class MeasurementCard extends Component {
 
 		const style = { float: 'left', height: 200 };
 		const parentStyle = { };
+		const firstSlider = {
+
+		}
+		const secondSlider = {
+			"float":"right",
+		}
 
 		const marks = {
 		  '-10': '-10°C',
@@ -100,15 +108,17 @@ class MeasurementCard extends Component {
 		};
 
 		var link = "/measure/" + this.props.code;
-		
+
 		//console.log("this is the dataa?", this.props.data);
 		return (
 			<div className="panel panel-default container-fluid">
 				<div className="row">
-					<div className="col-sm-1" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
+					<div className="col-sm-12" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
 						<LinkContainer to={link}><p>{this.props.title}</p></LinkContainer>
 					</div>
-					<div className="col-sm-5">
+				</div>
+				<div className="row">
+					<div className="col-sm-6">
 						<PastGraph 
 							obs_data={this.props.data}
 							units={this.props.units}

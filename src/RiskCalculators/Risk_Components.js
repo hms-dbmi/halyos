@@ -264,7 +264,7 @@ export class RiskTile extends Component {
 
 	render() {
 		return (
-			<svg width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
+			<svg className="img-fluid" width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
 				<g>
 				    
 				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
@@ -303,6 +303,33 @@ export class FutureDiabetes extends Component {
 		this.state = {
 			score: "..."
 		};
+	}
+
+	componentWillReceiveProps(nextProps){
+		var allMeasurements = {};
+		for (var key in this.sortedObs) {
+			if(this.sortedObs.hasOwnProperty(key)) {
+				if (nextProps.nextMeasures[key] != undefined){
+					allMeasurements[key] = nextProps.nextMeasures[key];
+				}
+				else {
+					allMeasurements[key] = this.sortedObs[key][0].value
+				}
+			}
+		}
+
+		var reynolds = calculateReynolds(this.birthDate,
+			allMeasurements['8480-6'],
+			allMeasurements['30522-7'],
+			allMeasurements['2093-3'],
+			allMeasurements['2085-9'],
+			this.smoker, //smoker
+			this.famHist, //famHist
+			this.gender);
+			this.setState({
+				score: reynolds,
+				sym: "%"
+			});
 	}
 
 	componentDidMount() {
