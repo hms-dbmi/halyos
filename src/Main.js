@@ -74,6 +74,7 @@ class Main extends Component {
   								medreq={medicationRequest}
   								observations={observations}
   								conditions={conditions} />
+                  
 				)} />
 				
 			</Switch>

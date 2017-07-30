@@ -20,6 +20,17 @@ class MeasurementCard extends Component {
 	
 	componentWillMount(){
 //		console.log("in measurement card: ", this.props.data);
+		var bottomLabel = this.props.data[this.props.data.length - 1].y;
+		var number = parseInt(bottomLabel);
+
+		var topLabel = this.props.data[0].y;
+
+		this.marks = {};
+		this.marks[bottomLabel] = bottomLabel;
+		this.marks[topLabel] = topLabel;
+		console.log("marks;", this.marks);
+
+		this.link = "/measure/" + this.props.code;
 	}
 	
 	componentWillReceiveProps(nextProps){
@@ -68,7 +79,59 @@ class MeasurementCard extends Component {
 
 	render(){
 
-		const Handle = Slider.Handle;
+		
+
+		// const marks = {
+		//   '-10': '-10°C',
+		//   0: <strong>0°C</strong>,
+		//   26: '26°C',
+		//   100: {
+		//     style: {
+		//       color: 'red',
+		//     },
+		//     label: <strong>100°C</strong>,
+		//   },
+		// };
+
+		//console.log("this is the dataa?", this.props.data);
+		return (
+			<div className="panel panel-default container-fluid">
+				<div className="row">
+					<div className="col-sm-12" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
+						<LinkContainer to={this.link}><p>{this.props.title}</p></LinkContainer>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-sm-6">
+						<PastGraph 
+							obs_data={this.props.data}
+							units={this.props.units}
+							mainWidth={500}
+							mainHeight={200}
+							viewWidth={500}
+							viewHeight={50}
+						 />
+					</div>
+					<div className="col-sm-3">
+						<div style={firstSliderStyle}>
+							<Slider disabled vertical marks={this.marks} min={0} max={500} handle={handle} defaultValue={this.props.data[0].y}/>
+						</div>
+					</div>
+					<div className="col-sm-3">
+						<div style={secondSliderStyle}>
+							<Slider vertical marks={this.marks} min={0} max={500} handle={handle} defaultValue={this.props.data[0].y} onChange={this.onSlide.bind(this)} />
+						</div>
+					</div>
+				</div>
+			</div>
+
+		)
+
+	}
+
+}
+
+const Handle = Slider.Handle;
 
 
 		const handle = (props) => {
@@ -86,65 +149,19 @@ class MeasurementCard extends Component {
 		  );
 		};
 
-		const firstSliderStyle = { float: 'left', height: 200, paddingLeft:"60px" };
-		const secondSliderStyle = {
-			"float":"right",
+		const firstSliderStyle = {
 			float: 'left',
 			height: 200,
-			paddingLeft:"50px"
-		}
+			paddingLeft:"60px",
+			width:40
 
-		const marks = {
-		  '-10': '-10°C',
-		  0: <strong>0°C</strong>,
-		  26: '26°C',
-		  100: {
-		    style: {
-		      color: 'red',
-		    },
-		    label: <strong>100°C</strong>,
-		  },
 		};
-
-		var link = "/measure/" + this.props.code;
-
-		//console.log("this is the dataa?", this.props.data);
-		return (
-			<div className="panel panel-default container-fluid">
-				<div className="row">
-					<div className="col-sm-12" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
-						<LinkContainer to={link}><p>{this.props.title}</p></LinkContainer>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-sm-6">
-						<PastGraph 
-							obs_data={this.props.data}
-							units={this.props.units}
-							mainWidth={500}
-							mainHeight={200}
-							viewWidth={500}
-							viewHeight={50}
-						 />
-					</div>
-					<div className="col-sm-3">
-						<div style={firstSliderStyle}>
-							<Slider disabled vertical min={-10} max={20} handle={handle} defaultValue={5}/>
-						</div>
-					</div>
-					<div className="col-sm-3">
-						<div style={secondSliderStyle}>
-							<Slider vertical min={-10} max={20} handle={handle} defaultValue={5} onChange={this.onSlide.bind(this)} />
-						</div>
-					</div>
-				</div>
-			</div>
-
-		)
-
-	}
-
-}
+		const secondSliderStyle = {
+			"float":"left",
+			height: 200,
+			paddingLeft:"50px",
+			width:40
+		}
 
 export default MeasurementCard;
 
