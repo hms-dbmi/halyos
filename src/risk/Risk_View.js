@@ -13,7 +13,7 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
-import { RiskTile, ReynoldsScore, CHADScore, KFScore, Diabetes, COPD } from '../RiskCalculators/Risk_Components.js';
+import { RiskTile, FutureReynoldsScore, ReynoldsScore, FutureCHADScore, CHADScore, FutureKFScore, KFScore, FutureDiabetes, Diabetes, FutureCOPD, COPD } from '../RiskCalculators/Risk_Components.js';
 
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';
@@ -42,7 +42,7 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null};
+		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null, updatedMeasurementsByCode:{}, nextMeasures:{}};
 	}
 	
 	componentWillMount(){
@@ -99,7 +99,9 @@ class RiskView extends Component {
 
 	setInitialAllObs(value){
 		this.setState({allObs:value});
-		this.setState({riskCalculator: riskDisplay[this.riskName][1]})
+		this.setState({nextMeasures:{}});
+		this.setState({riskScoreName:riskDisplay[this.riskName][0]});
+		this.setState({riskCalculator: riskDisplay[this.riskName][1]});
 		return value;
 	}
 
@@ -164,7 +166,6 @@ class RiskView extends Component {
 		for (let result of resultList){			
 			if(result.text !== undefined){
 				codeObjectTemp['name'] = result.text;
-				this.riskScoreName = result.text;
 				return;
 			}
 		}
@@ -334,39 +335,56 @@ class RiskView extends Component {
 	    }
 	    return true;
 	}
-
+	
+	onSliderUpdate(value, code){
+		var oldVal = this.state.nextMeasures;
+		oldVal[code] = value;
+		this.setState({nextMeasures:oldVal});
+	}
+	
 	render(){
 
+
+
 		var riskTile;
-
-		if(this.riskName == "General_Cardiac")
+		var futureRiskTile;
+		if(this.riskName == "General_Cardiac") {
 			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-		else if(this.riskName == "COPD_Mortality")
+			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+		}
+		else if(this.riskName == "COPD_Mortality") {
 			riskTile = <RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-		else if(this.riskName == "Stroke")
+			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+		}
+		else if(this.riskName == "Stroke") {
 			riskTile = <RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
-		else if(this.riskName == "Kidney_Failure")
+			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+		}
+		else if(this.riskName == "Kidney_Failure") {
 			riskTile = <RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-		else if(this.riskName == "Diabetes")
+			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+		}
+		else if(this.riskName == "Diabetes") {
 			riskTile = <RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-
+			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+		}
 
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
 			console.log("here we:", this.state.riskCalculator);
-			var recentMeasurements = this.state.riskCalculator()
+			var recentMeasurements = this.state.riskCalculator();
 			return (
 				<div className="container-fluid">
 					<div className="col-sm-12">
-						<h1>{this.riskScoreName}</h1>
+						<h1>{this.state.riskScoreName}</h1>
 					</div>
 					<div className="row">
 						<div className="col-sm-8">
 							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 						</div>
 						<div className="col-sm-4">
-							<div>{React.cloneElement(riskTile,{status:"Past"})}</div>
-							<div>{React.cloneElement(riskTile,{status:"Current"})}</div>
+							<div>{React.cloneElement(riskTile,{status:"Today"})}</div>
+							<div>{React.cloneElement(futureRiskTile,{status:"Tomorrow"})}</div>
 						</div>
 					</div>
 					
@@ -378,12 +396,15 @@ class RiskView extends Component {
 							//console.log(".data", this.state.obsByMeasurement[key].data);
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
-								return <div className="col-sm-12"><MeasurementCard key={key}
-									title={this.state.obsByMeasurement[key].name}
-									data={this.state.obsByMeasurement[key].data}
-									units={this.state.obsByMeasurement[key].units}
-									name={this.state.obsByMeasurement[key].code}
-									/>	</div>
+								return <div className="col-sm-12" key={key}>
+											<MeasurementCard key={key}
+												title={this.state.obsByMeasurement[key].name}
+												data={this.state.obsByMeasurement[key].data}
+												units={this.state.obsByMeasurement[key].units}
+												code={this.state.obsByMeasurement[key].code}
+												onUpdate={this.onSliderUpdate.bind(this)}
+											/>	
+									</div>
 							} else {
 								return
 							}

@@ -9,15 +9,17 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
+import { LinkContainer } from 'react-router-bootstrap';
+
 class MeasurementCard extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {hovered:false};
 	}
 	
 	componentWillMount(){
-		console.log("in measurement card: ", this.props.data);
+//		console.log("in measurement card: ", this.props.data);
 	}
 	
 	componentWillReceiveProps(nextProps){
@@ -25,6 +27,41 @@ class MeasurementCard extends Component {
 
 	componentDidMount(){
 
+	}
+
+	onMouseOver() {
+      this.setState({ hovered:true });
+    }
+
+    onMouseOut() {
+      this.setState({ hovered:false });
+    }
+
+    style() {
+      if (this.state.hovered) {
+        return { 
+        	marginTop: '0.83em',
+		    marginBottom: '0.83em',
+		    marginLeft: '0',
+		    marginRight: '0',
+		    display: 'block',
+    		fontSize: '1.5em',
+        	fontWeight: "bold" }
+      } else {
+        return { 
+        	marginTop: '0.83em',
+		    marginBottom: '0.83em',
+		    marginLeft: '0',
+		    marginRight: '0',
+		    display: 'block',
+    		fontSize: '1.5em',
+        	fontWeight: "normal" }
+      }
+    }
+
+	onSlide(value){
+//		console.log("huh:", this.props);
+		this.props.onUpdate(value,this.props.code);
 	}
 
 	render(){
@@ -62,12 +99,14 @@ class MeasurementCard extends Component {
 		  },
 		};
 
+		var link = "/measure/" + this.props.code;
+		
 		//console.log("this is the dataa?", this.props.data);
 		return (
 			<div className="panel panel-default container-fluid">
 				<div className="row">
-					<div className="col-sm-1">
-						<h1>{this.props.title}</h1>
+					<div className="col-sm-1" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
+						<LinkContainer to={link}><p>{this.props.title}</p></LinkContainer>
 					</div>
 					<div className="col-sm-5">
 						<PastGraph 
@@ -82,14 +121,14 @@ class MeasurementCard extends Component {
 					<div className="col-sm-3">
 						<div style={parentStyle}>
     						<div style={style}>
-								<Slider vertical min={-10} max={20} handle={handle} defaultValue={5}/>
+								<Slider disabled vertical min={-10} max={20} handle={handle} defaultValue={5}/>
 							</div>
 						</div>
 					</div>
 					<div className="col-sm-3">
 						<div style={parentStyle}>
     						<div style={style}>
-								<Slider vertical min={-10} max={20} handle={handle} defaultValue={5}/>
+								<Slider vertical min={-10} max={20} handle={handle} defaultValue={5} onChange={this.onSlide.bind(this)} />
 							</div>
 						</div>
 					</div>
