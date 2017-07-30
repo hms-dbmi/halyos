@@ -98,7 +98,7 @@ export class COPD extends Component {
 	}
 
 	render() {
-		var opacity = this.state.score/100;
+		var opacity = this.state.score/100*5; //value is multiplied by 5 cuz max risk is 11%
 		var link = window.location.origin + '/risk/COPD_Mortality';
 		return (
 			<g>
@@ -189,7 +189,7 @@ export class CHADScore extends Component {
 	}
 
 	render() {
-		var opacity = this.state.score/100;
+		var opacity = this.state.score/100*5; //value is multiplied by 5 cuz max risk is 13%
 		var link = window.location.origin + '/risk/Stroke';
 		return (
 			<g>
