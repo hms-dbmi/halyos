@@ -243,7 +243,7 @@ class MeasurementText extends Component {
 			this.setState({
 				meaning: "No data available. Please consult your doctor.",
 				important: "No data available. Please consult your doctor.",
-				improvec: "No data available. Please consult your doctor."
+				improve: "No data available. Please consult your doctor."
 			});
 		}
 	}
