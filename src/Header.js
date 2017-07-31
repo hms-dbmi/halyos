@@ -29,15 +29,21 @@ class Header extends Component {
                   //adding stringified text so they can be compared for equality and we keep all the info, just JSON parse it
                   if(data[i].component){
                       for (let comp of data[i].component){
-                        observationList.add(JSON.stringify(comp.code.coding[0]));
+                        var name = JSON.stringify(comp.code.coding[0]);
+                        observationList.add(name);
                       }
-                    } else {
-                      observationList.add(JSON.stringify(data[i].code.coding[0]));    
+                    }
+                  else {
+                      var name = JSON.stringify(data[i].code.coding[0]);
+                      observationList.add(name);    
                     }
                 }
 
                 for (let item of observationList){
-                  updatedList.push(JSON.parse(item));
+                  var parsedItem = JSON.parse(item);
+                  if (!(parsedItem.code === '48643-1' || parsedItem.code === '48642-3')) {
+                    updatedList.push(parsedItem);
+                  }
                 }
                 
                 this.setState({observations:updatedList})
