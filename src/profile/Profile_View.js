@@ -320,6 +320,7 @@ class VitalTile extends Component {
 			name: "",
 			value: "Loading...",
 			units: "",
+			date: ""
 		};
 	}
 
@@ -353,10 +354,12 @@ class VitalTile extends Component {
 					value: (result[parentComponent.props.code][i]['value'])
 				})
 			}
+			console.log(result);
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
-				data: forSparkline
+				data: forSparkline,
+				date: "As of " + result[parentComponent.props.code][0]['date'].slice(0,10)
 			});
 		});
 	}
@@ -382,6 +385,7 @@ class VitalTile extends Component {
 					                    <tspan x="208" y="130">{this.state.value}</tspan>
 					                    <tspan x="286.84" y="130" fontSize="32"> </tspan>
 					                    <tspan x="297.496" y="130" fontSize="20">{this.state.units}</tspan>
+					                    <tspan x= "560" y="170" fontSize="20">{this.state.date}</tspan>
 					                </text>
 					                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
 				                        
