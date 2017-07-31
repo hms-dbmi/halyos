@@ -4,15 +4,15 @@ import React from 'react';
 
 export class SparklinesReferenceLine extends React.Component {
     constructor(props) {
-    	console.log("HERE");
+    	//console.log("HERE");
         super();
     }
 
     render() {
         const { data } = this.props;
-        console.log(data);
+        //console.log(data);
         var y = this.props.y
-        console.log(this.props.y);
+        //console.log(this.props.y);
         return (
             <line
                 x1={data[0]['date']} y1={y}

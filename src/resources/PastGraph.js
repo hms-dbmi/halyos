@@ -18,7 +18,7 @@ class PastGraph extends Component {
       this.hasRefRange = !(this.props.refRange.length == 0);
     }
 
-    console.log("domaiN: ", this.props.refRange);
+    //console.log("domaiN: ", this.props.refRange);
 
 	}
 

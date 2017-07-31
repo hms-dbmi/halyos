@@ -115,7 +115,7 @@ class MedicationTile extends Component {
 				const listItems = medNames.map((medName) =>
 		  			<li key={medName}>{medName}</li>
 				);
-				console.log("Drugs", listItems);
+				//console.log("Drugs", listItems);
 				parentComponent.setState({
 					medListText: listItems
 				});
@@ -164,14 +164,14 @@ class AppointmentsTile extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.patient)
+		//console.log(this.props.patient)
 		var parentComponent = this;
 		$.when(this.props.patient).done(function(pt){
 			var age = calculateAge(pt[0].birthDate);
 			var gender = pt[0].gender;
 			var URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=' + age + "&sex=" + gender;
 			$.get(URL).done(function(data) {
-				console.log(data);
+				//console.log(data);
 				var interventions = [];
 				for(var i = 0; i < data.Result.Resources.All.Resource.length; i++) {
 					interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
@@ -355,7 +355,7 @@ class VitalTile extends Component {
 					value: (result[parentComponent.props.code][i]['value'])
 				})
 			}
-			console.log(result);
+			//console.log(result);
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],

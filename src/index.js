@@ -46,7 +46,7 @@ const Context_FHIR_Client = FHIR.client({
 //     </nav>
 //   </header>
 // )
-console.log("firs tthing: ", window.FHIR);
+//console.log("firs tthing: ", window.FHIR);
 
 const App = () => (
     <div>

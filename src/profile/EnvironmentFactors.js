@@ -24,14 +24,14 @@ class EnvironmentTile extends Component {
 	*/
 
 	componentWillMount() {
-		console.log("envi comp mounted");
+		//console.log("envi comp mounted");
 
 
 
 		var ptHasAddress = false;
 
 		var ptPromise = this.props.patient.then(function(pt){
-			console.log("patient:", pt);
+			//console.log("patient:", pt);
 			if(!pt[0].address){
 				$.getJSON('http://freegeoip.net/json/?callback=?', function(data) {
 					  this.setState({ptLoc:data});

@@ -70,10 +70,10 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
           //alert ("This risk score does not apply, due to gender restrictions.");
           //return;
         }
-        console.log("exp factor", exp_factor);
+        //console.log("exp factor", exp_factor);
         var score = 100*(Math.pow(Math.E, exp_factor))/(1+Math.pow(Math.E, exp_factor));
         score = score.toFixed(2);
-        console.log("score", score);
+        //console.log("score", score);
         return score;
 }
 

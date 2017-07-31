@@ -34,11 +34,11 @@ class MeasurementView extends Component {
 			this.setState({units:"",max:'',min:''});
 			if (this.isEmpty(this.state.allObs)){
 				nextProps.observations.then(this.getObservationByName.bind(this));
-				console.log("its empty! should only happen once :(");
+				//console.log("its empty! should only happen once :(");
 			} 
 			else {
 				this.getObservationByName(this.state.allObs);
-				console.log("its not! use the same shit");
+				//console.log("its not! use the same shit");
 			}
 			
 
@@ -48,12 +48,12 @@ class MeasurementView extends Component {
 	componentDidMount(){
 		if (this.isEmpty(this.state.allObs)){
 			this.props.observations.then(this.getObservationByName.bind(this));	
-			console.log("its empty! should only happen once :(");
+			//console.log("its empty! should only happen once :(");
 
 		} 
 		else {
 			this.getObservationByName(this.state.allObs);
-			console.log("its not! use the same shit");
+			//console.log("its not! use the same shit");
 
 		}
 	}
@@ -219,8 +219,8 @@ class MeasurementText extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.measurementCode);
-		console.log("Measurementment Text", text['text']);
+		//console.log(this.props.measurementCode);
+		//console.log("Measurementment Text", text['text']);
 		if(text['text'][this.props.measurementCode]) {
 			this.setState({
 			meaning: text['text'][this.props.measurementCode].meaning,
@@ -231,7 +231,7 @@ class MeasurementText extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log("HIYA!", this.props);
+		//console.log("HIYA!", this.props);
 		if(text['text'][nextProps.measurementCode]) {
 			this.setState({
 			meaning: text['text'][nextProps.measurementCode].meaning,

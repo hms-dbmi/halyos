@@ -95,7 +95,7 @@ class Header extends Component {
               { 
                 this.state.observations.map(function(obs){
                   var link = "/measure/" + obs.code;
-                  console.log("obsCOde:", obs.code);
+                  //console.log("obsCOde:", obs.code);
                   return <LinkContainer key={obs.code.toString()} to={link}><MenuItem key={obs.code.toString()}>{obs.display}</MenuItem></LinkContainer>  
                 })  
               }

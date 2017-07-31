@@ -14,7 +14,7 @@ class PastToFutureGraph extends Component {
 	}
 
 	componentDidMount(){
-		console.log("Mounted");
+		//console.log("Mounted");
 		this.setState({view_data:this.props.obs_data});
 		
 	}

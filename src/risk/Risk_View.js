@@ -49,7 +49,7 @@ class RiskView extends Component {
 		if (this.props.match.params != null){
 			this.riskName = this.props.match.params.riskName;	
 		}
-		console.log("NAME", this.riskName);
+		//console.log("NAME", this.riskName);
 		
 	}
 	

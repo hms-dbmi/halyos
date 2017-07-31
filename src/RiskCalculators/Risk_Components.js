@@ -25,7 +25,7 @@ export class Diabetes extends Component {
 			var hyperglycemia = pullCondition(conds, ['80394007']);
 			if (waist.length == 0 || bmi.length == 0) {
 				alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
-				console.log(bmi, waist);
+				////console.log(bmi, waist);
 				return;
 			}
 			var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
@@ -34,7 +34,7 @@ export class Diabetes extends Component {
 				(hyperglycemia.length != 0),
 				false, //NEEDS TO BE FIXED
 				waist[0].valueQuantity.value);
-			console.log("diabetes score", score);
+			////console.log("diabetes score", score);
 			parentComponent.setState({
 				score: score,
 				sym: "%"
@@ -80,7 +80,7 @@ export class COPD extends Component {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
 						alert("Patient does not have adequate measurements for COPD Risk Score.");
-						console.log(sortedObs);
+						////console.log(sortedObs);
 						return;
 					}
 				}
@@ -126,7 +126,7 @@ export class KFScore extends Component {
 			var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
 			var uac = pullCondition(obs, ["14958-3", "14959-1"]);
 			if(gfr.length == 0 || uac.length == 0) {
-				console.log("KF score", gfr, uac);
+				//console.log("KF score", gfr, uac);
 				alert("Patient does not have enough measurements for Kidney Risk Score");
 				return;
 			}
@@ -225,7 +225,7 @@ export class ReynoldsScore extends Component {
 			for (var key in sortedObs) {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
-						console.log(sortedObs);
+						//console.log(sortedObs);
 						alert("Patient does not have adequate measurements for Reynolds Risk Score.");
 						return;
 					}
@@ -354,7 +354,7 @@ export class FutureDiabetes extends Component {
 			var hyperglycemia = pullCondition(conds, ['80394007']);
 			if (waist.length == 0 || bmi.length == 0) {
 				//alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
-				console.log(bmi, waist);
+				//console.log(bmi, waist);
 				return;
 			}
 			var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
@@ -408,7 +408,7 @@ export class FutureCOPD extends Component {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
 						alert("Patient does not have adequate measurements for COPD Risk Score.");
-						console.log(sortedObs);
+						//console.log(sortedObs);
 						return;
 					}
 				}
@@ -544,20 +544,20 @@ export class FutureReynoldsScore extends Component {
 		var allMeasurements = {};
 		for (var key in this.sortedObs) {
 			if(this.sortedObs.hasOwnProperty(key)) {
-//				console.log("key", key);
+//				//console.log("key", key);
 				if (nextProps.nextMeasures[key] != undefined){
 					allMeasurements[key] = nextProps.nextMeasures[key];
-//					console.log("if", nextProps.nextMeasures[key]);
+//					//console.log("if", nextProps.nextMeasures[key]);
 				}
 				else {
-//					console.log("this isortedpro", this.sortedObs);
+//					//console.log("this isortedpro", this.sortedObs);
 					allMeasurements[key] = this.sortedObs[key][0].value
 				}
 			}
 		}
 
-//		console.log("all measurements", allMeasurements);
-//		console.log("next:", nextProps);
+//		//console.log("all measurements", allMeasurements);
+//		//console.log("next:", nextProps);
 		var reynolds = calculateReynolds(this.birthDate,
 			allMeasurements['8480-6'],
 			allMeasurements['30522-7'],
@@ -574,7 +574,7 @@ export class FutureReynoldsScore extends Component {
 				score: reynolds,
 				sym: "%"
 			});
-//		console.log("next:", nextProps);
+//		//console.log("next:", nextProps);
 	}
 
 	componentDidMount() {

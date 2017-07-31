@@ -33,14 +33,14 @@ class MeasurementCard extends Component {
 		maxBottom = Math.min(this.props.data[this.props.data.length - 1].y, isNaN(this.props.reference[0]) ? Infinity : this.props.reference[0]);
 		maxTop = Math.max(this.props.data[0].y, isNaN(this.props.reference[1]) ? -Infinity : this.props.reference[1]);
 	
-		console.log("maxBottom", maxBottom, "maxTop", maxTop);
+		//console.log("maxBottom", maxBottom, "maxTop", maxTop);
 		this.marks = {};
 		
 		//make the max and min 50% greater than the largest and smallest numbers (coming from either the value of the patient or the reference ranges, whichever is bigger)
 		maxBottom = maxBottom*0.5;
 		maxTop = maxTop*1.5;
 
-		console.log("maxBottom", maxBottom, "maxTop", maxTop);
+		//console.log("maxBottom", maxBottom, "maxTop", maxTop);
 
 		this.marks[maxBottom] = Math.floor(maxBottom);
 		this.marks[maxTop] = Math.ceil(maxTop);
@@ -50,7 +50,7 @@ class MeasurementCard extends Component {
 //		console.log("marks;", this.marks);
 
 		this.stepSize = ((maxTop - maxBottom)/20.0).toFixed(4);
-		console.log("this is the step size", this.stepSize);
+		//console.log("this is the step size", this.stepSize);
 
 		this.link = "/measure/" + this.props.code;
 	}
