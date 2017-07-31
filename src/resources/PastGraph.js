@@ -13,7 +13,10 @@ class PastGraph extends Component {
 
 	componentWillMount(){
 		//this.setState({selectedDomain: {x: [2, 4]}})
-    this.hasRefRange = !(this.props.refRange.length == 0);
+    this.hasRefRange = false;
+    if (this.props.refRange){
+      this.hasRefRange = !(this.props.refRange.length == 0);
+    }
 
     console.log("domaiN: ", this.props.refRange);
 
@@ -32,8 +35,8 @@ class PastGraph extends Component {
           
 
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
-    console.log("ref", this.hasRefRange);
-    console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
+    //console.log("ref", this.hasRefRange);
+    //console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
       <div>
           <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
@@ -67,6 +70,21 @@ return (
               
             />
 
+{/*}        <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
+              style={{
+                data: {stroke: "#673AB7"}
+              }}
+              
+            />
+
+        <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
+              style={{
+                data: {stroke: "#673AB7"}
+              }}
+              
+            />
+
+*/}
           </VictoryChart>
 
           <VictoryChart

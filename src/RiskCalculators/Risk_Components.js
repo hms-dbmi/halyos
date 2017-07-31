@@ -289,7 +289,7 @@ export class HelpRiskTile extends Component {
 
 	render() {
 		return (
-			<div>
+			<div style={{cursor:"pointer"}}>
  				<svg onClick={() => this.refs.simpleDialog.show()} width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
  					<g>
  					    <rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0}}/>
