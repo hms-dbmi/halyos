@@ -15,7 +15,7 @@ class MeasurementCard extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {hovered:false};
+		this.state = {hovered:false, value: this.props.data[0].y};
 	}
 	
 	componentWillMount(){
@@ -152,6 +152,9 @@ class MeasurementCard extends Component {
 								defaultValue={this.props.data[0].y}
 								step={this.stepSize}
 							/>
+							<text style={{fontFamily: "HiraKakuPro-W3, Hiragino Kaku Gothic Pro", fontSize: "12", fontWeight: "300", fill: "#000000"}}>
+			                    <tspan>{this.state.value}{this.props.units}</tspan>
+			                </text>
 						</div>
 					</div>
 					<div className="col-sm-3">
