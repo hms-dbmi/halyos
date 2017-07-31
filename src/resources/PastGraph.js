@@ -70,6 +70,21 @@ return (
               
             />
 
+{/*}        <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
+              style={{
+                data: {stroke: "#673AB7"}
+              }}
+              
+            />
+
+        <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
+              style={{
+                data: {stroke: "#673AB7"}
+              }}
+              
+            />
+
+*/}
           </VictoryChart>
 
           <VictoryChart

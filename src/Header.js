@@ -75,7 +75,7 @@ class Header extends Component {
                 <MenuItem key={4.5}>COPD</MenuItem>
                 <MenuItem key={4.6}>Diabetes</MenuItem>
               </NavDropdown>
-
+              <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>  
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -107,6 +107,8 @@ class Header extends Component {
               <LinkContainer to={'/risk/Stroke'}><MenuItem key={6.5}>Stroke</MenuItem></LinkContainer>
               <LinkContainer to={'/risk/Diabetes'}><MenuItem key={6.6}>Diabetes</MenuItem></LinkContainer>
             </NavDropdown>
+            <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>  
+
           </Nav>
         </Navbar.Collapse>
       </Navbar>
