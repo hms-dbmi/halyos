@@ -1,3 +1,16 @@
+/**
+  
+    Kidney Failure Risk Score
+    
+    @param {string} gender - sex of the patient (patient resource)
+    @param {int} age - the age of the patient (patient resource)
+    @param {int} gfr - condition record of glomerular (glow-MAIR-you-lure) filtration rate (condition resource)
+    @param {int} uac - condition record of urine analysis with culture (condition resource)
+
+    @return kidney failure risk score
+
+*/
+
 export function calcKFRisk(gender, age, gfr, uac) {
   if (gender == "male") {gender = 1;}
   else if (gender == "female") {gender = 0;}

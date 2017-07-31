@@ -37,6 +37,11 @@ return (
             }
           >
 
+          <VictoryScatter data={this.props.obs_data} style={{
+                data: {stroke: "tomato"}
+              }}
+          />
+
           <VictoryArea y0={() => 160} y={() => 145}
             style={{
                 data: {

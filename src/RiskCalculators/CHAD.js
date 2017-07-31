@@ -1,3 +1,18 @@
+/**
+  
+    CHAD Risk Score for Stroke
+    
+    @param {int} age - the age of the patient (patient resource)
+    @param {string} gender - sex of the patient (patient resource)
+    @param {list} chf - condition records of congestive heart failure (condition resource)
+    @param {list} hypertension - condition records of congestive heart failure (condition resource)
+    @param {list} vascDisease - condition records of vascular disease (condition resource)
+    @param {list} diabetes - condition records of diabetes (condition resource)
+    @param {list} strTIAthrom - condition records of TIA (condition resource)
+
+    @return CHAD risk score
+
+*/
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {
       age = 0;

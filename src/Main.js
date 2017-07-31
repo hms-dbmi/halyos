@@ -36,19 +36,45 @@ class Main extends Component {
 	    <main>
 			<Switch>
 			    <Route exact path='/' render={(props) => (
-  					<ProfileView {...props} meds={medicationOrder} patient={patient} encounters={encounters} observations={observations} conditions={conditions} api={this.props.api} ptapi={this.props.ptapi} medreq={medicationRequest}/>
+  					<ProfileView {...props} 
+  								meds={medicationOrder}
+  								patient={patient}
+  								encounters={encounters}
+  								observations={observations}
+  								conditions={conditions}
+  								api={this.props.api}
+  								ptapi={this.props.ptapi}
+  								medreq={medicationRequest}/>
 				)} />
 		    	<Route exact path='/measure' render={(props) => (
   					<MeasurementView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/measure/:measureId' render={(props) => (
-  					<MeasurementView {...props} meds={medicationOrder} patient={patient} encounters={encounters} api={this.props.api} ptapi={this.props.ptapi} medreq={medicationRequest} observations={observations} conditions={conditions} riskObject={riskObject}/>
+  					<MeasurementView {...props} 
+  								meds={medicationOrder}
+  								patient={patient}
+  								encounters={encounters}
+  								api={this.props.api}
+  								ptapi={this.props.ptapi}
+  								medreq={medicationRequest}
+  								observations={observations}
+  								conditions={conditions} 
+  								riskObject={riskObject}/>
 				)} />
 		        <Route exact path='/risk' render={(props) => (
   					<RiskScoreView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/risk/:riskName' render={(props) => (
-  					<RiskScoreView {...props} observations={observations} conditions={conditions} api={this.props.api} ptapi={this.props.ptapi}/>
+  					<RiskScoreView {...props} 
+  								meds={medicationOrder}
+  								patient={patient}
+  								encounters={encounters} 
+  								api={this.props.api}
+  								ptapi={this.props.ptapi}
+  								medreq={medicationRequest}
+  								observations={observations}
+  								conditions={conditions} />
+                  
 				)} />
 				
 			</Switch>

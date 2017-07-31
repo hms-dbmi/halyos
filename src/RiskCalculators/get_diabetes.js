@@ -1,3 +1,17 @@
+/**
+  
+    Type II Diabetes Risk Score
+    
+    @param {int} age - the age of the patient (patient resource)
+    @param {string} gender - sex of the patient (patient resource)
+    @param {int} bmi - body mass index (condition resource)
+    @param {boolean} hyperglycemia - condition records of hyperglycemia (condition resource)
+    @param {boolean} historyOfAntihypDrugs - history of antihypertensive drugs (??? resource) //currently hardcoded
+    @param {int} waist - waist circumference (condition resource)
+
+    @return diabetes risk score
+
+*/
 
 const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 const BMI = '39156-5';
@@ -12,7 +26,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else if (age > 55 && age < 64){
           exp_factor += 0.892;
         } else {
-          alert ("This risk score does not apply, due to age restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to age restrictions.");
           return;
         }
 
@@ -22,7 +37,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else if (bmi >= 30){
           exp_factor += 1.096;
         } else {
-          alert ("This risk score does not apply, due to BMI restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to BMI restrictions.");
           return;
         }
 
@@ -51,7 +67,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
             exp_factor += 1.350;
           }
         } else {
-          alert ("This risk score does not apply, due to gender restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to gender restrictions.");
           return;
         }
 

@@ -58,7 +58,8 @@ export function getValueQuantities(obs, callback){
 }
 
 //calculate age from date of birthday
-//@param dateString: date of birth @return age
+//@param dateString: date of birth 
+//@return age
 export function calculateAge(dateString) {
     var today = new Date();
     var birthDate = new Date(dateString);
