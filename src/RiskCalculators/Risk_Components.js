@@ -31,7 +31,7 @@ export class Diabetes extends Component {
 			var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
 				pt[0].gender,
 				bmi[0].valueQuantity.value,
-				(hyperglycemia.length == 0),
+				(hyperglycemia.length != 0),
 				false, //NEEDS TO BE FIXED
 				waist[0].valueQuantity.value);
 			console.log("diabetes score", score);
