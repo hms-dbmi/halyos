@@ -101,8 +101,6 @@ class MeasurementCard extends Component {
 
 	render(){
 
-		
-
 		// const marks = {
 		//   '-10': '-10°C',
 		//   0: <strong>0°C</strong>,
@@ -117,7 +115,7 @@ class MeasurementCard extends Component {
 
 		//console.log("this is the dataa?", this.props.data);
 		return (
-			<div className="panel panel-default container-fluid">
+			<div className="panel panel-default container-fluid" style={{boxShadow:"1px 2px 11px 0px black"}}>
 				<div className="row">
 					<div className="col-sm-12" onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} style={this.style()}>
 						<LinkContainer to={this.link}><p>{this.props.title}</p></LinkContainer>
@@ -132,6 +130,7 @@ class MeasurementCard extends Component {
 							mainHeight={200}
 							viewWidth={500}
 							viewHeight={50}
+							refRange={this.props.reference}
 						 />
 					</div>
 					<div className="col-sm-3">
@@ -213,7 +212,7 @@ const firstSliderStyle = {
 const secondSliderStyle = {
 	"float":"left",
 	height: 200,
-	paddingLeft:"50px",
+	paddingLeft:"80px",
 	width:40
 }
 
