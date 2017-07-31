@@ -26,7 +26,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else if (age > 55 && age < 64){
           exp_factor += 0.892;
         } else {
-          alert ("This risk score does not apply, due to age restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to age restrictions.");
           return;
         }
 
@@ -36,7 +37,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else if (bmi >= 30){
           exp_factor += 1.096;
         } else {
-          alert ("This risk score does not apply, due to BMI restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to BMI restrictions.");
           return;
         }
 
@@ -65,7 +67,8 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
             exp_factor += 1.350;
           }
         } else {
-          alert ("This risk score does not apply, due to gender restrictions.");
+          //its good that we have this, removed for demo.
+          //alert ("This risk score does not apply, due to gender restrictions.");
           return;
         }
 

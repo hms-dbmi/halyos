@@ -340,7 +340,7 @@ export class FutureDiabetes extends Component {
 			var bmi = pullCondition(obs, ['39156-5']);
 			var hyperglycemia = pullCondition(conds, ['80394007']);
 			if (waist.length == 0 || bmi.length == 0) {
-				alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
+				//alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
 				console.log(bmi, waist);
 				return;
 			}
