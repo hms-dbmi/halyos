@@ -398,7 +398,7 @@ class RiskView extends Component {
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
 								console.log(".data", this.state.obsByMeasurement[key].refRange);
-								return <div className="col-sm-12" key={key}>
+								return <div className="col-sm-12 drop-shadow" key={key}>
 											<MeasurementCard key={key}
 												title={this.state.obsByMeasurement[key].name}
 												data={this.state.obsByMeasurement[key].data}

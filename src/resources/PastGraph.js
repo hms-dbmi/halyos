@@ -25,7 +25,7 @@ class PastGraph extends Component {
 
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-
+    console.log("domaiN: ", [this.props.obs_data[this.props.obs_data.length - 1].x, this.props.obs_data[0].x]);
 return (
       <div>
           <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
@@ -33,6 +33,7 @@ return (
               <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
                 dimension="x"
                 zoomDomain={this.state.zoomDomain}
+                domain={{x: [this.props.obs_data[this.props.obs_data.length - 1].x, this.props.obs_data[0].x]}}
               />
             }
           >
@@ -42,7 +43,7 @@ return (
               }}
           />
 
-          <VictoryArea y0={() => 160} y={() => 145}
+          <VictoryArea  y0={() => 160} y={() => 145}
             style={{
                 data: {
                   fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
@@ -65,7 +66,7 @@ return (
             containerComponent={
               <VictoryBrushContainer responsive={false}
                 dimension="x"
-                selectedDomain={{x: [new Date(2009, 1, 1), new Date(2012, 1, 1)]}}
+                //selectedDomain={{x: [new Date(2009, 1, 1), new Date(2012, 1, 1)]}}
                 onDomainChange={this.handleBrush.bind(this)}
               />
             }

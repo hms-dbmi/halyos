@@ -354,7 +354,7 @@ export class FutureDiabetes extends Component {
 				score: score,
 				sym: "%"
 			});
-		});
+		}.bind(this));
 	}
 
 	render() {

@@ -140,7 +140,7 @@ class MeasurementCard extends Component {
 								trackStyle={{ backgroundColor: '#BDBDBD', width: 30 }}
 								railStyle={{ backgroundColor: '#EEEEEE', width: 30 }}
 								handleStyle={{
-						          borderColor: '#90CAF9',
+						          borderColor: '#EEEEEE',
 						          height: 28,
 						          width: 28,
 						          marginLeft:1,
