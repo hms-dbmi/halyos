@@ -46,6 +46,29 @@ export class RelevantConditions extends Component {
 		});
 	}
 
+	componentWillReceiveProps(nextProps) {
+		var parentComponent = this;
+		$.when(nextProps.conditions).done(function(conds) {
+			var codeList = riskObjectConditions[nextProps.riskName];
+			if(codeList.length != 0) {
+				var condObj = pullCondition(conds, codeList);
+				const condNames = [];
+				for (var i in condObj) {
+					condNames.push(condObj[i].code.text);
+				}
+				if (condNames.length == 0) {
+					condNames.push("None");
+				}
+				const listItems = condNames.map((condName) =>
+					<li key={condName}>{condName}</li>
+				);
+				parentComponent.setState({
+					conds:listItems
+				});
+			}
+		});
+	}
+
 	render() {
 		return (
 			<div>
