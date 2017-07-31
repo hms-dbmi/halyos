@@ -34,6 +34,7 @@ export class Diabetes extends Component {
 				(hyperglycemia.length == 0),
 				false, //NEEDS TO BE FIXED
 				waist[0].valueQuantity.value);
+			console.log("diabetes score", score);
 			parentComponent.setState({
 				score: score,
 				sym: "%"
@@ -125,6 +126,7 @@ export class KFScore extends Component {
 			var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
 			var uac = pullCondition(obs, ["14958-3", "14959-1"]);
 			if(gfr.length == 0 || uac.length == 0) {
+				console.log("KF score", gfr, uac);
 				alert("Patient does not have enough measurements for Kidney Risk Score");
 				return;
 			}
@@ -223,6 +225,7 @@ export class ReynoldsScore extends Component {
 			for (var key in sortedObs) {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
+						console.log(sortedObs);
 						alert("Patient does not have adequate measurements for Reynolds Risk Score.");
 						return;
 					}

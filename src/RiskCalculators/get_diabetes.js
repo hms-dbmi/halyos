@@ -19,7 +19,6 @@ const BMI = '39156-5';
 export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist) {
           //starts with the intercept
         let exp_factor = -5.514;
-
         //age
         if (age < 54 && age > 45){
           exp_factor += 0.628;
@@ -28,7 +27,7 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else {
           //its good that we have this, removed for demo.
           //alert ("This risk score does not apply, due to age restrictions.");
-          return;
+          //return;
         }
 
         //BMI
@@ -39,7 +38,7 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else {
           //its good that we have this, removed for demo.
           //alert ("This risk score does not apply, due to BMI restrictions.");
-          return;
+          //return;
         }
 
         //high blood glucose
@@ -69,11 +68,12 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         } else {
           //its good that we have this, removed for demo.
           //alert ("This risk score does not apply, due to gender restrictions.");
-          return;
+          //return;
         }
-
+        console.log("exp factor", exp_factor);
         var score = 100*(Math.pow(Math.E, exp_factor))/(1+Math.pow(Math.E, exp_factor));
         score = score.toFixed(2);
+        console.log("score", score);
         return score;
 }
 
