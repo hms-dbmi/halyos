@@ -379,26 +379,26 @@ class RiskView extends Component {
 						<h1 style={{marginLeft:"-20px"}}>{riskDisplay[this.riskName][0]}</h1>
 					</div>
 					<div className="row">
-						<div className="col-sm-8">
+						<div className="col-sm-6" >
 							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 						</div>
-						<div className="col-sm-2">
+						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(riskTile,{status:"Today"})}
 						</div>
-						<div className="col-sm-2">
+						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(futureRiskTile,{status:"Tomorrow"})}
 						</div>
 					</div>					
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
-							console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
+							// console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
 							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) || 
-											(this.state.obsByMeasurement[key].data.length == 0);
+											(this.state.obsByMeasurement[key].data.length <= 1);
 							
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
-								console.log(".data", this.state.obsByMeasurement[key].refRange);
-								return <div className="col-sm-12" key={key}>
+								// console.log(".data", this.state.obsByMeasurement[key].refRange);
+								return <div className="col-sm-12 drop-shadow" key={key}>
 											<MeasurementCard key={key}
 												title={this.state.obsByMeasurement[key].name}
 												data={this.state.obsByMeasurement[key].data}

@@ -13,6 +13,10 @@ class PastGraph extends Component {
 
 	componentWillMount(){
 		//this.setState({selectedDomain: {x: [2, 4]}})
+    this.hasRefRange = !(this.props.refRange.length == 0);
+
+    console.log("domaiN: ", this.props.refRange);
+
 	}
 
   	handleBrush(domain) {
@@ -23,9 +27,13 @@ class PastGraph extends Component {
 
 	render(){
 
+    var additional; 
+            
+          
+
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
-
-
+    console.log("ref", this.hasRefRange);
+    console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
       <div>
           <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
@@ -33,26 +41,28 @@ return (
               <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
                 dimension="x"
                 zoomDomain={this.state.zoomDomain}
+                domain={{x: [this.props.obs_data[this.props.obs_data.length - 1].x, this.props.obs_data[0].x]}}
+                domainPadding={{y:[10,10]}}
               />
             }
           >
 
           <VictoryScatter data={this.props.obs_data} style={{
-                data: {stroke: "tomato"}
+                data: {stroke: "#673AB7"}
               }}
           />
 
-          <VictoryArea y0={() => 160} y={() => 145}
+          {this.hasRefRange && <VictoryArea data={this.props.obs_data} y0={() => this.props.refRange[0]} y={() => this.props.refRange[1]}
             style={{
                 data: {
                   fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
                 }
             }}
-           />
-
+           />}
+          
         <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
               style={{
-                data: {stroke: "tomato"}
+                data: {stroke: "#673AB7"}
               }}
               
             />
@@ -65,7 +75,7 @@ return (
             containerComponent={
               <VictoryBrushContainer responsive={false}
                 dimension="x"
-                selectedDomain={{x: [new Date(2009, 1, 1), new Date(2012, 1, 1)]}}
+                //selectedDomain={{x: [new Date(2009, 1, 1), new Date(2012, 1, 1)]}}
                 onDomainChange={this.handleBrush.bind(this)}
               />
             }
@@ -84,7 +94,7 @@ return (
             />
             <VictoryLine
               style={{
-                data: {stroke: "tomato"}
+                data: {stroke: "#673AB7"}
               }}
               data={this.props.obs_data}
             />
