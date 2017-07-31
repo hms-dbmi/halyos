@@ -298,11 +298,11 @@ export class HelpRiskTile extends Component {
  				    </g>
  				</svg>
  				<SkyLight hideOnOverlayClicked ref="simpleDialog" title="What is risk? How do I interpret it?">
-           			In this context, risk refers to how likely you are to develop a disease or suffer from an acute illness. Each score has slightly different meanings. {<br/>}
-           			The Cardiac Risk Score represents the likelihood of you suffering from a major cardiac event, such as a heart attack, within the next 10 years. {<br/>}
-           			The Stroke Score represents the likelihood of you suffering from a stroke within the next year. {<br/>}
-           			The Kidney Failure score represents the likelihood of you developing kidney failure within the next five years. {<br/>}
-           			The Chronic Obstructive Pulmonary Disease (COPD) Score represents the likelihood of you dying due to chronic obstructive pulmonary dieases within the next four years. {<br/>}
+           			In this context, risk refers to how likely you are to develop a disease or suffer from an acute illness. Each score has slightly different meanings. {<br/>}{<br/>}
+           			The Cardiac Risk Score represents the likelihood of you suffering from a major cardiac event, such as a heart attack, within the next 10 years. {<br/>}{<br/>}
+           			The Stroke Score represents the likelihood of you suffering from a stroke within the next year. {<br/>}{<br/>}
+           			The Kidney Failure score represents the likelihood of you developing kidney failure within the next five years. {<br/>}{<br/>}
+           			The Chronic Obstructive Pulmonary Disease (COPD) Score represents the likelihood of you dying due to chronic obstructive pulmonary dieases within the next four years. {<br/>}{<br/>}
            			The Diabetes Score repsents the likelihood you will develop type II diabetes within 5 years. 
          		</SkyLight>
  			</div>
