@@ -115,6 +115,7 @@ class MedicationTile extends Component {
 				const listItems = medNames.map((medName) =>
 		  			<li key={medName}>{medName}</li>
 				);
+				console.log("Drugs", listItems);
 				parentComponent.setState({
 					medListText: listItems
 				});

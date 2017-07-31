@@ -19,7 +19,7 @@ export class RelevantConditions extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			conds: ""
+			conds: [<li key={'none'}>None</li>]
 		};
 	}
 
@@ -32,6 +32,9 @@ export class RelevantConditions extends Component {
 				const condNames = [];
 				for (var i in condObj) {
 					condNames.push(condObj[i].code.text);
+				}
+				if (condNames.length == 0) {
+					condNames.push("None");
 				}
 				const listItems = condNames.map((condName) =>
 					<li key={condName}>{condName}</li>
