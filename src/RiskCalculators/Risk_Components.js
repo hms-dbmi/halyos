@@ -37,7 +37,8 @@ export class Diabetes extends Component {
 			////console.log("diabetes score", score);
 			parentComponent.setState({
 				score: score,
-				sym: "%"
+				sym: "%",
+				context: "within 5 years"
 			});
 		});
 	}
@@ -51,6 +52,7 @@ export class Diabetes extends Component {
 		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 	    		</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
@@ -93,7 +95,8 @@ export class COPD extends Component {
 				sortedObs['8462-4'][0].value);
 			parentComponent.setState({
 				score: COPDScore,
-				sym: "%"
+				sym: "%",
+				context: "within 4 years"
 			});
 		});
 	}
@@ -107,6 +110,7 @@ export class COPD extends Component {
 		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 		    	</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
@@ -140,7 +144,8 @@ export class KFScore extends Component {
 				uac[0].valueQuantity.value); //uac
 				parentComponent.setState({
 					score: KFRisk,
-					sym: "%"
+					sym: "%",
+					context: "within 5 years"
 				});
 			}
 		});
@@ -155,6 +160,7 @@ export class KFScore extends Component {
 		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
@@ -185,7 +191,8 @@ export class CHADScore extends Component {
 			strTIAthrom); //strTIAthrom
 			parentComponent.setState({
 				score: CHADscore,
-				sym: "%"
+				sym: "%",
+				context: "within one year"
 			});
 		});
 	}
@@ -199,6 +206,7 @@ export class CHADScore extends Component {
 		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
@@ -241,7 +249,8 @@ export class ReynoldsScore extends Component {
 			pt[0].gender));
 			parentComponent.setState({
 				score: reynolds,
-				sym: "%"
+				sym: "%",
+				context: "within 10 years"
 			});
 		});
 	}
@@ -255,6 +264,7 @@ export class ReynoldsScore extends Component {
 		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 				</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
