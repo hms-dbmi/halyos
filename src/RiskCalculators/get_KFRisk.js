@@ -16,7 +16,7 @@ export function calcKFRisk(gender, age, gfr, uac) {
   else if (gender == "female") {gender = 0;}
   var a = 0.2694*gender-0.2167*age/10-0.55418*gfr/5+0.45608*Math.log(uac);
   var score = 100*(1-Math.pow(0.924, Math.pow(Math.E, a+2.96774)));
-  score = score.toFixed(2);
+  score = score.toFixed(0);
   return score;
 }
 

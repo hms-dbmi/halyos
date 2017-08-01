@@ -47,7 +47,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
       b += 0.541;
     }
     var score = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
-    score = score.toFixed(2);
+    score = score.toFixed(0);
     return score;
   }
 }
