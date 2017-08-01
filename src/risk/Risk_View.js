@@ -119,7 +119,7 @@ class RiskView extends Component {
 
 		for (var key in obsObject) {
 			if (obsObject.hasOwnProperty(key)) {
-				console.log("herei n the obsObject, ",obsObject);
+				//console.log("herei n the obsObject, ",obsObject);
 				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
 			}
 		}
@@ -371,7 +371,7 @@ class RiskView extends Component {
 
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){
-			console.log("here we:", this.state.riskCalculator);
+			//console.log("here we:", this.state.riskCalculator);
 			var recentMeasurements = this.state.riskCalculator();
 			return (
 				<div className="container-fluid">

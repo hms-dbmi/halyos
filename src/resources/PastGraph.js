@@ -35,6 +35,7 @@ class PastGraph extends Component {
           
 
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
+    const unitLabel = this.props.units;
     //console.log("ref", this.hasRefRange);
     //console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
@@ -50,6 +51,8 @@ return (
             }
           >
 
+          <VictoryAxis dependentAxis label={"Measurements  (" + `${this.props.units}` + ")"} style={{    axisLabel: {fontSize: 15, padding: 37}}}/>
+          <VictoryAxis  label="Date" style={{axisLabel: {fontSize: 15, padding: 27}}} />
           <VictoryScatter data={this.props.obs_data} style={{
                 data: {stroke: "#673AB7"}
               }}
@@ -99,6 +102,7 @@ return (
             }
           >
             <VictoryAxis
+              
               // tickValues={[
               //   new Date(2012, 1, 1),
               //   new Date(2013, 1, 1),
