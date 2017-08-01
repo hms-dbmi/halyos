@@ -74,7 +74,7 @@ class EnvironmentTile extends Component {
 		const tileStyle = {
 			border: "1px"
 		}
-
+		console.log("PATIENT LOCATION", this.state.ptLoc);
 		return (
 			<div style={ tileStyle } className="panel panel-default container-fluid">
 				<div className="row">
@@ -92,6 +92,8 @@ class EnvironmentTile extends Component {
 					<div className="col-md-4">
 						<Flu location={this.state.ptLoc} />
 					</div>
+					<br/>
+					{this.state.ptLoc && <text><br/>Data is gathered for {this.state.ptLoc.city}, {this.state.ptLoc.region_code}.</text>}
 				</div>
 
 			</div>
