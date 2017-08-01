@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logos/ignite_logo.svg';
 import './App.css';
 // import { Link } from 'react-router-dom';
 
@@ -7,8 +7,6 @@ import { Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { getValueQuantities } from './utils/general_utils.js'
-
-import Torch from './logos/torch.js';
 
 class Header extends Component {
 
@@ -59,7 +57,7 @@ class Header extends Component {
         <Navbar collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/"><img src="ignite_logo.svg" weight="40" height="40" style={{marginTop:"-11px"}}/></a>
+              <a href="/"><img src={logo} weight="40" height="40" style={{marginTop:"-11px"}}/></a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -85,7 +83,7 @@ class Header extends Component {
       <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/"><img src="ignite_logo.svg" weight="40" height="40" style={{marginTop:"-11px"}}/></a>
+            <a href="/"><img src={logo} weight="40" height="40" style={{marginTop:"-11px"}}/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

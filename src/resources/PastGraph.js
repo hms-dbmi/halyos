@@ -51,8 +51,17 @@ return (
             }
           >
 
-          <VictoryAxis dependentAxis label={"Measurements  (" + `${this.props.units}` + ")"} style={{    axisLabel: {fontSize: 15, padding: 37}}}/>
-          <VictoryAxis  label="Date" style={{axisLabel: {fontSize: 15, padding: 27}}} />
+          <VictoryAxis 
+            dependentAxis
+            label={"Measurements  (" + `${this.props.units}` + ")"}
+            style={{axisLabel: {fontSize: 15, padding: 37}}}
+          />
+          
+          <VictoryAxis 
+            label="Date"
+            style={{axisLabel: {fontSize: 15, padding: 27}}}
+          />
+
           <VictoryScatter data={this.props.obs_data} style={{
                 data: {stroke: "#673AB7"}
               }}
