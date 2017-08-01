@@ -13,7 +13,8 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
-import { RiskTile, FutureReynoldsScore, ReynoldsScore, FutureCHADScore, CHADScore, FutureKFScore, KFScore, FutureDiabetes, Diabetes, FutureCOPD, COPD } from '../RiskCalculators/Risk_Components.js';
+import SmokingTile from './Smoking_Tile.js';
+import { RiskTile, FutureReynoldsScore, ReynoldsScoreN, FutureCHADScore, CHADScoreN, FutureKFScore, KFScoreN, FutureDiabetes, DiabetesN, FutureCOPD, COPDN } from '../RiskCalculators/Risk_Components.js';
 
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../RiskCalculators/CHAD.js';
@@ -349,23 +350,23 @@ class RiskView extends Component {
 		var riskTile;
 		var futureRiskTile;
 		if(this.riskName == "General_Cardiac") {
-			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScoreN pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "COPD_Mortality") {
-			riskTile = <RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+			riskTile = <RiskTile scoreName="COPD Mortality"><COPDN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
 			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Stroke") {
-			riskTile = <RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+			riskTile = <RiskTile scoreName="Stroke"><CHADScoreN pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
 			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Kidney_Failure") {
-			riskTile = <RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			riskTile = <RiskTile scoreName="Kidney Failure"><KFScoreN pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "Diabetes") {
-			riskTile = <RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+			riskTile = <RiskTile scoreName="Diabetes"><DiabetesN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
 			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
 		}
 
@@ -379,8 +380,11 @@ class RiskView extends Component {
 						<h1 style={{marginLeft:"-20px"}}>{riskDisplay[this.riskName][0]}</h1>
 					</div>
 					<div className="row">
-						<div className="col-sm-6" >
+						<div className="col-sm-3" >
 							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
+						</div>
+						<div className="col-sm-3" >
+							<SmokingTile smoker={true}/>		
 						</div>
 						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(riskTile,{status:"Today"})}
