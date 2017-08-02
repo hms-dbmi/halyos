@@ -43,7 +43,7 @@ class RiskView extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null, updatedMeasurementsByCode:{}, nextMeasures:{}};
+		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null, updatedMeasurementsByCode:{}, nextMeasures:{}, smoker: false};
 	}
 	
 	componentWillMount(){
@@ -345,13 +345,24 @@ class RiskView extends Component {
 	
 	render(){
 
-
+		var xFill = "#030072";
+		var cFill = "#AAAAAB";
+		if(this.state.smoker) {
+			xFill = "#AAAAAB";
+			cFill = "#030072";
+		}
+		var parent = this;
+		function onClick() {
+			parent.setState({
+				smoker: !(parent.state.smoker)
+			});
+		}
 
 		var riskTile;
 		var futureRiskTile;
 		if(this.riskName == "General_Cardiac") {
-			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScoreN pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScoreN smoker={this.state.smoker} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore smoker={this.state.smoker} nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "COPD_Mortality") {
 			riskTile = <RiskTile scoreName="COPD Mortality"><COPDN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
@@ -384,7 +395,7 @@ class RiskView extends Component {
 							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
 						</div>
 						<div className="col-sm-3" >
-							<SmokingTile smoker={true}/>		
+							<SmokingTile xFill={xFill} cFill={cFill} onClick={onClick} smoker={true}/>		
 						</div>
 						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(riskTile,{status:"Today"})}

@@ -487,33 +487,52 @@ export class ReynoldsScoreN extends Component {
 				"2085-9": [], //HDL
 				"8480-6": [] //sysBP
 			};
-			var sortedObs = searchByCode(obs, codesObject);
-			for (var key in sortedObs) {
-				if(sortedObs.hasOwnProperty(key)) {
-					if(sortedObs[key].length == 0) {
+			this.patient = pt[0];
+			this.sortedObs = searchByCode(obs, codesObject);
+			for (var key in this.sortedObs) {
+				if(this.sortedObs.hasOwnProperty(key)) {
+					if(this.sortedObs[key].length == 0) {
 						//console.log(sortedObs);
 						alert("Patient does not have adequate measurements for Reynolds Risk Score.");
 						return;
 					}
 				}
 			}
-			var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
-			sortedObs['8480-6'][0].value,
-			sortedObs['30522-7'][0].value,
-			sortedObs['2093-3'][0].value,
-			sortedObs['2085-9'][0].value,
-			false, //smoker
+			var reynolds = (calculateReynolds(calculateAge(this.patient.birthDate),
+			this.sortedObs['8480-6'][0].value,
+			this.sortedObs['30522-7'][0].value,
+			this.sortedObs['2093-3'][0].value,
+			this.sortedObs['2085-9'][0].value,
+			parentComponent.props.smoker, //smoker
 			false, //famHist
-			pt[0].gender));
+			this.patient.gender));
 			parentComponent.setState({
 				score: reynolds,
 				sym: "%",
 				context: "within 10 years"
 			});
+		}.bind(this));
+	}
+
+	componentWillReceiveProps(nextProps) {
+
+		var reynolds = (calculateReynolds(calculateAge(this.patient.birthDate),
+			this.sortedObs['8480-6'][0].value,
+			this.sortedObs['30522-7'][0].value,
+			this.sortedObs['2093-3'][0].value,
+			this.sortedObs['2085-9'][0].value,
+			nextProps.smoker, //smoker
+			false, //famHist
+			this.patient.gender));
+		this.setState({
+			score: reynolds,
+			sym: "%"
 		});
+//		//console.log("next:", nextP
 	}
 
 	render() {
+		console.log("render", this.props.smoker)
 		var opacity = this.state.score/100;
 		var link = window.location.origin + '/risk/General_Cardiac';
 		return (
@@ -834,7 +853,7 @@ export class FutureReynoldsScore extends Component {
 			// sortedObs['30522-7'][0].value,
 			// sortedObs['2093-3'][0].value,
 			// sortedObs['2085-9'][0].value,
-			this.smoker, //smoker
+			nextProps.smoker, //smoker
 			this.famHist, //famHist
 			this.gender);
 			this.setState({
