@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="24.3802068%" y1="104.275153%" x2="63.6821489%" y2="26.2295082%" id="linearGradient-1">
+            <stop stop-color="#CECECE" offset="0%"></stop>
+            <stop stop-color="#ABABAB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-23019.1761%" y1="3474%" x2="-24274.5228%" y2="2631%" id="linearGradient-2">
+            <stop stop-color="#CECECE" offset="0%"></stop>
+            <stop stop-color="#ABABAB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="27.3322422%" y1="35.106383%" x2="91.5302782%" y2="77.3322422%" id="linearGradient-3">
+            <stop stop-color="#BABABA" offset="2%"></stop>
+            <stop stop-color="#828282" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="72.6677578%" y1="64.893617%" x2="8.46972177%" y2="22.6677578%" id="linearGradient-4">
+            <stop stop-color="#9C9C9C" offset="2%"></stop>
+            <stop stop-color="#A1A1A1" stop-opacity="0" offset="99%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-2">
+            <g id="Group" transform="translate(-3.500000, 3.000000)" fill-rule="nonzero">
+                <g id="weather_46">
+                    <path d="M28.181862,2.30488715e-15 C35.1641276,0.0023222379 41.5717814,3.883217 44.8292732,10.0827624 C50.2134378,6.92362258 56.9923597,7.48998077 61.7822103,11.4991285 C66.572061,15.5082761 68.3457683,22.1005448 66.2179523,27.9852775 C64.0901363,33.8700101 58.5170578,37.7853626 52.2806254,37.7769119 L28.181862,37.8377248 C17.7732447,37.8377248 9.33539324,29.3674615 9.33539324,18.9188624 C9.33539324,8.4702632 17.7732447,-8.49763634e-15 28.181862,-1.0658141e-14 L28.181862,2.30488715e-15 Z" id="Shape" fill="url(#linearGradient-1)"></path>
+                    <path d="M42.866478,55.6923631 C35.8798611,55.6945526 29.4664726,51.8130096 26.2069508,45.6096007 C20.8227862,48.7687405 14.0438643,48.2023823 9.25401367,44.1932346 C4.46416302,40.184087 2.69045571,33.5918183 4.81827168,27.7070856 C6.94608764,21.822353 12.5191662,17.9070005 18.7555986,17.9154512 L42.854362,17.8546384 C53.2629793,17.8546384 61.7008307,26.3249016 61.7008307,36.7735007 C61.7008307,47.2220999 53.2629793,55.6923631 42.854362,55.6923631 L42.866478,55.6923631 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+                    <ellipse id="Oval" fill="url(#linearGradient-3)" transform="translate(18.770367, 32.787199) rotate(-74.390000) translate(-18.770367, -32.787199) " cx="18.7703666" cy="32.7871995" rx="14.8057762" ry="14.8626486"></ellipse>
+                    <ellipse id="Oval" fill="url(#linearGradient-4)" transform="translate(52.286721, 22.914287) rotate(-74.390000) translate(-52.286721, -22.914287) " cx="52.2867206" cy="22.9142865" rx="14.8057762" ry="14.8626486"></ellipse>
+                </g>
+            </g>
+            <text id="AQI" font-family="TrebuchetMS-Bold, Trebuchet MS" font-size="17" font-weight="bold" fill="#FFFFFF">
+                <tspan x="18.2248535" y="36">AQI</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

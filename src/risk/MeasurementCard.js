@@ -30,10 +30,12 @@ class MeasurementCard extends Component {
 		var maxTop;
 		
 
-		maxBottom = Math.min(this.props.data[this.props.data.length - 1].y, isNaN(this.props.reference[0]) ? Infinity : this.props.reference[0]);
-		maxTop = Math.max(this.props.data[0].y, isNaN(this.props.reference[1]) ? -Infinity : this.props.reference[1]);
-	
-		//console.log("maxBottom", maxBottom, "maxTop", maxTop);
+		maxBottom = Math.min(this.props.data[this.props.data.length - 1].y)
+		maxTop = Math.max(this.props.data[0].y);
+		//maxBottom = isNaN(this.props.reference[0]) ? Infinity : this.props.reference[0];
+		//maxTop = isNaN(this.props.reference[1]) ? -Infinity : this.props.reference[1];
+
+		console.log("maxBottom", maxBottom, "maxTop", maxTop);
 		this.marks = {};
 		
 		//make the max and min 50% greater than the largest and smallest numbers (coming from either the value of the patient or the reference ranges, whichever is bigger)

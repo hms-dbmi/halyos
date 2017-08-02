@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import Pollen from '../../logos/pollen.js';
+import Pollen1 from '../../logos/Pollen1.js';
+import Pollen2 from '../../logos/Pollen2.js';
+import Pollen3 from '../../logos/Pollen3.js';
 //const PollenSVG = require('../../logos/pollen.svg');
+
+const categories = {
+//(low, high, good, moderate, , )
+	1:"Low",
+	2:"High",
+	3:"Good",
+	4:"Moderate",
+	5:"Unhealthy",
+	6:"Hazardous"
+}
 
 class PollenLevel extends Component {
 	constructor(props) {
@@ -30,8 +42,16 @@ class PollenLevel extends Component {
 
 		var allergyMeasures = this.state.data.DailyForecasts[0].AirAndPollen.filter(function(item){
 			return (item.Name !== "UVIndex" && item.Name !== "AirQuality");
-
 		})
+
+		var counter = 0;
+		var avgLevel;
+		allergyMeasures.map(function(item) {
+			counter += item.CategoryValue;
+		});
+
+		avgLevel = Math.round(counter/Object.keys(allergyMeasures).length);
+
 		const listItems = allergyMeasures.map((item) => 
 			<tr>
 				<td>{item.Name}</td>
@@ -63,9 +83,18 @@ class PollenLevel extends Component {
 		  </Tooltip>
 		);
 
-
+		var pollenIcon;
+		if(avgLevel >= 1 && avgLevel <= 2) {
+			console.log("done");
+			pollenIcon = <Pollen1 placement="top" tooltip={tooltip} level={avgLevel}/>
+		}
+		else if (avgLevel >=3 && avgLevel <= 4){
+			pollenIcon = <Pollen2 placement="top" tooltip={tooltip} level={avgLevel}/>
+		} else {
+			pollenIcon = <Pollen3 placement="top" tooltip={tooltip} level={avgLevel}/>
+		}
 		return (	
-			<Pollen placement="top" tooltip={tooltip}/>
+			pollenIcon
 		);
 		
 	}

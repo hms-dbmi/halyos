@@ -397,6 +397,10 @@ class RiskView extends Component {
 							
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
+								if(key == "2093-3")
+									var referenceRange = [0,200];
+								else if (key == "8480-6")
+									var referenceRange = [0,120]
 								// console.log(".data", this.state.obsByMeasurement[key].refRange);
 								return <div className="col-sm-12 drop-shadow" key={key}>
 											<MeasurementCard key={key}
@@ -405,7 +409,7 @@ class RiskView extends Component {
 												units={this.state.obsByMeasurement[key].units}
 												code={this.state.obsByMeasurement[key].code}
 												onUpdate={this.onSliderUpdate.bind(this)}
-												reference={this.state.obsByMeasurement[key].refRange}
+												reference={referenceRange}
 											/>	
 									</div>
 							} else {
