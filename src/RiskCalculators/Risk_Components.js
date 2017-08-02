@@ -532,7 +532,6 @@ export class ReynoldsScoreN extends Component {
 	}
 
 	render() {
-		console.log("render", this.props.smoker)
 		var opacity = this.state.score/100;
 		var link = window.location.origin + '/risk/General_Cardiac';
 		return (
