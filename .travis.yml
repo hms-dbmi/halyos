@@ -4,8 +4,20 @@ node_js:
 cache:
   directories:
     - node_modules
+
+#install AWS CLI tools
+install: pip install awscli
 script:
- # - npm run build
-  - npm test
+ # - npm test
+  - npm run build
 notifications:
     slack: hms-dbmi:yftvQus9pIKxKE4HkZvphlXF
+
+deploy:
+  - provider: script
+    script: ~/.local/bin/aws s3 sync dist s3://socrates-fhir-ignite.com --region=us-east-1 --delete
+    access_key_id: "AKIAJ7WP7PPNCTUF7LNQ"
+    secret_access_key: "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"
+    skip_cleanup: true
+  on:
+    branch: master

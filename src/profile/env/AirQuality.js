@@ -19,6 +19,7 @@ class AirQuality extends Component {
 		}
 
 	render() {
+		console.log("data", this.state.data);
 		if (!this.state.data){
 			return (
 				<div>Loading...</div>
