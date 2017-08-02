@@ -258,19 +258,19 @@ class MeasurementText extends Component {
 					What does my {this.props.measurementName} mean? <br/>
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.meaning} <br/>
+					{this.state.meaning} <br/> Source: WebMD <br/>
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
 					Why is my {this.props.measurementName} important? <br/>
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.important} <br/>
+					{this.state.important} <br/> Source: WebMD <br/>
 				</text>
 				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
-					How can I make it better? <br/>
+					How can I make it better? <br/> 
 				</text>
 				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
-					{this.state.improve} <br/>
+					{this.state.improve} <br/> Source: WebMD <br/>
 				</text>
 			</div>
 		);

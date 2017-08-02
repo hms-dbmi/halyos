@@ -34,7 +34,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
       b += 0.438;
     }
     var score = 100*(1-Math.pow(0.98756,Math.pow(Math.E,b-22.325)));
-    score = score.toFixed(2);
+    score = score.toFixed(0);
     return score;
   }
   else {
@@ -42,12 +42,13 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     -0.772*Math.log(hdl)+0.102*Math.log(hsCRP);
     if (smoker) {
       b += 0.405;
+
     }
     if (famHist) {
       b += 0.541;
     }
     var score = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
-    score = score.toFixed(2);
+    score = score.toFixed(0);
     return score;
   }
 }

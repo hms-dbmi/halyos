@@ -6,7 +6,7 @@ export function getURL() {
 //@ return returns the FHIR client with the patient ID
 export function getPatID(patID) {
   return '189211'; 
-  //182296 (healthy-ish), 
+  //182296 (healthy), 
   //189211 (sick)
   // patientID = document.getElementById(patID).value;
   // var demo = {
