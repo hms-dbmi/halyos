@@ -24,13 +24,11 @@ const CHOLESTEROL = "2093-3";
 const HDL = "2085-9";
 
 export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist, gender) {
-  console.log(age, sysBP, hsCRP, chol, hdl, smoker, famHist, gender);
   if (gender == "female") {
     let b = 0.0799*age+3.137*Math.log(sysBP)+0.180*Math.log(hsCRP)
     +1.382*Math.log(chol)-1.172*Math.log(hdl);
     if (smoker) {
       b += 0.818;
-      console.log("yeet")
     }
     if (famHist) {
       b += 0.438;
@@ -44,14 +42,11 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     -0.772*Math.log(hdl)+0.102*Math.log(hsCRP);
     if (smoker) {
       b += 0.405;
-      console.log("yeet")
-
     }
     if (famHist) {
       b += 0.541;
     }
     var score = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
-        console.log("meh", score);
     score = score.toFixed(0);
     return score;
   }
