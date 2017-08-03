@@ -8,7 +8,6 @@ cache:
 #install AWS CLI tools
 install: pip install awscli
 script:
- # - npm test
   - npm run build
 notifications:
     slack: hms-dbmi:yftvQus9pIKxKE4HkZvphlXF
