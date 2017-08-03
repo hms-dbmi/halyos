@@ -6,6 +6,10 @@ cache:
   - node_modules
 env:
   - CI=false
+
+#install AWS CLI tools
+install: pip install awscli
+
 script:
   - npm run build
 deploy:
