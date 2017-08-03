@@ -4,6 +4,8 @@ node_js:
 cache:
   directories:
   - node_modules
+ env:
+   - CI=false
 script:
   - npm run build
 deploy:
@@ -15,3 +17,28 @@ deploy:
   local_dir: build
   on:
     branch: master
+
+
+# env:
+#   - CI=false
+# language: node_js
+# node_js:
+#   - 8
+# cache:
+#   directories:
+#     - node_modules
+
+# #install AWS CLI tools
+# install: pip install awscli
+# script:
+#   - npm run build
+
+# notifications:
+#     slack: hms-dbmi:yftvQus9pIKxKE4HkZvphlXF
+
+# deploy:
+#   provider: script
+#   script: ~/.local/bin/aws s3 sync dist s3://socrates-fhir-ignite.com --region=us-east-1 --delete
+#   access_key_id: "AKIAJ7WP7PPNCTUF7LNQ"
+#   secret_access_key: "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"
+#   skip_cleanup: true
