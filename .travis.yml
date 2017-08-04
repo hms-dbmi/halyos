@@ -15,8 +15,6 @@ script:
 deploy:
   provider: script
   script: ~/.local/bin/aws s3 sync build s3://socrates-fhir-ignite.com --region=us-east-1 --delete
-  access_key_id: "AKIAJ7WP7PPNCTUF7LNQ"
-  secret_access_key: "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"
   skip_cleanup: true
   on:
     branch: master
