@@ -5,25 +5,44 @@ import ProfileView from './profile/Profile_View.js'
 import MeasurementView from './measurement/Measurement_View.js'
 import RiskScoreView from './risk/Risk_View.js'
 import {getPatID} from './utils/smart_setup.js';
+import $ from 'jquery';
 
 class Main extends Component {
 
   constructor(props){
     super(props); 
     //console.log("thsese are them: ", props)
+    this.state = {
+      pt: "",
+      obs: "",
+      conds: "",
+      encs: "",
+      medOrder: "",
+      medReq: "",
 
+    }
   }
+
+  componentDidMount() {
+    var patient = this.props.ptapi.fetchAll({type: "Patient"});
+    var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
+    var conditions = this.props.ptapi.fetchAll({type: "Condition"});
+    var encounters = this.props.ptapi.fetchAll({type: "Encounter", query:{$sort: [['date','desc']]}})
+    var medicationOrder = this.props.ptapi.fetchAll({type: "MedicationStatement"});
+    var medicationRequest = this.props.ptapi.fetchAll({type: "MedicationRequest", query: {'context.diagnosis.code': {$or: [
+              // History of antihypertensive drug treatment
+              //MedicationRequest?context.reason=10509002
+             '38341003'
+             ]}}});
+    var parentComponent = this;
+    $.when(patient).done(function(pt) {
+      parentComponent.setState({
+        pt: pt
+      })
+    })
+  }
+
   render() {
-	var patient = this.props.ptapi.fetchAll({type: "Patient"});
-	var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
-	var conditions = this.props.ptapi.fetchAll({type: "Condition"});
-	var encounters = this.props.ptapi.fetchAll({type: "Encounter", query:{$sort: [['date','desc']]}})
-	var medicationOrder = this.props.ptapi.fetchAll({type: "MedicationStatement"});
-	var medicationRequest = this.props.ptapi.fetchAll({type: "MedicationRequest", query: {'context.diagnosis.code': {$or: [
-            // History of antihypertensive drug treatment
-            //MedicationRequest?context.reason=10509002
-           '38341003'
-           ]}}});
 	var riskObject = {
 		"General Cardiac": ['30522-7', "2093-3", "2085-9", "8480-6"],
 		"Stroke": [],
