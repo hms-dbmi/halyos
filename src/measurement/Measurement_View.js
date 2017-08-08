@@ -12,6 +12,7 @@ import text from './Measurement_Text.js';
 class MeasurementView extends Component {
 
 	constructor(props){
+		console.log(props);
 		super(props);
 		this.state = {measurementList:[], units:"", max:'', min:'', name: '', allObs:{}};
 	}
@@ -23,7 +24,7 @@ class MeasurementView extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps){
-		//console.log("next props", nextProps);
+		console.log("next props", nextProps);
 		if (this.props.match.params === null){
 			return;
 			
@@ -45,18 +46,18 @@ class MeasurementView extends Component {
 		}
 	}
 
-	componentDidMount(){
-		if (this.isEmpty(this.state.allObs)){
-			this.props.observations.then(this.getObservationByName.bind(this));	
-			//console.log("its empty! should only happen once :(");
+	// componentDidMount(){
+	// 	if (this.isEmpty(this.state.allObs)){
+	// 		this.props.observations.then(this.getObservationByName.bind(this));	
+	// 		//console.log("its empty! should only happen once :(");
 
-		} 
-		else {
-			this.getObservationByName(this.state.allObs);
-			//console.log("its not! use the same shit");
+	// 	} 
+	// 	else {
+	// 		this.getObservationByName(this.state.allObs);
+	// 		//console.log("its not! use the same shit");
 
-		}
-	}
+	// 	}
+	// }
 
 	setInitialAllObs(value){
 		this.setState({allObs:value});

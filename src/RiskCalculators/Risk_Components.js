@@ -16,31 +16,30 @@ export class Diabetes extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.pt, this.props.obs, this.props.conds, this.props.medreq).done(function(pt, obs, conds, meds) {
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.pt && nextProps.obs && nextProps.conds && nextProps.medreq) {
 			//calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist)
-			var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
-			var bmi = pullCondition(obs, ['39156-5']);
-			var hyperglycemia = pullCondition(conds, ['80394007']);
+			var waist = pullCondition(nextProps.obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
+			var bmi = pullCondition(nextProps.obs, ['39156-5']);
+			var hyperglycemia = pullCondition(nextProps.conds, ['80394007']);
 			if (waist.length == 0 || bmi.length == 0) {
 				alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
 				////console.log(bmi, waist);
 				return;
 			}
-			var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
-				pt[0].gender,
+			var score = calcDiabetesRisk(calculateAge(nextProps.pt[0].birthDate),
+				nextProps.pt[0].gender,
 				bmi[0].valueQuantity.value,
 				(hyperglycemia.length != 0),
 				false, //NEEDS TO BE FIXED
 				waist[0].valueQuantity.value);
 			////console.log("diabetes score", score);
-			parentComponent.setState({
+			this.setState({
 				score: score,
 				sym: "%",
 				context: "within 5 years"
 			});
-		});
+		}
 	}
 
 	render() {
@@ -66,18 +65,16 @@ export class COPD extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.pt, this.props.obs, this.props.conds).done(function(pt, obs, conds) {
-			//calcCOPD(age, confusion, bun, rr, sbp, dbp)
-			var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.pt && nextProps.obs && nextProps.conds) {
+			var confusion = pullCondition(nextProps.conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
 			var measurementObject = {
 				'8480-6': [], //sysBP
 				'8462-4': [], //diasBP
 				'6299-2': [], //bun
 				'9279-1': [] //rr
 			};
-			var sortedObs = searchByCode(obs, measurementObject);
+			var sortedObs = searchByCode(nextProps.obs, measurementObject);
 			for (var key in sortedObs) {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
@@ -87,18 +84,18 @@ export class COPD extends Component {
 					}
 				}
 			}
-			var COPDScore = calcCOPD(calculateAge(pt[0].birthDate),
+			var COPDScore = calcCOPD(calculateAge(nextProps.pt[0].birthDate),
 				confusion,
 				sortedObs['6299-2'][0].value,
 				sortedObs['9279-1'][0].value,
 				sortedObs['8480-6'][0].value,
 				sortedObs['8462-4'][0].value);
-			parentComponent.setState({
+			this.setState({
 				score: COPDScore,
 				sym: "%",
 				context: "within 4 years"
 			});
-		});
+		}
 	}
 
 	render() {
@@ -124,11 +121,10 @@ export class KFScore extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.pt, this.props.obs).done(function(pt, obs) {
-			var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
-			var uac = pullCondition(obs, ["14958-3", "14959-1"]);
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.pt && nextProps.obs) {
+			var gfr = pullCondition(nextProps.obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+			var uac = pullCondition(nextProps.obs, ["14958-3", "14959-1"]);
 			if(gfr.length == 0 || uac.length == 0) {
 				//console.log("KF score", gfr, uac);
 				alert("Patient does not have enough measurements for Kidney Risk Score");
@@ -138,17 +134,17 @@ export class KFScore extends Component {
 				if(gfr[0].component) {
 					gfr[0] = gfr[0].component[0];
 				}
-				var KFRisk = calcKFRisk(pt[0].gender, 
-				calculateAge(pt[0].birthDate), 
+				var KFRisk = calcKFRisk(nextProps.pt[0].gender, 
+				calculateAge(nextProps.pt[0].birthDate), 
 				gfr[0].valueQuantity.value, //gfr
 				uac[0].valueQuantity.value); //uac
-				parentComponent.setState({
+				this.setState({
 					score: KFRisk,
 					sym: "%",
 					context: "within 5 years"
 				});
 			}
-		});
+		}
 	}
 
 	render() {
@@ -174,27 +170,26 @@ export class CHADScore extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.pt, this.props.conds).done(function(pt, conds) {
-		    var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
-		    var hypertension = pullCondition(conds, ["38341003"]);
-		    var vascDisease = pullCondition(conds, ["27550009"]);
-		    var diabetes = pullCondition(conds, ["73211009"]);
-		    var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
-			var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
-			pt[0].gender, //gender
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.pt && nextProps.conds) {
+			var chf = pullCondition(nextProps.conds, ["42343007"]); //byCodes only works w LOINC
+		    var hypertension = pullCondition(nextProps.conds, ["38341003"]);
+		    var vascDisease = pullCondition(nextProps.conds, ["27550009"]);
+		    var diabetes = pullCondition(nextProps.conds, ["73211009"]);
+		    var strTIAthrom = pullCondition(nextProps.conds, ["230690007", "266257000", "13713005"]);
+			var CHADscore = calcCHADScore(calculateAge(nextProps.pt[0].birthDate), //age
+			nextProps.pt[0].gender, //gender
 			chf, //chf
 			hypertension, //hypertension
 			vascDisease, //vascDisease
 			diabetes, //diabetes
 			strTIAthrom); //strTIAthrom
-			parentComponent.setState({
+			this.setState({
 				score: CHADscore,
 				sym: "%",
 				context: "within one year"
 			});
-		});
+		}
 	}
 
 	render() {
