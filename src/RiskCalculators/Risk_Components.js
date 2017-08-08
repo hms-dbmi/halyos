@@ -220,16 +220,15 @@ export class ReynoldsScore extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.pt, this.props.obs).done(function(pt, obs) {
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.pt && nextProps.obs) {
 			var codesObject = {
 				'30522-7': [], //hsCRP
 				"2093-3": [], //cholesterol
 				"2085-9": [], //HDL
 				"8480-6": [] //sysBP
 			};
-			var sortedObs = searchByCode(obs, codesObject);
+			var sortedObs = searchByCode(nextProps.obs, codesObject);
 			for (var key in sortedObs) {
 				if(sortedObs.hasOwnProperty(key)) {
 					if(sortedObs[key].length == 0) {
@@ -239,20 +238,20 @@ export class ReynoldsScore extends Component {
 					}
 				}
 			}
-			var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
+			var reynolds = (calculateReynolds(calculateAge(nextProps.pt[0].birthDate),
 			sortedObs['8480-6'][0].value,
 			sortedObs['30522-7'][0].value,
 			sortedObs['2093-3'][0].value,
 			sortedObs['2085-9'][0].value,
 			false, //smoker
 			false, //famHist
-			pt[0].gender));
-			parentComponent.setState({
+			nextProps.pt[0].gender));
+			this.setState({
 				score: reynolds,
 				sym: "%",
 				context: "within 10 years"
 			});
-		});
+		}
 	}
 
 	render() {
@@ -604,30 +603,30 @@ export class FutureDiabetes extends Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		var allMeasurements = {};
-		for (var key in this.sortedObs) {
-			if(this.sortedObs.hasOwnProperty(key)) {
-				if (nextProps.nextMeasures[key] != undefined){
-					allMeasurements[key] = nextProps.nextMeasures[key];
-				}
-				else {
-					allMeasurements[key] = this.sortedObs[key][0].value
-				}
-			}
-		}
+		// var allMeasurements = {};
+		// for (var key in this.sortedObs) {
+		// 	if(this.sortedObs.hasOwnProperty(key)) {
+		// 		if (nextProps.nextMeasures[key] != undefined){
+		// 			allMeasurements[key] = nextProps.nextMeasures[key];
+		// 		}
+		// 		else {
+		// 			allMeasurements[key] = this.sortedObs[key][0].value
+		// 		}
+		// 	}
+		// }
 
-		var reynolds = calculateReynolds(this.birthDate,
-			allMeasurements['8480-6'],
-			allMeasurements['30522-7'],
-			allMeasurements['2093-3'],
-			allMeasurements['2085-9'],
-			this.smoker, //smoker
-			this.famHist, //famHist
-			this.gender);
-			this.setState({
-				score: reynolds,
-				sym: "%"
-			});
+		// var reynolds = calculateReynolds(this.birthDate,
+		// 	allMeasurements['8480-6'],
+		// 	allMeasurements['30522-7'],
+		// 	allMeasurements['2093-3'],
+		// 	allMeasurements['2085-9'],
+		// 	this.smoker, //smoker
+		// 	this.famHist, //famHist
+		// 	this.gender);
+		// 	this.setState({
+		// 		score: reynolds,
+		// 		sym: "%"
+		// 	});
 	}
 
 	componentDidMount() {

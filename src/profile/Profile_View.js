@@ -56,11 +56,11 @@ class ProfileView extends Component {
 						<AppointmentsTile patient={this.props.patient}/>
 					</div>
 				</div>
-				{/*<div className="row">
+				<div className="row">
 					<div className = "col-sm-2">
 						<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
 					</div>
-					<div className = "col-sm-2">
+					{/*<div className = "col-sm-2">
 						<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
 					</div>
 					<div className = "col-sm-2">
@@ -71,12 +71,11 @@ class ProfileView extends Component {
 					</div>
 					<div className = "col-sm-2">
 						<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
-					</div>
-			
+					</div> */}
 					<div className = "col-sm-2">
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
-				</div>*/}
+				</div>
 			</div>
 
 		)
