@@ -36,8 +36,39 @@ class Main extends Component {
              ]}}});
     var parentComponent = this;
     $.when(patient).done(function(pt) {
+      console.log("patient done", pt);
       parentComponent.setState({
         pt: pt
+      })
+    })
+    $.when(observations).done(function(obs) {
+      console.log("obs done", obs);
+      parentComponent.setState({
+        obs: obs
+      })
+    })
+    $.when(conditions).done(function(conds) {
+      console.log("conds done", conds);
+      parentComponent.setState({
+        conds: conds
+      })
+    })
+    $.when(encounters).done(function(encs) {
+      console.log("encs done", encs);
+      parentComponent.setState({
+        encs: encs
+      })
+    })
+    $.when(medicationOrder).done(function(medOrder) {
+      console.log("medO done", medOrder);
+      parentComponent.setState({
+        medOrder: medOrder
+      })
+    })
+    $.when(medicationRequest).done(function(medReq) {
+      console.log("medR done", medReq);
+      parentComponent.setState({
+        medReq: medReq
       })
     })
   }
@@ -59,28 +90,28 @@ class Main extends Component {
           )} />
 			    <Route exact path='/' render={(props) => (
   					<ProfileView {...props} 
-  								meds={medicationOrder}
-  								patient={patient}
-  								encounters={encounters}
-  								observations={observations}
-  								conditions={conditions}
+  								meds={this.state.medOrder}
+  								patient={this.state.pt}
+  								encounters={this.state.encs}
+  								observations={this.state.obs}
+  								conditions={this.state.conds}
   								api={this.props.api}
   								ptapi={this.props.ptapi}
-  								medreq={medicationRequest}/>
+  								medreq={this.state.medReq}/>
 				)} />
 		    	<Route exact path='/measure' render={(props) => (
   					<MeasurementView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
 				)} />
 				<Route path='/measure/:measureId' render={(props) => (
   					<MeasurementView {...props} 
-  								meds={medicationOrder}
-  								patient={patient}
-  								encounters={encounters}
+  								meds={this.state.medOrder}
+  								patient={this.state.pt}
+  								encounters={this.state.encs}
   								api={this.props.api}
   								ptapi={this.props.ptapi}
-  								medreq={medicationRequest}
-  								observations={observations}
-  								conditions={conditions} 
+  								medreq={this.state.medReq}
+  								observations={this.state.obs}
+  								conditions={this.state.conds} 
   								riskObject={riskObject}/>
 				)} />
 		        <Route exact path='/risk' render={(props) => (
@@ -88,14 +119,14 @@ class Main extends Component {
 				)} />
 				<Route path='/risk/:riskName' render={(props) => (
   					<RiskScoreView {...props} 
-  								meds={medicationOrder}
-  								patient={patient}
-  								encounters={encounters} 
+  								meds={this.state.meds}
+  								patient={this.state.pt}
+  								encounters={this.state.encs} 
   								api={this.props.api}
   								ptapi={this.props.ptapi}
-  								medreq={medicationRequest}
-  								observations={observations}
-  								conditions={conditions} />
+  								medreq={this.state.medReq}
+  								observations={this.state.obs}
+  								conditions={this.state.conds} />
                   
 				)} />
 				

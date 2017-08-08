@@ -23,23 +23,16 @@ class EnvironmentTile extends Component {
 		}
 	*/
 
-	componentWillMount() {
-		//console.log("envi comp mounted");
-
-
-
+	componentWillReceiveProps(nextProps) {
 		var ptHasAddress = false;
-
-		var ptPromise = this.props.patient.then(function(pt){
-			//console.log("patient:", pt);
-			if(!pt[0].address){
+		if(nextProps.patient) {
+			if(!nextProps.patient[0].address) {
 				$.getJSON('http://freegeoip.net/json/?callback=?', function(data) {
 					  this.setState({ptLoc:data});
 					}.bind(this));
-				//this.setState({pt:})
-			} 
+			}
 			else {
-				var fullAddress = pt[0].address[0];
+				var fullAddress = nextProps.patient[0].address[0];
 				$.getJSON('https://api.opencagedata.com/geocode/v1/json?q='+ fullAddress.postalCode + '&countrycode='+ fullAddress.country+'&no_annotations=1&key=bc76774a452346449916c91155a0b96b', function(data) {
 					  //console.log("what da hell", data.results[0])
 					  this.setState({ptLoc: {
@@ -51,14 +44,47 @@ class EnvironmentTile extends Component {
 						"longitude":data.results[0].geometry.lng
 						}
 				});
-					
 
 					}.bind(this));
 			}
-		}.bind(this))
+		}
+	}
+
+	// componentWillMount() {
+	// 	//console.log("envi comp mounted");
+
+
+
+
+	// 	var ptPromise = this.props.patient.then(function(pt){
+	// 		//console.log("patient:", pt);
+	// 		if(!pt[0].address){
+	// 			$.getJSON('http://freegeoip.net/json/?callback=?', function(data) {
+	// 				  this.setState({ptLoc:data});
+	// 				}.bind(this));
+	// 			//this.setState({pt:})
+	// 		} 
+	// 		else {
+	// 			var fullAddress = pt[0].address[0];
+	// 			$.getJSON('https://api.opencagedata.com/geocode/v1/json?q='+ fullAddress.postalCode + '&countrycode='+ fullAddress.country+'&no_annotations=1&key=bc76774a452346449916c91155a0b96b', function(data) {
+	// 				  //console.log("what da hell", data.results[0])
+	// 				  this.setState({ptLoc: {
+	// 					"country_code":fullAddress.country,
+	// 					"region_code":fullAddress.state,
+	// 					"city":fullAddress.city,
+	// 					"zip_code":fullAddress.postalCode,
+	// 					"latitude":data.results[0].geometry.lat,
+	// 					"longitude":data.results[0].geometry.lng
+	// 					}
+	// 			});
+					
+
+	// 				}.bind(this));
+	// 		}
+	// 	}.bind(this))
 		
 
-	}
+	// }
 
 	render(){
 		const headingStyle = {

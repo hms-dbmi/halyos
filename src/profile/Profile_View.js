@@ -56,7 +56,7 @@ class ProfileView extends Component {
 						<AppointmentsTile patient={this.props.patient}/>
 					</div>
 				</div>
-				<div className="row">
+				{/*<div className="row">
 					<div className = "col-sm-2">
 						<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
 					</div>
@@ -76,7 +76,7 @@ class ProfileView extends Component {
 					<div className = "col-sm-2">
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
-				</div>
+				</div>*/}
 			</div>
 
 		)
@@ -104,23 +104,27 @@ class MedicationTile extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var parentComponent = this;
-		$.when(this.props.meds).done(function(meds) {
+	componentWillReceiveProps(nextProps) {
+		console.log("medtile", this.props, nextProps);
+		if(nextProps.meds) {
 			const medNames = [];
-			if(meds) {
-				for (var i = 0; i < meds.length; i++) {
-					medNames.push(meds[i].medicationCodeableConcept.text + ": " + meds[i].dosage[0].text);
+			if(nextProps.meds) {
+				for (var i = 0; i < nextProps.meds.length; i++) {
+					medNames.push(nextProps.meds[i].medicationCodeableConcept.text + ": " + nextProps.meds[i].dosage[0].text);
 				}
 				const listItems = medNames.map((medName) =>
 		  			<li key={medName}>{medName}</li>
 				);
 				//console.log("Drugs", listItems);
-				parentComponent.setState({
+				this.setState({
 					medListText: listItems
 				});
 			}
-		});
+		}
+	}
+
+	componentDidMount() {
+		console.log("medtile mounted", this.props.meds == false)
 	}
 
 	render() {
@@ -163,13 +167,14 @@ class AppointmentsTile extends Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillReceiveProps(nextProps) {
 		//console.log(this.props.patient)
-		var parentComponent = this;
-		$.when(this.props.patient).done(function(pt){
-			var age = calculateAge(pt[0].birthDate);
-			var gender = pt[0].gender;
+		if(nextProps.patient) {
+			console.log("valid next patient for appointments");
+			var age = calculateAge(nextProps.patient[0].birthDate);
+			var gender = nextProps.patient[0].gender;
 			var URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=' + age + "&sex=" + gender;
+			var parentComponent = this;
 			$.get(URL).done(function(data) {
 				//console.log(data);
 				var interventions = [];
@@ -183,7 +188,7 @@ class AppointmentsTile extends Component {
 					interventionsList: listItems
 				});
 			});
-		});
+		}
 	}
 
 	render() {
@@ -227,22 +232,22 @@ class DemographicTile extends Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillReceiveProps(nextProps) {
+		console.log("demographic tile", this.props, nextProps);
 		//var i = {this.props.i};
-		var parentComponent = this;
-		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
-			var genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
-			var heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
+		if(nextProps.patient && nextProps.observations && nextProps.encounters) {
+			var genderheightstring = nextProps.patient[0].gender.charAt(0).toUpperCase() + nextProps.patient[0].gender.slice(1);
+			var heightObject = searchByCode(nextProps.observations, {'8302-2': []})['8302-2'][0];
 			if(heightObject) {
 				genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
 			}
-			parentComponent.setState({
-				name: getPatientName(pt[0]),
+			this.setState({
+				name: getPatientName(nextProps.patient[0]),
 				genderheight: genderheightstring,
-				dob: "DOB: " + pt[0].birthDate,
-				lastencounter: "Last Hospital Visit: " + encs[0].period.end.substring(0,10)
+				dob: "DOB: " + nextProps.patient[0].birthDate,
+				lastencounter: "Last Hospital Visit: " + nextProps.encounters[0].period.end.substring(0,10)
 			});
-		});
+		}
 	}
 
 	render() {
@@ -325,44 +330,36 @@ class VitalTile extends Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillReceiveProps(nextProps) {
 		//var i = {this.props.i};
-		var parentComponent = this;
-		$.when(this.props.observations).done(function(obs) {
+		console.log("vitaltile", this.props, nextProps);
+		if(nextProps.observations) {
 			var testobject = {};
-			testobject[parentComponent.props.code] = [];
-			var result = searchByCode(obs, testobject);
+			testobject[this.props.code] = [];
+			var result = searchByCode(nextProps.observations, testobject);
 			var precision = 0;
-			if (result[parentComponent.props.code][0]['value'] < 1) {
+			if (result[this.props.code][0]['value'] < 1) {
 				precision = 2;
 			}
-			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
-				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
+			if (result[this.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
+				result[this.props.code][0]['text'] = "HDL Cholesterol";
 			}
-			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
-				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
+			if (result[this.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
+				result[this.props.code][0]['text'] = "LDL Cholesterol";
 			}
-			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
-				result[parentComponent.props.code][0]['text'] = "Systolic BP";
+			if (result[this.props.code][0]['text'] === "Systolic Blood Pressure") {
+				result[this.props.code][0]['text'] = "Systolic BP";
 			}
-			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
-				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
-			}
-			var forSparkline = [];
-			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
-				forSparkline.push({
-					name: result[parentComponent.props.code][i]['date'].toString(),
-					value: (result[parentComponent.props.code][i]['value'])
-				})
+			if (result[this.props.code][0]['text'] === "Diastolic Blood Pressure") {
+				result[this.props.code][0]['text'] = "Diastolic BP";
 			}
 			//console.log(result);
-			parentComponent.setState({
-				measurementName: result[parentComponent.props.code][0]['text'],
-				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
-				data: forSparkline,
-				date: "As of " + result[parentComponent.props.code][0]['date'].slice(0,10)
+			this.setState({
+				measurementName: result[this.props.code][0]['text'],
+				value: result[this.props.code][0]['value'].toFixed(precision) + " " + result[this.props.code][0]['unit'],
+				date: "As of " + result[this.props.code][0]['date'].slice(0,10)
 			});
-		});
+		}
 	}
 	render() {
 		var link = window.location.href + 'measure/' + this.props.code;
