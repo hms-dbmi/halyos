@@ -5,6 +5,7 @@ import ProfileView from './profile/Profile_View.js'
 import MeasurementView from './measurement/Measurement_View.js'
 import RiskScoreView from './risk/Risk_View.js'
 import {getPatID} from './utils/smart_setup.js';
+import {riskObject} from './utils/general_utils.js';
 
 class Main extends Component {
 
@@ -24,13 +25,6 @@ class Main extends Component {
             //MedicationRequest?context.reason=10509002
            '38341003'
            ]}}});
-	var riskObject = {
-		"General Cardiac": ['30522-7', "2093-3", "2085-9", "8480-6"],
-		"Stroke": [],
-		"Kidney Failure": ["48643-1", "48642-3", "33914-3","14958-3", "14959-1"],
-		"COPD Mortality": ['8480-6', '8462-4','6299-2','9279-1'],
-		"Diabetes": ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8','39156-5']
-	};
     
     return (
 	    <main>

@@ -1,3 +1,12 @@
+
+export const riskObject = {
+  "General Cardiac": ['30522-7', "2093-3", "2085-9", "8480-6"],
+  "Stroke": [],
+  "Kidney Failure": ["48643-1", "48642-3", "33914-3","14958-3", "14959-1"],
+  "COPD Mortality": ['8480-6', '8462-4','6299-2','9279-1'],
+  "Diabetes": ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8','39156-5']
+};
+
 //ignore this function, I don't think it's working right
 
 export function isPrimitive (val) {
