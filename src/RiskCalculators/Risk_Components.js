@@ -528,7 +528,7 @@ export class ReynoldsScoreN extends Component {
 			score: reynolds,
 			sym: "%"
 		});
-//		//console.log("next:", nextP
+		//console.log("next:", nextP
 	}
 
 	render() {
@@ -829,20 +829,20 @@ export class FutureReynoldsScore extends Component {
 		var allMeasurements = {};
 		for (var key in this.sortedObs) {
 			if(this.sortedObs.hasOwnProperty(key)) {
-//				//console.log("key", key);
+				//console.log("key", key);
 				if (nextProps.nextMeasures[key] != undefined){
 					allMeasurements[key] = nextProps.nextMeasures[key];
-//					//console.log("if", nextProps.nextMeasures[key]);
+					//console.log("if", nextProps.nextMeasures[key]);
 				}
 				else {
-//					//console.log("this isortedpro", this.sortedObs);
+					//console.log("this isortedpro", this.sortedObs);
 					allMeasurements[key] = this.sortedObs[key][0].value
 				}
 			}
 		}
 
-//		//console.log("all measurements", allMeasurements);
-//		//console.log("next:", nextProps);
+		//console.log("all measurements", allMeasurements);
+		//console.log("next:", nextProps);
 		var reynolds = calculateReynolds(this.birthDate,
 			allMeasurements['8480-6'],
 			allMeasurements['30522-7'],
@@ -859,7 +859,7 @@ export class FutureReynoldsScore extends Component {
 				score: reynolds,
 				sym: "%"
 			});
-//		//console.log("next:", nextProps);
+		//console.log("next:", nextProps);
 	}
 
 	componentDidMount() {
