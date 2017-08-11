@@ -9,6 +9,9 @@ import Header from './Header.js'
 
 import { getURL, getPatID }  from './utils/smart_setup.js'
 
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
 const FHIR = window.FHIR;
 
 const FHIR_Client = FHIR.client({
@@ -24,6 +27,8 @@ const Context_FHIR_Client = FHIR.client({
   patientId: getPatID(),
 
 });
+
+let store = createStore(todoApp);
 
 // const Main = () => (
 //   <main>
@@ -56,8 +61,10 @@ const App = () => (
 )
 
 ReactDOM.render((
-    <BrowserRouter basename="/">
-  	    <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter basename="/">
+    	    <App />
+      </BrowserRouter>
+    </Provider>
 ), document.getElementById('root'));
 
