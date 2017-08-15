@@ -1,4 +1,4 @@
-
+//each array contains the LOINC codes for the measurements used by each risk score
 export const riskObject = {
   "General Cardiac": ['30522-7', "2093-3", "2085-9", "8480-6"],
   "Stroke": [],

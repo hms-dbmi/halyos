@@ -200,22 +200,6 @@ class AppointmentsTile extends Component {
 	}
 }
 
-class OldAppointmentsTile extends Component {
-	constructor(props) {
-		super();
-	}
-
-	componentDidMount() {
-
-	}
-
-	render() {
-		return (
-			<iframe src="https://calendar.google.com/calendar/embed?title=Appointments&amp;showTitle=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=132&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=samson.mataraso%40berkeley.edu&amp;color=%23182C57&amp;ctz=America%2FLos_Angeles" style={{borderWidth:0}} width="610" height="132" frameborder="0" scrolling="no"></iframe>
-		);
-	}
-}
-
 class DemographicTile extends Component {
 	constructor(props) {
 		super();
@@ -256,63 +240,6 @@ class DemographicTile extends Component {
 		);
 	}
 }
-
-// class VitalTiles extends Component {
-// 	constructor(props) {
-// 		super();
-// 		this.state = {
-// 			name: "",
-// 			value: "Loading...",
-// 			units: "",
-// 		};
-// 	}
-
-// 	componentDidMount() {
-// 		//var i = {this.props.i};
-// 		var parentComponent = this;
-// 		$.when(this.props.observations).done(function(obs) {
-// 			var testobject = {};
-// 			testobject[parentComponent.props.code] = [];
-// 			var result = searchByCode(obs, testobject);
-// 			var precision = 0;
-// 			if (result[parentComponent.props.code][0]['value'] < 1) {
-// 				precision = 2;
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Systolic BP";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
-// 			}
-// 			var forSparkline = [];
-// 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
-// 				forSparkline.push({
-// 					name: result[parentComponent.props.code][i]['date'].toString(),
-// 					value: (result[parentComponent.props.code][i]['value'])
-// 				})
-// 			}
-// 			parentComponent.setState({
-// 				measurementName: result[parentComponent.props.code][0]['text'],
-// 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
-// 				data: forSparkline
-// 			});
-// 		});
-// 	}
-// 	render() {
-// 		var link = window.location.href + 'measure/' + this.props.code;
-// 		return (
-// 			<div>
-// 				<div style={{width: "100%", height:"85px", borderRadius: "10px", backgroundColor: "#AECEDA", opacity: "0.9"}}> {this.props.children} </div><br/>
-// 			</div>
-// 		)
-// 	}
-// }
 
 class VitalTile extends Component {
 	constructor(props) {

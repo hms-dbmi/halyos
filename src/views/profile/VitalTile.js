@@ -65,9 +65,6 @@ class VitalTile extends Component {
 				                    <tspan x="286.84" y="83" fontSize="32"> </tspan>
 				                    <tspan x="297.496" y="83" fontSize="20">{this.state.units}</tspan>
 				                </text>
-				                <foreignObject width = "300px" height = "224px" x = "450px" y="40px">
-			                        
-								</foreignObject>
 				            </g>
 				        </g>
 				    </g>

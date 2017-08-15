@@ -1,5 +1,11 @@
 const TIME_THRESHOLD = 10000000;
-
+/*
+@param bundles: an array of arrays that contains the observations separated by type e.g. [[BP0,BP1,BP2],[HR0,HR1],[CHOL]]
+@param codes: an array w/ LOINC codes for those observations in order [BP_CODE, HR_CODE, CHOL_CODE]
+@param: names: name of the measurement [BP, HR, CHOL]
+@param: bundle w/ all observations aggregated
+@return: array w/ objects that represent complete sets
+*/
 export function findPriorSets(bundles, codes, names, aggBund) {
   var completeSets = [];
   var sizeArr = {};

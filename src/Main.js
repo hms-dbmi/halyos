@@ -15,6 +15,8 @@ class Main extends Component {
 
   }
   render() {
+  /*initial GET requests to API to collect the data needed -- soon this will be split into an initial request to 
+  get the data needed for the profile view, and then a request to get the rest of the data needed*/
 	var patient = this.props.ptapi.fetchAll({type: "Patient"});
 	var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
 	var conditions = this.props.ptapi.fetchAll({type: "Condition"});
