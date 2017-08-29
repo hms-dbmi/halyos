@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import Pollen1 from '../../logos/Pollen1.js';
-import Pollen2 from '../../logos/Pollen2.js';
-import Pollen3 from '../../logos/Pollen3.js';
+import Pollen1 from './logos/pollen/Pollen1.js';
+import Pollen2 from './logos/pollen/Pollen2.js';
+import Pollen3 from './logos/pollen/Pollen3.js';
 //const PollenSVG = require('../../logos/pollen.svg');
 
 const categories = {

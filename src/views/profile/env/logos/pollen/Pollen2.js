@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
-class Pollen3 extends Component {
+class Pollen2 extends Component {
   render() {
     return (
 
@@ -67,4 +67,4 @@ class Pollen3 extends Component {
   }
 }
 
-export default Pollen3;
+export default Pollen2;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import AIQ from '../../logos/aiq.js';
+import AIQ from './logos/aiq/aiq.js';
 //const PollenSVG = require('../../logos/pollen.svg');
 
 class AirQuality extends Component {

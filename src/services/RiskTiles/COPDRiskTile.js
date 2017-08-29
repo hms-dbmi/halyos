@@ -1,9 +1,9 @@
 import {calcCOPD} from '../RiskCalculators/COPD.js';
 import React, { Component } from 'react';
 import $ from 'jquery'; 
-import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
+import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
-class COPDN extends Component {
+class COPD extends Component {
 	constructor(props) {
 		super();
 		this.state = {
@@ -55,9 +55,10 @@ class COPDN extends Component {
 		    	<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 		    	</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
+				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>
 			</g>
 		);
 	}
 }
 
-export default COPDN;
+export default COPD;

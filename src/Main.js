@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import ProfileView from './profile/Profile_View.js'
-import MeasurementView from './measurement/Measurement_View.js'
-import RiskScoreView from './risk/Risk_View.js'
-import {getPatID} from './utils/smart_setup.js';
-import {riskObject} from './utils/general_utils.js';
+import ProfileView from './views/profile/Profile_View.js'
+import MeasurementView from './views/measurement/Measurement_View.js'
+import RiskScoreView from './views/risk/Risk_View.js'
+import {getPatID} from './services/smart_setup.js';
+import {riskObject} from './services/general_utils.js';
 
 class Main extends Component {
 

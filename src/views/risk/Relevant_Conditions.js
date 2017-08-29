@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getValueQuantities, searchByCode, pullCondition } from '../utils/general_utils.js';
+import { getValueQuantities, searchByCode, pullCondition } from '../../services/risk_score_utils.js';
 import $ from 'jquery';
 
 const riskObjectConditions = {

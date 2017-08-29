@@ -1,7 +1,7 @@
 import {calculateReynolds} from '../RiskCalculators/reynolds.js';
 import React, { Component } from 'react';
 import $ from 'jquery'; 
-import {searchByCode, calculateAge} from '../utils/general_utils.js';
+import {searchByCode, calculateAge} from '../../services/risk_score_utils.js';
 
 class FutureReynoldsScore extends Component {
 	constructor(props) {
@@ -100,4 +100,5 @@ class FutureReynoldsScore extends Component {
 	}
 }
 
-export FutureReynoldsScore;
+export default FutureReynoldsScore;
+

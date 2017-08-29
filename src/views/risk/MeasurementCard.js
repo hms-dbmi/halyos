@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../resources/PastGraph.js';
+import PastGraph from '../../components/graphs/PastGraph.js';
 import Slider, { Range } from 'rc-slider';
 // We can just import Slider or Range to reduce bundle size
 // import Slider from 'rc-slider/lib/Slider';

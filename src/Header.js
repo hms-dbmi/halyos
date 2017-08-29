@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logos/ignite_logo.svg';
+import logo from './ignite_logo.svg';
 import './App.css';
 // import { Link } from 'react-router-dom';
 
 import { Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { getValueQuantities } from './utils/general_utils.js'
+import { getValueQuantities } from './services/general_utils.js'
 
-import {riskObject} from './utils/general_utils.js';
+import {riskObject} from './services/general_utils.js';
 
 
 class Header extends Component {

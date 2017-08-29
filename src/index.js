@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './services/registerServiceWorker';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import Main from './Main.js'
 import Header from './Header.js'
 
-import { getURL, getPatID }  from './utils/smart_setup.js'
+import { getURL, getPatID }  from './services/smart_setup.js'
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -28,7 +28,7 @@ const Context_FHIR_Client = FHIR.client({
 
 });
 
-let store = createStore(todoApp);
+//let store = createStore(todoApp);
 
 // const Main = () => (
 //   <main>
@@ -61,10 +61,10 @@ const App = () => (
 )
 
 ReactDOM.render((
-    <Provider store={store}>
+//    <Provider store={store}>
       <BrowserRouter basename="/">
     	    <App />
       </BrowserRouter>
-    </Provider>
+//    </Provider> 
 ), document.getElementById('root'));
 

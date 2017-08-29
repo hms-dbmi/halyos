@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../resources/PastGraph.js';
-import PastToFutureGraph from '../resources/Past-to-Future-Graph.js';
+import PastGraph from '../../components/graphs/PastGraph.js';
+import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
 
-import { getValueQuantities } from '../utils/general_utils.js';
+import { getValueQuantities } from '../../services/general_utils.js';
 
-import {ReynoldsScore, CHADScore, KFScore, COPD, Diabetes, RiskTile} from '../RiskCalculators/Risk_Components.js';
+import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
+import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
+import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
+import COPD from '../../services/RiskTiles/COPDRiskTile.js'
+import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import RiskTile from '../../services/RiskTiles/RiskTile.js'
+
 import text from './Measurement_Text.js';
+
 
 class MeasurementView extends Component {
 

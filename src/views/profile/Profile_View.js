@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import Scale from '../logos/scale';
-import BP from '../logos/bp';
-import Cholesterol from '../logos/chol';
-import Glucose from '../logos/glucose';
+import Scale from '../../components/logos/scale';
+import BP from '../../components/logos/bp';
+import Cholesterol from '../../components/logos/chol';
+import Glucose from '../../components/logos/glucose';
 import $ from 'jquery'; 
-import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../utils/patient_view_utils.js'
-import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
+import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../../services/patient_view_utils.js'
+import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 import { LineChart, Line, Tooltip } from 'recharts';
 import EnvironmentTile from './EnvironmentFactors.js';
-import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
+
+//import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
+import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
+import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
+import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
+import COPD from '../../services/RiskTiles/COPDRiskTile.js'
+import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import RiskTile from '../../services/RiskTiles/RiskTile.js'
+import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
+
 import { Button } from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog'
 

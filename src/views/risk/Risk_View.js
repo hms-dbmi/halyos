@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import MeasurementCard from './MeasurementCard.js';
 import RelevantConditions from './Relevant_Conditions.js';
 
-import { getValueQuantities, searchByCode, pullCondition } from '../utils/general_utils.js';
+import { getValueQuantities, searchByCode, pullCondition } from '../../services/risk_score_utils.js';
 
 import Slider, { Range } from 'rc-slider';
 // We can just import Slider or Range to reduce bundle size
@@ -14,13 +14,25 @@ import 'rc-slider/assets/index.css';
 import Tooltip from 'rc-tooltip';
 
 import SmokingTile from './Smoking_Tile.js';
-import { RiskTile, FutureReynoldsScore, ReynoldsScoreN, FutureCHADScore, CHADScoreN, FutureKFScore, KFScoreN, FutureDiabetes, DiabetesN, FutureCOPD, COPDN } from '../RiskCalculators/Risk_Components.js';
 
-import {calculateReynolds} from '../RiskCalculators/reynolds.js';
-import {calcCHADScore} from '../RiskCalculators/CHAD.js';
-import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
-import {calcCOPD} from '../RiskCalculators/COPD.js';
-import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
+import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
+import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
+import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
+import COPD from '../../services/RiskTiles/COPDRiskTile.js'
+import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import RiskTile from '../../services/RiskTiles/RiskTile.js'
+import FutureReynoldsScore from '../../services/RiskTiles/FutureCardiacRiskTile.js'
+import ReynoldsScoreN from '../../services/RiskTiles/CardiacNRiskTile.js'
+import CHADScoreN from '../../services/RiskTiles/StrokeNRiskTile.js'
+import KFScoreN from '../../services/RiskTiles/KidneyFailureNRiskTile.js'
+import DiabetesN from '../../services/RiskTiles/DiabetesNRiskTile.js'
+import COPDN from '../../services/RiskTiles/COPDNRiskTile.js'
+
+import {calculateReynolds} from '../../services/RiskCalculators/reynolds.js';
+import {calcCHADScore} from '../../services/RiskCalculators/CHAD.js';
+import {calcKFRisk} from '../../services/RiskCalculators/get_KFRisk.js';
+import {calcCOPD} from '../../services/RiskCalculators/COPD.js';
+import {calcDiabetesRisk} from '../../services/RiskCalculators/get_diabetes.js';
 
 const riskObject = {
     "General_Cardiac": ["30522-7", "2093-3", "2085-9", "8480-6"],
@@ -366,19 +378,19 @@ class RiskView extends Component {
 		}
 		else if(this.riskName == "COPD_Mortality") {
 			riskTile = <RiskTile scoreName="COPD Mortality"><COPDN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+//			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Stroke") {
 			riskTile = <RiskTile scoreName="Stroke"><CHADScoreN pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+//			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Kidney_Failure") {
 			riskTile = <RiskTile scoreName="Kidney Failure"><KFScoreN pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+//			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "Diabetes") {
 			riskTile = <RiskTile scoreName="Diabetes"><DiabetesN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+//			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
 		}
 
 		//console.log('render');

@@ -1,7 +1,7 @@
 import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
 import React, { Component } from 'react';
 import $ from 'jquery'; 
-import {calculateAge, pullCondition} from '../utils/general_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 class KFScore extends Component {
 	constructor(props) {
