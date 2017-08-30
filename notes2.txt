@@ -1,0 +1,51 @@
+notes 
+
+what recommendations should we include, and will the be useful, find lit review
+
+data integration
+--
+mhealth
+integrate env into recommendations
+
+
+eslint
+Created by Miso Duzek
+
+stop-color => stop-color
+fill-rule => fillRule
+stroke-width => strokeWidth
+xmlns:xlink => xmlnsXlink
+
+
+import {calculateReynolds} from '../RiskCalculators/reynolds.js';
+import {calcCHADScore} from '../RiskCalculators/CHAD.js';
+import {calcKFRisk} from '../RiskCalculators/get_KFRisk.js';
+import {calcCOPD} from '../RiskCalculators/COPD.js';
+import {calcDiabetesRisk} from '../RiskCalculators/get_diabetes.js';
+import React, { Component } from 'react';
+import $ from 'jquery'; 
+import {searchByCode, calculateAge, pullCondition} from '../utils/general_utils.js';
+
+
+import SkyLight from 'react-skylight';
+
+
+8009196890
+
+3:06
+
+-3 +- sqrt(9 - 8) / 2
+
+-2/2 = -1
+-2
+
+D
+D
+
+
+A course in linear algebra that studies the fundamentals of vector spaces, inner product spaces, and linear transformations on an axiomatic basis. Topics include: solutions of linear systems, matrix algebra over the real and complex numbers, linear independence, bases and dimension, eigenvalues and eigenvectors, singular value decomposition, and determinants. Other topics may include least squares, general inner product and normed spaces, orthogonal projections, finite dimensional spectral theorem. This course is required of all students majoring in mathematics and applied mathematics. More theoretical than MATH 201.
+
+Matrix operations, systems of linear equations, vector spaces, subspaces, bases and linear independence, eigenvalues and eigenvectors, diagonalization of matrices, linear transformations, determinants. Less theoretical than MATH 307.  Appropriate for majors in science, engineering, economics.
+
+
+figma? - collaborative design tool

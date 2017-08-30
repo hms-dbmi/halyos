@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import logo from './logos/ignite_logo.svg';
+import logo from './ignite_logo.svg';
 import './App.css';
 // import { Link } from 'react-router-dom';
 
 import { Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { getValueQuantities } from './utils/general_utils.js'
+import { getValueQuantities } from './services/general_utils.js'
 
-import {riskObject} from './utils/general_utils.js';
+import {riskObject} from './services/general_utils.js';
 
+import { HeaderStyle } from './Header-style.js'
 
 class Header extends Component {
 
@@ -32,13 +33,13 @@ class Header extends Component {
                   //adding stringified text so they can be compared for equality and we keep all the info, just JSON parse it
                   if(data[i].component){
                       for (let comp of data[i].component){
-                        console.log(comp.code.coding[0].code);
+                        //console.log(comp.code.coding[0].code);
                         var name = JSON.stringify(comp.code.coding[0]);
                         observationList.add(name);
                       }
                     }
                   else {
-                      console.log(data[i].code.coding[0].code);
+                      //console.log(data[i].code.coding[0].code);
                       var name = JSON.stringify(data[i].code.coding[0]);
                       observationList.add(name);    
                     }
@@ -46,7 +47,7 @@ class Header extends Component {
 
                 for (let item of observationList){
                   var parsedItem = JSON.parse(item);
-                  console.log("parseditem", parsedItem);
+                  //console.log("parseditem", parsedItem);
                   if (!(parsedItem.code === '48643-1' || parsedItem.code === '48642-3')) {
                     updatedList.push(parsedItem);
                   }
@@ -58,12 +59,13 @@ class Header extends Component {
   }
 
   render() {
+
     if(!this.state.observations){
       return (
         <Navbar collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/"><img src={logo} weight="40" height="40" style={{marginTop:"-11px"}}/></a>
+              <a href="/"><img src={logo} weight="40" height="40" style={ HeaderStyle }/></a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -89,7 +91,7 @@ class Header extends Component {
       <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/"><img src={logo} weight="40" height="40" style={{marginTop:"-11px"}}/></a>
+            <a href="/"><img src={logo} weight="40" height="40" style={HeaderStyle}/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

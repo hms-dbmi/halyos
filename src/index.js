@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './services/registerServiceWorker';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import Main from './Main.js'
 import Header from './Header.js'
 
-import { getURL, getPatID }  from './utils/smart_setup.js'
+import { getURL, getPatID }  from './services/smart_setup.js'
+
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
 const FHIR = window.FHIR;
 
@@ -24,6 +27,8 @@ const Context_FHIR_Client = FHIR.client({
   patientId: getPatID(),
 
 });
+
+//let store = createStore(todoApp);
 
 // const Main = () => (
 //   <main>
@@ -56,8 +61,10 @@ const App = () => (
 )
 
 ReactDOM.render((
-    <BrowserRouter basename="/">
-  	    <App />
-    </BrowserRouter>
+//    <Provider store={store}>
+      <BrowserRouter basename="/">
+    	    <App />
+      </BrowserRouter>
+//    </Provider> 
 ), document.getElementById('root'));
 
