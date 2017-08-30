@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { calculateAge } from '../../services/risk_score_utils';
 
+import { headerStyle, apptListStyle } from './AppointmentsTile-style';
+
 class AppointmentsTile extends Component {
 	constructor(props) {
 		super();
@@ -36,10 +38,10 @@ class AppointmentsTile extends Component {
 	render() {
 		return (
 			<div>
-				<p style={{textAlign: 'center', fontSize: "20"}}>
+				<p style={headerStyle}>
 					Suggested Preventative Care for You
 				</p>
-				<div style={{height:'100px',width:'100%',border:'1px solid #ccc',font:'16px/26px Georgia, Garamond, Serif',overflow:'auto'}}>
+				<div style={apptListStyle}>
 					<ul>{this.state.interventionsList}</ul>
 				</div>
 			</div>
