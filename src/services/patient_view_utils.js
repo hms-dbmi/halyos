@@ -77,3 +77,16 @@ export function getTopObservationsDemo(bundle, n=6) {
 	}
 	return observations;
 }
+
+export function getPatientName (pt) {
+  if (pt.name) {
+    var names = pt.name.map(function(name) {
+      return name.given.join(" ") + " " + name.family;
+    });
+    return names[0];
+  } else {
+    return "anonymous";
+  }
+}
+
+
