@@ -15,6 +15,7 @@ import RiskTile from '../../services/RiskTiles/RiskTile.js'
 
 import text from './Measurement_Text.js';
 
+import { measurementTitleStyle, measurementDetailTextStyle, affectedRiskScoreTitleStyle, measurementDetailsHeaderStyle, measurementDetailsSubheadingStyle } from './Measurement_View-style.js'
 
 class MeasurementView extends Component {
 
@@ -168,14 +169,14 @@ class MeasurementView extends Component {
 				<div>
 					<div className="row">
 						<div className="col-md-6">
-							<text style={{fontSize: "28", fontFamily: "HiraKakuStd-W8, Hiragino Kaku Gothic Std"}}>
+							<text style={measurementTitleStyle}>
 								{this.state.name}
 							</text>
 							<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
 							mainHeight={200}
 							viewWidth={500}
 							viewHeight={50}/>
-							<text style={{fontSize: "20", fontFamily: "HiraKakuStd-W8, Hiragino Kaku Gothic Std"}}>
+							<text style={affectedRiskScoreTitleStyle}>
 								Risk Scores Affected By This Measurement
 							</text>
 							<div className="row">
@@ -258,25 +259,25 @@ class MeasurementText extends Component {
 	render() {
 		return (
 			<div>
-				<text x='10' y='50' style={{fontSize: 38, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"#18A9DC"}}>
+				<text x='10' y='50' style={measurementDetailsHeaderStyle}>
 					About This Measurement <br/> 
 				</text>
-				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+				<text style={measurementDetailsSubheadingStyle}>
 					What does my {this.props.measurementName} mean? <br/>
 				</text>
-				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+				<text style={measurementDetailTextStyle}>
 					{this.state.meaning} <br/> Source: WebMD <br/>
 				</text>
-				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+				<text style={measurementDetailsSubheadingStyle}>
 					Why is my {this.props.measurementName} important? <br/>
 				</text>
-				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+				<text style={measurementDetailTextStyle}>
 					{this.state.important} <br/> Source: WebMD <br/>
 				</text>
-				<text style={{fontSize: 16, fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std", color:"black"}}>
+				<text style={measurementDetailsSubheadingStyle}>
 					How can I make it better? <br/> 
 				</text>
-				<text style={{fontSize: 12, fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro", color:"black"}}>
+				<text style={measurementDetailTextStyle}>
 					{this.state.improve} <br/> Source: WebMD <br/>
 				</text>
 			</div>

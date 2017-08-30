@@ -5,6 +5,8 @@ import PollenLevel from './env/PollenLevel.js'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 
+import { tileStyle, headingStyle } from './EnvironmentFactors-style.js'
+
 class EnvironmentTile extends Component {
 	constructor(props){
 		super(props);
@@ -61,20 +63,6 @@ class EnvironmentTile extends Component {
 	}
 
 	render(){
-		const headingStyle = {
-
-			fontFamily:"Helvetica",
-			fontSize:"20",
-			fontWeight:"normal",
-			fill:"#000000",
-			textAlign:"center"
-
-		}
-
-		const tileStyle = {
-			border: "1px"
-		}
-		console.log("PATIENT LOCATION", this.state.ptLoc);
 		return (
 			<div style={ tileStyle } className="panel panel-default container-fluid">
 				<div className="row">

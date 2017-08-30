@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import SkyLight from 'react-skylight';
 
+import { riskTileStyle } from './RiskTile-style.js'
+
 class HelpRiskTile extends Component {
 	constructor(props) {
 		super();

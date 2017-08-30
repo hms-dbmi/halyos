@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
+import { riskTileStyle } from './RiskTile-style.js'
+
 class CHADScore extends Component {
 	constructor(props) {
 		super();

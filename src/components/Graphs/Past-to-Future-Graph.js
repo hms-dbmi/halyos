@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { VictoryTooltip, VictoryVoronoiContainer, VictoryArea, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 
+import { refRangeStyle, dataLineStyle, otherLineStyle, scatterPlotStyle } from './Past-To-Future-Graph-style.js'
+
 class PastToFutureGraph extends Component {
 
 	constructor(props){
@@ -30,8 +32,6 @@ class PastToFutureGraph extends Component {
 		startingLinePts.push(firstFuturePoint);
 		startingLinePts.push(nextProps.obs_data[0]);
 		this.setState({otherLine:startingLinePts});
-		
-
 	}
 
 	// handleZoom(domain) {
@@ -107,11 +107,7 @@ class PastToFutureGraph extends Component {
 		          >     
 
 		          {hasRefRange && <VictoryArea y0={() => this.props.refRange[0][1]} y={() => this.props.refRange[0][0]}
-						style={{
-						    data: {
-						      fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
-						    }
-						}}
+						style={refRangeStyle}
 					 />
 			  //         <VictoryArea y0={() => yMinPadded} y={() => this.props.refRange[0][0]}
 				 //          style={{
@@ -133,18 +129,14 @@ class PastToFutureGraph extends Component {
 		            	>
 				            
 				            <VictoryLine
-				            	 style={{
-				                	data: {strokeWidth:3}
-				              	}}    
+				            	 style={dataLineStyle}    
 				            	labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
 		    					labelComponent={<VictoryTooltip/>}
 								data={this.state.view_data}
 				            />
 
 				            <VictoryLine    
-								style={{
-				                	data: {stroke:"blue", strokeDasharray: "5,5"}
-				              	}}
+								style={otherLineStyle}
 				              	data={this.state.otherLine}
 				            />
 
@@ -152,7 +144,7 @@ class PastToFutureGraph extends Component {
 				            	labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`}
 		    					labelComponent={<VictoryTooltip/>}
 		    					name="test" ref={(ref) => this.svg = ref}
-							    style={{ data: { fill: "#c43a31",strokeWidth:3 } }}
+							    style={scatterPlotStyle}
 							    width={10}
 							    size={7}
 							    data={this.state.userData}

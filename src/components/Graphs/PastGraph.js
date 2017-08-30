@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 
+import { refRangeStyle, lineStyle, yAxisStyle, xAxisStyle, scatterStyle, viewfinderLineStyle } from './PastGraph-style.js'
+
 class PastGraph extends Component {
 
 	constructor(props){
@@ -54,31 +56,23 @@ return (
           <VictoryAxis 
             dependentAxis
             label={"Measurements  (" + `${this.props.units}` + ")"}
-            style={{axisLabel: {fontSize: 15, padding: 37}}}
+            style={yAxisStyle}
           />
           
           <VictoryAxis 
             label="Date"
-            style={{axisLabel: {fontSize: 15, padding: 27}}}
+            style={xAxisStyle}
           />
 
-          <VictoryScatter data={this.props.obs_data} style={{
-                data: {stroke: "#673AB7"}
-              }}
+          <VictoryScatter data={this.props.obs_data} style={scatterStyle}
           />
 
           {this.hasRefRange && <VictoryArea data={this.props.obs_data} y0={() => this.props.refRange[0]} y={() => this.props.refRange[1]}
-            style={{
-                data: {
-                  fill: "#8BC34A", fillOpacity: 0.3, strokeWidth:0
-                }
-            }}
+            style={refRangeStyle}
            />}
           
         <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
-              style={{
-                data: {stroke: "#673AB7"}
-              }}
+              style={lineStyle}
               
             />
 
@@ -124,9 +118,7 @@ return (
               // tickFormat={(x) => new Date(x).getFullYear()}
             />
             <VictoryLine
-              style={{
-                data: {stroke: "#673AB7"}
-              }}
+              style={viewfinderLineStyle}
               data={this.props.obs_data}
             />
           </VictoryChart>

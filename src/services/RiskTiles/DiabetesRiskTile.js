@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
+import { riskTileStyle } from './RiskTile-style.js'
+
 class Diabetes extends Component {
 	constructor(props) {
 		super();
@@ -41,10 +43,11 @@ class Diabetes extends Component {
 	render() {
 		var opacity = this.state.score/100;
 		var link = window.location.origin.toString() + '/risk/Diabetes';
+		
 		return (
 			<g>
 				<a xlinkHref={link} target="_blank">
-		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
+		    		<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity:0}}/>
 	    		</a>
 				<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 				<text x="50%" y="90%" fontSize="10" alignmentBaseline="middle" textAnchor="middle">{this.state.context}</text>

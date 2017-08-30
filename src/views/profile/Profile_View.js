@@ -21,6 +21,8 @@ import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 import { Button } from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog'
 
+import { medListStyle, medListDivStyle } from './Profile_View-style.js'
+
 class ProfileView extends Component {
 	constructor(props){
 		super(props);
@@ -150,7 +152,7 @@ class MedicationTile extends Component {
 				                    <use fillOpacity="0.55" fill="url(#linearGradient-1)" fillRule="evenodd" xlinkHref="#path-2"></use>
 				                </g>
 				                <foreignObject width="650px" height="96px" x="0" y="26">
-				                	<div style={{fontSize: "18px"}}><ul style={{listStyleType: 'none'}}>{this.state.medListText}</ul></div>
+				                	<div style={medListDivStyle}><ul style={medListStyle}>{this.state.medListText}</ul></div>
 				                </foreignObject>
 				                <text x="50%" y="20%" alignmentBaseline="middle" textAnchor="middle" id="Medication-Reminders" fontFamily="Helvetica" fontSize="20" fontWeight="normal" fill="#000000">
 				                    Medication Reminders
