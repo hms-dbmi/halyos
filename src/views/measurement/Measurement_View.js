@@ -6,7 +6,7 @@ import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../../services/general_utils.js';
 
-import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
+import reynoldsScore from '../../services/RiskCalculators/reynolds.js'
 import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
 import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
 import COPD from '../../services/RiskTiles/COPDRiskTile.js'
@@ -182,7 +182,7 @@ class MeasurementView extends Component {
 							<div className="row">
 								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
 									<div className="col-md-4">
-				        			<RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+				        			<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context"within 10 years" url="General_Cardiac"/>
 									</div>	
 								}
 								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
