@@ -15,12 +15,11 @@ import Glucose from '../../components/logos/glucose';
 //import { LineChart, Line, Tooltip } from 'recharts';
 
 //import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
-import reynoldsScore from '../../services/RiskCalculators/reynolds.js'
-import CHADScore from '../../services/RiskCalculators/CHAD.js'
-import KFScore from '../../services/RiskCalculators/get_KFRisk.js'
-import COPDScore from '../../services/RiskCalculators/COPD.js'
-import diabetesScore from '../../services/RiskCalculators/get_diabetes.js'
-import CHADScore from '../../services/RiskCalculators/CHAD.js'
+import {reynoldsScore} from '../../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 

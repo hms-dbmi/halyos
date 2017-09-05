@@ -6,11 +6,11 @@ import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../../services/general_utils.js';
 
-import reynoldsScore from '../../services/RiskCalculators/reynolds.js'
-import CHADScore from '../../services/RiskCalculators/CHAD.js'
-import KFScore from '../../services/RiskCalculators/get_KFRisk.js'
-import COPDScore from '../../services/RiskCalculators/COPD.js'
-import diabetesScore from '../../services/RiskCalculators/get_diabetes.js'
+import {reynoldsScore} from '../../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 
 import text from './Measurement_Text.js';

@@ -15,18 +15,13 @@ import Tooltip from 'rc-tooltip';
 
 import SmokingTile from './Smoking_Tile.js';
 
-import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
-import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
-import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
-import COPD from '../../services/RiskTiles/COPDRiskTile.js'
-import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import {reynoldsScore} from '../../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
-import FutureReynoldsScore from '../../services/RiskTiles/FutureCardiacRiskTile.js'
-import ReynoldsScoreN from '../../services/RiskTiles/CardiacNRiskTile.js'
-import CHADScoreN from '../../services/RiskTiles/StrokeNRiskTile.js'
-import KFScoreN from '../../services/RiskTiles/KidneyFailureNRiskTile.js'
-import DiabetesN from '../../services/RiskTiles/DiabetesNRiskTile.js'
-import COPDN from '../../services/RiskTiles/COPDNRiskTile.js'
+import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 
 import {calculateReynolds} from '../../services/RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../../services/RiskCalculators/CHAD.js';
