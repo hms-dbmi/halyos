@@ -58,6 +58,22 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
   return strkRisk;
 }
 
+export function CHADScore(pt, conds){
+      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+      var hypertension = pullCondition(conds, ["38341003"]);
+      var vascDisease = pullCondition(conds, ["27550009"]);
+      var diabetes = pullCondition(conds, ["73211009"]);
+      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+      var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
+        pt[0].gender, //gender
+        chf, //chf
+        hypertension, //hypertension
+        vascDisease, //vascDisease
+        diabetes, //diabetes
+        strTIAthrom); //strTIAthrom
+      return CHADScore;
+}
+
 // function strokeRisk() { //add units check
 //   var smart = getPatID("patIDStroke");
 //   var score;

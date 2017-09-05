@@ -15,11 +15,12 @@ import Glucose from '../../components/logos/glucose';
 //import { LineChart, Line, Tooltip } from 'recharts';
 
 //import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
-import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
-import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
-import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
-import COPD from '../../services/RiskTiles/COPDRiskTile.js'
-import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import reynoldsScore from '../../services/RiskCalculators/reynolds.js'
+import CHADScore from '../../services/RiskCalculators/CHAD.js'
+import KFScore from '../../services/RiskCalculators/get_KFRisk.js'
+import COPDScore from '../../services/RiskCalculators/COPD.js'
+import diabetesScore from '../../services/RiskCalculators/get_diabetes.js'
+import CHADScore from '../../services/RiskCalculators/CHAD.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 
@@ -71,19 +72,19 @@ class ProfileView extends Component {
 				</div>
 				<div className="row">
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+        				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
+						<RiskTile scoreName="Stroke" score={CHADScore(pt, conds)} sym="%" context="within 1 year" url="Stroke"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+	        			<RiskTile scoreName="Kidney Failure" score={KFRScore(pt, obs)} sym="%" context="within 5 years" url="Kidney_Failure"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
+	        			<RiskTile scoreName="COPD Mortality" score={COPDScore(pt, obs, conds)} sym="%" context="within 4 years" url="COPD_Mortality"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
+	        			<RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
 					</div>
 			
 					<div className = "col-sm-2">

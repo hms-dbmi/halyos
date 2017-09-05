@@ -7,10 +7,10 @@ import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
 import { getValueQuantities } from '../../services/general_utils.js';
 
 import reynoldsScore from '../../services/RiskCalculators/reynolds.js'
-import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
-import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
-import COPD from '../../services/RiskTiles/COPDRiskTile.js'
-import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import CHADScore from '../../services/RiskCalculators/CHAD.js'
+import KFScore from '../../services/RiskCalculators/get_KFRisk.js'
+import COPDScore from '../../services/RiskCalculators/COPD.js'
+import diabetesScore from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 
 import text from './Measurement_Text.js';
@@ -182,22 +182,22 @@ class MeasurementView extends Component {
 							<div className="row">
 								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
 									<div className="col-md-4">
-				        			<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context"within 10 years" url="General_Cardiac"/>
+				        			<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 									</div>	
 								}
 								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
 									<div className="col-md-4">
-				        			<RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+				        			<RiskTile scoreName="Kidney Failure" score={KFRScore(pt, obs)} sym="%" context="within 5 years" url="Kidney_Failure"/>
 									</div>	
 								}
 								{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
 									<div className="col-md-4">
-				        			<RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+				        			<RiskTile scoreName="COPD Mortality" score={COPDScore(pt, obs, conds)} sym="%" context="within 4 years" url="COPD_Mortality"/>
 									</div>	
 								}
 								{this.props.riskObject['Diabetes'].includes(this.measureId) &&
 									<div className="col-md-4">
-				        			<RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+				        			<RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
 									</div>	
 								}
 							</div>

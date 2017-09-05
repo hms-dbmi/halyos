@@ -54,7 +54,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
   }
 }
 
-export function reynoldsScore(pt, obs) {
+export function reynoldsScore(pt, obs, smoker = false) {
   var codesObject = {
       '30522-7': [], //hsCRP
       "2093-3": [], //cholesterol
@@ -76,7 +76,7 @@ export function reynoldsScore(pt, obs) {
   sortedObs['30522-7'][0].value,
   sortedObs['2093-3'][0].value,
   sortedObs['2085-9'][0].value,
-  false, //smoker
+  smoker, //smoker
   false, //famHist
   pt[0].gender));
   return reynolds;
