@@ -78,6 +78,13 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         return score;
 }
 
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param conds -- the bundle that contains all condition resources
+    @param -- the bundle that contains all medicationrequest resources
+    @return the diabetes score as a percent
+*/
 export function diabetesScore(pt, obs, conds, medreq) {
   var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
   var bmi = pullCondition(obs, ['39156-5']);

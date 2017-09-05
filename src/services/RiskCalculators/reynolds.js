@@ -54,6 +54,14 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
   }
 }
 
+
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param smoker -- boolean indicating whether or not patient is a smoker; assumes false
+    @return the reynolds score as a percent
+*/
+
 export function reynoldsScore(pt, obs, smoker = false) {
   var codesObject = {
       '30522-7': [], //hsCRP

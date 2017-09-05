@@ -21,6 +21,11 @@ export function calcKFRisk(gender, age, gfr, uac) {
   return score;
 }
 
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @return the kidney failure risk score as a percent
+*/
 export function KFRScore(pt, obs) {
   var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
   var uac = pullCondition(obs, ["14958-3", "14959-1"]);

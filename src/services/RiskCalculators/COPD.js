@@ -42,6 +42,13 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
     return mortality;
 }
 
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param conds -- the bundle that contains all condition resources
+    @return the COPD score as a percent
+*/
+
 export function COPDScore(pt, obs, conds) {
     var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
     var measurementObject = {

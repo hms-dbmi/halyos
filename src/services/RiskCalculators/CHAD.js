@@ -13,6 +13,7 @@
     @return CHAD risk score
 
 */
+
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {
       age = 0;
@@ -57,6 +58,12 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
   }
   return strkRisk;
 }
+
+/**
+@param pt -- the patient resource
+@param conds -- the bundle of all conditions
+@return CHAD score as a percent
+*/
 
 export function CHADScore(pt, conds){
       var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
