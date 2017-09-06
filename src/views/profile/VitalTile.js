@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { searchByCode } from '../../services/risk_score_utils.js';
+import {getNearest} from '../../services/general_utils.js';
 
 class VitalTile extends Component {
 	constructor(props) {
 		super();
 		this.state = {
 			name: "",
-			value: "Loading...",
+			present: "",
 			units: "",
-			date: ""
+			presentDate: ""
 		};
 	}
 
@@ -46,14 +47,26 @@ class VitalTile extends Component {
 			//console.log(result);
 			parentComponent.setState({
 				measurementName: result[parentComponent.props.code][0]['text'],
-				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
+				present: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
 				data: forSparkline,
-				date: "As of " + result[parentComponent.props.code][0]['date'].slice(0,10)
+				presentDate: "As of " + result[parentComponent.props.code][0]['date'].slice(0,10)
 			});
 		});
 	}
 	render() {
 		var link = window.location.href + 'measure/' + this.props.code;
+		pastMeasurement = getNearest(this.props.obs, 2015-01-01-00:00);
+		this.setState({
+			past: pastMeasurement.value,
+			pastDate: pastMeasurement.effectiveDateTime
+		});
+		console.log(this.state.measurementName, 
+			this.state.units, 
+			this.state.past, 
+			this.state.pastDate, 
+			this.state.present, 
+			this.state.presentDate, 
+			this.state.future)
 		return (
 			<div>
 				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 750 180" version="1.1">
@@ -63,10 +76,6 @@ class VitalTile extends Component {
 					    <g id="Patient-Page" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
 					        <g id="Desktop-HD" transform="translate(-18.000000, -253.000000)">
 					            <g id="Group-4" transform="translate(18.000000, 253.000000)">
-					            	<a xlinkHref={link} target="_blank">
-					               		<rect id="Rectangle-5" fillOpacity="0.9" fill="#AECEDA" x="0" y="0" width="750" height="180" rx="10" ></rect>
-					               		{this.props.children}
-				                	</a>
 					                <text id="Weight" fontFamily="Helvetica" fontSize="56" fontWeight="normal" fill="#000000">
 					                    <tspan x="180" y="56">{this.state.measurementName}</tspan>
 					                </text>

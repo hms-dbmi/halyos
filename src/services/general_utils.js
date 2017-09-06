@@ -50,3 +50,39 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
 
   return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
+
+/**
+  
+    This function takes in a bundle of observations and a target date, and outputs the closest measurement
+
+    @param obs: bundle of observations in descending order
+    @param date: date of interest
+
+    @return: observation resource
+*/
+
+export function getNearest(obs, date) {
+  var prevObs;
+  var currObs;
+  // start at the front of the observation bundle & go backwards
+  // stop once the date is older than date
+  // compare of that date + prevDate to determine which is closer
+  // return
+  // return oldest measurement possible if no data available
+  for (var i = 0; i < obs.length; i++) {
+    currObs = obs[0][i];
+    if (obs[0][i].effectiveDateTime > date) {
+      prevObs = currObs;
+    }
+    else {
+      break;
+    }
+  }
+  if ((prevObs.effectiveDateTime-date) > (date-currObs.effectiveDateTime)) {
+    return currObs;
+  }
+  return prevObs;
+}
+
+
+
