@@ -6,7 +6,6 @@ import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
 
-
 import Scale from '../../components/logos/scale';
 import BP from '../../components/logos/bp';
 import Cholesterol from '../../components/logos/chol';
@@ -22,6 +21,7 @@ import {COPDScore} from '../../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
+import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
 import { medListStyle, medListDivStyle } from './Profile_View-style.js'
 
@@ -31,7 +31,7 @@ class ProfileView extends Component {
 	}
 
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
-		getEnvironmentalResponses(this.props.patient);
+		//var ptLoc = getPtLoc();
 		return (
 			<div>
 				<div className="row">
