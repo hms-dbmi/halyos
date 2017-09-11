@@ -31,44 +31,39 @@ class ProfileView extends Component {
 	}
 
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
-		console.log("You are here.");
+		getEnvironmentalResponses(this.props.patient);
 		return (
 			<div>
 				<div className="row">
 					<div className = "col-sm-6">
 						<div className="row">
-							<div className="col-sm-12">
-								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/><br/>
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="110" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 							</div>
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="110" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div>
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 							</div>
-							<div className="row">
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div>
+						</div>
+						<div className="row">
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 							</div>
-							<div className="row">
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-								</div> 
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
+							</div>
+							<div className="col-sm-6">
+								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
+							</div> 
 						</div>
 					</div>
-					{/*<div className = "col-sm-6">
-						<MedicationTile meds={this.props.meds}/>
+					<div className = "col-sm-6">
 						<EnvironmentTile patient={this.props.patient}/>
-						<AppointmentsTile patient={this.props.patient}/>
-					</div>*/}
+					</div>
 				</div>
 				<div className="row">
 					<div className = "col-sm-2">
@@ -85,10 +80,6 @@ class ProfileView extends Component {
 					</div>
 					<div className = "col-sm-2">
 	        			<RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/>
-					</div>
-			
-					<div className = "col-sm-2">
-						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
 				</div>
 				{/*<div className="row">
