@@ -6,7 +6,6 @@ class RiskTile extends Component {
 	}
 
 	render() {
-		var opacity = this.props.score/100;
 		var link = window.location.origin + '/risk/' + this.props.url;
 		return (
 			<svg className="img-fluid" width="100%" height="100%" viewBox="0 0 123 118" version="1.1">
