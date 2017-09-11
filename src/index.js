@@ -9,7 +9,7 @@ import Header from './Header.js'
 
 import { getURL, getPatID }  from './services/smart_setup.js'
 
-import { Provider } from 'react-redux'
+//import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 const FHIR = window.FHIR;

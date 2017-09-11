@@ -12,10 +12,10 @@
     @return diabetes risk score
 
 */
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 const BMI = '39156-5';
-import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist) {
           //starts with the intercept

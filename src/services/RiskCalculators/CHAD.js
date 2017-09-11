@@ -13,6 +13,7 @@
     @return CHAD risk score
 
 */
+import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {

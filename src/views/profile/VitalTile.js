@@ -5,6 +5,8 @@ import {getNearest} from '../../services/general_utils.js';
 
 class VitalTile extends Component {
 	constructor(props) {
+		super(props);
+		console.log("props", this.props);
 		this.state = {
 			measurementName: this.props.measurementName
 		}

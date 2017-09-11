@@ -31,6 +31,7 @@ class ProfileView extends Component {
 	}
 
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
+		console.log("You are here.");
 		return (
 			<div>
 				<div className="row">
@@ -40,36 +41,57 @@ class ProfileView extends Component {
 								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/><br/>
 							</div>
 								<div className="col-sm-6">
-									<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="110" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 								</div>
 								<div className="col-sm-6">
-									<VitalTile code='2085-9' observations={this.props.observations}><Cholesterol/></VitalTile>
-								</div>
-							</div>
-							<div className="row">
-								<div className="col-sm-6">
-									<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile code='18262-6' observations={this.props.observations}><Cholesterol/></VitalTile>
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col-sm-6">
-									<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 								</div>
 								<div className="col-sm-6">
-									<VitalTile code='2339-0' observations={this.props.observations}><Glucose/></VitalTile>
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col-sm-6">
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
+								</div>
+								<div className="col-sm-6">
+									<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
 								</div> 
 						</div>
 					</div>
-					<div className = "col-sm-6">
+					{/*<div className = "col-sm-6">
 						<MedicationTile meds={this.props.meds}/>
 						<EnvironmentTile patient={this.props.patient}/>
 						<AppointmentsTile patient={this.props.patient}/>
-					</div>
+					</div>*/}
 				</div>
 				<div className="row">
+					<div className = "col-sm-2">
+        				<RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/>
+					</div>
+					<div className = "col-sm-2">
+						<RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/>
+					</div>
+					<div className = "col-sm-2">
+	        			<RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/>
+					</div>
+					<div className = "col-sm-2">
+	        			<RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/>
+					</div>
+					<div className = "col-sm-2">
+	        			<RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/>
+					</div>
+			
+					<div className = "col-sm-2">
+						<div><HelpRiskTile scoreName="Help"/></div>
+					</div>
+				</div>
+				{/*<div className="row">
 					<div className = "col-sm-2">
         				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 					</div>
@@ -89,7 +111,7 @@ class ProfileView extends Component {
 					<div className = "col-sm-2">
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
-				</div>
+				</div>*/}
 			</div>
 
 		)
@@ -138,7 +160,7 @@ class ProfileView extends Component {
 // 				})
 // 			}
 // 			parentComponent.setState({
-// 				measurementName: result[parentComponent.props.code][0]['text'],
+// 				Name: result[parentComponent.props.code][0]['text'],
 // 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
 // 				data: forSparkline
 // 			});

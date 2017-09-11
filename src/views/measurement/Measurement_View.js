@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../../components/graphs/PastGraph.js';
-import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
+//import PastGraph from '../../components/graphs/PastGraph.js';
+//import PastToFutureGraph from '../../components/graphs/Past-to-Future-Graph.js';
 
 import { getValueQuantities } from '../../services/general_utils.js';
 
@@ -172,14 +172,36 @@ class MeasurementView extends Component {
 							<text style={measurementTitleStyle}>
 								{this.state.name}
 							</text>
-							<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
+							{/*<PastGraph obs_data={this.state.measurementList} units={this.state.units} mainWidth={500}
 							mainHeight={200}
 							viewWidth={500}
-							viewHeight={50}/>
+									viewHeight={50}/>*/}
 							<text style={affectedRiskScoreTitleStyle}>
 								Risk Scores Affected By This Measurement
 							</text>
 							<div className="row">
+								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="General Cardiac" score={5} sym="%" context="within 10 years" url="General_Cardiac"/>
+									</div>	
+								}
+								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="Kidney Failure" score={5} sym="%" context="within 5 years" url="Kidney_Failure"/>
+									</div>	
+								}
+								{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="COPD Mortality" score={5} sym="%" context="within 4 years" url="COPD_Mortality"/>
+									</div>	
+								}
+								{this.props.riskObject['Diabetes'].includes(this.measureId) &&
+									<div className="col-md-4">
+				        			<RiskTile scoreName="Diabetes" score={5} sym="%" context="within 5 years" url="Diabetes"/>
+									</div>	
+								}
+							</div>
+							{/*<div className="row">
 								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
@@ -200,7 +222,7 @@ class MeasurementView extends Component {
 				        			<RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
 									</div>	
 								}
-							</div>
+							</div>*/}
 						</div>
 						<div className="col-md-6">
 							<MeasurementText measurementName={this.state.name} measurementCode={this.measureId}/>
