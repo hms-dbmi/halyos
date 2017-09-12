@@ -31,7 +31,7 @@ class ProfileView extends Component {
 	}
 
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
-		//var ptLoc = getPtLoc();
+		var ptLoc = getPtLoc(this.props.patient);
 		return (
 			<div>
 				<div className="row">
