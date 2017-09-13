@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './services/registerServiceWorker';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import Main from './Main.js'
 import Header from './Header.js'
 
 import { getURL, getPatID }  from './services/smart_setup.js'
 
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { ConnectedRouter } from 'react-router-redux';
+import { Provider } from 'react-redux';
+import { history, state } from './services/state/state';
+
 
 const FHIR = window.FHIR;
 
@@ -28,6 +29,11 @@ const Context_FHIR_Client = FHIR.client({
 
 });
 
+
+// Initialize store
+let rehydratedStore;
+const storeRehydrated = state.configure().store;
+storeRehydrated.then((store) => { window.store = store; });
 //let store = createStore(todoApp);
 
 // const Main = () => (
@@ -60,11 +66,24 @@ const App = () => (
     </div>
 )
 
-ReactDOM.render((
-//    <Provider store={store}>
-      <BrowserRouter basename="/">
-    	    <App />
-      </BrowserRouter>
-//    </Provider> 
-), document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={rehydratedStore}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+);
+
+// ReactDOM.render((
+// //    <Provider store={store}>
+// //      <BrowserRouter basename="/">
+// <Provider store={store}>
+//   <ConnectedRouter history={history}>
+//     <App />
+//   </ConnectedRouter>
+// </Provider>   
+// //      </BrowserRouter>
+// //    </Provider> 
+// ), document.getElementById('root'));
 
