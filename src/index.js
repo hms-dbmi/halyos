@@ -31,9 +31,10 @@ const Context_FHIR_Client = FHIR.client({
 
 
 // Initialize store
-let rehydratedStore;
 const storeRehydrated = state.configure().store;
-storeRehydrated.then((store) => { window.store = store; });
+window.store = storeRehydrated;
+
+//storeRehydrated.then((store) => { window.store = store; });
 //let store = createStore(todoApp);
 
 // const Main = () => (
@@ -67,7 +68,7 @@ const App = () => (
 )
 
 ReactDOM.render(
-  <Provider store={rehydratedStore}>
+  <Provider store={storeRehydrated}>
     <ConnectedRouter history={history}>
       <App />
     </ConnectedRouter>

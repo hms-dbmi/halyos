@@ -23,14 +23,14 @@ const multiStorage = function multiStorage(storages, prefix) {
       return primStorage.getItem(key, cb);
     },
     setItem(key, string, cb) {
-      secoStorage.setItem(key, string, cb);
+     return secoStorage.setItem(key, string, cb);
 
-      return primStorage.setItem(key, string, cb);
+       //primStorage.setItem(key, string, cb);
     },
     removeItem(key, cb) {
-      secoStorage.removeItem(key, cb);
+     return secoStorage.removeItem(key, cb);
 
-      return primStorage.removeItem(key, cb);
+       //primStorage.removeItem(key, cb);
     },
   };
 

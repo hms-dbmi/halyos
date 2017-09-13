@@ -40,6 +40,8 @@ const api = {
   },
 };
 
+primStorage.api = api;
+
 const history = createHistory();
 
 const middleware = [
@@ -90,19 +92,23 @@ const configure = (initialState) => {
   //   });
   // }
 
-  return prepareStore.then((storage) => {
-    config.storage = storage;
 
-    return new Promise((resolve, reject) => {
-      persistStore(store, config, (error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(store);
-        }
-      });
-    });
-  });
+  //1. this doesn't make sense
+  // return prepareStore.then((storage) => {
+  //   config.storage = storage;
+
+  //   return new Promise((resolve, reject) => {
+  //     persistStore(store, config, (error) => {
+  //       if (error) {
+  //         reject(error);
+  //       } else {
+  //         resolve(store);
+  //       }
+  //     });
+  //   });
+  // });
+
+  return store;
 };
 
 class State {
