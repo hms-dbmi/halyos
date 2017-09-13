@@ -25,6 +25,8 @@ import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
 import { medListStyle, medListDivStyle } from './Profile_View-style.js'
 
+//import AboutRisk from '../risk/AboutRisk.js';
+
 class ProfileView extends Component {
 	constructor(props){
 		super(props);
@@ -66,6 +68,7 @@ class ProfileView extends Component {
 					<div className = "col-sm-6">
 						<EnvironmentTile ptLoc={ptLoc}/> {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
 						<AppointmentsTile patient={patient}/>
+						{/*<AboutRisk riskName="Stroke"/>*/}
 					</div>
 				</div>
 				<div className="row">
