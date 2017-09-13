@@ -27,23 +27,28 @@ export function calcKFRisk(gender, age, gfr, uac) {
     @return the kidney failure risk score as a percent
 */
 export function KFRScore(pt, obs) {
-  var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
-  var uac = pullCondition(obs, ["14958-3", "14959-1"]);
-  if(gfr.length == 0 || uac.length == 0) {
-    //console.log("KF score", gfr, uac);
-    alert("Patient does not have enough measurements for Kidney Risk Score");
-    return;
+  if(pt && obs) {
+    var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+    var uac = pullCondition(obs, ["14958-3", "14959-1"]);
+    if(gfr.length == 0 || uac.length == 0) {
+      //console.log("KF score", gfr, uac);
+      alert("Patient does not have enough measurements for Kidney Risk Score");
+      return;
+    }
+    else {
+      if(gfr[0].component) {
+        gfr[0] = gfr[0].component[0];
+      }
+      var KFRisk = calcKFRisk(pt[0].gender, 
+      calculateAge(pt[0].birthDate), 
+      gfr[0].valueQuantity.value, //gfr
+      uac[0].valueQuantity.value); //uac
+    }
+    return KFRisk;
   }
   else {
-    if(gfr[0].component) {
-      gfr[0] = gfr[0].component[0];
-    }
-    var KFRisk = calcKFRisk(pt[0].gender, 
-    calculateAge(pt[0].birthDate), 
-    gfr[0].valueQuantity.value, //gfr
-    uac[0].valueQuantity.value); //uac
+    return '...'
   }
-  return KFRisk;
 }
 
 // function CKDtoKF() { //add units check

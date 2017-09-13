@@ -63,31 +63,37 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
 */
 
 export function reynoldsScore(pt, obs, smoker = false) {
-  var codesObject = {
+  if(pt && obs) {
+    var codesObject = {
       '30522-7': [], //hsCRP
       "2093-3": [], //cholesterol
       "2085-9": [], //HDL
       "8480-6": [] //sysBP
     };
-  var sortedObs = searchByCode(obs, codesObject);
-  for (var key in sortedObs) {
-    if(sortedObs.hasOwnProperty(key)) {
-      if(sortedObs[key].length == 0) {
-        //console.log(sortedObs);
-        alert("Patient does not have adequate measurements for Reynolds Risk Score.");
-        return;
+    var sortedObs = searchByCode(obs, codesObject);
+    for (var key in sortedObs) {
+      if(sortedObs.hasOwnProperty(key)) {
+        if(sortedObs[key].length == 0) {
+          //console.log(sortedObs);
+          alert("Patient does not have adequate measurements for Reynolds Risk Score.");
+          return;
+        }
       }
     }
+    var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
+    sortedObs['8480-6'][0].value,
+    sortedObs['30522-7'][0].value,
+    sortedObs['2093-3'][0].value,
+    sortedObs['2085-9'][0].value,
+    smoker, //smoker
+    false, //famHist
+    pt[0].gender));
+    return reynolds;
   }
-  var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
-  sortedObs['8480-6'][0].value,
-  sortedObs['30522-7'][0].value,
-  sortedObs['2093-3'][0].value,
-  sortedObs['2085-9'][0].value,
-  smoker, //smoker
-  false, //famHist
-  pt[0].gender));
-  return reynolds;
+  else {
+    return '...'
+  }
+ 
 }
 
 // function reynolds() { //need to invalidate for diabetic men & modify for diabetic women; add units check

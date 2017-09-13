@@ -67,6 +67,7 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
 */
 
 export function CHADScore(pt, conds){
+  if(pt && conds) {
       var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
       var hypertension = pullCondition(conds, ["38341003"]);
       var vascDisease = pullCondition(conds, ["27550009"]);
@@ -80,6 +81,10 @@ export function CHADScore(pt, conds){
         diabetes, //diabetes
         strTIAthrom); //strTIAthrom
       return CHADScore;
+  }
+  else {
+    return '...'
+  }
 }
 
 // function strokeRisk() { //add units check
