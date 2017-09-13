@@ -33,6 +33,7 @@ class ProfileView extends Component {
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
 		//var ptLoc = getPtLoc(this.props.patient);
 		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
+		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
 		return (
 			<div>
 				<div className="row">
@@ -64,6 +65,7 @@ class ProfileView extends Component {
 					</div>
 					<div className = "col-sm-6">
 						<EnvironmentTile ptLoc={ptLoc}/> {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
+						<AppointmentsTile patient={patient}/>
 					</div>
 				</div>
 				<div className="row">
