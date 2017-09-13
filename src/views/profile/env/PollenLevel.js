@@ -23,9 +23,9 @@ class PollenLevel extends Component {
 
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if ((this.state.data === null) && nextProps.location && !this.props.location){
-			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
+	componentWillMount() {
+		if ((this.state.data === null)){
+			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + this.props.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
 					  this.setState({data:data});
 					}.bind(this));
 	

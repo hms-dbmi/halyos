@@ -28,41 +28,10 @@ class EnvironmentTile extends Component {
 	componentWillMount() {
 		//console.log("envi comp mounted");
 
-
-
-		var ptHasAddress = false;
-
-		var ptPromise = this.props.patient.then(function(pt){
-			//console.log("patient:", pt);
-			if(!pt[0].address){
-				$.getJSON('http://freegeoip.net/json/?callback=?', function(data) {
-					  this.setState({ptLoc:data});
-					}.bind(this));
-				//this.setState({pt:})
-			} 
-			else {
-				var fullAddress = pt[0].address[0];
-				$.getJSON('https://api.opencagedata.com/geocode/v1/json?q='+ fullAddress.postalCode + '&countrycode='+ fullAddress.country+'&no_annotations=1&key=bc76774a452346449916c91155a0b96b', function(data) {
-					  //console.log("what da hell", data.results[0])
-					  this.setState({ptLoc: {
-						"country_code":fullAddress.country,
-						"region_code":fullAddress.state,
-						"city":fullAddress.city,
-						"zip_code":fullAddress.postalCode,
-						"latitude":data.results[0].geometry.lat,
-						"longitude":data.results[0].geometry.lng
-						}
-				});
-					
-
-					}.bind(this));
-			}
-		}.bind(this))
-		
-
 	}
 
 	render(){
+		console.log("Patient Location",JSON.stringify(this.props.ptLoc))
 		return (
 			<div style={ tileStyle } className="panel panel-default container-fluid">
 				<div className="row">
@@ -72,16 +41,16 @@ class EnvironmentTile extends Component {
 				</div>
 				<div className="row">
 					<div className="col-md-4">
-						<PollenLevel location={this.state.ptLoc} />
+						<PollenLevel location={this.props.ptLoc} />
 					</div>
 					<div className="col-md-4">
-						<AirQuality location={this.state.ptLoc} />
+						<AirQuality location={this.props.ptLoc} />
 					</div>
 					<div className="col-md-4">
-						<Flu location={this.state.ptLoc} />
+						<Flu location={this.props.ptLoc} />
 					</div>
 					<br/>
-					{this.state.ptLoc && <text><br/>Data is gathered for {this.state.ptLoc.city}, {this.state.ptLoc.region_code}.</text>}
+					{this.props.ptLoc && <text><br/>Data is gathered for {this.props.ptLoc.city}, {this.props.ptLoc.region_code}.</text>}
 				</div>
 
 			</div>
