@@ -1,3 +1,4 @@
+import 'purecss/build/pure.css';
 import React, { Component } from 'react';
 
 import DemographicTile from './DemographicTile';
@@ -36,35 +37,35 @@ class ProfileView extends Component {
 		//var ptLoc = getPtLoc(this.props.patient);
 		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
 		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+		var measurements = [{"name": "Systolic BP", "units": "mmHg", "past": "120", "present": "110" },
+		{"name": "Diastolic BP", "units": "mmHg", "past": "90", "present": "85" },
+		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
+		{"name": "test", "units": "idk", "past": "352", "present": "252" }]
+		const measurementItems = measurements.map((measurements) => 
+				<tr className = "pure-table">
+					<td> {measurements["name"]} [{measurements["units"]}] </td>
+					<td> {measurements["past"]}</td>
+					<td> {measurements["present"]}</td>
+					<td> :) </td>
+				</tr>
+			);
 		return (
 			<div>
-				<div className="row">
-					<div className = "col-sm-6">
-						<div className="row">
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="110" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div>
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div>
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div>
-							<div className="col-sm-6">
-								<VitalTile measurementName="Systolic BP" units="mmHg" past="120" present="130" pastDate="2016-01-01-00:00" presentDate="2017-01-01-00:00"/>
-							</div> 
-						</div>
-					</div>
+				<div>
+					<table className="pure-table">
+					    <thead>
+					        <tr>
+					            <th>Name</th>
+					            <th>Past</th>
+					            <th>Present</th>
+					            <th>Future</th>
+					        </tr>
+					    </thead>
+
+					    <tbody>
+					        {measurementItems}
+					    </tbody>
+					</table>
 					<div className = "col-sm-6">
 						<EnvironmentTile ptLoc={ptLoc}/> {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
 						<AppointmentsTile patient={patient}/>
