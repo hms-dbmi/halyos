@@ -4,14 +4,17 @@ import { Switch, Route } from 'react-router-dom';
 import ProfileView from './views/profile/Profile_View.js'
 import MeasurementView from './views/measurement/Measurement_View.js'
 import RiskScoreView from './views/risk/Risk_View.js'
-import {getPatID} from './services/smart_setup.js';
 import {riskObject} from './services/general_utils.js';
+
+import { fetchAllObservations } from './services/fhir/FhirActions'
+import { getPatID } from './services/smart_setup'
 
 class Main extends Component {
 
   constructor(props){
     super(props); 
     //console.log("thsese are them: ", props)
+    // store.dispatch(fetchAllObservations(getPatID()))
 
   }
   render() {
