@@ -6,6 +6,8 @@ import Pollen2 from './logos/pollen/Pollen2.js';
 import Pollen3 from './logos/pollen/Pollen3.js';
 //const PollenSVG = require('../../logos/pollen.svg');
 
+import { store } from '../../../index'
+import { fetchPollenLevels } from './EnvActions'
 const categories = {
 //(low, high, good, moderate, , )
 	1:"Low",
@@ -24,6 +26,9 @@ class PollenLevel extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		store.dispatch(fetchPollenLevels('44106'))
+			 .then(() => console.log("we got all the data???? for pollen" , store.getState()))
+
 		if ((this.state.data === null) && nextProps.location && !this.props.location){
 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
 					  this.setState({data:data});
@@ -85,7 +90,6 @@ class PollenLevel extends Component {
 
 		var pollenIcon;
 		if(avgLevel >= 1 && avgLevel <= 2) {
-			console.log("done");
 			pollenIcon = <Pollen1 placement="top" tooltip={tooltip} level={avgLevel}/>
 		}
 		else if (avgLevel >=3 && avgLevel <= 4){

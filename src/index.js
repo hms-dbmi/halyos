@@ -23,7 +23,7 @@ import { fetchAllObservations } from './services/fhir/FhirActions'
 import { getPatID } from './services/smart_setup'
 
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
   applyMiddleware(thunk)
 );

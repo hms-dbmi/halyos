@@ -1,4 +1,4 @@
-import { requestAllObservations, receiveAllObservations, failAllObservations, FETCH_OBSERVATIONS_REQUEST, FETCH_OBSERVATIONS_SUCCESS, FETCH_OBSERVATIONS_FAILURE  } from './FhirActions'
+import { FETCH_OBSERVATIONS_REQUEST, FETCH_OBSERVATIONS_SUCCESS, FETCH_OBSERVATIONS_FAILURE  } from './FhirActions'
 
 export function fhirPatientData(state = {}, action){
 	switch (action.type){
@@ -14,7 +14,7 @@ export function fhirPatientData(state = {}, action){
 		      })
 	    case FETCH_OBSERVATIONS_FAILURE:
 	    	return Object.assign({}, state, {
-	    		
+
 	    	})
 
 	    default:
