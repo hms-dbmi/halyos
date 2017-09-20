@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {riskTileStyle, riskTileScoreStyle} from './RiskTile-style';
 
 class RiskTile extends Component {
 	constructor(props) {
@@ -7,8 +8,11 @@ class RiskTile extends Component {
 
 	render() {
 		return (
-			<div>
-				{this.props.scoreName} {this.props.status} {this.props.score} {this.props.sym} {this.props.context}
+			<div style={riskTileStyle}>
+				{this.props.scoreName}<br/>
+				{this.props.status}<br/>
+				<div style={riskTileScoreStyle}>{this.props.score} {this.props.sym} </div><br/>
+				{this.props.context}
 			</div>
 		);
 	}

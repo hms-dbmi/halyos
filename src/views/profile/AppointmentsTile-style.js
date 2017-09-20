@@ -4,7 +4,7 @@ export const headerStyle = {
 }
 
 export const apptListStyle = {
-	height:'100px',
+	height:'130px',
 	width:'100%',
 	border:'1px solid #ccc',
 	font:'16px/26px Georgia, Garamond, Serif',

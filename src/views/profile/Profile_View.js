@@ -42,7 +42,7 @@ class ProfileView extends Component {
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
 		{"name": "test", "units": "idk", "past": "352", "present": "252" }]
 		const measurementItems = measurements.map((measurements) => 
-				<tr className = "pure-table">
+				<tr className = "pure-table pure-table-horizontal">
 					<td> {measurements["name"]} [{measurements["units"]}] </td>
 					<td> {measurements["past"]}</td>
 					<td> {measurements["present"]}</td>
@@ -51,43 +51,38 @@ class ProfileView extends Component {
 			);
 		return (
 			<div>
+				<div className="pure-g">
+					<div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
+				</div>
+				<br/><br/>
 				<div>
-					<table className="pure-table">
-					    <thead>
-					        <tr>
-					            <th>Name</th>
-					            <th>Past</th>
-					            <th>Present</th>
-					            <th>Future</th>
-					        </tr>
-					    </thead>
+					<div className="pure-u-1-2">
+						<table className="pure-table">
+						    <thead>
+						        <tr>
+						            <th>Name</th>
+						            <th>Past</th>
+						            <th>Present</th>
+						            <th>Future</th>
+						        </tr>
+						    </thead>
 
-					    <tbody>
-					        {measurementItems}
-					    </tbody>
-					</table>
-					<div className = "col-sm-6">
-						<EnvironmentTile ptLoc={ptLoc}/> {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
+						    <tbody>
+						        {measurementItems}
+						    </tbody>
+						</table>
+					</div>
+					<div className="pure-u-8-24">
 						<AppointmentsTile patient={patient}/>
-						{/*<AboutRisk riskName="Stroke"/>*/}
 					</div>
 				</div>
-				<div className="row">
-					<div className = "col-sm-2">
-        				<RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/>
-					</div>
-					<div className = "col-sm-2">
-						<RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/>
-					</div>
-					<div className = "col-sm-2">
-	        			<RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/>
-					</div>
-					<div className = "col-sm-2">
-	        			<RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/>
-					</div>
-					<div className = "col-sm-2">
-	        			<RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/>
-					</div>
+				<div className = "col-sm-6">
+						{/*<EnvironmentTile ptLoc={ptLoc}/>*/} {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
+						{/*<AboutRisk riskName="Stroke"/>*/}
 				</div>
 				{/*<div className="row">
 					<div className = "col-sm-2">
