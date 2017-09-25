@@ -44,7 +44,21 @@ class VitalTile extends Component {
 		}
 		return (
 			<div>
-				{this.state.measurementName}[{this.props.units}]   {this.props.past} {arrow}  {this.props.present}   {this.props.future}
+				<div className="pure-u-12-24">
+					{this.state.measurementName} &nbsp; [{this.props.units}]
+				</div>
+				<div className="pure-u-2-24">
+					{this.props.past}
+				</div>
+				<div className="pure-u-2-24">
+					{arrow} 
+				</div>
+				<div className="pure-u-4-24">
+					{this.props.present}
+				</div>
+				<div className="pure-u-4-24">
+					{this.props.future}
+				</div>
 			</div>
 		)
 	}

@@ -43,9 +43,17 @@ class ProfileView extends Component {
 		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
 		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
 		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
-		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "85" },
+		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
 		{"name": "test", "units": "idk", "past": "352", "present": "252" }]
+		var mappedMeasures = measurements.map((measurements) => 
+			<tr className = "pure-table pure-table-horizontal">
+				<td> {measurements["name"]} [{measurements["units"]}] </td>
+				<td> {measurements["past"]}</td>
+				<td> {measurements["present"]}</td>
+				<td> :) </td>
+			</tr>
+		);
 		return (
 			<div>
 				<div className="pure-g">
@@ -57,8 +65,17 @@ class ProfileView extends Component {
 				</div>
 				<br/><br/>
 				<div className="pure-g">
-					<div className="pure-u-1-2">
-						    Measurements: 
+					<div className="pure-u-6-24" style={{"padding-left":"2px"}}>
+						    Measurements: <input type="text" name="measureName"/>
+				    </div>
+				    <div className="pure-u-2-24">
+						    Past
+				    </div>
+				    <div className="pure-u-2-24">
+						    Now
+				    </div>
+				    <div className="pure-u-2-24">
+						    Future
 				    </div>
 				    <div className="pure-u-8-24" style={{"text-align":"center", "font-size":"20"}}>
 				    	<text>Suggested Preventative Care</text>
@@ -68,19 +85,14 @@ class ProfileView extends Component {
 				    </div>
 				</div>
 				<div>
-					<div className="pure-u-1-2">
-						<table className="pure-table">
-						    <tbody>
-						        {measurements.map((measurements) => 
-									<tr className = "pure-table pure-table-horizontal">
-										<td> {measurements["name"]} [{measurements["units"]}] </td>
-										<td> {measurements["past"]}</td>
-										<td> {measurements["present"]}</td>
-										<td> :) </td>
-									</tr>
-								)}
-						    </tbody>
-						</table>
+					<div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
+			        	{measurements.map((measurement) =>
+			        		<VitalTile measurementName={measurement["name"]}
+			        		units={measurement["units"]}
+			        		past={measurement["past"]}
+			        		present={measurement["present"]}
+			        		/>
+		        		)}
 					</div>
 					<div className="pure-u-8-24">
 						<AppointmentsTile patient={patient}/>
