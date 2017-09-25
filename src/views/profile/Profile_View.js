@@ -7,6 +7,11 @@ import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
 
+import PollenLevel from './env/PollenLevel.js'
+import AirQuality from './env/AirQuality.js';
+import Flu from './env/Flu.js';
+import {envTileStyle} from './Environment-style.js';
+
 import Scale from '../../components/logos/scale';
 import BP from '../../components/logos/bp';
 import Cholesterol from '../../components/logos/chol';
@@ -37,18 +42,10 @@ class ProfileView extends Component {
 		//var ptLoc = getPtLoc(this.props.patient);
 		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
 		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
-		var measurements = [{"name": "Systolic BP", "units": "mmHg", "past": "120", "present": "110" },
-		{"name": "Diastolic BP", "units": "mmHg", "past": "90", "present": "85" },
+		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
+		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "85" },
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
 		{"name": "test", "units": "idk", "past": "352", "present": "252" }]
-		const measurementItems = measurements.map((measurements) => 
-				<tr className = "pure-table pure-table-horizontal">
-					<td> {measurements["name"]} [{measurements["units"]}] </td>
-					<td> {measurements["past"]}</td>
-					<td> {measurements["present"]}</td>
-					<td> :) </td>
-				</tr>
-			);
 		return (
 			<div>
 				<div className="pure-g">
@@ -59,30 +56,48 @@ class ProfileView extends Component {
 					<div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
 				</div>
 				<br/><br/>
+				<div className="pure-g">
+					<div className="pure-u-1-2">
+						    Measurements: 
+				    </div>
+				    <div className="pure-u-8-24" style={{"text-align":"center", "font-size":"20"}}>
+				    	<text>Suggested Preventative Care</text>
+				    </div>
+				    <div className="pure-u-4-24" style={{"text-align":"center", "font-size":"20"}}>
+				    	<text>Environment</text>
+				    </div>
+				</div>
 				<div>
 					<div className="pure-u-1-2">
 						<table className="pure-table">
-						    <thead>
-						        <tr>
-						            <th>Name</th>
-						            <th>Past</th>
-						            <th>Present</th>
-						            <th>Future</th>
-						        </tr>
-						    </thead>
-
 						    <tbody>
-						        {measurementItems}
+						        {measurements.map((measurements) => 
+									<tr className = "pure-table pure-table-horizontal">
+										<td> {measurements["name"]} [{measurements["units"]}] </td>
+										<td> {measurements["past"]}</td>
+										<td> {measurements["present"]}</td>
+										<td> :) </td>
+									</tr>
+								)}
 						    </tbody>
 						</table>
 					</div>
 					<div className="pure-u-8-24">
 						<AppointmentsTile patient={patient}/>
 					</div>
-				</div>
-				<div className = "col-sm-6">
-						{/*<EnvironmentTile ptLoc={ptLoc}/>*/} {/* Env tile takes in a ptLoc object -- promises now only come from APIs */}
-						{/*<AboutRisk riskName="Stroke"/>*/}
+					<div className="pure-u-4-24">
+						<div style={{"padding-left":"60px"}}>
+							<div style={envTileStyle}>
+								<PollenLevel location={ptLoc} />
+							</div>
+							<div style={envTileStyle}>
+								<AirQuality location={ptLoc} />
+							</div>
+							<div style={envTileStyle}>
+								<Flu location={ptLoc} />
+							</div>
+						</div>
+					</div>
 				</div>
 				{/*<div className="row">
 					<div className = "col-sm-2">
