@@ -59,6 +59,7 @@ class VitalTile extends Component {
 				<div className="pure-u-4-24">
 					{this.props.future}
 				</div>
+				<hr/>
 			</div>
 		)
 	}
