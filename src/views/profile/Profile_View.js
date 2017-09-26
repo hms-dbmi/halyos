@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import DemographicTile from './DemographicTile';
 import VitalTile from './VitalTile';
+import {FilteredList, List} from './FilteredList.js';
 import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
@@ -45,7 +46,7 @@ class ProfileView extends Component {
 		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
 		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
-		{"name": "test", "units": "idk", "past": "352", "present": "252" }]
+		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
 		var mappedMeasures = measurements.map((measurements) => 
 			<tr className = "pure-table pure-table-horizontal">
 				<td> {measurements["name"]} [{measurements["units"]}] </td>
@@ -110,6 +111,7 @@ class ProfileView extends Component {
 							</div>
 						</div>
 					</div>
+					<FilteredList measurements={measurements}/>
 				</div>
 				{/*<div className="row">
 					<div className = "col-sm-2">
@@ -138,63 +140,5 @@ class ProfileView extends Component {
 	}
 
 }
-
-// class VitalTiles extends Component {
-// 	constructor(props) {
-// 		super();
-// 		this.state = {
-// 			name: "",
-// 			value: "Loading...",
-// 			units: "",
-// 		};
-// 	}
-
-// 	componentDidMount() {
-// 		//var i = {this.props.i};
-// 		var parentComponent = this;
-// 		$.when(this.props.observations).done(function(obs) {
-// 			var testobject = {};
-// 			testobject[parentComponent.props.code] = [];
-// 			var result = searchByCode(obs, testobject);
-// 			var precision = 0;
-// 			if (result[parentComponent.props.code][0]['value'] < 1) {
-// 				precision = 2;
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Systolic BP";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
-// 			}
-// 			var forSparkline = [];
-// 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
-// 				forSparkline.push({
-// 					name: result[parentComponent.props.code][i]['date'].toString(),
-// 					value: (result[parentComponent.props.code][i]['value'])
-// 				})
-// 			}
-// 			parentComponent.setState({
-// 				Name: result[parentComponent.props.code][0]['text'],
-// 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
-// 				data: forSparkline
-// 			});
-// 		});
-// 	}
-// 	render() {
-// 		var link = window.location.href + 'measure/' + this.props.code;
-// 		return (
-// 			<div>
-// 				<div style={{width: "100%", height:"85px", borderRadius: "10px", backgroundColor: "#AECEDA", opacity: "0.9"}}> {this.props.children} </div><br/>
-// 			</div>
-// 		)
-// 	}
-// }
-
 
 export default ProfileView;
