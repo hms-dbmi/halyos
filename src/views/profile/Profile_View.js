@@ -12,6 +12,8 @@ import PollenLevel from './env/PollenLevel.js'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 import {envTileStyle} from './Environment-style.js';
+import { headerStyle, apptListStyle } from './AppointmentsTile-style';
+
 
 import Scale from '../../components/logos/scale';
 import BP from '../../components/logos/bp';
@@ -65,53 +67,31 @@ class ProfileView extends Component {
 					<div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
 				</div>
 				<br/><br/>
-				<div className="pure-g">
-					<div className="pure-u-6-24" style={{"padding-left":"2px"}}>
-						    Measurements: <input type="text" name="measureName"/>
-				    </div>
-				    <div className="pure-u-2-24">
-						    Past
-				    </div>
-				    <div className="pure-u-2-24">
-						    Now
-				    </div>
-				    <div className="pure-u-2-24">
-						    Future
-				    </div>
-				    <div className="pure-u-8-24" style={{"text-align":"center", "font-size":"20"}}>
-				    	<text>Suggested Preventative Care</text>
-				    </div>
-				    <div className="pure-u-4-24" style={{"text-align":"center", "font-size":"20"}}>
-				    	<text>Environment</text>
-				    </div>
-				</div>
 				<div>
-					<div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
-			        	{measurements.map((measurement) =>
-			        		<VitalTile measurementName={measurement["name"]}
-			        		units={measurement["units"]}
-			        		past={measurement["past"]}
-			        		present={measurement["present"]}
-			        		/>
-		        		)}
+					<div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"20px", "height":"300px", "overflow":"auto"}}>
+						<FilteredList measurements={measurements}/>
 					</div>
 					<div className="pure-u-8-24">
 						<AppointmentsTile patient={patient}/>
 					</div>
 					<div className="pure-u-4-24">
-						<div style={{"padding-left":"60px"}}>
-							<div style={envTileStyle}>
-								<PollenLevel location={ptLoc} />
+						<div>
+							<div style={headerStyle}>
+								Environment
 							</div>
-							<div style={envTileStyle}>
-								<AirQuality location={ptLoc} />
-							</div>
-							<div style={envTileStyle}>
-								<Flu location={ptLoc} />
+							<div style={{"padding-left":"60px"}}>
+								<div style={envTileStyle}>
+									<PollenLevel location={ptLoc} />
+								</div>
+								<div style={envTileStyle}>
+									<AirQuality location={ptLoc} />
+								</div>
+								<div style={envTileStyle}>
+									<Flu location={ptLoc} />
+								</div>
 							</div>
 						</div>
 					</div>
-					<FilteredList measurements={measurements}/>
 				</div>
 				{/*<div className="row">
 					<div className = "col-sm-2">

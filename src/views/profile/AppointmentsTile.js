@@ -42,6 +42,9 @@ class AppointmentsTile extends Component {
 	render() {
 		return (
 			<div>
+				<div style={headerStyle}>
+					Suggested Preventative Care for You
+				</div>
 				<div style={apptListStyle}>
 					{this.state.interventionsList}
 				</div>

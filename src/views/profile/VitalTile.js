@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { searchByCode } from '../../services/risk_score_utils.js';
 import {getNearest} from '../../services/general_utils.js';
+import ArrowDown from '../../components/logos/arrows/ArrowDown.js';
 
 class VitalTile extends Component {
 	constructor(props) {

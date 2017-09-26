@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import VitalTile from './VitalTile';
+import 'purecss/build/pure.css';
 
 export class FilteredList extends Component {
   constructor(props) {
@@ -25,19 +26,33 @@ export class FilteredList extends Component {
 
     render(){
       return (
-        <div className="filter-list">
-          <input type="text" placeholder="Search" onChange={(e) => this.filterList(e)}/>
-        <List items={this.state.items}/>
+        <div>
+          <div className="pure-g">
+            <div className="pure-u-12-24">
+              <text> Measurements: </text><input type="text" placeholder="Search" onChange={(e) => this.filterList(e)}/>
+            </div>
+            <div className="pure-u-4-24" >
+              <text> Past </text>
+            </div>
+            <div className="pure-u-4-24" >
+              <text> Present </text>
+            </div>
+            <div className="pure-u-4-24" >
+              <text> Future </text>
+            </div>
+          </div>
+          <br/>
+          <List items={this.state.items}/>
         </div>
       );
     }
-  };
+  }
   
 
 export var List = React.createClass({
   render: function(){
     return (
-      <div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
+      <div className="pure-u-24-24" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
       {
         this.props.items.map(function(item) {
           return <VitalTile measurementName={item["name"]}

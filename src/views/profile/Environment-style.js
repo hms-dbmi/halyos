@@ -4,5 +4,5 @@ export const envTileStyle = {
 	"height": "120px",
 	"width":"120px",
 	"justify-content":"center",
-	"align-items":"center"
+	"align-items":"center",
 }
