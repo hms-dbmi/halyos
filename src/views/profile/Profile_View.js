@@ -1,5 +1,6 @@
 import 'purecss/build/pure.css';
 import React, { Component } from 'react';
+import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
 
 import DemographicTile from './DemographicTile';
 import VitalTile from './VitalTile';
@@ -93,6 +94,7 @@ class ProfileView extends Component {
 						</div>
 					</div>
 				</div>
+				<ArrowDown/>
 				{/*<div className="row">
 					<div className = "col-sm-2">
         				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>

@@ -1,6 +1,6 @@
-import {React, Component} from 'react';
+import React, {Component} from 'react';
 
-export default class ArrowDown extends Component {
+export class ArrowDown extends Component {
 	constructor(props) {
 		super(props);
 	}
