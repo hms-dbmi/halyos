@@ -26,7 +26,6 @@ class EnvironmentTile extends Component {
 	*/
 
 	componentWillMount() {
-		//console.log("envi comp mounted");
 
 	}
 
