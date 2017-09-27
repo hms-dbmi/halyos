@@ -13,6 +13,8 @@
 
 */
 
+import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 	var score = Number((age >= 65)) + Number((!(confusion.size == null))) + Number((bun > 19)) +
 	Number((rr >= 30)) + Number(((sysbp < 90) || (diasbp <= 60)));
@@ -40,6 +42,45 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
     return mortality;
 }
 
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param conds -- the bundle that contains all condition resources
+    @return the COPD score as a percent
+*/
+
+export function COPDScore(pt, obs, conds) {
+    if(pt && obs && conds) {
+        var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+        var measurementObject = {
+            '8480-6': [], //sysBP
+            '8462-4': [], //diasBP
+            '6299-2': [], //bun
+            '9279-1': [] //rr
+        };
+        var sortedObs = searchByCode(obs, measurementObject);
+        for (var key in sortedObs) {
+            if(sortedObs.hasOwnProperty(key)) {
+                if(sortedObs[key].length == 0) {
+                    alert("Patient does not have adequate measurements for COPD Risk Score.");
+                    ////console.log(sortedObs);
+                    return;
+                }
+            }
+        }
+        var COPDScore = calcCOPD(calculateAge(pt[0].birthDate),
+            confusion,
+            sortedObs['6299-2'][0].value,
+            sortedObs['9279-1'][0].value,
+            sortedObs['8480-6'][0].value,
+            sortedObs['8462-4'][0].value);
+        return COPDScore;
+    }
+    else {
+        return '...'
+    }
+    
+}
 // function getCOPD() {
 // 	var smart = getPatID("patCOPDRisk");
 // 	var score;

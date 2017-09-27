@@ -14,6 +14,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { history, state } from './services/state/state';
 
+//import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers'
 import { applyMiddleware } from 'redux';

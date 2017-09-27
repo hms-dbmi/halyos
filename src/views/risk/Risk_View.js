@@ -15,18 +15,13 @@ import Tooltip from 'rc-tooltip';
 
 import SmokingTile from './Smoking_Tile.js';
 
-import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
-import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
-import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
-import COPD from '../../services/RiskTiles/COPDRiskTile.js'
-import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import {reynoldsScore} from '../../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
-import FutureReynoldsScore from '../../services/RiskTiles/FutureCardiacRiskTile.js'
-import ReynoldsScoreN from '../../services/RiskTiles/CardiacNRiskTile.js'
-import CHADScoreN from '../../services/RiskTiles/StrokeNRiskTile.js'
-import KFScoreN from '../../services/RiskTiles/KidneyFailureNRiskTile.js'
-import DiabetesN from '../../services/RiskTiles/DiabetesNRiskTile.js'
-import COPDN from '../../services/RiskTiles/COPDNRiskTile.js'
+import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 
 import {calculateReynolds} from '../../services/RiskCalculators/reynolds.js';
 import {calcCHADScore} from '../../services/RiskCalculators/CHAD.js';
@@ -373,25 +368,45 @@ class RiskView extends Component {
 		var riskTile;
 		var futureRiskTile;
 		if(this.riskName == "General_Cardiac") {
-			riskTile = <RiskTile scoreName="General Cardiac"><ReynoldsScoreN smoker={this.state.smoker} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
-			futureRiskTile = <RiskTile scoreName="General Cardiac"><FutureReynoldsScore smoker={this.state.smoker} nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			riskTile = <RiskTile scoreName="General Cardiac" score={5} sym="%" context="within 10 years" url="General_Cardiac"/>
+//			futureRiskTile = <RiskTile scoreName="General Cardiac" score={futureReynoldsScore(pt, obs, this.state.nextMeasures, this.state.smoker)}><FutureReynoldsScore smoker={this.state.smoker} nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "COPD_Mortality") {
-			riskTile = <RiskTile scoreName="COPD Mortality"><COPDN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+			riskTile = <RiskTile scoreName="COPD Mortality" score={5} sym="%" context="within 4 years" url="COPD_Mortality"/>
 //			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Stroke") {
-			riskTile = <RiskTile scoreName="Stroke"><CHADScoreN pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+			riskTile = <RiskTile scoreName="Stroke" score={5} sym="%" context="within 1 year" url="Stroke"/>
 //			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
 		}
 		else if(this.riskName == "Kidney_Failure") {
-			riskTile = <RiskTile scoreName="Kidney Failure"><KFScoreN pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+			riskTile = <RiskTile scoreName="Kidney Failure" score={5} sym="%" context="within 5 years" url="Kidney_Failure"/>
 //			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
 		}
 		else if(this.riskName == "Diabetes") {
-			riskTile = <RiskTile scoreName="Diabetes"><DiabetesN pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
+			riskTile = <RiskTile scoreName="Diabetes" score={5} sym="%" context="within 5 years" url="Diabetes"/>
 //			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
 		}
+// 		if(this.riskName == "General_Cardiac") {
+// 			riskTile = <RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs, this.state.smoker)} sym="%" context="within 10 years" url="General_Cardiac"/>
+// //			futureRiskTile = <RiskTile scoreName="General Cardiac" score={futureReynoldsScore(pt, obs, this.state.nextMeasures, this.state.smoker)}><FutureReynoldsScore smoker={this.state.smoker} nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+// 		}
+// 		else if(this.riskName == "COPD_Mortality") {
+// 			riskTile = <RiskTile scoreName="COPD Mortality" score={COPDScore(pt, obs, conds)} sym="%" context="within 4 years" url="COPD_Mortality"/>
+// //			futureRiskTile = <RiskTile scoreName="COPD Mortality"><FutureCOPD nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile>
+// 		}
+// 		else if(this.riskName == "Stroke") {
+// 			riskTile = <RiskTile scoreName="Stroke" score={CHADScore(pt, conds)} sym="%" context="within 1 year" url="Stroke"/>
+// //			futureRiskTile = <RiskTile scoreName="Stroke"><FutureCHADScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} conds={this.props.conditions}/></RiskTile>
+// 		}
+// 		else if(this.riskName == "Kidney_Failure") {
+// 			riskTile = <RiskTile scoreName="Kidney Failure" score={KFRScore(pt, obs)} sym="%" context="within 5 years" url="Kidney_Failure"/>
+// //			futureRiskTile = <RiskTile scoreName="Kidney Failure"><FutureKFScore nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations}/></RiskTile>
+// 		}
+// 		else if(this.riskName == "Diabetes") {
+// 			riskTile = <RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
+// //			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+// 		}
 
 		//console.log('render');
 		if(!this.isEmpty(this.state.obsByMeasurement)){

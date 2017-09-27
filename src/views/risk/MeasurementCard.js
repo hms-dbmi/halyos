@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import PastGraph from '../../components/graphs/PastGraph.js';
+//import PastGraph from '../../components/graphs/PastGraph.js';
 import Slider, { Range } from 'rc-slider';
 // We can just import Slider or Range to reduce bundle size
 // import Slider from 'rc-slider/lib/Slider';
@@ -125,7 +125,7 @@ class MeasurementCard extends Component {
 				</div>
 				<div className="row">
 					<div className="col-sm-6">
-						<PastGraph 
+						{/*<PastGraph 
 							obs_data={this.props.data}
 							units={this.props.units}
 							mainWidth={500}
@@ -133,7 +133,7 @@ class MeasurementCard extends Component {
 							viewWidth={500}
 							viewHeight={50}
 							refRange={this.props.reference}
-						 />
+						 />*/}
 					</div>
 					<div className="col-sm-3">
 						<div style={firstSliderStyle}>

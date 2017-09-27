@@ -12,6 +12,7 @@
     @return diabetes risk score
 
 */
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 const BMI = '39156-5';
@@ -77,7 +78,35 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         return score;
 }
 
-
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param conds -- the bundle that contains all condition resources
+    @param -- the bundle that contains all medicationrequest resources
+    @return the diabetes score as a percent
+*/
+export function diabetesScore(pt, obs, conds, medreq) {
+  if(pt && obs && conds && medreq) {
+    var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
+    var bmi = pullCondition(obs, ['39156-5']);
+    var hyperglycemia = pullCondition(conds, ['80394007']);
+    if (waist.length == 0 || bmi.length == 0) {
+      alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
+      ////console.log(bmi, waist);
+      return;
+    }
+    var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
+      pt[0].gender,
+      bmi[0].valueQuantity.value,
+      (hyperglycemia.length != 0),
+      false, //NEEDS TO BE FIXED
+      waist[0].valueQuantity.value);
+    return score;
+  }
+  else {
+    return '...'
+  }
+}
 
 // function diabetesRisk() {
 //   var smart = getPatID("patDiabRisk");

@@ -25,16 +25,21 @@ class PollenLevel extends Component {
 
 	}
 
-	componentWillReceiveProps(nextProps) {
-		store.dispatch(fetchPollenLevels('44106'))
-			 .then(() => console.log("we got all the data???? for pollen" , store.getState()))
+  componentWillMount() {
+		store.dispatch(fetchPollenLevels(this.props.location.zip_code))
+			 .then(() => console.log("we got all the data???? for pollen" , store.getState()));
 
-		if ((this.state.data === null) && nextProps.location && !this.props.location){
-			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
-					  this.setState({data:data});
-					}.bind(this));
+//     if ((this.state.data === null)){
+// 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + this.props.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
+  }
+	componentWillReceiveProps(nextProps) {
+
+// 		if ((this.state.data === null) && nextProps.location && !this.props.location){
+// 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
+// 					  this.setState({data:data});
+// 					}.bind(this));
 	
-		}
+// 		}
 		
 	}
 
