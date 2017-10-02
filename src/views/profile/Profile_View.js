@@ -1,10 +1,19 @@
+import 'purecss/build/pure.css';
 import React, { Component } from 'react';
+import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
 
 import DemographicTile from './DemographicTile';
 import VitalTile from './VitalTile';
+import {FilteredList, List} from './FilteredList.js';
 import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
+
+import PollenLevel from './env/PollenLevel.js'
+import AirQuality from './env/AirQuality.js';
+import Flu from './env/Flu.js';
+import {envTileStyle} from './Environment-style.js';
+import { headerStyle, apptListStyle } from './AppointmentsTile-style';
 
 
 import Scale from '../../components/logos/scale';
@@ -15,15 +24,18 @@ import Glucose from '../../components/logos/glucose';
 //import { LineChart, Line, Tooltip } from 'recharts';
 
 //import {Diabetes, COPD, KFScore, CHADScore, ReynoldsScore, RiskTile, HelpRiskTile} from '../RiskCalculators/Risk_Components.js';
-import ReynoldsScore from '../../services/RiskTiles/CardiacRiskTile.js'
-import CHADScore from '../../services/RiskTiles/StrokeRiskTile.js'
-import KFScore from '../../services/RiskTiles/KidneyFailureRiskTile.js'
-import COPD from '../../services/RiskTiles/COPDRiskTile.js'
-import Diabetes from '../../services/RiskTiles/DiabetesRiskTile.js'
+import {reynoldsScore} from '../../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
 import RiskTile from '../../services/RiskTiles/RiskTile.js'
 import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
+import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
 import { medListStyle, medListDivStyle } from './Profile_View-style.js'
+
+//import AboutRisk from '../risk/AboutRisk.js';
 
 class ProfileView extends Component {
 	constructor(props){
@@ -31,128 +43,89 @@ class ProfileView extends Component {
 	}
 
 	render(){ //Known issue; the code can easily be changed, the icon not so much....
+		//var ptLoc = getPtLoc(this.props.patient);
+		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
+		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
+		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
+		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
+		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
+		var mappedMeasures = measurements.map((measurements) => 
+			<tr className = "pure-table pure-table-horizontal">
+				<td> {measurements["name"]} [{measurements["units"]}] </td>
+				<td> {measurements["past"]}</td>
+				<td> {measurements["present"]}</td>
+				<td> :) </td>
+			</tr>
+		);
 		return (
 			<div>
-				<div className="row">
-					<div className = "col-sm-6">
-						<div className="row">
-							<div className="col-sm-12">
-								<DemographicTile patient={this.props.patient} observations={this.props.observations} encounters={this.props.encounters}/><br/>
+				<div className="pure-g">
+					<div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
+					<div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
+				</div>
+				<br/><br/>
+				<div>
+					<div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"20px", "height":"300px", "overflow":"auto"}}>
+						<FilteredList measurements={measurements}/>
+					</div>
+					<div className="pure-u-8-24">
+						<AppointmentsTile patient={patient}/>
+					</div>
+					<div className="pure-u-4-24">
+						<div style={{"display":"flex", "flex-direction":"row", "justify-content":"center"}}>
+							<div style={{"display":"flex", "flex-direction":"column", "justify-content": "center"}}>
+								<div style={{"textAlign":'center', "fontSize": "20", "order":"1"}}>
+									Environment
+								</div>
+								<div style={{"order":"2"}}>
+									<div style={envTileStyle}>
+										<PollenLevel location={ptLoc} />
+									</div>
+								</div>
+								<div style={{"order":"3"}}>
+									<div style={envTileStyle}>
+										<AirQuality location={ptLoc} />
+									</div>
+								</div>
+								<div style={{"order":"4"}}>
+									<div style={envTileStyle}>
+										<Flu location={ptLoc} />
+									</div>
+								</div>
 							</div>
-								<div className="col-sm-6">
-									<VitalTile code='29463-7' observations={this.props.observations}><Scale/></VitalTile>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile code='2085-9' observations={this.props.observations}><Cholesterol/></VitalTile>
-								</div>
-							</div>
-							<div className="row">
-								<div className="col-sm-6">
-									<VitalTile code='8480-6' observations={this.props.observations}><BP/></VitalTile>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile code='18262-6' observations={this.props.observations}><Cholesterol/></VitalTile>
-								</div>
-							</div>
-							<div className="row">
-								<div className="col-sm-6">
-									<VitalTile code='8462-4' observations={this.props.observations}><BP/></VitalTile>
-								</div>
-								<div className="col-sm-6">
-									<VitalTile code='2339-0' observations={this.props.observations}><Glucose/></VitalTile>
-								</div> 
 						</div>
 					</div>
-					<div className = "col-sm-6">
-						<MedicationTile meds={this.props.meds}/>
-						<EnvironmentTile patient={this.props.patient}/>
-						<AppointmentsTile patient={this.props.patient}/>
-					</div>
 				</div>
-				<div className="row">
+				{/*<div className="row">
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="General Cardiac"><ReynoldsScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+        				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Stroke"><CHADScore pt={this.props.patient} conds={this.props.conditions}/></RiskTile></div>
+						<RiskTile scoreName="Stroke" score={CHADScore(pt, conds)} sym="%" context="within 1 year" url="Stroke"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Kidney Failure"><KFScore pt={this.props.patient} obs={this.props.observations}/></RiskTile></div>
+	        			<RiskTile scoreName="Kidney Failure" score={KFRScore(pt, obs)} sym="%" context="within 5 years" url="Kidney_Failure"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="COPD Mortality"><COPD pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions}/></RiskTile></div>
+	        			<RiskTile scoreName="COPD Mortality" score={COPDScore(pt, obs, conds)} sym="%" context="within 4 years" url="COPD_Mortality"/>
 					</div>
 					<div className = "col-sm-2">
-						<div><RiskTile scoreName="Diabetes"><Diabetes pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile></div>
+	        			<RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
 					</div>
 			
 					<div className = "col-sm-2">
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
-				</div>
+				</div>*/}
 			</div>
 
 		)
 	}
 
 }
-
-// class VitalTiles extends Component {
-// 	constructor(props) {
-// 		super();
-// 		this.state = {
-// 			name: "",
-// 			value: "Loading...",
-// 			units: "",
-// 		};
-// 	}
-
-// 	componentDidMount() {
-// 		//var i = {this.props.i};
-// 		var parentComponent = this;
-// 		$.when(this.props.observations).done(function(obs) {
-// 			var testobject = {};
-// 			testobject[parentComponent.props.code] = [];
-// 			var result = searchByCode(obs, testobject);
-// 			var precision = 0;
-// 			if (result[parentComponent.props.code][0]['value'] < 1) {
-// 				precision = 2;
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "High Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "HDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Low Density Lipoprotein Cholesterol") {
-// 				result[parentComponent.props.code][0]['text'] = "LDL Cholesterol";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Systolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Systolic BP";
-// 			}
-// 			if (result[parentComponent.props.code][0]['text'] === "Diastolic Blood Pressure") {
-// 				result[parentComponent.props.code][0]['text'] = "Diastolic BP";
-// 			}
-// 			var forSparkline = [];
-// 			for(var i = 0; i < result[parentComponent.props.code].length; i++) {
-// 				forSparkline.push({
-// 					name: result[parentComponent.props.code][i]['date'].toString(),
-// 					value: (result[parentComponent.props.code][i]['value'])
-// 				})
-// 			}
-// 			parentComponent.setState({
-// 				measurementName: result[parentComponent.props.code][0]['text'],
-// 				value: result[parentComponent.props.code][0]['value'].toFixed(precision) + " " + result[parentComponent.props.code][0]['unit'],
-// 				data: forSparkline
-// 			});
-// 		});
-// 	}
-// 	render() {
-// 		var link = window.location.href + 'measure/' + this.props.code;
-// 		return (
-// 			<div>
-// 				<div style={{width: "100%", height:"85px", borderRadius: "10px", backgroundColor: "#AECEDA", opacity: "0.9"}}> {this.props.children} </div><br/>
-// 			</div>
-// 		)
-// 	}
-// }
-
 
 export default ProfileView;

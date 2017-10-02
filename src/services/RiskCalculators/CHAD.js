@@ -13,6 +13,8 @@
     @return CHAD risk score
 
 */
+import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {
       age = 0;
@@ -56,6 +58,33 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
       break;
   }
   return strkRisk;
+}
+
+/**
+@param pt -- the patient resource
+@param conds -- the bundle of all conditions
+@return CHAD score as a percent
+*/
+
+export function CHADScore(pt, conds){
+  if(pt && conds) {
+      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+      var hypertension = pullCondition(conds, ["38341003"]);
+      var vascDisease = pullCondition(conds, ["27550009"]);
+      var diabetes = pullCondition(conds, ["73211009"]);
+      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+      var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
+        pt[0].gender, //gender
+        chf, //chf
+        hypertension, //hypertension
+        vascDisease, //vascDisease
+        diabetes, //diabetes
+        strTIAthrom); //strTIAthrom
+      return CHADScore;
+  }
+  else {
+    return '...'
+  }
 }
 
 // function strokeRisk() { //add units check
