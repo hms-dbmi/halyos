@@ -11,7 +11,7 @@ export const xAxisStyle = {
 }
 
 export const scatterStyle = {
-	data: {stroke: "#673AB7"}
+	data: {stroke: "#999999"}
 }
 
 export const refRangeStyle = {
@@ -22,11 +22,11 @@ export const refRangeStyle = {
 
 export const lineStyle = {
 	data: {
-		stroke: "#673AB7"
+		stroke: "#999999"
 	}
 }
 
 export const viewfinderLineStyle = {
-	data: {stroke: "#673AB7"}
+	data: {stroke: "#999999"}
 }
 

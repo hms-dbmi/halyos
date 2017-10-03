@@ -22,6 +22,7 @@ import Scale from '../../components/logos/scale';
 import BP from '../../components/logos/bp';
 import Cholesterol from '../../components/logos/chol';
 import Glucose from '../../components/logos/glucose';
+import PastGraph from '../../components/Graphs/PastGraph.js';
 //import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../../services/patient_view_utils.js'
 //import { LineChart, Line, Tooltip } from 'recharts';
 
@@ -52,6 +53,8 @@ class ProfileView extends Component {
 		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
 		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
+		var graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119}, 
+		{x:new Date("2017-02-23"), y:130}, {x:new Date("2017-03-03"), y:123}, {x:new Date("2017-03-23"), y:120}, {x:new Date("2017-04-03"), y:125}];
 		var mappedMeasures = measurements.map((measurements) => 
 			<tr className = "pure-table pure-table-horizontal">
 				<td> {measurements["name"]} [{measurements["units"]}] </td>
@@ -114,7 +117,16 @@ class ProfileView extends Component {
 						</div>
 					</div>
 				</div>
-				{/*<div className="row">
+				<div className="pure-g">
+					<PastGraph obs_data={graphData} 
+							units="mmHg" 
+							reference_range={{min:100, max: 120}}
+							mainWidth={500}
+							mainHeight={200}
+							viewWidth={500}
+							viewHeight={50}/>
+				</div>
+								{/*<div className="row">
 					<div className = "col-sm-2">
         				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 					</div>
