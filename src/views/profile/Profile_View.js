@@ -8,6 +8,8 @@ import {FilteredList, List} from './FilteredList.js';
 import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
+import Name from './Name.js';
+import LastVisit from './LastVisit.js';
 
 import PollenLevel from './env/PollenLevel.js'
 import AirQuality from './env/AirQuality.js';
@@ -60,6 +62,18 @@ class ProfileView extends Component {
 		);
 		return (
 			<div>
+				<div className="pure-u-1-2">
+					<text style={{"font-size":"20"}}>Ignite your life back on track</text>
+				</div>
+				<div className="pure-u-6-24">
+
+				</div>
+				<div className="pure-u-3-24">
+					<LastVisit encounters={[{effectiveDateTime: "05-06-2017"}]}/>
+				</div>
+				<div className="pure-u-3-24">
+					<Name patient="Samson Mataraso"/>
+				</div>
 				<div className="pure-g">
 					<div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
 					<div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>

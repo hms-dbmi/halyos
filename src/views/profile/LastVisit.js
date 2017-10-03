@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-class LastVisit extends Component {
+export default class LastVisit extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -9,7 +9,7 @@ class LastVisit extends Component {
 		var mostRecentDate = mostRecentEncounter.effectiveDateTime;
 		return (
 			<div>
-				Last Visit: {mostRecentDate}
+				Last Visit: {mostRecentDate} icon
 			</div>
 		);
 	}

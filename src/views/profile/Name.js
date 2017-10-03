@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-class Name extends Component {
+export default class Name extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -9,7 +9,7 @@ class Name extends Component {
 		console.log(name)
 		return (
 			<div>
-				{name}
+				{name} icon
 			</div>
 		);
 	}
