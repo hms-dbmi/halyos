@@ -59,6 +59,7 @@ export var List = React.createClass({
                   units={item["units"]}
                   past={item["past"]}
                   present={item["present"]}
+                  future={item["future"]}
                   />
         })
        }

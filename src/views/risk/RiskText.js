@@ -1,24 +1,29 @@
 export default {
 	riskText: {
 		
-		'General Cardiac': { //HDL
-			'info': 'Getting a heart attack is bad.'
+		'General_Cardiac': { //HDL
+			name: "Reynolds Risk Score",
+			text: "Getting a heart attack is bad."
 		},
 
 		'Stroke': { //Cholesterol
-			'info': 'Getting a stroke is bad.'
+			name: "CHAD2 Risk Score",
+			text: "Getting a stroke attack is bad."
 		},
 
-		'Kidney Failure': { //sysBP
-			'info': 'Kidney failure is bad.'
+		'Kidney_Failure': { //sysBP
+			name: "Kidney Failure Risk Score",
+			text: "Kidneys are important."
 		},
 
 		'COPD': { //diasBP
-			'info': 'COPD is bad.'
+			name: "Chronic Obstructive Pulmonary Disease Risk Score",
+			text: "Breathing is necessary for life."
 		},
 
 		'Diabetes': { //diasBP
-			'info': 'Diabetes is bad.'
+			name: "Diabetes Risk Score",
+			text: "Pancreas good."
 		},
 	}		
 };

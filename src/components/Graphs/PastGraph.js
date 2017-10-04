@@ -70,6 +70,7 @@ class PastGraph extends Component {
     }
 return (
       <div>
+
           <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
             containerComponent={
               <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
@@ -80,7 +81,10 @@ return (
               />
             }
           >
-
+            <VictoryArea style={{data:{fill: "#DCDCDC"}}} data=
+            {[{x:minx, y:this.props.reference_range.max, y0: this.props.reference_range.min},
+            {x:maxx, y:this.props.reference_range.max, y0: this.props.reference_range.min}]}/>
+            
             <VictoryAxis 
               dependentAxis
               label={"Measurements  (" + `${this.props.units}` + ")"}
@@ -103,8 +107,6 @@ return (
                 
               />
 
-            <VictoryLine data={[{x:minx, y:this.props.reference_range.min},{x:maxx, y:this.props.reference_range.min}]}/>
-            <VictoryLine data={[{x:minx, y:this.props.reference_range.max},{x:maxx, y:this.props.reference_range.max}]}/>
 
         </VictoryChart>
         <br/>

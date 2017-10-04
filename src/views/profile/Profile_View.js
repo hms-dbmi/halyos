@@ -38,6 +38,13 @@ import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
 import { medListStyle, medListDivStyle } from './Profile_View-style.js'
 
+import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import {AboutMeasurement} from './AboutMeasurement.js';
+import {AboutRisk} from './AboutRisk.js';
+
+
 //import AboutRisk from '../risk/AboutRisk.js';
 
 class ProfileView extends Component {
@@ -49,12 +56,12 @@ class ProfileView extends Component {
 		//var ptLoc = getPtLoc(this.props.patient);
 		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
 		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
-		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
-		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
-		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
-		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
+		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future": "110" },
+		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95","future": "95"  },
+		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70","future": "70"  },
+		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18","future": "18"  }]
 		var graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119}, 
-		{x:new Date("2017-02-23"), y:130}, {x:new Date("2017-03-03"), y:123}, {x:new Date("2017-03-23"), y:120}, {x:new Date("2017-04-03"), y:125}];
+		{x:new Date("2017-02-23"), y:132}, {x:new Date("2017-03-03"), y:126}, {x:new Date("2017-03-23"), y:129}, {x:new Date("2017-04-03"), y:125}];
 		var mappedMeasures = measurements.map((measurements) => 
 			<tr className = "pure-table pure-table-horizontal">
 				<td> {measurements["name"]} [{measurements["units"]}] </td>
@@ -117,14 +124,16 @@ class ProfileView extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="pure-g">
+				<div className="pure-u-1-2">
 					<PastGraph obs_data={graphData} 
 							units="mmHg" 
-							reference_range={{min:100, max: 120}}
+							reference_range={{min:110, max: 130}}
 							mainWidth={500}
 							mainHeight={200}
 							viewWidth={500}
 							viewHeight={50}/>
+					<AboutMeasurement measurementCode="2085-9"/> <br/> <br/> <br/>
+					<AboutRisk risk="General_Cardiac"/>
 				</div>
 								{/*<div className="row">
 					<div className = "col-sm-2">
