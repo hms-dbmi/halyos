@@ -1,10 +1,12 @@
 export const riskTileStyle = {
 	"background-color":'lightgrey',
-	"width":"90%",
-	"padding-bottom":"5%",
-	"padding-bottom":"5%",
+	"width":"200px",
+	"height":"200px",
 	"text-align":"center",
-	"font-size":"30px"
+	"font-size":"20px",
+	"display":"flex",
+	"flex-direction":"column",
+	"justify-content":"space-between"
 }
 
 export const riskTileScoreStyle = {

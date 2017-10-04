@@ -84,12 +84,12 @@ class ProfileView extends Component {
 				<div className="pure-u-3-24">
 					<Name patient="Samson Mataraso"/>
 				</div>
-				<div className="pure-g">
-					<div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
-					<div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>
-					<div className="pure-u-1-5"><RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
-					<div className="pure-u-1-5"><RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
-					<div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
+				<div style={{"display":"flex", "flex-direction":"row", "justify-content":"space-evenly"}}>
+					<div style={{"order": "1", "flex-grow":"1"}}><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
+					<div style={{"order": "2", "flex-grow":"1"}}><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>
+					<div style={{"order": "3", "flex-grow":"1"}}><RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
+					<div style={{"order": "4", "flex-grow":"1"}}><RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
+					<div style={{"order": "5", "flex-grow":"1"}}><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
 				</div>
 				<br/><br/>
 				<div>
