@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { searchByCode } from '../../services/risk_score_utils.js';
 import {getNearest} from '../../services/general_utils.js';
-import ArrowDown from '../../components/logos/arrows/ArrowDown.js';
+import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
+import {ArrowSame} from '../../components/logos/arrows/ArrowSame.js';
+import {ArrowUp} from '../../components/logos/arrows/ArrowUp.js';
+
 
 class VitalTile extends Component {
 	constructor(props) {
@@ -17,12 +20,12 @@ class VitalTile extends Component {
 	}
 
 	render() {
-		var arrow = "No change"
+		var arrow = <ArrowSame/>;
 		if(this.props.past < this.props.present) {
-			arrow = "Up";
+			arrow = <ArrowUp/>;
 		}
 		else if(this.props.past > this.props.present) {
-			arrow = "Down";
+			arrow = <ArrowDown/>;
 		}
 		return (
 			<div>

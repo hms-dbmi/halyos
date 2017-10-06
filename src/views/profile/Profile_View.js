@@ -1,5 +1,6 @@
 import 'purecss/build/pure.css';
 import React, { Component } from 'react';
+import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
 
 import DemographicTile from './DemographicTile';
 import VitalTile from './VitalTile';
@@ -75,19 +76,29 @@ class ProfileView extends Component {
 						<AppointmentsTile patient={patient}/>
 					</div>
 					<div className="pure-u-4-24">
-						<div>
-							<div style={headerStyle}>
-								Environment
-							</div>
-							<div style={{"padding-left":"60px"}}>
+
+							<div style={{"order":"2"}}>
 								<div style={envTileStyle}>
 									<PollenContainer location={ptLoc} />
+						<div style={{"display":"flex", "flex-direction":"row", "justify-content":"center"}}>
+							<div style={{"display":"flex", "flex-direction":"column", "justify-content": "center"}}>
+								<div style={{"textAlign":'center', "fontSize": "20", "order":"1"}}>
+									Environment
 								</div>
-								<div style={envTileStyle}>
-									<AirQuality location={ptLoc} />
+								<div style={{"order":"2"}}>
+									<div style={envTileStyle}>
+										<PollenContainer location={ptLoc} />
+									</div>
 								</div>
-								<div style={envTileStyle}>
-									<Flu location={ptLoc} />
+								<div style={{"order":"3"}}>
+									<div style={envTileStyle}>
+										<AirQuality location={ptLoc} />
+									</div>
+								</div>
+								<div style={{"order":"4"}}>
+									<div style={envTileStyle}>
+										<Flu location={ptLoc} />
+									</div>
 								</div>
 							</div>
 						</div>
