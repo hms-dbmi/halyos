@@ -28,6 +28,7 @@ export function fetchPollenLevels(zipCode) {
   return function (dispatch) {
   
     dispatch(requestPollenLevels(zipCode))
+    console.log("pollen level fetch dispatched");
 
     return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
       .then(

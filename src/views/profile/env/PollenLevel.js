@@ -6,8 +6,9 @@ import Pollen2 from './logos/pollen/Pollen2.js';
 import Pollen3 from './logos/pollen/Pollen3.js';
 //const PollenSVG = require('../../logos/pollen.svg');
 
-import { store } from '../../../index'
-import { fetchPollenLevels } from './EnvActions'
+import { fetchPollenLevels } from './EnvActions';
+// import { connect } from 'react-redux';
+
 const categories = {
 //(low, high, good, moderate, , )
 	1:"Low",
@@ -21,38 +22,58 @@ const categories = {
 class PollenLevel extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {data: null};
+		// this.state = {data: null};
+		// const { store } = this.context;
 
 	}
 
   componentWillMount() {
-		store.dispatch(fetchPollenLevels(this.props.location.zip_code))
-			 .then(() => console.log("we got all the data???? for pollen" , store.getState()));
+  	
 
+  		// this.props.getPollenLevels("60564");
+		// this.store.dispatch(fetchPollenLevels(this.props.location.zip_code))
+		// 	 .then(() => console.log("we got all the data???? for pollen" , this.store.getState()));
+
+
+		// this.unsubscribe = this.store.subscribe(this.render)
+			
 //     if ((this.state.data === null)){
 // 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + this.props.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
+
+
+  }
+
+  componentDidMount(){
+	 
+  }
+
+  componentWillUnmount(){
   }
 	componentWillReceiveProps(nextProps) {
 
-// 		if ((this.state.data === null) && nextProps.location && !this.props.location){
-// 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
-// 					  this.setState({data:data});
-// 					}.bind(this));
-	
-// 		}
+	// 		if ((this.state.data === null) && nextProps.location && !this.props.location){
+	// 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
+	// 					  this.setState({data:data});
+	// 					}.bind(this));
+
+	// 		}
 		
 	}
 
 	render() {
-		if (!this.props.location || !this.state.data){
-			return (
-				<div>Loading...</div>
-			)
-		}
+		
+		console.log("this props;", this.props.isFetchingPollenData)
+		
+		return (
+			<div>Loading...</div>
+		)
+	
+
+		// console.log("REdux store:", this.props)
 
 		var allergyMeasures = this.state.data.DailyForecasts[0].AirAndPollen.filter(function(item){
 			return (item.Name !== "UVIndex" && item.Name !== "AirQuality");
-		})
+		});
 
 		var counter = 0;
 		var avgLevel;
@@ -105,6 +126,7 @@ class PollenLevel extends Component {
 		return (	
 			pollenIcon
 		);
+
 		
 	}
 }
