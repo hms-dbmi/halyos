@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
 
-import PollenLevel from './env/PollenLevel.js'
 import PollenContainer from './env/PollenContainer'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';

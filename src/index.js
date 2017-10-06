@@ -27,7 +27,6 @@ import { getPatID } from './services/smart_setup'
 const preloadedState = {
   envFactorsData: {
     isFetchingPollenData: false,
-    pollenLevels: [],
   },
 }
 

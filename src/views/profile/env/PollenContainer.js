@@ -4,22 +4,20 @@ import { fetchPollenLevels } from './EnvActions';
 
 const mapStateToProps = state => {
 	return {
-		pollen:"state.envFactorsData.pollenLevels",
-		isFetchingPollenData:"state.envFactorsData.isFetchingPollenData"
+		pollen:state.envFactorsData.pollenLevels,
+		isFetchingPollenData:state.envFactorsData.isFetchingPollenData
 	}
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPollenLevels: zip_code => {
-      dispatch(fetchPollenLevels(zip_code))
-    }
-  }
-}
+    getPollenLevels: (zip_code) => dispatch(fetchPollenLevels(zip_code))
+  };
+};
 
 const PollenContainer = connect(
   mapStateToProps,
-  // mapDispatchToProps
+  mapDispatchToProps
 )(PollenLevel);
 
 export default PollenContainer;

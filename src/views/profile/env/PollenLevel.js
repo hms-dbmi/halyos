@@ -44,12 +44,14 @@ class PollenLevel extends Component {
   }
 
   componentDidMount(){
-	 
+	 console.log("mounted: ",this.props.dispatch);
+	 this.props.getPollenLevels("60564");
   }
 
   componentWillUnmount(){
   }
-	componentWillReceiveProps(nextProps) {
+  
+  componentWillReceiveProps(nextProps) {
 
 	// 		if ((this.state.data === null) && nextProps.location && !this.props.location){
 	// 			$.getJSON('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + nextProps.location.zip_code + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true', function(data) {
@@ -58,20 +60,20 @@ class PollenLevel extends Component {
 
 	// 		}
 		
-	}
+  }
 
 	render() {
 		
-		console.log("this props;", this.props.isFetchingPollenData)
-		
-		return (
-			<div>Loading...</div>
-		)
-	
+		console.log("this props; ------ ", this.props.pollen);
+		if (this.props.isFetchingPollenData || !this.props.pollen){
+			return (
+				<div>Loading...</div>
+			)	
+		}
 
 		// console.log("REdux store:", this.props)
 
-		var allergyMeasures = this.state.data.DailyForecasts[0].AirAndPollen.filter(function(item){
+		var allergyMeasures = this.props.pollen.DailyForecasts[0].AirAndPollen.filter(function(item){
 			return (item.Name !== "UVIndex" && item.Name !== "AirQuality");
 		});
 
