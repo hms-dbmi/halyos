@@ -9,7 +9,7 @@ import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from './AppointmentsTile';
 
-import PollenLevel from './env/PollenLevel.js'
+import PollenContainer from './env/PollenContainer.js'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 import {envTileStyle} from './Environment-style.js';
@@ -76,6 +76,10 @@ class ProfileView extends Component {
 						<AppointmentsTile patient={patient}/>
 					</div>
 					<div className="pure-u-4-24">
+
+							<div style={{"order":"2"}}>
+								<div style={envTileStyle}>
+									<PollenContainer location={ptLoc} />
 						<div style={{"display":"flex", "flex-direction":"row", "justify-content":"center"}}>
 							<div style={{"display":"flex", "flex-direction":"column", "justify-content": "center"}}>
 								<div style={{"textAlign":'center', "fontSize": "20", "order":"1"}}>
@@ -83,7 +87,7 @@ class ProfileView extends Component {
 								</div>
 								<div style={{"order":"2"}}>
 									<div style={envTileStyle}>
-										<PollenLevel location={ptLoc} />
+										<PollenContainer location={ptLoc} />
 									</div>
 								</div>
 								<div style={{"order":"3"}}>
