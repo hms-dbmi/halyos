@@ -1,0 +1,148 @@
+// Helper classes
+@import 'styles/flexbox.scss';
+@import 'styles/colors.scss';
+@import 'styles/transitions.scss';
+
+
+/*
+ * -----------------------------------------------------------------------------
+ * Global styles
+ * -----------------------------------------------------------------------------
+ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Overpass', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $white;
+  color: $gray-dark;
+}
+
+h1, h2, h3 {
+  color: $gray-darker;
+  margin: 3rem 0 0.5rem 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, li {
+  line-height: 1.5;
+  transition: font-size $normal $ease;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h1 + h2 {
+  color: transparentize($black, 0.2);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.5rem;
+
+  &.smaller {
+    margin-top: 1.5rem;
+    font-size: 1.25em;
+  }
+}
+
+h4 {
+  margin: 1.5rem 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+  display: inline;
+}
+
+p {
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+.smaller {
+  font-size: 0.85em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  transition: all $fast $ease;
+}
+
+a:hover {
+  color: $primary;
+  box-shadow: inset 0 -1px 0 0 $primary;
+  text-decoration: none;
+}
+
+a:focus {
+  color: $primary;
+  background: transparentize($primary, 0.9);
+  box-shadow: inset 0 0 0 1px transparentize($primary, 0.95);
+  outline: none;
+  border-radius: 0.125rem;
+  text-decoration: none;
+}
+
+abbr,
+abbr[title] {
+  border-bottom: 0;
+  text-decoration: none !important;
+}
+
+input {
+  font-size: inherit;
+}
+
+button:active {
+  outline: none;
+}
+
+::-webkit-selection {
+  color: $black;
+  background: $secondary;
+}
+
+::-moz-selection {
+  color: $black;
+  background: $secondary;
+}
+
+::selection {
+  color: $black;
+  background: $secondary;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, main, menu, nav, section, summary {
+  /* Add correct display for IE 9- and some newer browsers */
+  display: block;
+}
+
+main,
+figure {
+  margin: 0;
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * General styles, i.e. classes
+ * -----------------------------------------------------------------------------
+ */
+
