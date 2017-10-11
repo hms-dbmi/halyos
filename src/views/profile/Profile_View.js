@@ -1,6 +1,5 @@
 import 'purecss/build/pure.css';
 import React, { Component } from 'react';
-import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
 
 import DemographicTile from './DemographicTile';
 import VitalTile from './VitalTile';
@@ -19,10 +18,10 @@ import { headerStyle, apptListStyle } from './AppointmentsTile-style';
 
 
 import Scale from '../../components/logos/scale';
-import BP from '../../components/logos/bp';
+import BP from '../../components/logos/blood-pressure.js';
 import Cholesterol from '../../components/logos/chol';
 import Glucose from '../../components/logos/glucose';
-import PastGraph from '../../components/Graphs/PastGraph.js';
+import PastGraph from '../../components/Graphs/Past-Graph.js';
 //import {getTopObservations, getTopObservationsDemo, SparklinesReferenceLine} from '../../services/patient_view_utils.js'
 //import { LineChart, Line, Tooltip } from 'recharts';
 
@@ -32,8 +31,8 @@ import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
 import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
 import {COPDScore} from '../../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
-import RiskTile from '../../services/RiskTiles/RiskTile.js'
-import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
+import RiskTile from '../../components/RiskTiles/RiskTile.js'
+import HelpRiskTile from '../../components/RiskTiles/HelpRiskTile.js'
 import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
 import { medListStyle, medListDivStyle } from './Profile_View-style.js'
@@ -55,16 +54,18 @@ class ProfileView extends Component {
   render(){ 
     const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
     const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
-    const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
-    {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
-    {"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
-    {"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
+    const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future":"110" },
+    {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95", future:95 },
+    {"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" , future: 80},
+    {"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" , future:17}]
+    const graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119}, 
+		{x:new Date("2017-02-23"), y:132}, {x:new Date("2017-03-03"), y:126}, {x:new Date("2017-03-23"), y:129}, {x:new Date("2017-04-03"), y:125}];
     const mappedMeasures = measurements.map((measurements) =>
       <tr className = "pure-table pure-table-horizontal">
         <td> {measurements["name"]} [{measurements["units"]}] </td>
         <td> {measurements["past"]}</td>
         <td> {measurements["present"]}</td>
-        <td> :) </td>
+        <td> {measurements["future"]} </td>
       </tr>
     );
     return (
@@ -111,6 +112,17 @@ class ProfileView extends Component {
             </div>
           </div>
         </div>
+		<div className="pure-u-1-2">
+		  <PastGraph obs_data={graphData} 
+			units="mmHg" 
+			reference_range={{min:110, max: 130}}
+			mainWidth={500}
+			mainHeight={200}
+			viewWidth={500}
+			viewHeight={50}/>
+		  <AboutMeasurement measurementCode="2085-9"/> <br/> <br/> <br/>
+		  <AboutRisk risk="General_Cardiac"/>
+		</div>
       </div>
     )
   }
