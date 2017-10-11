@@ -6,10 +6,12 @@
     "babel-polyfill": "^6.26.0",
     "enzyme": "^2.9.1",
     "es6-promise": "^4.1.1",
+    "fhir": "github:smart-on-fhir/client-js",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
     "localforage": "^1.5.0",
+    "prop-types": "^15.6.0",
     "purecss": "^1.0.0",
     "rc-slider": "^8.2.0",
     "react": "^15.6.1",
@@ -36,9 +38,16 @@
     "victory": "^0.21.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-js": "react-scripts start",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive"
+  },
+  "devDependencies": {
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.1.1"
   }
 }

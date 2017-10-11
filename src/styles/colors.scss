@@ -1,0 +1,29 @@
+$black: #000;
+$gray-darkest: #222;
+$gray-darker: #444;
+$gray-dark: #666;
+$gray: #999;
+$gray-light: #bfbfbf;
+$gray-lighter: #d9d9d9;
+$gray-lightest: #eeeeee;
+$white: #fff;
+
+$gray-darkest-alpha: rgba(0,0,0,0.87);
+$gray-darker-alpha: rgba(0,0,0,0.73);
+$gray-dark-alpha: rgba(0,0,0,0.6);
+$gray-alpha: rgba(0,0,0,0.4);
+$gray-light-alpha: rgba(0,0,0,0.25);
+$gray-lighter-alpha: rgba(0,0,0,0.15);
+$gray-lightest-alpha: rgba(0,0,0,0.07);
+
+$green: #40bf00;
+$orange: #ff5500;
+$red: #ef5162;
+$yellow: #facf55;
+$blue: #4a94d9;
+
+$primary: $blue;
+$secondary: $yellow;
+
+$error-text: darken($red, 25%);
+$error-bg: lighten($red, 25%);

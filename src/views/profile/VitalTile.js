@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import $ from 'jquery'; 
 import { searchByCode } from '../../services/risk_score_utils.js';
 import {getNearest} from '../../services/general_utils.js';
-import {ArrowDown} from '../../components/logos/arrows/ArrowDown.js';
-import {ArrowSame} from '../../components/logos/arrows/ArrowSame.js';
-import {ArrowUp} from '../../components/logos/arrows/ArrowUp.js';
+import {ArrowDown} from '../../components/logos/arrows/Arrow-Down.js';
+import {ArrowSame} from '../../components/logos/arrows/Arrow-Same.js';
+import {ArrowUp} from '../../components/logos/arrows/Arrow-Up.js';
 
 
 class VitalTile extends Component {

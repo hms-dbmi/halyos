@@ -146,3 +146,6 @@ yarn-error.log*
 
 # production
 /build
+
+# Ignore .css as we use SASS
+src/**/*.css
