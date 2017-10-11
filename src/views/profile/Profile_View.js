@@ -11,7 +11,7 @@ import AppointmentsTile from './AppointmentsTile';
 import Name from './Name.js';
 import LastVisit from './LastVisit.js';
 
-import PollenLevel from './env/PollenLevel.js'
+import PollenContainer from './env/PollenContainer.js'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 import {envTileStyle} from './Environment-style.js';
@@ -107,7 +107,7 @@ class ProfileView extends Component {
 								</div>
 								<div style={{"order":"2"}}>
 									<div style={envTileStyle}>
-										<PollenLevel location={ptLoc} />
+										<PollenContainer location={ptLoc} />
 									</div>
 								</div>
 								<div style={{"order":"3"}}>
@@ -135,7 +135,13 @@ class ProfileView extends Component {
 					<AboutMeasurement measurementCode="2085-9"/> <br/> <br/> <br/>
 					<AboutRisk risk="General_Cardiac"/>
 				</div>
-								{/*<div className="row">
+			</div>
+
+		)
+	}
+
+}
+				{/*<div className="row">
 					<div className = "col-sm-2">
         				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
 					</div>
@@ -156,11 +162,5 @@ class ProfileView extends Component {
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
 				</div>*/}
-			</div>
-
-		)
-	}
-
-}
 
 export default ProfileView;

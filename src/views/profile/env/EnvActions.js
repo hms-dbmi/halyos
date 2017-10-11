@@ -24,10 +24,12 @@ export const failPollenLevels = zipCode => ({
 });
 
 export function fetchPollenLevels(zipCode) {
+  console.log("we are here in the fetching:");
   
   return function (dispatch) {
   
     dispatch(requestPollenLevels(zipCode))
+    // console.log("pollen level fetch dispatched");
 
     return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
       .then(

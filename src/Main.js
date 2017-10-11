@@ -37,6 +37,7 @@ class Main extends Component {
           )} />
 			    <Route exact path='/' render={(props) => (
   					<ProfileView {...props} 
+                  store={this.props.store}
   								meds={medicationOrder}
   								patient={patient}
   								encounters={encounters}

@@ -24,8 +24,15 @@ import { fetchAllObservations } from './services/fhir/FhirActions'
 import { getPatID } from './services/smart_setup'
 
 
+const preloadedState = {
+  envFactorsData: {
+    isFetchingPollenData: false,
+  },
+}
+
 export const store = createStore(
   rootReducer,
+  preloadedState,
   applyMiddleware(thunk)
 );
 
@@ -91,8 +98,8 @@ console.log("final state: ", store.getState())
   
 const App = () => (
     <div>
-      <Header api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
-      <Main api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} />
+      <Header api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} store={store}/>
+      <Main api={FHIR_Client.api} ptapi={Context_FHIR_Client.api} store={store}/>
     </div>
 )
 
