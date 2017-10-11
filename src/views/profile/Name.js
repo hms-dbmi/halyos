@@ -5,8 +5,7 @@ export default class Name extends Component {
 	}
 
 	render() {
-		var name = this.props.patient; //need to figure out what the name is but need to inspect patient object
-		console.log(name)
+		const name = this.props.patient; //need to figure out what the name is but need to inspect patient object
 		return (
 			<div>
 				{name} icon

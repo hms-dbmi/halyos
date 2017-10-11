@@ -11,7 +11,7 @@ export class FilteredList extends Component {
     }
   }
   filterList(event) {
-    var updatedList = this.state.initialItems;
+    let updatedList = this.state.initialItems;
     updatedList = updatedList.filter(function(item){
       return item["name"].toLowerCase().search(
         event.target.value.toLowerCase()) !== -1;

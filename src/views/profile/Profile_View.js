@@ -52,17 +52,16 @@ class ProfileView extends Component {
 		super(props);
 	}
 
-	render(){ //Known issue; the code can easily be changed, the icon not so much....
-		//var ptLoc = getPtLoc(this.props.patient);
-		var ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
-		var patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
-		var measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future": "110" },
+	render(){
+		const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
+		const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+		const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future": "110" },
 		{"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95","future": "95"  },
 		{"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70","future": "70"  },
 		{"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18","future": "18"  }]
-		var graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119}, 
+		const graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119}, 
 		{x:new Date("2017-02-23"), y:132}, {x:new Date("2017-03-03"), y:126}, {x:new Date("2017-03-23"), y:129}, {x:new Date("2017-04-03"), y:125}];
-		var mappedMeasures = measurements.map((measurements) => 
+		const mappedMeasures = measurements.map((measurements) => 
 			<tr className = "pure-table pure-table-horizontal">
 				<td> {measurements["name"]} [{measurements["units"]}] </td>
 				<td> {measurements["past"]}</td>

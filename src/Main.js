@@ -18,12 +18,12 @@ class Main extends Component {
 
   }
   render() {
-	var patient = this.props.ptapi.fetchAll({type: "Patient"});
-	var observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
-	var conditions = this.props.ptapi.fetchAll({type: "Condition"});
-	var encounters = this.props.ptapi.fetchAll({type: "Encounter", query:{$sort: [['date','desc']]}})
-	var medicationOrder = this.props.ptapi.fetchAll({type: "MedicationStatement"});
-	var medicationRequest = this.props.ptapi.fetchAll({type: "MedicationRequest", query: {'context.diagnosis.code': {$or: [
+	const patient = this.props.ptapi.fetchAll({type: "Patient"});
+	const observations = this.props.ptapi.fetchAll({type: "Observation", query:{$sort: [['date','desc'],['code','asc']]}});
+	const conditions = this.props.ptapi.fetchAll({type: "Condition"});
+	const encounters = this.props.ptapi.fetchAll({type: "Encounter", query:{$sort: [['date','desc']]}})
+	const medicationOrder = this.props.ptapi.fetchAll({type: "MedicationStatement"});
+	const medicationRequest = this.props.ptapi.fetchAll({type: "MedicationRequest", query: {'context.diagnosis.code': {$or: [
             // History of antihypertensive drug treatment
             //MedicationRequest?context.reason=10509002
            '38341003'

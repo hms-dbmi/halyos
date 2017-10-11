@@ -5,8 +5,8 @@ export default class LastVisit extends Component {
 	}
 
 	render() {
-		var mostRecentEncounter = this.props.encounters[0];
-		var mostRecentDate = mostRecentEncounter.effectiveDateTime;
+		const mostRecentEncounter = this.props.encounters[0];
+		const mostRecentDate = mostRecentEncounter.effectiveDateTime;
 		return (
 			<div>
 				Last Visit: {mostRecentDate} icon
