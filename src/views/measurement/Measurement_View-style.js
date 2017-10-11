@@ -9,19 +9,19 @@ export const affectedRiskScoreTitleStyle = {
 }
 
 export const measurementDetailsHeaderStyle = {
-	fontSize: 38,
-	fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std",
-	color:"#18A9DC"
+	fontSize: 18,
+	fontFamily:"Rubik",
+	color:"#666666"
 }
 
 export const measurementDetailsSubheadingStyle = {
 	fontSize: 16,
-	fontFamily:"HiraKakuStd-W8, Hiragino Kaku Gothic Std",
-	color:"black"
+	fontFamily:"Rubik",
+	color:"#666666"
 }
 
 export const measurementDetailTextStyle = {
-	fontSize: 12,
-	fontFamily:"HiraKakuPro-W3, Hiragino Kaku Gothic Pro",
-	color:"black"
+	fontSize: 14,
+	fontFamily:"Rubik",
+	color:"#666666"
 }
