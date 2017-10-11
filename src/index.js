@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+//import './index.css';
 import registerServiceWorker from './services/registerServiceWorker';
 
 import Main from './Main.js'
