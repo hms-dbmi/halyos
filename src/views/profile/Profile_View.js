@@ -76,10 +76,6 @@ class ProfileView extends Component {
 						<AppointmentsTile patient={patient}/>
 					</div>
 					<div className="pure-u-4-24">
-
-							<div style={{"order":"2"}}>
-								<div style={envTileStyle}>
-									<PollenContainer location={ptLoc} />
 						<div style={{"display":"flex", "flex-direction":"row", "justify-content":"center"}}>
 							<div style={{"display":"flex", "flex-direction":"column", "justify-content": "center"}}>
 								<div style={{"textAlign":'center', "fontSize": "20", "order":"1"}}>
@@ -104,6 +100,12 @@ class ProfileView extends Component {
 						</div>
 					</div>
 				</div>
+			</div>
+
+		)
+	}
+
+}
 				{/*<div className="row">
 					<div className = "col-sm-2">
         				<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
@@ -125,11 +127,5 @@ class ProfileView extends Component {
 						<div><HelpRiskTile scoreName="Help"/></div>
 					</div>
 				</div>*/}
-			</div>
-
-		)
-	}
-
-}
 
 export default ProfileView;
