@@ -10,6 +10,7 @@ export class FilteredList extends Component {
         items: []
     }
   }
+  
   filterList(event) {
     let updatedList = this.state.initialItems;
     updatedList = updatedList.filter(function(item){
