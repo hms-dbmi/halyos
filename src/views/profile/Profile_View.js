@@ -40,8 +40,8 @@ import { medListStyle, medListDivStyle } from './Profile_View-style.js'
 import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {AboutMeasurement} from './AboutMeasurement.js';
-import {AboutRisk} from './AboutRisk.js';
+import {AboutMeasurement} from '../../components/AboutMeasurement.js';
+import {AboutRisk} from '../../components/AboutRisk.js';
 
 
 //import AboutRisk from '../risk/AboutRisk.js';
