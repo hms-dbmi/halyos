@@ -1,7 +1,7 @@
 import 'purecss/build/pure.css';
 import React, { Component } from 'react';
-import text from '../measurement/Measurement_Text.js';
-import { measurementTitleStyle, measurementDetailTextStyle, affectedRiskScoreTitleStyle, measurementDetailsHeaderStyle, measurementDetailsSubheadingStyle } from '../measurement/Measurement_View-style.js'
+import text from '../../texts/measurement-text.js';
+import { measurementTitleStyle, measurementDetailTextStyle, affectedRiskScoreTitleStyle, measurementDetailsHeaderStyle, measurementDetailsSubheadingStyle } from '../../styles/measurement-view-style.js'
 
 
 export class AboutMeasurement extends Component {

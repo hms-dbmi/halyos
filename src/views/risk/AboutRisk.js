@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import riskText from './RiskText.js';
+import riskText from '../../../texts/risk-text.js';
 class AboutRisk extends Component {
 	constructor(props) {
 		super(props);
