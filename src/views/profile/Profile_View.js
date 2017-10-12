@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 
 import VitalTile from '../../components/VitalTile';
 import {FilteredList, List} from '../../components/FilteredList.js';
-import EnvironmentTile from './EnvironmentFactors.js';
+import EnvironmentTile from '../../components/EnvironmentFactors.js';
 import AppointmentsTile from '../../components/AppointmentsTile';
 import Name from '../../components/Name.js';
 import LastVisit from '../../components/LastVisit.js';
 
-import PollenContainer from './env/PollenContainer.js'
-import AirQuality from './env/AirQuality.js';
-import Flu from './env/Flu.js';
-import {envTileStyle} from './Environment-style.js';
+import PollenContainer from '../../components/env/PollenContainer.js'
+import AirQuality from '../../components/env/AirQuality.js';
+import Flu from '../../components/env/Flu.js';
+import {envTileStyle} from '../../styles/Environment-style.js';
 import { headerStyle, apptListStyle } from '../../styles/AppointmentsTile-style';
 
 

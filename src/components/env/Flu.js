@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Syringe from './logos/syringe/syringe.js';
 //const PollenSVG = require('../../logos/pollen.svg');
-import { coordDistance } from '../../../services/general_utils.js';
+import { coordDistance } from '../../services/general_utils.js';
 
 class Flu extends Component {
 	constructor(props) {
