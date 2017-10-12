@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import ProfileView from './views/profile/Profile_View.js'
-import MeasurementView from './views/measurement/Measurement_View.js'
-import RiskScoreView from './views/risk/Risk_View.js'
 import {riskObject} from './services/general_utils.js';
 
 import { fetchAllObservations } from './services/fhir/FhirActions'
@@ -47,37 +45,6 @@ class Main extends Component {
   								ptapi={this.props.ptapi}
   								medreq={medicationRequest}/>
 				)} />
-		    	<Route exact path='/measure' render={(props) => (
-  					<MeasurementView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
-				)} />
-				<Route path='/measure/:measureId' render={(props) => (
-  					<MeasurementView {...props} 
-  								meds={medicationOrder}
-  								patient={patient}
-  								encounters={encounters}
-  								api={this.props.api}
-  								ptapi={this.props.ptapi}
-  								medreq={medicationRequest}
-  								observations={observations}
-  								conditions={conditions} 
-  								riskObject={riskObject}/>
-				)} />
-		        <Route exact path='/risk' render={(props) => (
-  					<RiskScoreView {...props} api={this.props.api} ptapi={this.props.ptapi}/>
-				)} />
-				<Route path='/risk/:riskName' render={(props) => (
-  					<RiskScoreView {...props} 
-  								meds={medicationOrder}
-  								patient={patient}
-  								encounters={encounters} 
-  								api={this.props.api}
-  								ptapi={this.props.ptapi}
-  								medreq={medicationRequest}
-  								observations={observations}
-  								conditions={conditions} />
-                  
-				)} />
-				
 			</Switch>
 		</main>
     );
