@@ -1,9 +1,8 @@
 import 'purecss/build/pure.css';
 import React, { Component } from 'react';
 
-import DemographicTile from './DemographicTile';
-import VitalTile from './VitalTile';
-import {FilteredList, List} from './FilteredList.js';
+import VitalTile from '../../components/VitalTile';
+import {FilteredList, List} from '../../components/FilteredList.js';
 import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from '../../components/AppointmentsTile';
