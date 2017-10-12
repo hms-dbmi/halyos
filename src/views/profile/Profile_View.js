@@ -6,7 +6,7 @@ import VitalTile from './VitalTile';
 import {FilteredList, List} from './FilteredList.js';
 import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
-import AppointmentsTile from './AppointmentsTile';
+import AppointmentsTile from '../../components/AppointmentsTile';
 import Name from './Name.js';
 import LastVisit from './LastVisit.js';
 
@@ -14,7 +14,7 @@ import PollenContainer from './env/PollenContainer.js'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 import {envTileStyle} from './Environment-style.js';
-import { headerStyle, apptListStyle } from './AppointmentsTile-style';
+import { headerStyle, apptListStyle } from '../../styles/AppointmentsTile-style';
 
 
 import Scale from '../../components/logos/scale';

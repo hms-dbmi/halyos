@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
-import { calculateAge } from '../../services/risk_score_utils';
+import { calculateAge } from '../services/risk_score_utils';
 
-import { headerStyle, apptListStyle } from './AppointmentsTile-style';
+import { headerStyle, apptListStyle } from '../styles/AppointmentsTile-style.js';
 import PreventativeCareSuggestion from './PreventativeCareSuggestion.js';
 
 class AppointmentsTile extends Component {
