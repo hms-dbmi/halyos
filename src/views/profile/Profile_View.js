@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 
 import VitalTile from '../../components/VitalTile';
 import {FilteredList, List} from '../../components/FilteredList.js';
-import MedicationTile from './MedicationTile';
 import EnvironmentTile from './EnvironmentFactors.js';
 import AppointmentsTile from '../../components/AppointmentsTile';
-import Name from './Name.js';
-import LastVisit from './LastVisit.js';
+import Name from '../../components/Name.js';
+import LastVisit from '../../components/LastVisit.js';
 
 import PollenContainer from './env/PollenContainer.js'
 import AirQuality from './env/AirQuality.js';
@@ -34,7 +33,6 @@ import RiskTile from '../../components/RiskTiles/RiskTile.js'
 import HelpRiskTile from '../../components/RiskTiles/HelpRiskTile.js'
 import {getPtLoc} from '../../services/Environment/environmental_utils.js'
 
-import { medListStyle, medListDivStyle } from './Profile_View-style.js'
 
 import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
 import Slider, { Range } from 'rc-slider';
