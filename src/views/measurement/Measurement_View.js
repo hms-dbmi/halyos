@@ -11,7 +11,8 @@ import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
 import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
 import {COPDScore} from '../../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
-import RiskTile from '../../services/RiskTiles/RiskTile.js'
+
+import RiskTile from '../../components/RiskTile.js'
 
 import text from './Measurement_Text.js';
 
@@ -23,18 +24,18 @@ class MeasurementView extends Component {
 		super(props);
 		this.state = {measurementList:[], units:"", max:'', min:'', name: '', allObs:{}};
 	}
-	
+
 	componentWillMount(){
 		if (this.props.match.params != null){
-			this.measureId = this.props.match.params.measureId;	
-		}	
+			this.measureId = this.props.match.params.measureId;
+		}
 	}
-	
+
 	componentWillReceiveProps(nextProps){
 		//console.log("next props", nextProps);
 		if (this.props.match.params === null){
 			return;
-			
+
 		}
 		if (this.props.match.params.measureId !== nextProps.match.params.measureId){
 			this.measureId = nextProps.match.params.measureId;
@@ -43,22 +44,22 @@ class MeasurementView extends Component {
 			if (this.isEmpty(this.state.allObs)){
 				nextProps.observations.then(this.getObservationByName.bind(this));
 				//console.log("its empty! should only happen once :(");
-			} 
+			}
 			else {
 				this.getObservationByName(this.state.allObs);
 				//console.log("its not! use the same shit");
 			}
-			
+
 
 		}
 	}
 
 	componentDidMount(){
 		if (this.isEmpty(this.state.allObs)){
-			this.props.observations.then(this.getObservationByName.bind(this));	
+			this.props.observations.then(this.getObservationByName.bind(this));
 			//console.log("its empty! should only happen once :(");
 
-		} 
+		}
 		else {
 			this.getObservationByName(this.state.allObs);
 			//console.log("its not! use the same shit");
@@ -106,10 +107,10 @@ class MeasurementView extends Component {
 									(!refRange.type)){
 									this.referenceRange.push([refRange.low.value, refRange.high.value]);
 								}
-							} 
+							}
 					}
-			
-					//gets the max and min values as we add them to the measurementList		
+
+					//gets the max and min values as we add them to the measurementList
 					if(this.MAX_VAL < insideValue.valueQuantity.value){
 						this.MAX_VAL = insideValue.valueQuantity.value;
 					}
@@ -125,7 +126,7 @@ class MeasurementView extends Component {
 	                    x:new Date(Date.parse(outsideValue.effectiveDateTime)),
 	                    y:insideValue.valueQuantity.value});
 					this.setState({measurementList:newArray});
-			} 
+			}
 			else if(String(obs.code.coding[0].code) === String(this.measureId)){
 					if(this.MAX_VAL < insideValue.valueQuantity.value){
 						this.MAX_VAL = insideValue.valueQuantity.value;
@@ -144,12 +145,12 @@ class MeasurementView extends Component {
 			}
 			}.bind(this));
 		}
-		return 
+		return
 	}
 
 	render(){
 		if(this.state.measurementList.length > 0){
-	
+
 			this.FUTURE_MONTH_ADDITION = 6;
 			var lastMeasurementDate = this.state.measurementList[0].x;
 			var futureMeasurementDate = new Date(lastMeasurementDate).setMonth(lastMeasurementDate.getMonth() + this.FUTURE_MONTH_ADDITION);
@@ -183,44 +184,44 @@ class MeasurementView extends Component {
 								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="General Cardiac" score={5} sym="%" context="within 10 years" url="General_Cardiac"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="Kidney Failure" score={5} sym="%" context="within 5 years" url="Kidney_Failure"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="COPD Mortality" score={5} sym="%" context="within 4 years" url="COPD_Mortality"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['Diabetes'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="Diabetes" score={5} sym="%" context="within 5 years" url="Diabetes"/>
-									</div>	
+									</div>
 								}
 							</div>
 							{/*<div className="row">
 								{this.props.riskObject['General Cardiac'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs)} sym="%" context="within 10 years" url="General_Cardiac"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['Kidney Failure'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="Kidney Failure" score={KFRScore(pt, obs)} sym="%" context="within 5 years" url="Kidney_Failure"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['COPD Mortality'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="COPD Mortality" score={COPDScore(pt, obs, conds)} sym="%" context="within 4 years" url="COPD_Mortality"/>
-									</div>	
+									</div>
 								}
 								{this.props.riskObject['Diabetes'].includes(this.measureId) &&
 									<div className="col-md-4">
 				        			<RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
-									</div>	
+									</div>
 								}
 							</div>*/}
 						</div>
@@ -229,11 +230,11 @@ class MeasurementView extends Component {
 						</div>
 					</div>
 				</div>
-			)		
+			)
 		}
 
 		return <div>Loading...</div>
-		
+
 	}
 
 }
@@ -282,7 +283,7 @@ class MeasurementText extends Component {
 		return (
 			<div>
 				<text x='10' y='50' style={measurementDetailsHeaderStyle}>
-					About This Measurement <br/> 
+					About This Measurement <br/>
 				</text>
 				<text style={measurementDetailsSubheadingStyle}>
 					What does my {this.props.measurementName} mean? <br/>
@@ -297,7 +298,7 @@ class MeasurementText extends Component {
 					{this.state.important} <br/> Source: WebMD <br/>
 				</text>
 				<text style={measurementDetailsSubheadingStyle}>
-					How can I make it better? <br/> 
+					How can I make it better? <br/>
 				</text>
 				<text style={measurementDetailTextStyle}>
 					{this.state.improve} <br/> Source: WebMD <br/>
