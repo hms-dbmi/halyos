@@ -5,7 +5,7 @@ import React from 'react';
 import icons, { WARNING } from '../configs/icons';
 
 // Styles
-import './Icon.scss';
+import './Icon.css';
 
 const wrapHtml = html => ({ __html: html });
 
