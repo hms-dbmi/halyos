@@ -23,18 +23,16 @@ import BP from '../components/logos/bp';
 import Cholesterol from '../components/logos/chol';
 import Glucose from '../components/logos/glucose';
 
-import {reynoldsScore} from '../services/RiskCalculators/reynolds.js'
-import {CHADScore} from '../services/RiskCalculators/CHAD.js'
-import {KFScore} from '../services/RiskCalculators/get_KFRisk.js'
-import {COPDScore} from '../services/RiskCalculators/COPD.js'
-import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js'
-import HelpRiskTile from '../services/RiskTiles/HelpRiskTile.js'
-import {getPtLoc} from '../services/Environment/environmental_utils.js'
-
-import { medListStyle, medListDivStyle } from './profile/Profile_View-style.js'
+import {reynoldsScore} from '../services/RiskCalculators/reynolds.js';
+import {CHADScore} from '../services/RiskCalculators/CHAD.js';
+import {KFScore} from '../services/RiskCalculators/get_KFRisk.js';
+import {COPDScore} from '../services/RiskCalculators/COPD.js';
+import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js';
+import HelpRiskTile from '../services/RiskTiles/HelpRiskTile.js';
+import {getPtLoc} from '../services/Environment/environmental_utils.js';
 
 // Styles
-import 'purecss/build/pure.css';
+import './Dashboard.css';
 
 class Dashboard extends Component {
   constructor(props){
@@ -60,24 +58,54 @@ class Dashboard extends Component {
 
     return (
       <div className="dashboard">
-        <div className="pure-g">
-          <div className="pure-u-1-5">
-            <RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/>
-          </div>
-          <div className="pure-u-1-5">
-            <RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/>
-          </div>
-          <div className="pure-u-1-5">
-            <RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/>
-          </div>
-          <div className="pure-u-1-5">
-            <RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/>
-          </div>
-          <div className="pure-u-1-5">
-            <RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/>
-          </div>
-        </div>
-        <br/><br/>
+        <ul className="dashboard-risk-scores flex-c no-list-style">
+          <li className="flex-g-1">
+            <RiskTile
+              scoreName="Cardiac"
+              score={10}
+              unit="%"
+              context={1}
+              url="General_Cardiac"
+            />
+          </li>
+          <li className="flex-g-1">
+            <RiskTile
+              scoreName="Stroke"
+              score={10}
+              unit="%"
+              context={1}
+              url="Stroke"
+            />
+          </li>
+          <li className="flex-g-1">
+            <RiskTile
+              scoreName="Kidney Failure"
+              score={10}
+              unit="%"
+              context={5}
+              url="Kidney_Failure"
+            />
+          </li>
+          <li className="flex-g-1">
+            <RiskTile
+              scoreName="COPD Mortality"
+              score={10}
+              unit="%"
+              context={4}
+              url="COPD_Mortality"
+            />
+          </li>
+          <li className="flex-g-1">
+            <RiskTile
+              scoreName="Diabetes"
+              score={10}
+              unit="%"
+              context={5}
+              url="Diabetes"
+            />
+          </li>
+        </ul>
+
         <div>
           <div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"20px", "height":"300px", "overflow":"auto"}}>
             <FilteredList measurements={measurements}/>
