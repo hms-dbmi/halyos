@@ -6,7 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Icon from './Icon';
 
 import { getValueQuantities, riskObject } from '../services/general_utils.js';
-
+import LastVisit from './LastVisit.js';
+import Name from './Name.js';
 import { HeaderStyle } from './Header-style.js'
 
 class Header extends React.Component {
@@ -57,67 +58,84 @@ class Header extends React.Component {
   }
 
   render() {
-    if(!this.state.observations){
-      return (
-        <Navbar collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="/"><Icon id="logo"/></a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavDropdown key={3} title="Measurements" id="basic-nav-dropdown">
-                <LinkContainer to="/"><MenuItem key={3.1}>Loading...</MenuItem></LinkContainer>
-              </NavDropdown>
-              <NavDropdown key={4} title="Risk Scores" id="basic-nav-dropdown">
-                <MenuItem key={4.2}>Cardiavascular Disease</MenuItem>
-                <MenuItem key={4.3}>Stroke</MenuItem>
-                <MenuItem key={4.4}>Kidney Failure</MenuItem>
-                <MenuItem key={4.5}>COPD</MenuItem>
-                <MenuItem key={4.6}>Diabetes</MenuItem>
-              </NavDropdown>
-              <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      )
-    }
-
     return (
-      <Navbar collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/"><Icon id="logo"/></a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            <NavDropdown key={5} title="Measurements" id="basic-nav-dropdown">
-              {
-                this.state.observations.map(function(obs){
-                  var link = "/measure/" + obs.code;
-                  //console.log("obsCOde:", obs.code);
-                  return <LinkContainer key={obs.code.toString()} to={link}><MenuItem key={obs.code.toString()}>{obs.display}</MenuItem></LinkContainer>
-                })
-              }
-            </NavDropdown>
-            <NavDropdown key={6} title="Risk Scores" id="basic-nav-dropdown">
-              <LinkContainer to={'/risk/General_Cardiac'}><MenuItem key={6.1}>Cardiavascular Disease</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem key={6.2}>Kidney Failure</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem key={6.4}>COPD</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Stroke'}><MenuItem key={6.5}>Stroke</MenuItem></LinkContainer>
-              <LinkContainer to={'/risk/Diabetes'}><MenuItem key={6.6}>Diabetes</MenuItem></LinkContainer>
-            </NavDropdown>
-            <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>
-
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+    <div>
+      <div style={{"display":"flex", "flex-direction":"row", "justify-content":"space-between", "align-items":"flex-end", "font-size":"16"}}> 
+        <div style={{order:"1"}}>
+          <div style={{}}>Creative title, preferably with a pun </div>
+        </div>
+        <div style={{order:"2"}}>
+          <div style={{"display":"flex", "flex-direction":"row", "align-items":"flex-end"}}>
+            <LastVisit encounters={[{effectiveDateTime:"03-19-2017"}]}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <Name patient="Samson Mataraso"/>
+          </div>
+        </div>
+      </div>
+      <br/>
+    </div>
     );
   }
+  //   if(!this.state.observations){
+  //     return (
+  //       <Navbar collapseOnSelect>
+  //         <Navbar.Header>
+  //           <Navbar.Brand>
+  //             <a href="/"><Icon id="logo"/></a>
+  //           </Navbar.Brand>
+  //           <Navbar.Toggle />
+  //         </Navbar.Header>
+  //         <Navbar.Collapse>
+  //           <Nav>
+  //             <NavDropdown key={3} title="Measurements" id="basic-nav-dropdown">
+  //               <LinkContainer to="/"><MenuItem key={3.1}>Loading...</MenuItem></LinkContainer>
+  //             </NavDropdown>
+  //             <NavDropdown key={4} title="Risk Scores" id="basic-nav-dropdown">
+  //               <MenuItem key={4.2}>Cardiavascular Disease</MenuItem>
+  //               <MenuItem key={4.3}>Stroke</MenuItem>
+  //               <MenuItem key={4.4}>Kidney Failure</MenuItem>
+  //               <MenuItem key={4.5}>COPD</MenuItem>
+  //               <MenuItem key={4.6}>Diabetes</MenuItem>
+  //             </NavDropdown>
+  //             <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>
+  //           </Nav>
+  //         </Navbar.Collapse>
+  //       </Navbar>
+  //     )
+  //   }
+
+  //   return (
+  //     <Navbar collapseOnSelect>
+  //       <Navbar.Header>
+  //         <Navbar.Brand>
+  //           <a href="/"><Icon id="logo"/></a>
+  //         </Navbar.Brand>
+  //         <Navbar.Toggle />
+  //       </Navbar.Header>
+  //       <Navbar.Collapse>
+  //         <Nav>
+  //           <NavDropdown key={5} title="Measurements" id="basic-nav-dropdown">
+  //             {
+  //               this.state.observations.map(function(obs){
+  //                 var link = "/measure/" + obs.code;
+  //                 //console.log("obsCOde:", obs.code);
+  //                 return <LinkContainer key={obs.code.toString()} to={link}><MenuItem key={obs.code.toString()}>{obs.display}</MenuItem></LinkContainer>
+  //               })
+  //             }
+  //           </NavDropdown>
+  //           <NavDropdown key={6} title="Risk Scores" id="basic-nav-dropdown">
+  //             <LinkContainer to={'/risk/General_Cardiac'}><MenuItem key={6.1}>Cardiavascular Disease</MenuItem></LinkContainer>
+  //             <LinkContainer to={'/risk/Kidney_Failure'}><MenuItem key={6.2}>Kidney Failure</MenuItem></LinkContainer>
+  //             <LinkContainer to={'/risk/COPD_Mortality'}><MenuItem key={6.4}>COPD</MenuItem></LinkContainer>
+  //             <LinkContainer to={'/risk/Stroke'}><MenuItem key={6.5}>Stroke</MenuItem></LinkContainer>
+  //             <LinkContainer to={'/risk/Diabetes'}><MenuItem key={6.6}>Diabetes</MenuItem></LinkContainer>
+  //           </NavDropdown>
+  //           <LinkContainer to={'/about'}><MenuItem key={5.1}>About</MenuItem></LinkContainer>
+
+  //         </Nav>
+  //       </Navbar.Collapse>
+  //     </Navbar>
+  //   );
+  // }
 }
 
 export default Header;
