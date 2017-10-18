@@ -33,10 +33,6 @@ export const store = createStore(
   applyMiddleware(thunk)
 );
 
-store
-  .dispatch(fetchAllObservations(getPatID()))
-  .then(() => console.log("we got all the data????" , store.getState()));
-
 const render = (Component, store, error) => {
   ReactDOM.render(
     <Provider store={store}>

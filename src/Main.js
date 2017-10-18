@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import ProfileView from './views/profile/Profile_View.js'
+import ProfileViewContainer from './views/profile/Profile_ViewContainer'
 import {riskObject} from './services/general_utils.js';
 
 import { fetchAllObservations } from './services/fhir/FhirActions'
@@ -34,7 +34,7 @@ class Main extends Component {
             <About />
           )} />
 			    <Route exact path='/' render={(props) => (
-  					<ProfileView {...props} 
+  					<ProfileViewContainer {...props} 
                   store={this.props.store}
   								meds={medicationOrder}
   								patient={patient}

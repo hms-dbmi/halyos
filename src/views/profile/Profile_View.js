@@ -40,6 +40,7 @@ import 'rc-slider/assets/index.css';
 import {AboutMeasurement} from '../../components/AboutMeasurement.js';
 import {AboutRisk} from '../../components/AboutRisk.js';
 
+import { getPatID } from '../../services/smart_setup'
 
 //import AboutRisk from '../risk/AboutRisk.js';
 
@@ -48,9 +49,22 @@ class ProfileView extends Component {
     super(props);
   }
 
+  componentDidMount(){
+   console.log("mounted: ",this.props.dispatch);
+   this.props.getPatientDemographics(getPatID());
+   // console.log("here we are! ", this.props);
+  }
+
   render(){ 
+    if (this.props.isFetchingAllPatientData || !this.props.patient){
+      return (
+        <div>Loading...</div>
+      ) 
+    }
+    console.log("data is here: ", this.props.patient);
     const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
-    const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+    //const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+    var patient = {"gender": this.props.patient.gender, "birthDate":this.props.patient.birthDate};
     const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future":"110" },
     {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95", future:95 },
     {"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" , future: 80},
