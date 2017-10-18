@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import About from '../views/About';
-import ProfileView from '../views/profile/Profile_View.js';
+import Dashboard from '../views/Dashboard.js';
 import MeasurementView from '../views/measurement/Measurement_View.js';
 import RiskScoreView from '../views/risk/Risk_View.js';
 
@@ -85,7 +85,7 @@ class Main extends React.Component {
             )}
           />
           <Route exact path='/' render={props => (
-              <ProfileView
+              <Dashboard
                 {...props}
                 meds={medicationOrder}
                 patient={patient}
