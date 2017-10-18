@@ -68,11 +68,11 @@ class ProfileView extends Component {
     return (
       <div>
         <div className="pure-g">
-          <div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={10} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
-          <div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={10} sym="%" context="within 1 year" url="Stroke"/></div>
-          <div className="pure-u-1-5"><RiskTile scoreName="Kidney Failure" score={10} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
-          <div className="pure-u-1-5"><RiskTile scoreName="COPD Mortality" score={10} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
-          <div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={10} sym="%" context="within 5 years" url="Diabetes"/></div>
+          <div className="pure-u-1-5"><RiskTile scoreName="General Cardiac" score={8.7} sym="%" context="within 10 years" url="General_Cardiac"/> </div>
+          <div className="pure-u-1-5"><RiskTile scoreName="Stroke" score={12} sym="%" context="within 1 year" url="Stroke"/></div>
+          <div className="pure-u-1-5"><RiskTile scoreName="Kidney Failure" score={3.6} sym="%" context="within 5 years" url="Kidney_Failure"/></div>
+          <div className="pure-u-1-5"><RiskTile scoreName="COPD Mortality" score={1.4} sym="%" context="within 4 years" url="COPD_Mortality"/></div>
+          <div className="pure-u-1-5"><RiskTile scoreName="Diabetes" score={13} sym="%" context="within 5 years" url="Diabetes"/></div>
         </div>
         <br/><br/>
         <div>
