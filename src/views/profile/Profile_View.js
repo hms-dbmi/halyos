@@ -61,9 +61,34 @@ class ProfileView extends Component {
         <div>Loading...</div>
       ) 
     }
-    console.log("data is here: ", this.props.patient);
-    const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
+    console.log("all patient data", this.props.patient.address[0])
+    //const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
     //const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
+    let lat;
+    let long;
+    if(this.props.patient.address[0].extension[0].url.endsWith("geolocation")){
+      if (this.props.patient.address[0].extension[0].extension[0].url == "latitude"){
+        console.log("we in here");
+        lat = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
+        long = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+      } else {
+        console.log("we in there");
+        long = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
+        lat = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+      }
+    } else {
+      //TODO: we gotta add a function here that goes and gets it if we don't have it
+      //likewise, vice versa, given lat and long, go get the location info
+      console.log("we don't have it! ");
+    }
+    var ptLoc = {"country_code": this.props.patient.address[0].country,
+                 "region_code":this.props.patient.address[0].state,
+                 "city":this.props.patient.address[0].city,
+                 "zip_code": this.props.patient.address[0].postalCode,
+                 "latitude": lat,
+                 "longitude": long,
+               }
+    
     var patient = {"gender": this.props.patient.gender, "birthDate":this.props.patient.birthDate};
     const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future":"110" },
     {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95", future:95 },
