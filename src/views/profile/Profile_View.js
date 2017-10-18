@@ -109,17 +109,17 @@ class ProfileView extends Component {
             </div>
           </div>
         </div>
-		<div className="pure-u-1-2">
-		  <PastGraph obs_data={graphData} 
-			units="mmHg" 
-			reference_range={{min:110, max: 130}}
-			mainWidth={500}
-			mainHeight={200}
-			viewWidth={500}
-			viewHeight={50}/>
-		  <AboutMeasurement measurementCode="2085-9"/> <br/> <br/> <br/>
-		  <AboutRisk risk="General_Cardiac"/>
-		</div>
+	      <div className="pure-u-1-2">
+    		  <PastGraph obs_data={graphData} 
+      			units="mmHg" 
+      			reference_range={{min:110, max: 130}}
+      			mainWidth={500}
+      			mainHeight={200}
+      			viewWidth={500}
+      			viewHeight={50}/>
+		      {/*<AboutMeasurement measurementCode="2085-9"/> <br/> <br/> <br/>
+		      <AboutRisk risk="General_Cardiac"/>*/}
+		    </div>
       </div>
     )
   }

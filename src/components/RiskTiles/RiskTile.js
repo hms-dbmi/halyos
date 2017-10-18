@@ -22,7 +22,7 @@ class RiskTile extends Component {
 					<div style={{"order": "2"}}>
 						<svg height="30" width ="30">
 							<circle cx="15" cy="15" r="15" stroke="grey" strokeWidth="1" fill="none"/>
-								<text x="50%" y="50%" textAnchor="middle" alignmentBaseline="middle" fontFamily="Merriweather" fontStyle="italic" fill="grey" >i</text>
+							<text x="50%" y="50%" textAnchor="middle" alignmentBaseline="middle" fontFamily="Merriweather" fontStyle="italic" fill="grey" >i</text>
 						</svg>
 					</div>	
 				</div>
