@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar, VictoryContainer, VictoryVoronoiContainer } from 'victory';
+import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar, VictoryContainer, VictoryVoronoiContainer, VictoryLabel } from 'victory';
 
 import { refRangeStyle, lineStyle, yAxisStyle, xAxisStyle, scatterStyle, viewfinderLineStyle } from './Past-Graph-style.js'
 import ReactSimpleRange from 'react-simple-range';
@@ -70,8 +70,8 @@ class PastGraph extends Component {
     //console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
   <div>
-    <div style={{"display":"flex", "flex-direction":"row", "align-items":"center"}}>
-      <div style={{order: "1"}}>
+    <div style={{"display":"flex", "flex-direction":"row", "align-items":"center", "justify-content":"space-between"}}>
+      <div style={{order: "1", "flex-grow":5}}>
         <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
           containerComponent={
             <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
@@ -110,18 +110,30 @@ return (
             />
         </VictoryChart>
       </div>
-      <div style={{order: "2"}}>
+      <div style={{order: "2", "flex-grow":1}}>
+      <VictoryGroup width={100} height={this.props.mainHeight} domain={{x: [0,0], y: [0.98*this.state.miny, 1.02*this.state.maxy]}}>
         <VictoryScatter 
-          width={100} height={this.props.mainHeight}
           containerComponent={<VictoryContainer responsive={false} 
-                              domain={{x: [this.state.minx, this.state.maxx], y: [0.98*this.state.miny, 1.02*this.state.maxy]}}
                               />} 
-          data={[{x: 0, y: this.state.miny, fill: "white", size:0}, {x: 0, y: this.state.maxy, fill: "white", size:0}, {x: 0, y: this.props.obs_data[this.props.obs_data.length-1].y-1, fill: "black", size:10}]}
+          data={[{x: 0, y: this.props.obs_data[this.props.obs_data.length-1].y, fill: "black", size:10}]}
+          labels={(datum => datum.y)}
+          labelComponent={<VictoryLabel dy={0}/>}
         />
+      </VictoryGroup>
       </div>
 
-      <div style={{order: "3"}}>
-        <ReactSimpleRange label vertical/>
+      <div style={{order: "3", "flex-grow":1}}>
+        <ReactSimpleRange 
+          label
+          vertical   
+          sliderColor="#DCDCDC"
+          trackColor="black"
+          thumbColor="black"
+          sliderSize={4}
+          thumbSize={20}
+          min={Math.floor(this.state.miny*0.98)}
+          max={Math.ceil(this.state.maxy*1.02)}
+          defaultValue={this.props.obs_data[this.props.obs_data.length-1].y}/>
       </div>
 
     </div>
