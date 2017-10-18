@@ -1,0 +1,29 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.button-icon {
+  height: 1.5em;
+  margin: 0;
+  padding: 0;
+  border: 1px solid $gray-lightest;
+  border-radius: 0.25rem;
+  background: transparent;
+  transition: color $normal $ease,
+              border-color $normal $ease,
+              background $normal $ease;
+  white-space: nowrap;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.25em;
+  }
+
+  &.button-icon-only {
+    width: 1.5em;
+
+    .icon {
+      margin-right: 0;
+    }
+  }
+}
