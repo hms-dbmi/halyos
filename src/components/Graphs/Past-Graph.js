@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar } from 'victory';
+import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar, VictoryContainer, VictoryVoronoiContainer } from 'victory';
 
 import { refRangeStyle, lineStyle, yAxisStyle, xAxisStyle, scatterStyle, viewfinderLineStyle } from './Past-Graph-style.js'
+import ReactSimpleRange from 'react-simple-range';
 
 class PastGraph extends Component {
 
@@ -68,44 +69,63 @@ class PastGraph extends Component {
     //console.log("ref", this.hasRefRange);
     //console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
-      <div>
-          <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false} domainPadding={{y:100}}
-            containerComponent={
-              <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
-                dimension="x"
-                zoomDomain={this.state.zoomDomain}
-                domain={{x: [this.state.minx, this.state.maxx], y: [this.state.miny-0.02*this.state.miny, this.state.maxy+0.02*this.state.maxy]}}
-              />
-            }
-          >
-            <VictoryArea style={{data:{fill: "#DCDCDC"}}} data=
-            {[{x:this.state.minx, y:this.props.reference_range.max, y0: this.props.reference_range.min},
-            {x:this.state.maxx, y:this.props.reference_range.max, y0: this.props.reference_range.min}]}/>
-            
-            <VictoryAxis 
-              dependentAxis
-              label={"Measurements  (" + `${this.props.units}` + ")"}
-              style={yAxisStyle}
+  <div>
+    <div style={{"display":"flex", "flex-direction":"row", "align-items":"center"}}>
+      <div style={{order: "1"}}>
+        <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
+          containerComponent={
+            <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
+              dimension="x"
+              zoomDomain={this.state.zoomDomain}
+              domain={{x: [this.state.minx, this.state.maxx], y: [this.state.miny-0.02*this.state.miny, this.state.maxy+0.02*this.state.maxy]}}
             />
+          }
+        >
+          <VictoryArea style={{data:{fill: "#DCDCDC"}}} data=
+          {[{x:this.state.minx, y:this.props.reference_range.max, y0: this.props.reference_range.min},
+          {x:this.state.maxx, y:this.props.reference_range.max, y0: this.props.reference_range.min}]}/>
             
-            <VictoryAxis 
-              label="Date"
-              style={xAxisStyle}
+          <VictoryAxis 
+            dependentAxis
+            label={"Measurements  (" + `${this.props.units}` + ")"}
+            style={yAxisStyle}
+            domain={[this.state.miny, this.state.maxy]}
+          />
+            
+          <VictoryAxis 
+            label="Date"
+            style={xAxisStyle}
+            domain={[this.state.minx, this.state.maxx]}
+          />
+
+          <VictoryScatter data={this.props.obs_data} style={scatterStyle}/>
+
+          {this.hasRefRange && <VictoryArea data={this.props.obs_data} y0={() => this.props.refRange[0]} y={() => this.props.refRange[1]}
+            style={refRangeStyle}
+           />}
+          
+          <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
+              style={lineStyle}
+              
             />
-
-            <VictoryScatter data={this.props.obs_data} style={scatterStyle}/>
-
-            {this.hasRefRange && <VictoryArea data={this.props.obs_data} y0={() => this.props.refRange[0]} y={() => this.props.refRange[1]}
-              style={refRangeStyle}
-             />}
-            
-            <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
-                style={lineStyle}
-                
-              />
-
-
         </VictoryChart>
+      </div>
+      <div style={{order: "2"}}>
+        <VictoryScatter 
+          width={100} height={this.props.mainHeight}
+          containerComponent={<VictoryContainer responsive={false} 
+                              domain={{x: [this.state.minx, this.state.maxx], y: [0.98*this.state.miny, 1.02*this.state.maxy]}}
+                              />} 
+          data={[{x: 0, y: this.state.miny, fill: "white", size:0}, {x: 0, y: this.state.maxy, fill: "white", size:0}, {x: 0, y: this.props.obs_data[this.props.obs_data.length-1].y-1, fill: "black", size:10}]}
+        />
+      </div>
+
+      <div style={{order: "3"}}>
+        <ReactSimpleRange label vertical/>
+      </div>
+
+    </div>
+
         <br/>
         <VictoryChart
           padding={{top: 0, left: 50, right: 50, bottom: 30}} 
@@ -124,7 +144,6 @@ return (
                 data={this.props.obs_data}
               />
         </VictoryChart>
-
       </div>
     );
 
