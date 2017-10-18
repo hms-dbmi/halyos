@@ -1,0 +1,14 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.topbar {
+  height: 3rem;
+  font-size: 1.25rem;
+}
+
+.topbar-link {
+  height: 3rem;
+  margin: 0 0.25rem;
+  line-height: 3rem;
+  background: yellow;
+}

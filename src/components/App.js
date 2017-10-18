@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import Main from './Main.js';
-import Header from './Header.js';
+import Topbar from './Topbar.js';
 
 // Other stuff
 import { getPatID, getURL } from '../services/smart_setup';
@@ -23,8 +23,8 @@ const getClientContextApi = fhir => fhir.client({
 }).api;
 
 const App = props => (
-  <div>
-    <Header api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
+  <div class="app">
+    <Topbar api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
     <Main api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
   </div>
 );
