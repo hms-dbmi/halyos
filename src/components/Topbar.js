@@ -57,33 +57,33 @@ class Header extends React.Component {
 
   render() {
     return (
-      <header className="topbar flex-c flex-align-sp">
+      <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">
           <NavLink
             to="/"
-            className="flex-c topbar-link"
+            className="topbar-element flex-c flex-v-center"
             activeClassName="is-active"
           >
-            <Icon id="logo"/>Ignite
+            <Icon id="logo"/>
           </NavLink>
           <NavLink
             to="/about"
-            className="topbar-link"
+            className="topbar-element"
             activeClassName="is-active"
           >
             About
           </NavLink>
         </nav>
         <nav className="flex-c">
-          { !this.state.observations ? (
-            <ul>
-              <li>Stuff</li>
-            </ul>
-          ) : (
-            <ul>
-              <li>Stuff</li>
-            </ul>
-          )}
+          <div className="topbar-element topbar-last-visit flex-c flex-v-center">
+            <label className="topbar-element-label">Last Visit</label>
+            <date>8/18/16</date>
+            <Icon id="calendar"/>
+          </div>
+          <div className="topbar-element topbar-user flex-c flex-v-center">
+            <div>John Doe</div>
+            <Icon id="person"/>
+          </div>
         </nav>
       </header>
     );

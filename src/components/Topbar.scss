@@ -3,12 +3,42 @@
 
 .topbar {
   height: 3rem;
+  margin: 0 1rem;
   font-size: 1.25rem;
+
+  a {
+    box-shadow: none;
+  }
 }
 
-.topbar-link {
+.topbar-element {
   height: 3rem;
   margin: 0 0.25rem;
   line-height: 3rem;
-  background: yellow;
+
+  .icon-logo {
+    width: 6rem;
+    height: 3rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.topbar-element-label {
+  color: $gray;
+  font-size: 0.85em;
+  line-height: 3rem;
+  text-transform: uppercase;
+}
+
+.topbar-last-visit {
+
+}
+
+.topbar-last-visit,
+.topbar-user {
+  .icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-left: 0.25rem;
+  }
 }
