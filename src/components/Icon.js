@@ -21,7 +21,7 @@ const convertId = id => (id ? id.replace(/-/g, '_').toUpperCase() : '');
 
 const Icon = props => (
   <div
-    className={`icon icon-${props.id} ${props.mirrorH ? 'is-mirror-h' : ''} ${props.mirrorV ? 'is-mirror-v' : ''}`}
+    className={`icon icon-${props.id} ${props.mirrorH ? 'is-mirror-h' : ''} ${props.mirrorV ? 'is-mirror-v' : ''} flex-c`}
     title={props.title}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
