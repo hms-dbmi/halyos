@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import About from '../views/About';
-import ProfileView from '../views/profile/Profile_View.js';
+import ProfileViewContainer from '../views/profile/ProfileViewContainer';
 
 import { riskObject } from '../services/general_utils.js';
 
@@ -47,7 +47,7 @@ class Main extends React.Component {
         <Switch>
           <Route exact path='/about' component={About} />
           <Route exact path='/' render={props => (
-              <ProfileView
+              <ProfileViewContainer
                 {...props}
                 meds={medicationOrder}
                 patient={patient}
