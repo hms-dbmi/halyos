@@ -1,5 +1,6 @@
 import { FETCH_OBSERVATIONS_REQUEST, FETCH_OBSERVATIONS_SUCCESS, FETCH_OBSERVATIONS_FAILURE  } from './FhirActions'
 import { FETCH_PATIENT_REQUEST, FETCH_PATIENT_SUCCESS, FETCH_PATIENT_FAILURE } from './FhirActions'
+import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_RECENT_ENCOUNTER_FAILURE } from './FhirActions'
 
 export function fhirObservationData(state = {}, action){
 	switch (action.type){
@@ -41,5 +42,26 @@ export function fhirPatientData(state = {}, action) {
 	    	})
 	    default:
 	    	return state
+	}
+}
+
+export function fhirEncounterData(state={}, action){
+	switch(action.type){
+		case FETCH_RECENT_ENCOUNTER_REQUEST:
+			return Object.assign({}, state, {
+				isFetchingRecentPatientData: true,
+			})
+		case FETCH_RECENT_ENCOUNTER_SUCCESS:
+			return Object.assign({}, state, {
+				isFetchingRecentPatientData:false,
+				lastVisit: action.lastVisit,
+				lastUpdated:action.receivedAt,
+			})
+		case FETCH_RECENT_ENCOUNTER_FAILURE:
+			return Object.assign({}, state, {
+
+			})
+		default:
+			return state
 	}
 }

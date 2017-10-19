@@ -9,55 +9,72 @@ import { getValueQuantities, riskObject } from '../services/general_utils.js';
 import LastVisit from './LastVisit.js';
 import Name from './Name.js';
 import { HeaderStyle } from './Header-style.js'
-
+import { getPatID } from '../services/smart_setup'
 class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { observations: null };
   }
 
   componentWillMount() {
+
+    this.props.getPatientDemographics(getPatID());
+    this.props.getLastVisit(getPatID());
     //a Set is used below for unique observation codes, could be {} probably.
-    this.observationList = [];
-    this.props.ptapi.fetchAll({
-      type: "Observation",
-      query: {
-        $sort: [['code','asc']],
-        _elements:['code']
-      }
-    })
-      .done(data => {
-        let observationList = new Set();
-        let updatedList = []
-        for (let i = 0; i < data.length; i++){
-          //adding stringified text so they can be compared for equality and we keep all the info, just JSON parse it
-          if(data[i].component) {
-            for (let comp of data[i].component){
-              //console.log(comp.code.coding[0].code);
-              var name = JSON.stringify(comp.code.coding[0]);
-              observationList.add(name);
-            }
-          } else {
-            //console.log(data[i].code.coding[0].code);
-            var name = JSON.stringify(data[i].code.coding[0]);
-            observationList.add(name);
-          }
-        }
+    // this.observationList = [];
+    // this.props.ptapi.fetchAll({
+    //   type: "Observation",
+    //   query: {
+    //     $sort: [['code','asc']],
+    //     _elements:['code']
+    //   }
+    // })
+    //   .done(data => {
+    //     let observationList = new Set();
+    //     let updatedList = []
+    //     for (let i = 0; i < data.length; i++){
+    //       //adding stringified text so they can be compared for equality and we keep all the info, just JSON parse it
+    //       if(data[i].component) {
+    //         for (let comp of data[i].component){
+    //           //console.log(comp.code.coding[0].code);
+    //           var name = JSON.stringify(comp.code.coding[0]);
+    //           observationList.add(name);
+    //         }
+    //       } else {
+    //         //console.log(data[i].code.coding[0].code);
+    //         var name = JSON.stringify(data[i].code.coding[0]);
+    //         observationList.add(name);
+    //       }
+    //     }
 
-        for (let item of observationList){
-          var parsedItem = JSON.parse(item);
-          //console.log("parseditem", parsedItem);
-          if (!(parsedItem.code === '48643-1' || parsedItem.code === '48642-3')) {
-            updatedList.push(parsedItem);
-          }
-        }
+    //     for (let item of observationList){
+    //       var parsedItem = JSON.parse(item);
+    //       //console.log("parseditem", parsedItem);
+    //       if (!(parsedItem.code === '48643-1' || parsedItem.code === '48642-3')) {
+    //         updatedList.push(parsedItem);
+    //       }
+    //     }
 
-        this.setState({ observations:updatedList })
-      });
+    //     this.setState({ observations:updatedList })
+    //   });
   }
 
+
+
   render() {
+        console.log("data in header: ", this.props.lastVisit);
+    if (!this.props.patient || !this.props.lastVisit){
+      return (
+        <div>
+          Getting Patient Info...
+        </div>
+      )
+    }
+    var name = this.props.patient.name.find((element) => {return element.use == "official"})
+    // console.log("officialNameIndex", officialNameIndex);
+    var printOutName = name.given + ", " + name.family;
+    var lastVisitDate = new Date(Date.parse(this.props.lastVisit));
+
     return (
     <div>
       <div style={{"display":"flex", "flex-direction":"row", "justify-content":"space-between", "align-items":"flex-end", "font-size":"16"}}> 
@@ -66,8 +83,8 @@ class Header extends React.Component {
         </div>
         <div style={{order:"2"}}>
           <div style={{"display":"flex", "flex-direction":"row", "align-items":"flex-end"}}>
-            <LastVisit encounters={[{effectiveDateTime:"03-19-2017"}]}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            <Name patient="Samson Mataraso"/>
+            <LastVisit encounters={[{effectiveDateTime:lastVisitDate.toDateString()}]}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <Name patient={ printOutName }/>
           </div>
         </div>
       </div>
