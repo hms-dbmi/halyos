@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ProfileView from './Profile_View';
-import { fetchAllPatientData, fetchAllObservations } from '../../services/fhir/FhirActions';
+import { fetchAllPatientDataIfNeeded, fetchAllObservations } from '../../services/fhir/FhirActions';
 
 const mapStateToProps = state => {
 	return {
@@ -11,7 +11,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPatientDemographics: (patient_id) => dispatch(fetchAllPatientData(patient_id))
+    getPatientDemographics: (patient_id) => dispatch(fetchAllPatientDataIfNeeded(patient_id))
   };
 };
 
