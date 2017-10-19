@@ -30,8 +30,10 @@ export function fetchPollenLevels(zipCode) {
   
     dispatch(requestPollenLevels(zipCode))
     // console.log("pollen level fetch dispatched");
-
-    return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
+    //Vimig's API Key: Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA
+    //Samson's API Key: jfytctksruIxkfUdyQxo8JdG9QAB7jgi
+    
+    return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
       .then(
         response => response.json(),
         error => console.log('An error occured.', error)
