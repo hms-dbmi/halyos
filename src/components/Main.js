@@ -2,9 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import About from '../views/About';
-import DashboardContainer from '../views/DashboardContainer.js';
-
-import { riskObject } from '../services/general_utils.js';
+import DashboardContainer from '../views/DashboardContainer';
 
 class Main extends React.Component {
   render() {

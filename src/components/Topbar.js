@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 import Icon from './Icon';
-
-import { getValueQuantities, riskObject } from '../services/general_utils.js';
 
 // Styles
 import './Topbar.css';

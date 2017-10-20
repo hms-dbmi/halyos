@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // Components
-import RiskTile from '../components/RiskTile.js';
+import VitalTile from '../components/VitalTile';
+import { FilteredList, List } from '../components/FilteredList';
+import EnvironmentTile from '../components/EnvironmentFactors';
+import AppointmentsTile from '../components/AppointmentsTile';
+import Name from '../components/Name';
+import LastVisit from '../components/LastVisit';
+import PollenContainer from '../components/env/PollenContainer';
+import AirQuality from '../components/env/AirQuality';
+import Flu from '../components/env/Flu';
+import PastGraph from '../components/Graphs/Past-Graph';
+import RiskTile from '../components/RiskTile';
+import HelpRiskTile from '../components/RiskTiles/HelpRiskTile';
+import { AboutMeasurement } from '../components/AboutMeasurement';
+import { AboutRisk } from '../components/AboutRisk';
 
-import {ArrowDown} from '../components/logos/arrows/ArrowDown.js';
-
-import DemographicTile from './profile/DemographicTile';
-import VitalTile from './profile/VitalTile';
-import {FilteredList, List} from './profile/FilteredList.js';
-import MedicationTile from './profile/MedicationTile';
-import EnvironmentTile from './profile/EnvironmentFactors.js';
-import AppointmentsTile from './profile/AppointmentsTile';
-
-import PollenContainer from './profile/env/PollenContainer.js'
-import AirQuality from './profile/env/AirQuality.js';
-import Flu from './profile/env/Flu.js';
-import {envTileStyle} from './profile/Environment-style.js';
-import { headerStyle, apptListStyle } from './profile/AppointmentsTile-style';
-
-import Scale from '../components/logos/scale';
-import BP from '../components/logos/bp';
-import Cholesterol from '../components/logos/chol';
-import Glucose from '../components/logos/glucose';
-
-import {reynoldsScore} from '../services/RiskCalculators/reynolds.js';
-import {CHADScore} from '../services/RiskCalculators/CHAD.js';
-import {KFScore} from '../services/RiskCalculators/get_KFRisk.js';
-import {COPDScore} from '../services/RiskCalculators/COPD.js';
-import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js';
-import HelpRiskTile from '../services/RiskTiles/HelpRiskTile.js';
-import {getPtLoc} from '../services/Environment/environmental_utils.js';
+// Services
+import { reynoldsScore } from '../services/RiskCalculators/reynolds';
+import { CHADScore } from '../services/RiskCalculators/CHAD';
+import { KFScore } from '../services/RiskCalculators/get_KFRisk';
+import { COPDScore } from '../services/RiskCalculators/COPD';
+import { diabetesScore } from '../services/RiskCalculators/get_diabetes';
+import { getPtLoc } from '../services/Environment/environmental_utils';
+import { getPatID } from '../services/smart_setup';
 
 // Styles
+import { envTileStyle } from '../styles/Environment-style';
 import './Dashboard.css';
 
 const ptLoc = {
@@ -55,19 +50,55 @@ const measurements = [
   {name: "Respiration Rate", units: "breaths/min", past: "18", present: "18" }
 ];
 
-class Dashboard extends Component {
-  constructor(props){
-    super(props);
+class Dashboard extends React.Component {
+  componentDidMount() {
+    this.props.getPatientDemographics(getPatID());
   }
 
   render() {
-    //Known issue; the code can easily be changed, the icon not so much....
+    if (this.props.isFetchingAllPatientData || !this.props.patient){
+      return (
+        <div>Loading...</div>
+      )
+    }
+
+    let lat;
+    let long;
+
+    if(this.props.patient.address[0].extension[0].url.endsWith("geolocation")){
+      if (this.props.patient.address[0].extension[0].extension[0].url === "latitude"){
+        lat = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
+        long = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+      } else {
+        long = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
+        lat = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+      }
+    } else {
+      // TODO: we gotta add a function here that goes and gets it if we don't have it
+      // likewise, vice versa, given lat and long, go get the location info
+    }
+
+    const ptLoc = {"country_code": this.props.patient.address[0].country,
+                 "region_code":this.props.patient.address[0].state,
+                 "city":this.props.patient.address[0].city,
+                 "zip_code": this.props.patient.address[0].postalCode,
+                 "latitude": lat,
+                 "longitude": long,
+               }
+
+    const patient = {"gender": this.props.patient.gender, "birthDate":this.props.patient.birthDate};
+    const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110", "future":"110" },
+    {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95", future:95 },
+    {"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" , future: 80},
+    {"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" , future:17}]
+    const graphData = [{x:new Date("2017-02-03"), y:124}, {x:new Date("2017-02-12"), y:120}, {x:new Date("2017-02-15"), y:119},
+    {x:new Date("2017-02-23"), y:132}, {x:new Date("2017-03-03"), y:126}, {x:new Date("2017-03-23"), y:129}, {x:new Date("2017-04-03"), y:125}];
     const mappedMeasures = measurements.map((measurements) =>
       <tr className = "pure-table pure-table-horizontal">
-        <td> {measurements.name} [{measurements.units}] </td>
-        <td> {measurements.past}</td>
-        <td> {measurements.present}</td>
-        <td> :) </td>
+        <td> {measurements["name"]} [{measurements["units"]}] </td>
+        <td> {measurements["past"]}</td>
+        <td> {measurements["present"]}</td>
+        <td> {measurements["future"]} </td>
       </tr>
     );
 
@@ -122,44 +153,47 @@ class Dashboard extends Component {
         </ul>
 
         <div>
-          <div className="pure-u-1-2" style={{"padding-left":"2px", "padding-right":"20px", "height":"300px", "overflow":"auto"}}>
+          <div className="pure-u-1-2">
             <FilteredList measurements={measurements}/>
           </div>
           <div className="pure-u-8-24">
             <AppointmentsTile patient={patient}/>
           </div>
           <div className="pure-u-4-24">
-            <div style={{"order":"2"}}>
-              <div style={envTileStyle}>
-                <PollenContainer location={ptLoc} />
-                <div style={{"display":"flex", "flex-direction":"row", "justify-content":"center"}}>
-                  <div style={{"display":"flex", "flex-direction":"column", "justify-content": "center"}}>
-                    <div style={{"textAlign":'center', "fontSize": "20", "order":"1"}}>
-                      Environment
-                    </div>
-                    <div style={{"order":"2"}}>
-                      <div style={envTileStyle}>
-                        <PollenContainer location={ptLoc} />
-                      </div>
-                    </div>
-                    <div style={{"order":"3"}}>
-                      <div style={envTileStyle}>
-                        <AirQuality location={ptLoc} />
-                      </div>
-                    </div>
-                    <div style={{"order":"4"}}>
-                      <div style={envTileStyle}>
-                        <Flu location={ptLoc} />
-                      </div>
-                    </div>
+            <div style={envTileStyle}>
+              <PollenContainer location={ptLoc} />
+              <div>
+                <div>
+                  <div>
+                    Environment
+                  </div>
+                  <div style={envTileStyle}>
+                    <PollenContainer location={ptLoc} />
+                  </div>
+                  <div style={envTileStyle}>
+                    <AirQuality location={ptLoc} />
+                  </div>
+                  <div style={envTileStyle}>
+                    <Flu location={ptLoc} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="pure-u-1-2">
+          <PastGraph
+            obs_data={graphData}
+            units="mmHg"
+            reference_range={{ min: 110, max: 130 }}
+            mainWidth={500}
+            mainHeight={200}
+            viewWidth={500}
+            viewHeight={50}
+          />
+        </div>
       </div>
-    )
+    );
   }
 }
 

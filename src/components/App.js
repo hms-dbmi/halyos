@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Components
-import Main from './Main.js';
-import Topbar from './Topbar.js';
+import Main from './Main';
+import Topbar from './Topbar';
 
 // Other stuff
 import { getPatID, getURL } from '../services/smart_setup';
@@ -13,13 +13,13 @@ import './App.css';
 // Could go into a utility function
 const getClientApi = fhir => fhir.client({
   serviceUrl: getURL(),
-  auth: { type: 'none' }
+  auth: { type: 'none' },
 }).api;
 
 // Could go into a utility function
 const getClientContextApi = fhir => fhir.client({
   serviceUrl: getURL(),
-  patientId: getPatID()
+  patientId: getPatID(),
 }).api;
 
 const App = props => (
