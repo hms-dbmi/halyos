@@ -15,6 +15,9 @@ import App from './components/App';
 import rootReducer from './reducers';
 import { history } from './services/state/state';
 
+// Styles
+import './index.css';
+
 
 const preloadedState = {
   envFactorsData: {
