@@ -18,8 +18,8 @@ class DemographicTile extends Component {
 		//var i = {this.props.i};
 		var parentComponent = this;
 		$.when(this.props.patient, this.props.observations, this.props.encounters).done(function(pt, obs, encs) {
-			var genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
-			var heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
+			let genderheightstring = pt[0].gender.charAt(0).toUpperCase() + pt[0].gender.slice(1);
+			const heightObject = searchByCode(obs, {'8302-2': []})['8302-2'][0];
 			if(heightObject) {
 				genderheightstring += (' -- ' + heightObject.value.toFixed(2) + " " + heightObject.unit);
 			}

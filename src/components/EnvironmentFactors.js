@@ -5,7 +5,7 @@ import PollenContainer from './env/PollenContainer'
 import AirQuality from './env/AirQuality.js';
 import Flu from './env/Flu.js';
 
-import { tileStyle, headingStyle } from './EnvironmentFactors-style.js'
+import { tileStyle, headingStyle } from '../styles/EnvironmentFactors-style.js'
 
 class EnvironmentTile extends Component {
 	constructor(props){

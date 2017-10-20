@@ -11,8 +11,12 @@ import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
 import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
 import {COPDScore} from '../../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
+<<<<<<< HEAD:src/views/measurement/Measurement_View.js
 
 import RiskTile from '../../components/RiskTile.js'
+=======
+import RiskTile from '../../components/RiskTiles/RiskTile.js'
+>>>>>>> master:deprecated/Measurement_View.js
 
 import text from './Measurement_Text.js';
 

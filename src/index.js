@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+//import './index.css';
 import registerServiceWorker from './services/registerServiceWorker';
 
 import App from './components/App';
@@ -32,10 +32,6 @@ export const store = createStore(
   preloadedState,
   applyMiddleware(thunk)
 );
-
-store
-  .dispatch(fetchAllObservations(getPatID()))
-  .then(() => console.log("we got all the data????" , store.getState()));
 
 const render = (Component, store, error) => {
   ReactDOM.render(

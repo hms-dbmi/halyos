@@ -2,9 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import About from '../views/About';
-import Dashboard from '../views/Dashboard.js';
-import MeasurementView from '../views/measurement/Measurement_View.js';
-import RiskScoreView from '../views/risk/Risk_View.js';
+import DashboardContainer from '../views/DashboardContainer.js';
 
 import { riskObject } from '../services/general_utils.js';
 
@@ -48,44 +46,8 @@ class Main extends React.Component {
       <main>
         <Switch>
           <Route exact path='/about' component={About} />
-          <Route exact path='/measure' render={props => (
-              <MeasurementView
-                {...props}
-              />
-            )}
-          />
-          <Route path='/measure/:measureId' render={props => (
-            <MeasurementView
-              {...props}
-              meds={medicationOrder}
-              patient={patient}
-              encounters={encounters}
-              medreq={medicationRequest}
-              observations={observations}
-              conditions={conditions}
-              riskObject={riskObject}/>
-            )}
-          />
-          <Route path='/risk/:riskName' render={props => (
-              <RiskScoreView
-                {...props}
-                meds={medicationOrder}
-                patient={patient}
-                encounters={encounters}
-                medreq={medicationRequest}
-                observations={observations}
-                conditions={conditions}
-              />
-            )}
-          />
-          <Route exact path='/risk' render={props => (
-              <RiskScoreView
-                {...props}
-              />
-            )}
-          />
           <Route exact path='/' render={props => (
-              <Dashboard
+              <DashboardContainer
                 {...props}
                 meds={medicationOrder}
                 patient={patient}
