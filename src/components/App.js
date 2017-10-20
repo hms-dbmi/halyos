@@ -23,9 +23,15 @@ const getClientContextApi = fhir => fhir.client({
 }).api;
 
 const App = props => (
-  <div className="app">
-    <Topbar api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
-    <Main api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
+  <div className="app flex-c flex-col">
+    <Topbar
+      api={getClientApi(props.fhir)}
+      ptapi={getClientContextApi(props.fhir)}
+    />
+    <Main
+      api={getClientApi(props.fhir)}
+      ptapi={getClientContextApi(props.fhir)}
+    />
   </div>
 );
 

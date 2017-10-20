@@ -29,7 +29,7 @@ const RiskTile = props => (
           icon="info"
           iconOnly={true}
           className="risk-tile-info"
-          onClick={() => alert('My Ass')} />
+          onClick={() => alert('Sweeet')} />
       </div>
       <div className="risk-tile-context-bar" style={getLength(props.context, props.contextMax)}></div>
     </div>
