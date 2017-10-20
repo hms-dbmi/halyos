@@ -58,6 +58,12 @@
     ],
     "no-console": "warn",
     "no-continue": "off",
+    "no-mixed-operators": [
+      "error",
+      {
+        "allowSamePrecedence": false
+      }
+    ],
     "no-plusplus": [
       "error",
       {
