@@ -45,7 +45,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <main className='content flex-g-1'>
+      <main className='content'>
         <Switch>
           <Route exact path='/about' component={About} />
           <Route exact path='/' render={props => (
