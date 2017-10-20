@@ -37,13 +37,14 @@
     "comma-dangle": [
       "error",
       {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
+        "arrays": "ignore",
+        "objects": "ignore",
         "imports": "ignore",
         "exports": "ignore",
         "functions": "never"
       }
     ],
+    "function-paren-newline": ["error", { "minItems": 3 }],
     "import/prefer-default-export": "warn",
     "max-len": [
       "error",
