@@ -4,15 +4,11 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { enableBatching } from 'redux-batched-actions';
 import freeze from 'redux-freeze';
 import { createLogger } from 'redux-logger';
-import { autoRehydrate, persistStore, purgeStoredState } from 'redux-persist';
+import { autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 
 // Reducer
 import rootReducer from '../../reducers';
-
-const config = {
-  debounce: 25,
-};
 
 const history = createHistory();
 
@@ -34,7 +30,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const configure = (initialState) => {
-
   const store = createStore(
     enableBatching(rootReducer),
     initialState,
