@@ -1,27 +1,23 @@
-import React, { Component } from 'react';
-import VitalTile from './VitalTile';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-export class FilteredList extends Component {
+// Components
+import List from './List';
+
+class FilteredList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        initialItems: this.props.measurements,
-        items: []
-    }
+      initialItems: this.props.measurements,
+      items: this.props.measurements
+    };
   }
 
-  filterList(event) {
-    let updatedList = this.state.initialItems;
-    updatedList = updatedList.filter(function(item){
-      return item["name"].toLowerCase().search(
-        event.target.value.toLowerCase()) !== -1;
+  filterList(query) {
+    this.setState({
+      items: this.state.initialItems
+        .filter(item => item.name.toLowerCase().indexOf(query) !== -1)
     });
-    console.log(updatedList);
-    this.setState({items: updatedList});
-  }
-
-  componentWillMount() {
-    this.setState({items: this.state.initialItems})
   }
 
   render() {
@@ -33,7 +29,7 @@ export class FilteredList extends Component {
             <input
               type="text"
               placeholder="Search"
-              onChange={(e) => this.filterList(e)}
+              onChange={e => this.filterList(e.target.value.toLowerCase())}
             />
           </div>
           <div className="pure-u-4-24">
@@ -46,31 +42,14 @@ export class FilteredList extends Component {
             Future
           </div>
         </div>
-        <br/>
-        <List items={this.state.items}/>
+        <List items={this.state.items} />
       </div>
     );
   }
 }
 
+FilteredList.propTypes = {
+  measurements: PropTypes.array
+};
 
-export var List = React.createClass({
-  render: function(){
-    return (
-      <div className="pure-u-24-24" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
-      {
-        this.props.items.map(function(item) {
-          return (
-            <VitalTile
-              measurementName={item["name"]}
-              units={item["units"]}
-              past={item["past"]}
-              present={item["present"]}
-            />
-          );
-        })
-       }
-      </div>
-    )
-  }
-});
+export default FilteredList;
