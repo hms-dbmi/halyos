@@ -34,6 +34,27 @@ import {getPtLoc} from '../services/Environment/environmental_utils.js';
 // Styles
 import './Dashboard.css';
 
+const ptLoc = {
+  "country_code": "US",
+  "region_code": "MA",
+  "city": "Pepperell",
+  "zip_code": "01463",
+  "latitude": 42.669838,
+  "longitude": -71.5961267
+};
+
+const patient = {
+  "gender": "Male",
+  "birthDate":'1979-02-03-12:45'
+};
+
+const measurements = [
+  {name: "Systolic Blood Pressure", units: "mmHg", past: "120", present: "110" },
+  {name: "Diastolic Blood Pressure", units: "mmHg", past: "90", present: "95" },
+  {name: "Heart Rate", units: "bpm", past: "90", present: "70" },
+  {name: "Respiration Rate", units: "breaths/min", past: "18", present: "18" }
+];
+
 class Dashboard extends Component {
   constructor(props){
     super(props);
@@ -41,17 +62,11 @@ class Dashboard extends Component {
 
   render() {
     //Known issue; the code can easily be changed, the icon not so much....
-    const ptLoc = {"country_code":"US","region_code":"MA","city":"Pepperell","zip_code":"01463","latitude":42.669838,"longitude":-71.5961267};
-    const patient = {"gender": "Male", "birthDate":'1979-02-03-12:45'};
-    const measurements = [{"name": "Systolic Blood Pressure", "units": "mmHg", "past": "120", "present": "110" },
-    {"name": "Diastolic Blood Pressure", "units": "mmHg", "past": "90", "present": "95" },
-    {"name": "Heart Rate", "units": "bpm", "past": "90", "present": "70" },
-    {"name": "Respiration Rate", "units": "breaths/min", "past": "18", "present": "18" }]
     const mappedMeasures = measurements.map((measurements) =>
       <tr className = "pure-table pure-table-horizontal">
-        <td> {measurements["name"]} [{measurements["units"]}] </td>
-        <td> {measurements["past"]}</td>
-        <td> {measurements["present"]}</td>
+        <td> {measurements.name} [{measurements.units}] </td>
+        <td> {measurements.past}</td>
+        <td> {measurements.present}</td>
         <td> :) </td>
       </tr>
     );
