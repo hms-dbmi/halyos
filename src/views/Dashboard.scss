@@ -4,5 +4,33 @@
 .dashboard {}
 
 .dashboard-risk-scores.no-list-style {
-  margin: 0.125rem 0 2rem;
+  margin: 0.125rem -0.5rem 3rem;
+}
+
+.dashboard-bottom-panel {
+  position: relative;
+
+  .wrapper {
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+    bottom: 0;
+    left: 1.5rem;
+  }
+
+  &:first-child .wrapper {
+    left: 0;
+  }
+
+  &:last-child .wrapper {
+    right: 0;
+  }
+}
+
+.dashboard-panel-headline {
+  margin: 0;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  line-height: 2rem;
+  border-bottom: 2px solid $gray-lighter;
 }

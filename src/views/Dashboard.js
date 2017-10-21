@@ -2,10 +2,8 @@ import React from 'react';
 
 // Components
 import FilteredList from '../components/FilteredList';
-import AppointmentsTile from '../components/AppointmentsTile';
-import PollenContainer from '../components/env/PollenContainer';
-import AirQuality from '../components/env/AirQuality';
-import Flu from '../components/env/Flu';
+import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
+import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
 
 // Services
@@ -165,31 +163,22 @@ class Dashboard extends React.Component {
         </ul>
 
         <div className="dashboard-bottom flex-g-1">
-          <div className="pure-u-1-2">
-            <FilteredList measurements={measurements}/>
+          <div className="dashboard-bottom-panel pure-u-1-2 full-h">
+            <div className="wrapper">
+              <FilteredList measurements={measurements} />
+            </div>
           </div>
-          <div className="pure-u-8-24">
-            <AppointmentsTile patient={patient}/>
+          <div className="dashboard-bottom-panel pure-u-8-24 full-h">
+            <div className="wrapper">
+              <PreventativeCareSuggestions
+                birthDate={patient.birthDate}
+                gender={patient.gender}
+              />
+            </div>
           </div>
-          <div className="pure-u-4-24">
-            <div style={envTileStyle}>
-              <PollenContainer location={ptLoc} />
-              <div>
-                <div>
-                  <div>
-                    Environment
-                  </div>
-                  <div style={envTileStyle}>
-                    <PollenContainer location={ptLoc} />
-                  </div>
-                  <div style={envTileStyle}>
-                    <AirQuality location={ptLoc} />
-                  </div>
-                  <div style={envTileStyle}>
-                    <Flu location={ptLoc} />
-                  </div>
-                </div>
-              </div>
+          <div className="dashboard-bottom-panel pure-u-4-24 full-h">
+            <div className="wrapper">
+              <Environment ptLoc={ptLoc} />
             </div>
           </div>
         </div>
