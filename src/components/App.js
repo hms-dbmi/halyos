@@ -7,9 +7,6 @@ import Topbar from './Topbar';
 // Other stuff
 import { getPatID, getURL } from '../services/smart_setup';
 
-// Styles
-import './App.css';
-
 // Could go into a utility function
 const getClientApi = fhir => fhir.client({
   serviceUrl: getURL(),
