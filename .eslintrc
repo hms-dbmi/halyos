@@ -44,7 +44,7 @@
         "functions": "never"
       }
     ],
-    "function-paren-newline": ["error", { "minItems": 3 }],
+    "function-paren-newline": "off",
     "import/prefer-default-export": "warn",
     "max-len": [
       "error",
