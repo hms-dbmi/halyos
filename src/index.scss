@@ -158,6 +158,18 @@ figure {
   left: 0;
 }
 
+.full-w,
+.full-wh {
+  position: relative;
+  width: 100%;
+}
+
+.full-h,
+.full-wh {
+  position: relative;
+  height: 100%;
+}
+
 .no-list-style {
   margin: 0;
   padding: 0;
@@ -165,6 +177,30 @@ figure {
   > li {
     list-style: none;
   }
+}
+
+.r {
+  position: relative;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border: 0.2rem solid rgba(0, 0, 0, 0);
+  border-radius: 0.85rem;
+  background: $gray-lighter-alpha;
+  background-clip: padding-box;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  background: $gray-alpha;
+  background-clip: padding-box;
 }
 
 /*
