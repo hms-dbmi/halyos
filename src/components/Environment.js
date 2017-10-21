@@ -27,7 +27,7 @@ const Environment = props => (
 );
 
 Environment.propTypes = {
-  ptLoc: PropTypes.func,
+  ptLoc: PropTypes.object,
 };
 
 export default Environment;

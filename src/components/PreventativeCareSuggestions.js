@@ -58,8 +58,8 @@ class PreventativeCareSuggestions extends React.Component {
 }
 
 PreventativeCareSuggestions.propTypes = {
-  birthDate: PropTypes.date,
-  gender: PropTypes.number,
+  birthDate: PropTypes.string,
+  gender: PropTypes.string,
 };
 
 export default PreventativeCareSuggestions;
