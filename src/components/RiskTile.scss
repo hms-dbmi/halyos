@@ -1,5 +1,6 @@
 @import '../styles/colors.scss';
 @import '../styles/ratio.scss';
+@import '../styles/transitions.scss';
 
 .risk-tile {
   width: 100%;
@@ -8,7 +9,13 @@
 .risk-tile-content {
   position: relative;
   margin: 0 0.5rem;
-  background-color: $gray-lightest;
+  background: $gray-lightest;
+  transition: background $fast $ease;
+
+  &:hover {
+    cursor: pointer;
+    background: $highlight-bg;
+  }
 }
 
 .risk-tile-title {
