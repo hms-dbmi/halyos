@@ -19,7 +19,6 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Overpass', sans-serif;
   font-size: 16px;
   line-height: 1;
   text-rendering: optimizeLegibility;
@@ -27,6 +26,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: $white;
   color: $gray-dark;
+}
+
+body,
+.pure-g [class *= 'pure-u'] {
+  font-family: 'Overpass', sans-serif;
 }
 
 h1, h2, h3 {
@@ -146,3 +150,65 @@ figure {
  * -----------------------------------------------------------------------------
  */
 
+.full-dim {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.full-w,
+.full-wh {
+  position: relative;
+  width: 100%;
+}
+
+.full-h,
+.full-wh {
+  position: relative;
+  height: 100%;
+}
+
+.no-list-style {
+  margin: 0;
+  padding: 0;
+
+  > li {
+    list-style: none;
+  }
+}
+
+.r {
+  position: relative;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border: 0.2rem solid rgba(0, 0, 0, 0);
+  border-radius: 0.85rem;
+  background: $gray-lighter-alpha;
+  background-clip: padding-box;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  background: $gray-alpha;
+  background-clip: padding-box;
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * Specific styles
+ * -----------------------------------------------------------------------------
+ */
+
+#root {
+  height: 100vh;
+}

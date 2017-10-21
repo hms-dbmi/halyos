@@ -1,0 +1,67 @@
+@import '../styles/colors.scss';
+@import '../styles/ratio.scss';
+@import '../styles/transitions.scss';
+
+.risk-tile {
+  width: 100%;
+}
+
+.risk-tile-content {
+  position: relative;
+  margin: 0 0.5rem;
+  background: $gray-lightest;
+  transition: background $fast $ease;
+
+  &:hover {
+    cursor: pointer;
+    background: $highlight-bg;
+  }
+}
+
+.risk-tile-title {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-size: 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.risk-tile-status {
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+.risk-tile-score {
+  margin: 1rem 0 1.25rem;
+  color: $black;
+}
+
+.risk-tile-score-value {
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 4rem;
+}
+
+.risk-tile-score-unit {
+  font-size: 2rem;
+  font-weight: normal;
+  line-height: 2.75rem;
+}
+
+.risk-tile-context {
+  margin-left: 0.125rem;
+  color: $gray;
+}
+
+.risk-tile-context-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: $gray;
+}
+
+.risk-tile-info.button-icon {
+  margin: 0 0.25rem 0.25rem 0;
+  border-color: $gray-light;
+  // border-radius: 1rem;
+}

@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.flex-align-sp {
+.flex-align-sb {
   justify-content: space-between;
 }
 
@@ -22,12 +22,16 @@
   flex-wrap: wrap;
 }
 
-.flex-stretch {
+.flex-v-stretch {
   align-items: stretch;
 }
 
 .flex-v-center {
   align-items: center;
+}
+
+.flex-v-bottom {
+  align-items: flex-end;
 }
 
 .flex-g-1 {

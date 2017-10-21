@@ -1,41 +1,39 @@
-import 'babel-polyfill'
+import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import './index.css';
-import registerServiceWorker from './services/registerServiceWorker';
-
-import App from './components/App';
 
 import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import { history, state } from './services/state/state';
 
-//import { Provider } from 'react-redux'
-import { createStore } from 'redux';
-import rootReducer from './reducers';
-import { applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import { fetchAllObservations } from './services/fhir/FhirActions';
-import { getPatID } from './services/smart_setup';
+import registerServiceWorker from './services/registerServiceWorker';
+
+import App from './components/App';
+import rootReducer from './reducers';
+import { history } from './services/state/state';
+
+// Styles
+import './index.css';
 
 
 const preloadedState = {
   envFactorsData: {
     isFetchingPollenData: false,
   },
-}
+};
 
-export const store = createStore(
+const store = createStore(
   rootReducer,
   preloadedState,
   applyMiddleware(thunk)
 );
 
-const render = (Component, store, error) => {
+const render = (Component, loadedStore) => {
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={loadedStore}>
       <ConnectedRouter history={history}>
         <Component fhir={window.FHIR} />
       </ConnectedRouter>

@@ -2,59 +2,61 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import About from '../views/About';
-import ProfileViewContainer from '../views/profile/ProfileViewContainer';
+import DashboardContainer from '../views/DashboardContainer';
 
-import { riskObject } from '../services/general_utils.js';
+import './Main.css';
 
 class Main extends React.Component {
-  render() {
-    const patient = this.props.ptapi.fetchAll({
-      type: "Patient"
+  componentDidMount() {
+    this.patient = this.props.ptapi.fetchAll({
+      type: 'Patient',
     });
-    const observations = this.props.ptapi.fetchAll({
-      type: "Observation",
+    this.observations = this.props.ptapi.fetchAll({
+      type: 'Observation',
       query: {
-        $sort: [['date','desc'],['code','asc']]
-      }
+        $sort: [['date', 'desc'], ['code', 'asc']],
+      },
     });
-    const conditions = this.props.ptapi.fetchAll({
-      type: "Condition"
+    this.conditions = this.props.ptapi.fetchAll({
+      type: 'Condition',
     });
-    const encounters = this.props.ptapi.fetchAll({
-      type: "Encounter",
+    this.encounters = this.props.ptapi.fetchAll({
+      type: 'Encounter',
       query: {
-        $sort: [['date','desc']]
-      }
-    })
-    const medicationOrder = this.props.ptapi.fetchAll({
-      type: "MedicationStatement"
+        $sort: [['date', 'desc']],
+      },
     });
-    const medicationRequest = this.props.ptapi.fetchAll({
-      type: "MedicationRequest",
+    this.medicationOrder = this.props.ptapi.fetchAll({
+      type: 'MedicationStatement',
+    });
+    this.medicationRequest = this.props.ptapi.fetchAll({
+      type: 'MedicationRequest',
       query: {
         'context.diagnosis.code': {
           $or: [
             // History of antihypertensive drug treatment
-            //MedicationRequest?context.reason=10509002
-            '38341003'
-          ]
-        }
-      }
+            // MedicationRequest?context.reason=10509002
+            '38341003',
+          ],
+        },
+      },
     });
+  }
 
+  render() {
     return (
-      <main>
+      <main className='content'>
         <Switch>
           <Route exact path='/about' component={About} />
           <Route exact path='/' render={props => (
-              <ProfileViewContainer
+              <DashboardContainer
                 {...props}
-                meds={medicationOrder}
-                patient={patient}
-                encounters={encounters}
-                observations={observations}
-                conditions={conditions}
-                medreq={medicationRequest}
+                meds={this.medicationOrder}
+                patient={this.patient}
+                encounters={this.encounters}
+                observations={this.observations}
+                conditions={this.conditions}
+                medreq={this.medicationRequest}
               />
             )}
           />

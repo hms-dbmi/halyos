@@ -1,70 +1,55 @@
-import React, { Component } from 'react';
-import VitalTile from './VitalTile';
-import 'purecss/build/pure.css';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-export class FilteredList extends Component {
+// Components
+import List from './List';
+
+class FilteredList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        initialItems: this.props.measurements,
-        items: []
-    }
+      initialItems: this.props.measurements,
+      items: this.props.measurements
+    };
   }
-  
-  filterList(event) {
-    let updatedList = this.state.initialItems;
-    updatedList = updatedList.filter(function(item){
-      return item["name"].toLowerCase().search(
-        event.target.value.toLowerCase()) !== -1;
+
+  filterList(query) {
+    this.setState({
+      items: this.state.initialItems
+        .filter(item => item.name.toLowerCase().indexOf(query) !== -1)
     });
-    console.log(updatedList);
-    this.setState({items: updatedList});
   }
 
-    componentWillMount(){
-      this.setState({items: this.state.initialItems})
-    }
-
-    render(){
-      return (
-        <div>
-          <div className="pure-g">
-            <div className="pure-u-12-24">
-              <text> Measurements: </text><input type="text" placeholder="Search" onChange={(e) => this.filterList(e)}/>
-            </div>
-            <div className="pure-u-4-24" >
-              <text> Past </text>
-            </div>
-            <div className="pure-u-4-24" >
-              <text> Present </text>
-            </div>
-            <div className="pure-u-4-24" >
-              <text> Future </text>
-            </div>
-          </div>
-          <br/>
-          <List items={this.state.items}/>
-        </div>
-      );
-    }
-  }
-  
-
-export var List = React.createClass({
-  render: function(){
+  render() {
     return (
-      <div className="pure-u-24-24" style={{"padding-left":"2px", "padding-right":"2px", "height":"300px", "overflow":"auto"}}>
-      {
-        this.props.items.map(function(item) {
-          return <VitalTile measurementName={item["name"]}
-                  units={item["units"]}
-                  past={item["past"]}
-                  present={item["present"]}
-                  future={item["future"]}
-                  />
-        })
-       }
+      <div>
+        <div className="pure-g">
+          <div className="pure-u-12-24">
+            <span>Measurements:</span>
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={e => this.filterList(e.target.value.toLowerCase())}
+            />
+          </div>
+          <div className="pure-u-4-24">
+            Past
+          </div>
+          <div className="pure-u-4-24">
+            Present
+          </div>
+          <div className="pure-u-4-24">
+            Future
+          </div>
+        </div>
+        <List items={this.state.items} />
       </div>
-    )  
+    );
   }
-});
+}
+
+FilteredList.propTypes = {
+  measurements: PropTypes.array
+};
+
+export default FilteredList;

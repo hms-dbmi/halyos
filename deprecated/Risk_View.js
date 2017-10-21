@@ -20,7 +20,7 @@ import {CHADScore} from '../../services/RiskCalculators/CHAD.js'
 import {KFScore} from '../../services/RiskCalculators/get_KFRisk.js'
 import {COPDScore} from '../../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../../services/RiskCalculators/get_diabetes.js'
-import RiskTile from '../../services/RiskTiles/RiskTile.js'
+import RiskTile from '../../components/RiskTile.js'
 import HelpRiskTile from '../../services/RiskTiles/HelpRiskTile.js'
 
 import {calculateReynolds} from '../../services/RiskCalculators/reynolds.js';
@@ -52,15 +52,15 @@ class RiskView extends Component {
 		super(props);
 		this.state = {obsByMeasurement:{}, allObs:{}, riskScoreName:'',riskCalculator:null, updatedMeasurementsByCode:{}, nextMeasures:{}, smoker: false};
 	}
-	
+
 	componentWillMount(){
 		if (this.props.match.params != null){
-			this.riskName = this.props.match.params.riskName;	
+			this.riskName = this.props.match.params.riskName;
 		}
 		//console.log("NAME", this.riskName);
-		
+
 	}
-	
+
 	componentWillReceiveProps(nextProps){
 		this.tempNextRiskData = {};
 		//this.riskName = nextProps.match.params.riskName;
@@ -84,8 +84,8 @@ class RiskView extends Component {
 				this.tempNextRiskData = this.addResultsToObsByMeasurement(this.state.allObs);
 //				console.log("about to get auxiliary");
 				this.getAuxiliaryInfo(this.tempNextRiskData);
-				//this.getObservationByName(this.state.obs)	
-			} 
+				//this.getObservationByName(this.state.obs)
+			}
 			else {
 				nextProps.observations
 					.then(this.setInitialAllObs.bind(this))
@@ -128,14 +128,14 @@ class RiskView extends Component {
 		for (var key in obsObject) {
 			if (obsObject.hasOwnProperty(key)) {
 				//console.log("herei n the obsObject, ",obsObject);
-				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}				    
+				this.graphComponentsByMeasurement[key.toString()] = {code:key.toString(),results:obsObject[key]}
 			}
 		}
 //		console.log("graphComponentsByMeasurement1: ", this.graphComponentsByMeasurement);
 
 		// if(!this.isEmpty(this.state.allObs)){
 		// 	console.log("made it inside the addResultsToObsByMeasurement and if statement:");
-		// 	this.setState({obsByMeasurement:graphComponentsByMeasurement},this.getAuxiliaryInfo());	
+		// 	this.setState({obsByMeasurement:graphComponentsByMeasurement},this.getAuxiliaryInfo());
 		// 	//this.forceUpdate();
 		// }
 		return this.graphComponentsByMeasurement;
@@ -157,10 +157,10 @@ class RiskView extends Component {
 		}, this);
 
 		this.setState({obsByMeasurement:test})
-		
+
 //		console.log("back in auxiliary state", test);
-				
-				
+
+
 	//console.log("this is it yo: ", this.state.obsByMeasurement);
 	//this.getMinAndMaxByMeasurement(this.state.obsByMeasurement[key]);
 
@@ -170,27 +170,27 @@ class RiskView extends Component {
 		var resultList = codeObject.results;
 		var tempObj = this.state.obsByMeasurement;
 		var codeObjectTemp = codeObject;
-		
-		for (let result of resultList){			
+
+		for (let result of resultList){
 			if(result.text !== undefined){
 				codeObjectTemp['name'] = result.text;
 				return;
 			}
 		}
-			
-		codeObjectTemp['name'] = [];			
-		tempObj[codeObjectTemp.code] = codeObjectTemp;	
+
+		codeObjectTemp['name'] = [];
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
 	}
 
 	getMinAndMaxByMeasurement(codeObject){
 		var resultList = codeObject.results;
 		var tempObj = this.state.obsByMeasurement;
 		var codeObjectTemp = codeObject;
-		
+
 		var minVal = Number.POSITIVE_INFINITY;
 		var maxVal = Number.NEGATIVE_INFINITY;
 
-		for (let result of resultList){			
+		for (let result of resultList){
 			if(maxVal < result.value){
 				maxVal = result.value;
 			}
@@ -198,7 +198,7 @@ class RiskView extends Component {
 				minVal = result.value;
 			}
 		}
-			
+
 		codeObjectTemp['min'] = (minVal === Number.POSITIVE_INFINITY) ? null : minVal;
 		codeObjectTemp['max'] = (maxVal === Number.NEGATIVE_INFINITY) ? null : maxVal;
 		tempObj[codeObjectTemp.code] = codeObjectTemp;
@@ -211,23 +211,23 @@ class RiskView extends Component {
 		var resultList = codeObject.results;
 		var tempObj = this.state.obsByMeasurement;
 		var codeObjectTemp = codeObject;
-		
-		for (let result of resultList){			
+
+		for (let result of resultList){
 			if(result.refRanges !== undefined){
 				for(let refRange of result.refRanges){
 					if ((!refRange.type) || (refRange.type.coding[0].code === "normal")) {
 						codeObjectTemp['refRange'] = [refRange.low.value, refRange.high.value];
 						return;
 					}
-				} 
+				}
 			}
 		}
-			
-		codeObjectTemp['refRange'] = [];			
-		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+
+		codeObjectTemp['refRange'] = [];
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
 		//this.setState({obsByMeasurement:tempObj});
 	}
-	
+
 	getUnitsByMeasurement(codeObject){
 		var resultList = codeObject.results;
 		var tempObj = this.state.obsByMeasurement;
@@ -240,8 +240,8 @@ class RiskView extends Component {
 			}
 		}
 
-		codeObjectTemp['units'] = null;			
-		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		codeObjectTemp['units'] = null;
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
 		//this.setState({obsByMeasurement:tempObj});
 	}
 
@@ -255,18 +255,18 @@ class RiskView extends Component {
 				var tmpDate = Date.parse(result.date);
 				//sometimes the date doesn't get parsed right :(
 				if (!isNaN(tmpDate)){
-					dataTempObj.push({x:tmpDate,y:result.value});	
+					dataTempObj.push({x:tmpDate,y:result.value});
 				}
-				
+
 		}
 
-		codeObjectTemp['data'] = dataTempObj;			
-		tempObj[codeObjectTemp.code] = codeObjectTemp;				
+		codeObjectTemp['data'] = dataTempObj;
+		tempObj[codeObjectTemp.code] = codeObjectTemp;
 		//this.setState({obsByMeasurement:tempObj});
 	}
 
 /**
-	
+
 	Creates
 */
 /**
@@ -278,7 +278,7 @@ class RiskView extends Component {
 		this.MIN_VAL = Number.POSITIVE_INFINITY;
 
 		this.referenceRange = [];
-    
+
 		for (let obs of value){
 
 			//we need to check this because if a component exists, all our numbers are in there
@@ -293,10 +293,10 @@ class RiskView extends Component {
 									(!refRange.type)){
 									this.referenceRange.push([refRange.low.value, refRange.high.value]);
 								}
-							} 
+							}
 					}
-			
-					//gets the max and min values as we add them to the measurementList		
+
+					//gets the max and min values as we add them to the measurementList
 					if(this.MAX_VAL < insideValue.valueQuantity.value){
 						this.MAX_VAL = insideValue.valueQuantity.value;
 					}
@@ -314,7 +314,7 @@ class RiskView extends Component {
 	                    y:insideValue.valueQuantity.value});
 					this.setState({measurementList:newArray});
 
-				} 
+				}
 				else if(String(obs.code.coding[0].code) === String(this.riskName)){
 						if(this.MAX_VAL < insideValue.valueQuantity.value){
 							this.MAX_VAL = insideValue.valueQuantity.value;
@@ -343,13 +343,13 @@ class RiskView extends Component {
 	    }
 	    return true;
 	}
-	
+
 	onSliderUpdate(value, code){
 		var oldVal = this.state.nextMeasures;
 		oldVal[code] = value;
 		this.setState({nextMeasures:oldVal});
 	}
-	
+
 	render(){
 
 		var xFill = "#030072";
@@ -385,7 +385,7 @@ class RiskView extends Component {
 		}
 		else if(this.riskName == "Diabetes") {
 			riskTile = <RiskTile scoreName="Diabetes" score={5} sym="%" context="within 5 years" url="Diabetes"/>
-//			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+//			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
 		}
 // 		if(this.riskName == "General_Cardiac") {
 // 			riskTile = <RiskTile scoreName="General Cardiac" score={reynoldsScore(pt, obs, this.state.smoker)} sym="%" context="within 10 years" url="General_Cardiac"/>
@@ -405,7 +405,7 @@ class RiskView extends Component {
 // 		}
 // 		else if(this.riskName == "Diabetes") {
 // 			riskTile = <RiskTile scoreName="Diabetes" score={diabetesScore(pt, obs, conds, medreq)} sym="%" context="within 5 years" url="Diabetes"/>
-// //			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile> 
+// //			futureRiskTile = <RiskTile scoreName="Diabetes"><FutureDiabetes nextMeasures={this.state.nextMeasures} pt={this.props.patient} obs={this.props.observations} conds={this.props.conditions} medreq={this.props.medreq}/></RiskTile>
 // 		}
 
 		//console.log('render');
@@ -419,10 +419,10 @@ class RiskView extends Component {
 					</div>
 					<div className="row">
 						<div className="col-sm-3" >
-							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>		
+							<RelevantConditions riskName={this.riskName} conditions={this.props.conditions}/>
 						</div>
 						<div className="col-sm-3" >
-							<SmokingTile xFill={xFill} cFill={cFill} onClick={onClick} smoker={true}/>		
+							<SmokingTile xFill={xFill} cFill={cFill} onClick={onClick} smoker={true}/>
 						</div>
 						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(riskTile,{status:"Today"})}
@@ -430,13 +430,13 @@ class RiskView extends Component {
 						<div className="col-sm-3" style={{paddingRight:'140px'}}>
 							{React.cloneElement(futureRiskTile,{status:"Tomorrow"})}
 						</div>
-					</div>					
+					</div>
 					{
 						Object.keys(this.state.obsByMeasurement).map(function(key){
 							// console.log("we are checking for each thing data:", this.state.obsByMeasurement[key].data)
-							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) || 
+							var hasNoData = (this.state.obsByMeasurement[key].data === undefined) ||
 											(this.state.obsByMeasurement[key].data.length <= 1);
-							
+
 							//console.log("isEmpty:", hasNoData);
 							if(!hasNoData){
 								if(key == "2093-3")
@@ -452,22 +452,22 @@ class RiskView extends Component {
 												code={this.state.obsByMeasurement[key].code}
 												onUpdate={this.onSliderUpdate.bind(this)}
 												reference={referenceRange}
-											/>	
+											/>
 									</div>
 							} else {
 								return
 							}
-							
+
 					}, this)
 				}
-				
+
 				</div>
 			)
-		
+
 		}
 
 		return <div>Loading...</div>
-		
+
 	}
 
 }
@@ -497,7 +497,7 @@ class RiskScoreTile extends Component {
 		}
 		var score = this.props.riskCalc(this.props.measurements);
 		this.setState({score:score, sym:"%"});
-	
+
 	}
 
 	render() {
@@ -509,7 +509,7 @@ class RiskScoreTile extends Component {
 		    			<rect width="95%" height="95%" x="2.5%" y="2.5%" rx="20" ry="20" style={{fill:'red',stroke:'#888D95',strokeWidth:3,fillOpacity: opacity}}/>
 						<text x="50%" y="60%" fontSize="28" alignmentBaseline="middle" textAnchor="middle">{this.state.score}{this.state.sym}</text>
 					</g>
-				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>  
+				    <text x="50%" y="20%" fontSize="vw" alignmentBaseline="middle" textAnchor="middle">{this.props.scoreName}</text>
 				</g>
 			</svg>
 		);

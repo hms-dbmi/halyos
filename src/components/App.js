@@ -1,31 +1,37 @@
 import React from 'react';
 
 // Components
-import Main from './Main.js';
-import HeaderContainer from './HeaderContainer.js';
+import Main from './Main';
+import Topbar from './Topbar';
 
 // Other stuff
 import { getPatID, getURL } from '../services/smart_setup';
 
 // Styles
-import './App.scss';
+import './App.css';
 
 // Could go into a utility function
 const getClientApi = fhir => fhir.client({
   serviceUrl: getURL(),
-  auth: { type: 'none' }
+  auth: { type: 'none' },
 }).api;
 
 // Could go into a utility function
 const getClientContextApi = fhir => fhir.client({
   serviceUrl: getURL(),
-  patientId: getPatID()
+  patientId: getPatID(),
 }).api;
 
 const App = props => (
-  <div>
-    <HeaderContainer api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
-    <Main api={getClientApi(props.fhir)} ptapi={getClientContextApi(props.fhir)} />
+  <div className="app full-dim">
+    <Topbar
+      api={getClientApi(props.fhir)}
+      ptapi={getClientContextApi(props.fhir)}
+    />
+    <Main
+      api={getClientApi(props.fhir)}
+      ptapi={getClientContextApi(props.fhir)}
+    />
   </div>
 );
 
