@@ -2,6 +2,7 @@
 Redesigning the Patient Portal Experience with SMART on FHIR
 
 **Demo:** http://socrates-fhir-ignite.s3-website-us-east-1.amazonaws.com
+
 **Wiki:** https://github.com/hms-dbmi/fhir-ignite/wiki
 
 ## Development
