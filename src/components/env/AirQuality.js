@@ -29,11 +29,10 @@ class AirQuality extends Component {
 
   render() {
     if (!this.state.data) return <div>Loading...</div>;
-
-    const airQuality = AQI_LEVELS[AQI_LEVELS_ONLY.findIndex(
-      element => element <= this.state.data.data.current.pollution.aqius
-    )];
-
+    // const airQuality = AQI_LEVELS[AQI_LEVELS_ONLY.findIndex(
+    //   element => element <= this.state.data.data.current.pollution.aqius
+    // )];
+    const airQuality = [0,1,2,3]; //needs to be replaced and above code needs to be fixed
     const tooltip = (
       <Tooltip id="tooltip">
       <h5>Air Quality (AQI) Near You</h5>
