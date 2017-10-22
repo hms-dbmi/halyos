@@ -5,28 +5,65 @@ import React from 'react';
 import PollenContainer from './env/PollenContainer';
 import AirQuality from './env/AirQuality';
 import Flu from './env/Flu';
+import Button from './Button';
 
 // Styles
 import './Environment.css';
 
 const Environment = props => (
   <div className="environment full-wh flex-c flex-col">
-    <h3 className="dashboard-panel-headline">Environment</h3>
-    <div className="flex-g-1 r">
-      <div className="environment-tile">
-        <PollenContainer location={props.ptLoc} />
+    <header className="dashboard-panel-headline flex-c flex-align-sb">
+      <h3>Environment</h3>
+      {props.isExpanded && (
+        <Button
+          icon="cross"
+          iconOnly={true}
+          onClick={() => props.expand(true)}
+        />
+      )}
+    </header>
+    <main className="flex-c flex-col flex-g-1 r">
+      <div
+        className="environment-tile-wrapper flex-g-1 r"
+        onClick={() => props.expand()}
+      >
+        <PollenContainer
+          expand={props.expand}
+          isCollapsed={props.isCollapsed}
+          isExpanded={props.isExpanded}
+          location={props.ptLoc}
+        />
       </div>
-      <div className="environment-tile">
-        <AirQuality location={props.ptLoc} />
+      <div
+        className="environment-tile-wrapper flex-g-1 r"
+        onClick={() => props.expand()}
+      >
+        <AirQuality
+          expand={props.expand}
+          isCollapsed={props.isCollapsed}
+          isExpanded={props.isExpanded}
+          location={props.ptLoc}
+        />
       </div>
-      <div className="environment-tile">
-        <Flu location={props.ptLoc} />
+      <div
+        className="environment-tile-wrapper flex-g-1 r"
+        onClick={() => props.expand()}
+      >
+        <Flu
+          expand={props.expand}
+          isCollapsed={props.isCollapsed}
+          isExpanded={props.isExpanded}
+          location={props.ptLoc}
+        />
       </div>
-    </div>
+    </main>
   </div>
 );
 
 Environment.propTypes = {
+  expand: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   ptLoc: PropTypes.object,
 };
 

@@ -10,7 +10,6 @@ import RiskTile from '../components/RiskTile';
 import { getPatID } from '../services/smart_setup';
 
 // Styles
-import { envTileStyle } from '../styles/Environment-style';
 import './Dashboard.css';
 
 const measurements = [
@@ -41,9 +40,37 @@ const measurements = [
 ];
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      envIsCollapsed: false,
+      envIsExpanded: false,
+      mesIsCollapsed: false,
+      mesIsExpanded: false,
+      pcsIsCollapsed: false,
+      pcsIsExpanded: false,
+    };
+  }
+
+  /* ************************** Life Cycle Methods ************************** */
+
   componentDidMount() {
     this.props.getPatientDemographics(getPatID());
   }
+
+  /* **************************** Custom Methods **************************** */
+
+  expandEnv(collapse) {
+    this.setState({
+      envIsCollapsed: collapse,
+      envIsExpanded: !collapse,
+      pcsIsCollapsed: !collapse,
+      pcsIsExpanded: false,
+    });
+  }
+
+  /* ****************************** Rendering ******************************* */
 
   render() {
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
@@ -80,37 +107,25 @@ class Dashboard extends React.Component {
       birthDate: this.props.patient.birthDate
     };
 
-    const graphData = [{
-      x: new Date('2017-02-03'),
-      y: 124
-    }, {
-      x: new Date('2017-02-12'),
-      y: 120
-    }, {
-      x: new Date('2017-02-15'),
-      y: 119
-    }, {
-      x: new Date('2017-02-23'),
-      y: 132
-    }, {
-      x: new Date('2017-03-03'),
-      y: 126
-    }, {
-      x: new Date('2017-03-23'),
-      y: 129
-    }, {
-      x: new Date('2017-04-03'),
-      y: 125
-    }];
+    const pcsStyle = {
+      width: 'auto'
+    };
+    if (this.state.pcsIsCollapsed) {
+      const { clientWidth } = this.pcsEl;
+      pcsStyle.width = clientWidth;
+    }
 
-    const mappedMeasures = measurements.map(measurements => (
-      <tr className = 'pure-table pure-table-horizontal'>
-        <td>{measurements.name} [{measurements.units}]</td>
-        <td>{measurements.past}</td>
-        <td>{measurements.present}</td>
-        <td>{measurements.future}</td>
-      </tr>
-    ));
+    const mesWidth = 'pure-u-12-24';
+    const pcsWidth = this.state.pcsIsExpanded
+      ? 'pure-u-12-24'
+      : this.state.pcsIsCollapsed
+        ? 'pure-u-8-24 dashboard-bottom-panel-hidden'
+        : 'pure-u-8-24';
+    const envWidth = this.state.envIsExpanded
+      ? 'pure-u-12-24'
+      : this.state.pcsIsCollapsed
+        ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
+        : 'pure-u-4-24';
 
     return (
       <div className="dashboard full-dim flex-c flex-col">
@@ -163,22 +178,39 @@ class Dashboard extends React.Component {
         </ul>
 
         <div className="dashboard-bottom flex-g-1">
-          <div className="dashboard-bottom-panel pure-u-1-2 full-h">
-            <div className="wrapper">
+          <div className={`dashboard-bottom-panel full-h ${mesWidth}`}>
+            <div
+              className="wrapper"
+              ref={(el) => { this.mesEl = el; }}
+            >
               <FilteredList measurements={measurements} />
             </div>
           </div>
-          <div className="dashboard-bottom-panel pure-u-8-24 full-h">
-            <div className="wrapper">
+          <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
+            <div
+              className="wrapper"
+              ref={(el) => { this.pcsEl = el; }}
+              style={pcsStyle}
+            >
               <PreventativeCareSuggestions
                 birthDate={patient.birthDate}
                 gender={patient.gender}
+                isCollapsed={this.state.pcsIsCollapsed}
+                isExpanded={this.state.pcsIsExpanded}
               />
             </div>
           </div>
-          <div className="dashboard-bottom-panel pure-u-4-24 full-h">
-            <div className="wrapper">
-              <Environment ptLoc={ptLoc} />
+          <div className={`dashboard-bottom-panel full-h ${envWidth}`}>
+            <div
+              className="wrapper"
+              ref={(el) => { this.envEl = el; }}
+            >
+              <Environment
+                expand={this.expandEnv.bind(this)}
+                isCollapsed={this.state.envIsCollapsed}
+                isExpanded={this.state.envIsExpanded}
+                ptLoc={ptLoc}
+              />
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@
 
 .dashboard-bottom-panel {
   position: relative;
+  transition: opacity $fast $ease, width $fast $ease;
 
   .wrapper {
     position: absolute;
@@ -16,6 +17,7 @@
     right: 1.5rem;
     bottom: 0;
     left: 1.5rem;
+    overflow: hidden;
   }
 
   &:first-child .wrapper {
@@ -27,10 +29,32 @@
   }
 }
 
-.dashboard-panel-headline {
+.dashboard-bottom-panel-hidden {
+  width: 0;
+  opacity: 0;
+}
+
+.dashboard-panel-headline,
+.dashboard-panel-headline > h3 {
   margin: 0;
   font-size: 1.25rem;
   text-transform: uppercase;
   line-height: 2rem;
+}
+
+.dashboard-panel-headline {
+  min-height: 2rem;
+  max-height: 2rem;
   border-bottom: 2px solid $gray-lighter;
+
+  .button {
+    margin: 0.25rem 0;
+    padding: 0 0.25rem;
+    font-size: 1rem;
+    line-height: 1rem;
+
+    .icon {
+      height: 0.8rem;
+    }
+  }
 }
