@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import 'whatwg-fetch'
 
 import { getURL } from '../smart_setup'
 

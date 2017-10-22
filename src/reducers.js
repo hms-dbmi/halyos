@@ -7,8 +7,9 @@ var rootReducer = combineReducers({
   routing, 
   fhirPatientData,
   fhirObservationData,
+  fhirEncounterData,
   envFactorsData,
-  fhirEncounterData
+  
 });
 
 export default rootReducer;

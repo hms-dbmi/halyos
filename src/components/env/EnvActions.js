@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import 'whatwg-fetch'
 
 export const FETCH_POLLEN_REQUEST = "FETCH_POLLEN_REQUEST";
 export const FETCH_POLLEN_SUCCESS = "FETCH_POLLEN_SUCCESS";
@@ -24,7 +24,7 @@ export const failPollenLevels = zipCode => ({
 });
 
 export function fetchPollenLevels(zipCode) {
-  console.log("we are here in the fetching:");
+  // console.log("we are here in the fetching:");
   
   return function (dispatch) {
   
@@ -33,7 +33,7 @@ export function fetchPollenLevels(zipCode) {
     //Vimig's API Key: Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA
     //Samson's API Key: jfytctksruIxkfUdyQxo8JdG9QAB7jgi
     
-    return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
+    return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
       .then(
         response => response.json(),
         error => console.log('An error occured.', error)

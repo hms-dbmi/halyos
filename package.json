@@ -8,7 +8,6 @@
     "es6-promise": "^4.1.1",
     "fhir": "github:smart-on-fhir/client-js",
     "history": "^4.7.2",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
     "localforage": "^1.5.0",
     "prop-types": "^15.6.0",
@@ -16,7 +15,7 @@
     "rc-slider": "^8.2.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.1",
-    "react-bootstrap-dialog": "^0.9.1",
+    "react-bootstrapf-dialog": "^0.9.1",
     "react-bootstrap-modal": "^3.0.1",
     "react-dom": "^15.6.1",
     "react-rangeslider": "^2.1.0",
@@ -36,7 +35,8 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^4.9.1",
     "redux-thunk": "^2.2.0",
-    "victory": "^0.21.2"
+    "victory": "^0.21.2",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
