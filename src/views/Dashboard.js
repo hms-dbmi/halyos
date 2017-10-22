@@ -5,6 +5,7 @@ import FilteredList from '../components/FilteredList';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
+import PastGraph from '../components/Graphs/PastGraph.js';
 
 // Services
 import { getPatID } from '../services/smart_setup';
