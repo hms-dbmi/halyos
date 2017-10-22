@@ -1,0 +1,13 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.environment-tile {
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+  background-color: $gray-lightest;
+
+  h4 {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
