@@ -62,7 +62,7 @@
     "no-mixed-operators": [
       "error",
       {
-        "allowSamePrecedence": false
+        "allowSamePrecedence": true
       }
     ],
     "no-plusplus": [
