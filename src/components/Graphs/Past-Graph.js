@@ -7,15 +7,15 @@ import ReactSimpleRange from 'react-simple-range';
 
 class PastGraph extends Component {
 
-	constructor(props){
-		super(props);
-		this.state = {};
+  constructor(props){
+    super(props);
+    this.state = {};
     //console.log("graph data current: ", this.props);
 
-	}
+  }
 
-	componentWillMount(){
-		//this.setState({selectedDomain: {x: [2, 4]}})
+  componentWillMount(){
+    //this.setState({selectedDomain: {x: [2, 4]}})
     this.hasRefRange = false;
     if (this.props.refRange){
       this.hasRefRange = !(this.props.refRange.length == 0);
@@ -49,32 +49,32 @@ class PastGraph extends Component {
     this.setState({maxx:maxx, minx:minx, miny:miny, maxy:maxy})
     //console.log("domaiN: ", this.props.refRange);
 
-	}
+  }
 
-  	handleBrush(domain) {
+    handleBrush(domain) {
       const zoomDomain = {x: domain['x'], y:[this.state.miny*0.98, this.state.maxy*1.02]};
-    	this.setState({zoomDomain: zoomDomain});
-  	}
+      this.setState({zoomDomain: zoomDomain});
+    }
 
 
 
-	render(){
+  render(){
 
-    var additional; 
-            
-          
+    var additional;
+
+
 
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
     const unitLabel = this.props.units;
     //console.log("ref", this.hasRefRange);
     //console.log("render y1", this.props.refRange[0], " '", this.props.refRange[1]);
 return (
-  <div>
+  <div style={{maxWidth: "99%"}}>
     <div style={{"display":"flex", "flex-direction":"row", "align-items":"center", "justify-content":"space-between"}}>
       <div style={{order: "1", "flex-grow":5}}>
         <VictoryChart width={this.props.mainWidth} height={this.props.mainHeight} scale={{x: "time"}} responsive={false}
           containerComponent={
-            <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false} 
+            <VictoryZoomVoronoiContainer allowZoom={false}  responsive={false}
               dimension="x"
               zoomDomain={this.state.zoomDomain}
               domain={{x: [this.state.minx, this.state.maxx], y: [this.state.miny-0.02*this.state.miny, this.state.maxy+0.02*this.state.maxy]}}
@@ -84,15 +84,15 @@ return (
           <VictoryArea style={{data:{fill: "#DCDCDC"}}} data=
           {[{x:this.state.minx, y:this.props.reference_range.max, y0: this.props.reference_range.min},
           {x:this.state.maxx, y:this.props.reference_range.max, y0: this.props.reference_range.min}]}/>
-            
-          <VictoryAxis 
+
+          <VictoryAxis
             dependentAxis
             label={"Measurements  (" + `${this.props.units}` + ")"}
             style={yAxisStyle}
             domain={[this.state.miny, this.state.maxy]}
           />
-            
-          <VictoryAxis 
+
+          <VictoryAxis
             label="Date"
             style={xAxisStyle}
             domain={[this.state.minx, this.state.maxx]}
@@ -103,18 +103,18 @@ return (
           {this.hasRefRange && <VictoryArea data={this.props.obs_data} y0={() => this.props.refRange[0]} y={() => this.props.refRange[1]}
             style={refRangeStyle}
            />}
-          
+
           <VictoryLine data={this.props.obs_data} labels={(d) => `${(d.y).toFixed(2)} ${this.props.units}`} labelComponent={<VictoryTooltip/>}
               style={lineStyle}
-              
+
             />
         </VictoryChart>
       </div>
       <div style={{order: "2", "flex-grow":1}}>
       <VictoryGroup width={100} height={this.props.mainHeight} domain={{x: [0,0], y: [0.98*this.state.miny, 1.02*this.state.maxy]}}>
-        <VictoryScatter 
-          containerComponent={<VictoryContainer responsive={false} 
-                              />} 
+        <VictoryScatter
+          containerComponent={<VictoryContainer responsive={false}
+                              />}
           data={[{x: 0, y: this.props.obs_data[this.props.obs_data.length-1].y, fill: "black", size:10}]}
           labels={(datum => datum.y)}
           labelComponent={<VictoryLabel dy={0}/>}
@@ -123,9 +123,9 @@ return (
       </div>
 
       <div style={{order: "3", "flex-grow":1}}>
-        <ReactSimpleRange 
+        <ReactSimpleRange
           label
-          vertical   
+          vertical
           sliderColor="#DCDCDC"
           trackColor="black"
           thumbColor="black"
@@ -140,8 +140,8 @@ return (
 
         <br/>
         <VictoryChart
-          padding={{top: 0, left: 50, right: 50, bottom: 30}} 
-          width={this.props.viewWidth} height={this.props.viewHeight}  scale={{x: "time"}} 
+          padding={{top: 0, left: 50, right: 50, bottom: 30}}
+          width={this.props.viewWidth} height={this.props.viewHeight}  scale={{x: "time"}}
           containerComponent={
             <VictoryBrushContainer responsive={false}
               dimension="x"
@@ -159,7 +159,7 @@ return (
       </div>
     );
 
-	}
+  }
 
 }
 
