@@ -5,6 +5,9 @@ import React from 'react';
 import Icon from './Icon';
 import PastGraph from './Graphs/Past-Graph';
 
+// Styles
+import './Measurement.css';
+
 const getArrowDir = (past, present) => (past !== present
   ? 'arrow-top-right'
   : 'arrow-right'
@@ -13,24 +16,26 @@ const getArrowDir = (past, present) => (past !== present
 const getMirrorH = (past, present) => past > present;
 
 const VitalTile = props => (
-  <div>
-    <div className="pure-u-12-24 flex-c flex-v-center">
-      <div>{props.name}</div>
-      <div className="unit">[{props.unit}]</div>
+  <div className="measurement pure-g">
+    <div className="pure-u-15-24">
+      <div className="full-wh flex-c flex-v-center">
+        <div className="measurement-title">{props.name}</div>
+        <div className="measurement-unit">[{props.unit}]</div>
+      </div>
     </div>
-    <div className="pure-u-2-24">
+    <div className="measurement-past pure-u-2-24 flex-c flex-v-center">
       {props.past}
     </div>
-    <div className="pure-u-2-24">
+    <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
       <Icon
         id={getArrowDir(props.past, props.present)}
         mirrorH={getMirrorH(props.past, props.present)}
       />
     </div>
-    <div className="pure-u-4-24">
+    <div className="measurement-present pure-u-3-24 flex-c flex-v-center">
       {props.present}
     </div>
-    <div className="pure-u-4-24">
+    <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
       {props.future}
     </div>
     {false && (

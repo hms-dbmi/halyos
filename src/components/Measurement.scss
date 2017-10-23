@@ -1,0 +1,18 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.measurement {
+  min-height: 2.5rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid $gray-lightest;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.measurement-unit {
+  margin-left: 0.5rem;
+  color: $gray;
+  font-size: 0.9em;
+}
