@@ -1,15 +1,10 @@
-import React, { Component } from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import Pollen1 from './logos/pollen/Pollen1';
-import Pollen2 from './logos/pollen/Pollen2';
-import Pollen3 from './logos/pollen/Pollen3';
-
-import { fetchPollenLevels } from './EnvActions';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 // Components
-import Icon from '../Icon';
+import EnvironmentTile from '../EnvironmentTile';
 
-const categories = {
+const CATEGORIES = {
   1: 'Low',
   2: 'High',
   3: 'Good',
@@ -18,72 +13,85 @@ const categories = {
   6: 'Hazardous'
 };
 
-class PollenLevel extends Component {
-  componentDidMount(){
+class PollenLevel extends React.Component {
+  componentDidMount() {
     this.props.getPollenLevels('60564');
   }
 
   render() {
     let avgLevel;
+    let listItems = [];
+    let icon = 'pollen';
 
     if (!this.props.isFetchingPollenData && this.props.pollen) {
-      let allergyMeasures = this.props.pollen.DailyForecasts[0].AirAndPollen.filter(function(item){
-        return (item.Name !== "UVIndex" && item.Name !== "AirQuality");
-      });
+      const allergyMeasures = this.props.pollen.DailyForecasts[0].AirAndPollen
+        .filter(item => (item.Name !== 'UVIndex' && item.Name !== 'AirQuality'));
 
-      let counter = 0;
-      let avgLevel;
-      allergyMeasures.map(function(item) {
-        counter += item.CategoryValue;
-      });
+      const counter = allergyMeasures
+        .reduce((sum, item) => sum + item.CategoryValue, 0);
 
-      avgLevel = Math.round(counter/Object.keys(allergyMeasures).length);
+      avgLevel = Math.round(counter / Object.keys(allergyMeasures).length);
 
-      const listItems = allergyMeasures.map((item) =>
-        <tr>
+      listItems = allergyMeasures.map((item, index) =>
+        <tr key={index}>
           <td>{item.Name}</td>
           <td>{item.Category}</td>
         </tr>
       );
 
-      const tooltip = (
-        <Tooltip id="tooltip">
-        <h5>Pollen Levels</h5>
-        <table>
-          <thead>
-            <tr>
-                <th>Type</th>
-                <th>Level</th>
-             </tr>
-           </thead>
-           <tbody>
-           {listItems}
-          </tbody>
-        </table>
-        </Tooltip>
-      );
-
-      let pollenIcon;
-      if(avgLevel >= 1 && avgLevel <= 2) {
-        pollenIcon = <Pollen1 placement="top" tooltip={tooltip} level={avgLevel}/>
-      }
-      else if (avgLevel >=3 && avgLevel <= 4){
-        pollenIcon = <Pollen2 placement="top" tooltip={tooltip} level={avgLevel}/>
-      } else {
-        pollenIcon = <Pollen3 placement="top" tooltip={tooltip} level={avgLevel}/>
+      switch (avgLevel) {
+        case 1:
+        case 2:
+          icon = 'pollen-1';
+          break;
+        case 3:
+        case 4:
+          icon = 'pollen-2';
+          break;
+        default:
+          icon = 'pollen-3';
       }
     }
 
     return (
-      <div className="pollen">
-        <h4>Pollen</h4>
-        <div className="flex-c">
-          <div className="pollen-level">{avgLevel || '…'}</div>
-          <Icon id="pollen" />
+      <EnvironmentTile
+        name="Pollen"
+        expand={this.props.expand}
+        icon={icon}
+        isCollapsed={this.props.isCollapsed}
+        isExpanded={this.props.isExpanded}
+        level={CATEGORIES[avgLevel]}
+      >
+        <div>
+          <h5>Pollen Levels</h5>
+          {listItems.length ? (
+            <div>...</div>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listItems}
+              </tbody>
+            </table>
+          )}
         </div>
-      </div>
+      </EnvironmentTile>
     );
   }
 }
+
+PollenLevel.propTypes = {
+  expand: PropTypes.func,
+  getPollenLevels: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+  isExpanded: PropTypes.bool,
+  isFetchingPollenData: PropTypes.bool,
+  pollen: PropTypes.object,
+};
 
 export default PollenLevel;

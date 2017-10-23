@@ -5,37 +5,40 @@ import React from 'react';
 import Icon from './Icon';
 
 // Styles
-import './ButtonIcon.css';
+import './Button.css';
 
 const classNames = (props) => {
-  let className = 'flex-c flex-align-c lex-v-center button-icon';
+  let className = 'flex-c flex-align-c flex-v-center button';
 
-  className += ` ${props.className}`;
+  if (props.className) className += ` ${props.className}`;
   className += props.iconOnly ? ' button-icon-only' : '';
   className += props.isActive ? ' is-active' : '';
 
   return className;
 };
 
-const ButtonIcon = props => (
+const Button = props => (
   <button
     className={classNames(props)}
     title={props.title}
     onClick={props.onClick}
     onMouseDown={props.onMouseDown}
     onMouseUp={props.onMouseUp}>
-    <Icon
-      id={props.icon}
-      mirrorH={props.iconMirrorH}
-      mirrorV={props.iconMirrorV} />
+    {props.icon && (
+      <Icon
+        id={props.icon}
+        mirrorH={props.iconMirrorH}
+        mirrorV={props.iconMirrorV}
+      />
+    )}
     <span>{props.children}</span>
   </button>
 );
 
-ButtonIcon.propTypes = {
+Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   iconMirrorH: PropTypes.bool,
   iconMirrorV: PropTypes.bool,
   iconOnly: PropTypes.bool,
@@ -46,4 +49,4 @@ ButtonIcon.propTypes = {
   title: PropTypes.string,
 };
 
-export default ButtonIcon;
+export default Button;

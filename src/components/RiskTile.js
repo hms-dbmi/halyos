@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import ButtonIcon from './ButtonIcon';
+import Button from './Button';
 
 // Styles
 import './RiskTile.css';
@@ -25,7 +25,7 @@ const RiskTile = props => (
       </div>
       <div className="flex-c flex-align-sb">
         <div className="risk-tile-context">{`within ${props.context} years`}</div>
-        <ButtonIcon
+        <Button
           icon="info"
           iconOnly={true}
           className="risk-tile-info"
