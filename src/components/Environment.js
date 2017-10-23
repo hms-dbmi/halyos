@@ -23,10 +23,7 @@ const Environment = props => (
       )}
     </header>
     <main className="flex-c flex-col flex-g-1 r">
-      <div
-        className="environment-tile-wrapper flex-g-1 r"
-        onClick={() => props.expand()}
-      >
+      <div className="environment-tile-wrapper flex-g-1 r">
         <PollenContainer
           expand={props.expand}
           isCollapsed={props.isCollapsed}
@@ -34,10 +31,7 @@ const Environment = props => (
           location={props.ptLoc}
         />
       </div>
-      <div
-        className="environment-tile-wrapper flex-g-1 r"
-        onClick={() => props.expand()}
-      >
+      <div className="environment-tile-wrapper flex-g-1 r">
         <AirQuality
           expand={props.expand}
           isCollapsed={props.isCollapsed}
@@ -45,10 +39,7 @@ const Environment = props => (
           location={props.ptLoc}
         />
       </div>
-      <div
-        className="environment-tile-wrapper flex-g-1 r"
-        onClick={() => props.expand()}
-      >
+      <div className="environment-tile-wrapper flex-g-1 r">
         <Flu
           expand={props.expand}
           isCollapsed={props.isCollapsed}
