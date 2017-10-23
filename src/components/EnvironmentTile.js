@@ -92,7 +92,7 @@ EnvironmentTile.propTypes = {
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
   isLoading: PropTypes.bool,
-  level: PropTypes.string.isRequired,
+  level: PropTypes.string,
   name: PropTypes.string.isRequired,
 };
 
