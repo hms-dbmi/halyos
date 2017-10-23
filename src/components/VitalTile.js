@@ -1,53 +1,58 @@
-import React, { Component } from 'react';
-import $ from 'jquery'; 
-import { searchByCode } from '../services/risk_score_utils.js';
-import {getNearest} from '../services/general_utils.js';
-import {ArrowDown} from './logos/arrows/Arrow-Down.js';
-import {ArrowSame} from './logos/arrows/Arrow-Same.js';
-import {ArrowUp} from './logos/arrows/Arrow-Up.js';
+import PropTypes from 'prop-types';
+import React from 'react';
 
+// Components
+import Icon from './Icon';
+import PastGraph from './Graphs/Past-Graph';
 
-class VitalTile extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			measurementName: this.props.measurementName
-		}
-	}
+const getArrowDir = (past, present) => (past !== present
+  ? 'arrow-top-right'
+  : 'arrow-right'
+);
 
-	componentDidMount() {
+const getMirrorH = (past, present) => past > present;
 
-	}
+const VitalTile = props => (
+  <div>
+    <div className="pure-u-12-24 flex-c flex-v-center">
+      <div>{props.name}</div>
+      <div className="unit">[{props.unit}]</div>
+    </div>
+    <div className="pure-u-2-24">
+      {props.past}
+    </div>
+    <div className="pure-u-2-24">
+      <Icon
+        id={getArrowDir(props.past, props.present)}
+        mirrorH={getMirrorH(props.past, props.present)}
+      />
+    </div>
+    <div className="pure-u-4-24">
+      {props.present}
+    </div>
+    <div className="pure-u-4-24">
+      {props.future}
+    </div>
+    {false && (
+      <PastGraph
+        obs_data={{}}
+        units="mmHg"
+        reference_range={{ min: 110, max: 130 }}
+        mainWidth={500}
+        mainHeight={200}
+        viewWidth={500}
+        viewHeight={50}
+      />
+    )}
+  </div>
+);
 
-	render() {
-		var arrow = <ArrowSame/>;
-		if(this.props.past < this.props.present) {
-			arrow = <ArrowUp/>;
-		}
-		else if(this.props.past > this.props.present) {
-			arrow = <ArrowDown/>;
-		}
-		return (
-			<div>
-				<div className="pure-u-12-24">
-					{this.props.measurementName} &nbsp; [{this.props.units}]
-				</div>
-				<div className="pure-u-2-24">
-					{this.props.past}
-				</div>
-				<div className="pure-u-2-24">
-					{arrow} 
-				</div>
-				<div className="pure-u-4-24">
-					{this.props.present}
-				</div>
-				<div className="pure-u-4-24">
-					{this.props.future}
-				</div>
-				<hr/>
-			</div>
-		)
-	}
-}
+VitalTile.propTypes = {
+  name: PropTypes.string,
+  unit: PropTypes.string,
+  past: PropTypes.string,
+  present: PropTypes.string,
+  future: PropTypes.string,
+};
 
 export default VitalTile;
