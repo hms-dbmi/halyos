@@ -64,7 +64,7 @@ class PollenLevel extends React.Component {
       >
         <div>
           <h5>Pollen Levels</h5>
-          {listItems.length ? (
+          {!listItems.length ? (
             <div>...</div>
           ) : (
             <table>
