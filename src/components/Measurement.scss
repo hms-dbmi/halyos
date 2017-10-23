@@ -2,13 +2,17 @@
 @import '../styles/transitions.scss';
 
 .measurement {
-  min-height: 2.5rem;
+  position: relative;
   padding: 0.5rem 0;
   border-top: 1px solid $gray-lightest;
 
   &:first-child {
     border-top: 0;
   }
+}
+
+.measurement-info {
+  min-height: 1.5rem;
 }
 
 .measurement-unit {
