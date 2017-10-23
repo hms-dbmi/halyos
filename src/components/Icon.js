@@ -14,6 +14,9 @@ const getSvg = id => wrapHtml(icons[id] ? icons[id].svg : WARNING.svg);
 const getFillRule = id => (icons[id] && icons[id].fillRule ?
   icons[id].fillRule : '');
 
+const getStrokeLinecap = id => (icons[id] && icons[id].strokeLinecap ?
+  icons[id].strokeLinecap : '');
+
 const getViewBox = id => (icons[id] && icons[id].viewBox ?
   icons[id].viewBox : '0 0 16 16');
 
@@ -38,6 +41,7 @@ const Icon = props => (
       className="full-dim"
       viewBox={getViewBox(convertId(props.id))}
       fillRule={getFillRule(convertId(props.id))}
+      strokeLinecap={getStrokeLinecap(convertId(props.id))}
       dangerouslySetInnerHTML={getSvg(convertId(props.id))} />
   </div>
 );
