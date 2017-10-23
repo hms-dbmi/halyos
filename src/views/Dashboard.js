@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import FilteredList from '../components/FilteredList';
+import Measurements from '../components/Measurements';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
@@ -13,6 +13,102 @@ import { getPatID } from '../services/smart_setup';
 import './Dashboard.css';
 
 const measurements = [
+  {
+    name: 'Systolic Blood Pressure',
+    units: 'mmHg',
+    past: '120',
+    present: '110',
+  },
+  {
+    name: 'Diastolic Blood Pressure',
+    units: 'mmHg',
+    past: '90',
+    present: '95',
+  },
+  {
+    name: 'Heart Rate',
+    units: 'bpm',
+    past: '90',
+    present: '70',
+  },
+  {
+    name: 'Respiration Rate',
+    units: 'breaths/min',
+    past: '18',
+    present: '18',
+  },
+  {
+    name: 'Systolic Blood Pressure',
+    units: 'mmHg',
+    past: '120',
+    present: '110',
+  },
+  {
+    name: 'Diastolic Blood Pressure',
+    units: 'mmHg',
+    past: '90',
+    present: '95',
+  },
+  {
+    name: 'Heart Rate',
+    units: 'bpm',
+    past: '90',
+    present: '70',
+  },
+  {
+    name: 'Respiration Rate',
+    units: 'breaths/min',
+    past: '18',
+    present: '18',
+  },
+  {
+    name: 'Systolic Blood Pressure',
+    units: 'mmHg',
+    past: '120',
+    present: '110',
+  },
+  {
+    name: 'Diastolic Blood Pressure',
+    units: 'mmHg',
+    past: '90',
+    present: '95',
+  },
+  {
+    name: 'Heart Rate',
+    units: 'bpm',
+    past: '90',
+    present: '70',
+  },
+  {
+    name: 'Respiration Rate',
+    units: 'breaths/min',
+    past: '18',
+    present: '18',
+  },
+  {
+    name: 'Systolic Blood Pressure',
+    units: 'mmHg',
+    past: '120',
+    present: '110',
+  },
+  {
+    name: 'Diastolic Blood Pressure',
+    units: 'mmHg',
+    past: '90',
+    present: '95',
+  },
+  {
+    name: 'Heart Rate',
+    units: 'bpm',
+    past: '90',
+    present: '70',
+  },
+  {
+    name: 'Respiration Rate',
+    units: 'breaths/min',
+    past: '18',
+    present: '18',
+  },
   {
     name: 'Systolic Blood Pressure',
     units: 'mmHg',
@@ -65,6 +161,15 @@ class Dashboard extends React.Component {
     this.setState({
       envIsCollapsed: collapse,
       envIsExpanded: !collapse,
+      pcsIsCollapsed: !collapse,
+      pcsIsExpanded: false,
+    });
+  }
+
+  expandMes(collapse) {
+    this.setState({
+      mesIsCollapsed: collapse,
+      mesIsExpanded: !collapse,
       pcsIsCollapsed: !collapse,
       pcsIsExpanded: false,
     });
@@ -183,7 +288,11 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
             >
-              <FilteredList measurements={measurements} />
+              <Measurements
+                expand={this.expandMes.bind(this)}
+                isCollapsed={this.state.mesIsCollapsed}
+                isExpanded={this.state.mesIsExpanded}
+                measurements={measurements} />
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
