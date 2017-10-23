@@ -20,24 +20,38 @@ class PreventativeCareSuggestions extends React.Component {
       interventionsList: []
     };
 
-    this.update();
+    this.loadData();
   }
 
-  componentDidUpdate() {
-    this.update();
+  componentWillUpdate(nextProps) {
+    if (
+      nextProps.birthDate !== this.props.birthDate ||
+      nextProps.gender !== this.props.gender
+    ) {
+      this.loadData();
+    }
   }
 
-  update() {
-    $.get(getUrl(this.props.birthDate, this.props.gender)).done((data) => {
-      const interventions = [];
-
-      for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
-        interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
-      }
-
-      this.setState({
-        interventionsList: interventions
+  loadData() {
+    fetch(getUrl(this.props.birthDate, this.props.gender))
+      .then(response => response.json())
+      .then((data) => {
+        this.wrangleData(data);
+      })
+      .catch((error) => {
+        console.error('Could not retrieve or parse preventative care suggestions.', error);
       });
+  }
+
+  wrangleData(data) {
+    const interventions = [];
+
+    for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
+      interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
+    }
+
+    this.setState({
+      interventionsList: interventions
     });
   }
 
