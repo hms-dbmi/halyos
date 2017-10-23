@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {ArrowDown} from './logos/arrows/Arrow-Down.js';
 import {ArrowSame} from './logos/arrows/Arrow-Same.js';
 import {ArrowUp} from './logos/arrows/Arrow-Up.js';
+import PastGraph from './Graphs/PastGraph.js';
 
 import './VitalTile.css';
 
@@ -61,7 +62,7 @@ class VitalTile extends Component {
 					<hr/>
 				</div>
 				<div className="panel">
-					Graph goes here!
+					<PastGraph/>	
 				</div>
 			</div>
 		)
