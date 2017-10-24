@@ -48,13 +48,14 @@ class Measurements extends React.Component {
           </div>
         </header>
         <main className="measurements-list flex-c flex-col flex-g-1 r scrollbar">
+        {console.log(this.state.measurements)}
           {this.state.measurements.map((item, index) => (
             <Measurement
               key={index}
               name={item.name}
-              unit={item.units}
-              past={item.past}
-              present={item.present}
+              unit={item.measurements[0].units}
+              past={item.measurements[1] && item.measurements[1].value}
+              present={item.measurements[0].value}
             />
           ))}
         </main>

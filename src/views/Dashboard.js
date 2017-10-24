@@ -292,7 +292,7 @@ class Dashboard extends React.Component {
                 expand={this.expandMes.bind(this)}
                 isCollapsed={this.state.mesIsCollapsed}
                 isExpanded={this.state.mesIsExpanded}
-                measurements={measurements} />
+                measurements={this.props.observations} />
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>

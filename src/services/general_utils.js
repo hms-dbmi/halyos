@@ -31,7 +31,8 @@ export function getValueQuantities(obs, callback){
 
     @param obs: list of observations
 
-    @return [{"name": "xxxx", "measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}]
+    @return [{"name": "xxxx", "measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}], 
+    not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurements(obs){
   var sortedMeasures = []
@@ -48,7 +49,7 @@ export function sortMeasurements(obs){
         for(var j = 0; j < sortedMeasures.length; j++) {
           if(sortedMeasures[j].name === obs[i].resource.component[k].code.text) {
             sortedMeasures[j].measurements.push(
-              {"value": obs[i].resource.component[k].valueQuantity.value,
+              {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
                "date": obs[i].resource.effectiveDateTime,
                 "units": obs[i].resource.component[k].valueQuantity.unit
               }
@@ -61,7 +62,7 @@ export function sortMeasurements(obs){
           sortedMeasures.push(
             {"name": obs[i].resource.component[k].code.text,
              "measurements": [
-                {"value": obs[i].resource.component[k].valueQuantity.value,
+                {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
                  "date": obs[i].resource.effectiveDateTime,
                   "units": obs[i].resource.component[k].valueQuantity.unit
                 }
@@ -79,7 +80,7 @@ export function sortMeasurements(obs){
       for(var j = 0; j < sortedMeasures.length; j++) {
         if(sortedMeasures[j].name === obs[i].resource.code.text) {
           sortedMeasures[j].measurements.push(
-            {"value": obs[i].resource.valueQuantity.value,
+            {"value": obs[i].resource.valueQuantity.value.toFixed(2),
              "date": obs[i].resource.effectiveDateTime,
               "units": obs[i].resource.valueQuantity.unit
             }
@@ -92,7 +93,7 @@ export function sortMeasurements(obs){
         sortedMeasures.push(
           {"name": obs[i].resource.code.text,
            "measurements": [
-              {"value": obs[i].resource.valueQuantity.value,
+              {"value": obs[i].resource.valueQuantity.value.toFixed(2),
                "date": obs[i].resource.effectiveDateTime,
                 "units": obs[i].resource.valueQuantity.unit
               }
@@ -102,8 +103,6 @@ export function sortMeasurements(obs){
       }
     }
   }
-  console.log(sortedMeasures);
-  //sort the measurements by date
   return sortedMeasures;
 }
 

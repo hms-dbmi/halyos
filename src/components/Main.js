@@ -10,6 +10,7 @@ import {patient, encounters, conditions, medStatements, medRequests, observation
 import {sortMeasurements} from '../services/general_utils.js';
 
 class Main extends React.Component {
+
   componentDidMount() {
     this.patient = this.props.ptapi.fetchAll({
       type: 'Patient',
@@ -44,9 +45,9 @@ class Main extends React.Component {
         },
       },
     });
+
   }
 
-  observations = sortMeasurements(observations);
 
   render() {
     return (
@@ -59,7 +60,7 @@ class Main extends React.Component {
                 meds={medStatements}
                 patient={patient}
                 encounters={encounters}
-                observations={observations}
+                observations={sortMeasurements(observations)}
                 conditions={conditions}
                 medreq={medRequests}
               />
