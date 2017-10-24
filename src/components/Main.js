@@ -6,7 +6,7 @@ import DashboardContainer from '../views/DashboardContainer';
 
 import './Main.css';
 
-import {patient, encounters, conditions, medStatements, medRequests, observations } from '../data/fhirData.js';
+import {patientLocal, encountersLocal, conditionsLocal, medStatementsLocal, medRequestsLocal, observationsLocal } from '../data/fhirData.js';
 import {sortMeasurements} from '../services/general_utils.js';
 
 class Main extends React.Component {
@@ -57,12 +57,12 @@ class Main extends React.Component {
           <Route exact path='/' render={props => (
               <DashboardContainer
                 {...props}
-                meds={medStatements}
-                patient={patient}
-                encounters={encounters}
-                observations={sortMeasurements(observations)}
-                conditions={conditions}
-                medreq={medRequests}
+                meds={medStatementsLocal}
+                patient={patientLocal}
+                encounters={encountersLocal}
+                observations={sortMeasurements(observationsLocal)}
+                conditions={conditionsLocal}
+                medreq={medRequestsLocal}
               />
             )}
           />

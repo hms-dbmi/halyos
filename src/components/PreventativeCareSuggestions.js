@@ -9,7 +9,7 @@ import { calculateAge } from '../services/risk_score_utils';
 import './PreventativeCareSuggestions.css';
 
 //Fake Data
-import {preventativeCareSuggestions} from '../data/fhirData.js';
+import {preventativeCareSuggestionsLocal} from '../data/fhirData.js';
 
 const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
 
@@ -67,7 +67,7 @@ class PreventativeCareSuggestions extends React.Component {
             {/*{this.state.interventionsList.map((text, index) => (
               <li key={index}>{text}</li>
             ))}*/}
-            {preventativeCareSuggestions.map((text, index) => (
+            {preventativeCareSuggestionsLocal.map((text, index) => (
               <li key={index}>{text}</li>
             ))}
           </ul>

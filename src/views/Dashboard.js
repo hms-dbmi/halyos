@@ -8,7 +8,11 @@ import RiskTile from '../components/RiskTile';
 
 // Services
 import { getPatID } from '../services/smart_setup';
-import {}
+import {reynoldsScore} from '../services/RiskCalculators/reynolds.js'
+import {CHADScore} from '../services/RiskCalculators/CHAD.js'
+import {KFScore} from '../services/RiskCalculators/get_KFRisk.js'
+import {COPDScore} from '../services/RiskCalculators/COPD.js'
+import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js'
 
 // Styles
 import './Dashboard.css';

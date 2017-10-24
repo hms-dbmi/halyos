@@ -1,11 +1,11 @@
-export const preventativeCareSuggestions = [" Learn why women your age need folic acid. (USPSTF)", "Get a Pap test every 3 years. If you get a Pap tes…can get screened every 5 years instead. (USPSTF) ", "Get your blood pressure checked once a year. (USPSTF)", "See a doctor or nurse for a checkup once a year. (HRSA)", "If you think your partner might be abusive, talk with your doctor about getting help. (USPSTF)", "Talk with your doctor about how you are feeling if you have been sad, down, or hopeless. (USPSTF)", "If you are overweight, ask your doctor about screening and counseling for obesity. (USPSTF)", "If you smoke, ask your doctor about services to help you quit. (USPSTF)", "Get important adult shots (vaccinations). (ACIP)", "Get the flu vaccine every year to protect yourself and others from the flu. (ACIP)", "If you are concerned about your drinking, ask your doctor about screening and counseling. (USPSTF)", "Get tested for HIV at least once. You may need to …ested more often depending on your risk. (USPSTF)", "If your doctor says you are at high risk for heart…king a medicine called statin to lower your risk."]
+export const preventativeCareSuggestionsLocal = [" Learn why women your age need folic acid. (USPSTF)", "Get a Pap test every 3 years. If you get a Pap tes…can get screened every 5 years instead. (USPSTF) ", "Get your blood pressure checked once a year. (USPSTF)", "See a doctor or nurse for a checkup once a year. (HRSA)", "If you think your partner might be abusive, talk with your doctor about getting help. (USPSTF)", "Talk with your doctor about how you are feeling if you have been sad, down, or hopeless. (USPSTF)", "If you are overweight, ask your doctor about screening and counseling for obesity. (USPSTF)", "If you smoke, ask your doctor about services to help you quit. (USPSTF)", "Get important adult shots (vaccinations). (ACIP)", "Get the flu vaccine every year to protect yourself and others from the flu. (ACIP)", "If you are concerned about your drinking, ask your doctor about screening and counseling. (USPSTF)", "Get tested for HIV at least once. You may need to …ested more often depending on your risk. (USPSTF)", "If your doctor says you are at high risk for heart…king a medicine called statin to lower your risk."]
 
 
-export const pollen = {
+export const pollenLocal = {
 	"Headline":{"EffectiveDate":"2017-10-25T01:00:00+08:00","EffectiveEpochDate":1508864400,"Severity":5,"Text":"Expect rainy weather late Tuesday night through Wednesday morning","Category":"rain","EndDate":"2017-10-25T13:00:00+08:00","EndEpochDate":1508907600,"MobileLink":"http://m.accuweather.com/en/cn/huaibai-town/2596361/extended-weather-forecast/2596361?lang=en-us","Link":"http://www.accuweather.com/en/cn/huaibai-town/2596361/daily-weather-forecast/2596361?lang=en-us"},"DailyForecasts":[{"Date":"2017-10-24T07:00:00+08:00","EpochDate":1508799600,"Sun":{"Rise":"2017-10-24T06:56:00+08:00","EpochRise":1508799360,"Set":"2017-10-24T17:56:00+08:00","EpochSet":1508838960},"Moon":{"Rise":"2017-10-24T10:43:00+08:00","EpochRise":1508812980,"Set":"2017-10-24T21:08:00+08:00","EpochSet":1508850480,"Phase":"WaxingCrescent","Age":5},"Temperature":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":54.0,"Unit":"F","UnitType":18}},"RealFeelTemperature":{"Minimum":{"Value":37.0,"Unit":"F","UnitType":18},"Maximum":{"Value":49.0,"Unit":"F","UnitType":18}},"RealFeelTemperatureShade":{"Minimum":{"Value":37.0,"Unit":"F","UnitType":18},"Maximum":{"Value":47.0,"Unit":"F","UnitType":18}},"HoursOfSun":3.4,"DegreeDaySummary":{"Heating":{"Value":16.0,"Unit":"F","UnitType":18},"Cooling":{"Value":0.0,"Unit":"F","UnitType":18}},"AirAndPollen":[{"Name":"AirQuality","Value":49,"Category":"Good","CategoryValue":1,"Type":"Ozone"},{"Name":"Grass","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Mold","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Ragweed","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Tree","Value":0,"Category":"Low","CategoryValue":1},{"Name":"UVIndex","Value":3,"Category":"Moderate","CategoryValue":2}],"Day":{"Icon":6,"IconPhrase":"Mostly cloudy","LocalSource":{"Id":7,"Name":"Huafeng","WeatherCode":"01"},"ShortPhrase":"Mostly cloudy","LongPhrase":"Mostly cloudy","PrecipitationProbability":24,"ThunderstormProbability":0,"RainProbability":24,"SnowProbability":0,"IceProbability":0,"Wind":{"Speed":{"Value":12.7,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":157,"Localized":"SSE","English":"SSE"}},"WindGust":{"Speed":{"Value":19.6,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":155,"Localized":"SSE","English":"SSE"}},"TotalLiquid":{"Value":0.0,"Unit":"in","UnitType":1},"Rain":{"Value":0.0,"Unit":"in","UnitType":1},"Snow":{"Value":0.0,"Unit":"in","UnitType":1},"Ice":{"Value":0.0,"Unit":"in","UnitType":1},"HoursOfPrecipitation":0.0,"HoursOfRain":0.0,"HoursOfSnow":0.0,"HoursOfIce":0.0,"CloudCover":75},"Night":{"Icon":12,"IconPhrase":"Showers","LocalSource":{"Id":7,"Name":"Huafeng","WeatherCode":"07"},"ShortPhrase":"Cloudy, rain and drizzle late","LongPhrase":"Breezy this evening; otherwise, cloudy with occasional rain and drizzle late","PrecipitationProbability":55,"ThunderstormProbability":0,"RainProbability":55,"SnowProbability":0,"IceProbability":0,"Wind":{"Speed":{"Value":12.7,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":157,"Localized":"SSE","English":"SSE"}},"WindGust":{"Speed":{"Value":23.0,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":145,"Localized":"SE","English":"SE"}},"TotalLiquid":{"Value":0.04,"Unit":"in","UnitType":1},"Rain":{"Value":0.04,"Unit":"in","UnitType":1},"Snow":{"Value":0.0,"Unit":"in","UnitType":1},"Ice":{"Value":0.0,"Unit":"in","UnitType":1},"HoursOfPrecipitation":1.5,"HoursOfRain":1.5,"HoursOfSnow":0.0,"HoursOfIce":0.0,"CloudCover":96},"Sources":["AccuWeather","Huafeng"],"MobileLink":"http://m.accuweather.com/en/cn/huaibai-town/2596361/daily-weather-forecast/2596361?day=1&lang=en-us","Link":"http://www.accuweather.com/en/cn/huaibai-town/2596361/daily-weather-forecast/2596361?day=1&lang=en-us"}]
 }
 
-export const patient = [
+export const patientLocal = [
 {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Patient/182296",
       "resource": {
@@ -229,7 +229,7 @@ export const patient = [
       }
     }]
 
-export const encounters = [
+export const encountersLocal = [
     {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Encounter/182574",
       "resource": {
@@ -1032,7 +1032,7 @@ export const encounters = [
     }
   ]
 
-export const conditions = [
+export const conditionsLocal = [
     {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Condition/194058",
       "resource": {
@@ -1485,7 +1485,7 @@ export const conditions = [
     }
   ]
 
-export const medStatements = [
+export const medStatementsLocal = [
     {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/MedicationStatement/192029",
       "resource": {
@@ -1580,7 +1580,7 @@ export const medStatements = [
     }
   ]
 
-export const medRequests = [
+export const medRequestsLocal = [
     {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/MedicationRequest/51182",
       "resource": {
@@ -1615,7 +1615,7 @@ export const medRequests = [
     }
   ]
 
-export const observations = [
+export const observationsLocal = [
     {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182595",
       "resource": {
