@@ -71,13 +71,13 @@ class Measurement extends React.Component {
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center">
-            {this.props.past}
+            {this.props.past || "N/A"}
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
-            <Icon
+            {this.props.past && <Icon
               id={getArrowDir(this.props.past, this.props.present)}
               mirrorH={getMirrorH(this.props.past, this.props.present)}
-            />
+            />}
           </div>
           <div className="measurement-present pure-u-3-24 flex-c flex-v-center">
             {this.props.present}

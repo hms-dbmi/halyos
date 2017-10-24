@@ -97,15 +97,16 @@ export function searchByCode(obsBundle, object) {
       }
     }
     else {
-      var code = obsBundle[j].code.coding[0].code;
+      console.log(obsBundle[j]);
+      var code = obsBundle[j].resource.code.coding[0].code;
       if(object.hasOwnProperty(code)) {
         object[code].push({
           'code': code,
-          'text': obsBundle[j].code.coding[0].display,
-          'value': obsBundle[j].valueQuantity.value,
-          'unit': obsBundle[j].valueQuantity.unit,
-          'date': obsBundle[j].effectiveDateTime,
-          'refRanges': obsBundle[j].referenceRange
+          'text': obsBundle[j].resource.code.coding[0].display,
+          'value': obsBundle[j].resource.valueQuantity.value,
+          'unit': obsBundle[j].resource.valueQuantity.unit,
+          'date': obsBundle[j].resource.effectiveDateTime,
+          'refRanges': obsBundle[j].resource.referenceRange
         });
       }
     }
