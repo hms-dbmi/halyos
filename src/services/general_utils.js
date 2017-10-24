@@ -20,12 +20,91 @@ export function getValueQuantities(obs, callback){
     if(obs.component){
         for (let comp of obs.component){
                 callback(obs,comp);
-
         }
         return;
     }
         callback(obs,obs);
+}
 
+/**
+    This method categorizes measurements so that 
+
+    @param obs: list of observations
+
+    @return [{"name": "xxxx", "measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}]
+**/
+export function sortMeasurements(obs){
+  var sortedMeasures = []
+  for(var i = 0; i < obs.length; i++) {
+    if(obs[i].resource.component) {
+      for(var k = 0; k < obs[i].resource.component.length; k++) {
+        var found = false;
+        if(!obs[i].resource.component[k].code.text) {
+          obs[i].resource.component[k].code.text = obs[i].resource.code.coding[0].display
+        }
+        if(!obs[i].resource.effectiveDateTime) {
+          obs[i].resource.effectiveDateTime = obs[i].resource.issued
+        }
+        for(var j = 0; j < sortedMeasures.length; j++) {
+          if(sortedMeasures[j].name === obs[i].resource.component[k].code.text) {
+            sortedMeasures[j].measurements.push(
+              {"value": obs[i].resource.component[k].valueQuantity.value,
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.component[k].valueQuantity.unit
+              }
+            );
+            found = true;
+            break;
+          }
+        }
+        if(!found) {
+          sortedMeasures.push(
+            {"name": obs[i].resource.component[k].code.text,
+             "measurements": [
+                {"value": obs[i].resource.component[k].valueQuantity.value,
+                 "date": obs[i].resource.effectiveDateTime,
+                  "units": obs[i].resource.component[k].valueQuantity.unit
+                }
+              ]
+            }
+          );
+        }
+      }
+    }
+    else {
+      if(!obs[i].resource.code.text) {
+        obs[i].resource.code.text = obs[i].resource.code.coding[0].display
+      }
+      var found = false;
+      for(var j = 0; j < sortedMeasures.length; j++) {
+        if(sortedMeasures[j].name === obs[i].resource.code.text) {
+          sortedMeasures[j].measurements.push(
+            {"value": obs[i].resource.valueQuantity.value,
+             "date": obs[i].resource.effectiveDateTime,
+              "units": obs[i].resource.valueQuantity.unit
+            }
+          );
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        sortedMeasures.push(
+          {"name": obs[i].resource.code.text,
+           "measurements": [
+              {"value": obs[i].resource.valueQuantity.value,
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.valueQuantity.unit
+              }
+            ]
+          }
+        );
+      }
+    }
+  }
+  console.log(sortedMeasures);
+  //sort the measurements by date
+  return sortedMeasures;
 }
 
 /**

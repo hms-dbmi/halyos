@@ -6,6 +6,9 @@ import DashboardContainer from '../views/DashboardContainer';
 
 import './Main.css';
 
+import {patient, encounters, conditions, medStatements, medRequests, observations } from '../data/fhirData.js';
+import {sortMeasurements} from '../services/general_utils.js';
+
 class Main extends React.Component {
   componentDidMount() {
     this.patient = this.props.ptapi.fetchAll({
@@ -43,6 +46,8 @@ class Main extends React.Component {
     });
   }
 
+  observations = sortMeasurements(observations);
+
   render() {
     return (
       <main className='content'>
@@ -51,12 +56,12 @@ class Main extends React.Component {
           <Route exact path='/' render={props => (
               <DashboardContainer
                 {...props}
-                meds={this.medicationOrder}
-                patient={this.patient}
-                encounters={this.encounters}
-                observations={this.observations}
-                conditions={this.conditions}
-                medreq={this.medicationRequest}
+                meds={medStatements}
+                patient={patient}
+                encounters={encounters}
+                observations={observations}
+                conditions={conditions}
+                medreq={medRequests}
               />
             )}
           />
@@ -65,5 +70,16 @@ class Main extends React.Component {
     );
   }
 }
+/* For testing w/ live FHIR server
+  <DashboardContainer
+    {...props}
+    meds={this.medicationOrder}
+    patient={this.patient}
+    encounters={this.encounters}
+    observations={this.observations}
+    conditions={this.conditions}
+    medreq={this.medicationRequest}
+  />
+*/
 
 export default Main;
