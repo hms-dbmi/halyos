@@ -5,8 +5,11 @@ import $ from 'jquery';
 // Services
 import { calculateAge } from '../services/risk_score_utils';
 
-// STyles
+// Styles
 import './PreventativeCareSuggestions.css';
+
+//Fake Data
+import {preventativeCareSuggestions} from '../data/fhirData.js';
 
 const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
 
@@ -61,7 +64,10 @@ class PreventativeCareSuggestions extends React.Component {
         <h3 className="dashboard-panel-headline">Suggested Preventative Care</h3>
         <div className="flex-g-1 r">
           <ul className="pcs-list no-list-style full-dim scrollbar">
-            {this.state.interventionsList.map((text, index) => (
+            {/*{this.state.interventionsList.map((text, index) => (
+              <li key={index}>{text}</li>
+            ))}*/}
+            {preventativeCareSuggestions.map((text, index) => (
               <li key={index}>{text}</li>
             ))}
           </ul>
