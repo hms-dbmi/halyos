@@ -81,23 +81,22 @@ export function getCondName(condCode, codes, names) {
   **/
 export function searchByCode(obsBundle, object) {
   for (var j = 0; j < obsBundle.length; j++) {
-    if(obsBundle[j].component) {
-      for (var i = 0; i < obsBundle[j].component.length; i++) {
-        var code = obsBundle[j].component[i].code.coding[0].code;
+    if(obsBundle[j].resource.component) {
+      for (var i = 0; i < obsBundle[j].resource.component.length; i++) {
+        var code = obsBundle[j].resource.component[i].code.coding[0].code;
         if(object.hasOwnProperty(code)) {
           object[code].push({
             'code': code,
-            'text': obsBundle[j].component[i].code.coding[0].display,
-            'value': obsBundle[j].component[i].valueQuantity.value,
-            'unit': obsBundle[j].component[i].valueQuantity.unit,
-            'date': obsBundle[j].effectiveDateTime,
-            'refRanges': obsBundle[j].referenceRange
+            'text': obsBundle[j].resource.component[i].code.coding[0].display,
+            'value': obsBundle[j].resource.component[i].valueQuantity.value,
+            'unit': obsBundle[j].resource.component[i].valueQuantity.unit,
+            'date': obsBundle[j].resource.effectiveDateTime,
+            'refRanges': obsBundle[j].resource.referenceRange
           });
         }
       }
     }
     else {
-      console.log(obsBundle[j]);
       var code = obsBundle[j].resource.code.coding[0].code;
       if(object.hasOwnProperty(code)) {
         object[code].push({
@@ -145,7 +144,7 @@ export function calculateTimeDiffHours(date1, date2) {
 export function pullCondition(fetchResult, condID) {
   var resultSet = [];
   for (var i = 0; i<fetchResult.length; i++) {
-    if (condID.includes(fetchResult[i].code.coding[0].code)) {
+    if (condID.includes(fetchResult[i].resource.code.coding[0].code)) {
       resultSet.push(fetchResult[i]);
     }
   }

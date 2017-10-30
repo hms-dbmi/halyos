@@ -36,13 +36,13 @@ export function KFRScore(pt, obs) {
       return;
     }
     else {
-      if(gfr[0].component) {
-        gfr[0] = gfr[0].component[0];
+      if(gfr[0].resource.component) {
+        gfr[0] = gfr[0].resource.component[0];
       }
-      var KFRisk = calcKFRisk(pt[0].gender, 
-      calculateAge(pt[0].birthDate), 
+      var KFRisk = calcKFRisk(pt.gender, 
+      calculateAge(pt.birthDate), 
       gfr[0].valueQuantity.value, //gfr
-      uac[0].valueQuantity.value); //uac
+      uac[0].resource.valueQuantity.value); //uac
     }
     return KFRisk;
   }

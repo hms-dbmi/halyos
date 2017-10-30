@@ -75,19 +75,20 @@ export function reynoldsScore(pt, obs, smoker = false) {
       if(sortedObs.hasOwnProperty(key)) {
         if(sortedObs[key].length == 0) {
           //console.log(sortedObs);
+          console.log("reynolds", sortedObs);
           alert("Patient does not have adequate measurements for Reynolds Risk Score.");
           return;
         }
       }
     }
-    var reynolds = (calculateReynolds(calculateAge(pt[0].birthDate),
+    var reynolds = (calculateReynolds(calculateAge(pt.birthDate),
     sortedObs['8480-6'][0].value,
     sortedObs['30522-7'][0].value,
     sortedObs['2093-3'][0].value,
     sortedObs['2085-9'][0].value,
     smoker, //smoker
     false, //famHist
-    pt[0].gender));
+    pt.gender));
     return reynolds;
   }
   else {

@@ -7,7 +7,6 @@ import DashboardContainer from '../views/DashboardContainer';
 import './Main.css';
 
 import {patientLocal, encountersLocal, conditionsLocal, medStatementsLocal, medRequestsLocal, observationsLocal } from '../data/fhirData.js';
-import {sortMeasurements} from '../services/general_utils.js';
 
 class Main extends React.Component {
 
@@ -60,7 +59,7 @@ class Main extends React.Component {
                 meds={medStatementsLocal}
                 patient={patientLocal}
                 encounters={encountersLocal}
-                observations={sortMeasurements(observationsLocal)}
+                observations={observationsLocal}
                 conditions={conditionsLocal}
                 medreq={medRequestsLocal}
               />

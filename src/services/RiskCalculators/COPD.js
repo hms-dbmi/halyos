@@ -68,7 +68,7 @@ export function COPDScore(pt, obs, conds) {
                 }
             }
         }
-        var COPDScore = calcCOPD(calculateAge(pt[0].birthDate),
+        var COPDScore = calcCOPD(calculateAge(pt.birthDate),
             confusion,
             sortedObs['6299-2'][0].value,
             sortedObs['9279-1'][0].value,

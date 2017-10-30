@@ -1721,6 +1721,58 @@ export const observationsLocal = [
       }
     },
     {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30522-7",
+              "display": "CRP SerPl HS-mCnc"
+            }
+          ],
+          "text": "C reactive protein"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/182549"
+        },
+        "effectiveDateTime": "2015-09-24T20:18:16-04:00",
+        "issued": "2015-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 2.4,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org/",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182540",
       "resource": {
         "resourceType": "Observation",
@@ -6882,75 +6934,6 @@ export const observationsLocal = [
           "unit": "mmol/L",
           "system": "http://unitsofmeasure.org/",
           "code": "mmol/L"
-        }
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/192624",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "192624",
-        "meta": {
-          "versionId": "1",
-          "lastUpdated": "2017-07-21T01:07:16.242-04:00",
-          "tag": [
-            {
-              "system": "urn:oid:tag-bundler",
-              "code": "tag-3"
-            }
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">2009-05-11: CRP SerPl HS-mCnc = 0.6 mg/L</div>"
-        },
-        "identifier": [
-          {
-            "use": "official",
-            "system": "http://www.bmc.nl/zorgportal/identifiers/observations",
-            "value": "test-1970-lab"
-          }
-        ],
-        "status": "unknown",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://hl7.org/fhir/observation-category",
-                "code": "laboratory",
-                "display": "Laboratory"
-              }
-            ],
-            "text": "Laboratory"
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "30522-7",
-              "display": "CRP SerPl HS-mCnc"
-            }
-          ],
-          "text": "CRP SerPl HS-mCnc"
-        },
-        "subject": {
-          "reference": "Patient/182296"
-        },
-        "effectiveDateTime": "2009-05-11",
-        "performer": [
-          {
-            "reference": "Practitioner/test-Practitioner-71482713"
-          }
-        ],
-        "valueQuantity": {
-          "value": 0.6,
-          "unit": "mg/L",
-          "system": "http://unitsofmeasure.org",
-          "code": "%{HemoglobinSaturation}"
         }
       },
       "search": {

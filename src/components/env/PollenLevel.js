@@ -38,9 +38,7 @@ class PollenLevel extends React.Component {
           <td>{item.Category}</td>
         </tr>
       );
-
-      console.log(listItems);
-
+      
       switch (avgLevel) {
         case 1:
         case 2:

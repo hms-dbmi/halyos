@@ -10,9 +10,10 @@ import RiskTile from '../components/RiskTile';
 import { getPatID } from '../services/smart_setup';
 import {reynoldsScore} from '../services/RiskCalculators/reynolds.js'
 import {CHADScore} from '../services/RiskCalculators/CHAD.js'
-import {KFScore} from '../services/RiskCalculators/get_KFRisk.js'
+import {KFRScore} from '../services/RiskCalculators/get_KFRisk.js'
 import {COPDScore} from '../services/RiskCalculators/COPD.js'
 import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js'
+import {sortMeasurements} from '../services/general_utils.js';
 
 // Styles
 import './Dashboard.css';
@@ -236,14 +237,13 @@ class Dashboard extends React.Component {
       : this.state.pcsIsCollapsed
         ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
         : 'pure-u-4-24';
-
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores flex-c no-list-style">
           <li className="flex-g-1">
             <RiskTile
               scoreName="Cardiac"
-              score={10}
+              score={reynoldsScore(this.props.patient, this.props.observations)}
               unit="%"
               context={1}
               url="General_Cardiac"
@@ -252,7 +252,7 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Stroke"
-              score={10}
+              score={CHADScore(this.props.patient, this.props.conditions)}
               unit="%"
               context={1}
               url="Stroke"
@@ -261,7 +261,7 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Kidney Failure"
-              score={10}
+              score={KFRScore(this.props.patient, this.props.observations)}
               unit="%"
               context={5}
               url="Kidney_Failure"
@@ -270,7 +270,7 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="COPD Mortality"
-              score={10}
+              score={COPDScore(this.props.patient, this.props.observations, this.props.conditions)}
               unit="%"
               context={4}
               url="COPD_Mortality"
@@ -279,7 +279,7 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Diabetes"
-              score={10}
+              score={diabetesScore(this.props.patient, this.props.observations, this.props.conditions, this.props.medreq)}
               unit="%"
               context={5}
               url="Diabetes"
@@ -297,7 +297,7 @@ class Dashboard extends React.Component {
                 expand={this.expandMes.bind(this)}
                 isCollapsed={this.state.mesIsCollapsed}
                 isExpanded={this.state.mesIsExpanded}
-                measurements={this.props.observations} />
+                measurements={sortMeasurements(this.props.observations)} />
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>

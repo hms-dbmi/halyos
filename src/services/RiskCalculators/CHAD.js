@@ -73,14 +73,14 @@ export function CHADScore(pt, conds){
       var vascDisease = pullCondition(conds, ["27550009"]);
       var diabetes = pullCondition(conds, ["73211009"]);
       var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
-      var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
-        pt[0].gender, //gender
+      var CHADscore = calcCHADScore(calculateAge(pt.birthDate), //age
+        pt.gender, //gender
         chf, //chf
         hypertension, //hypertension
         vascDisease, //vascDisease
         diabetes, //diabetes
         strTIAthrom); //strTIAthrom
-      return CHADScore;
+      return CHADscore;
   }
   else {
     return '...'
