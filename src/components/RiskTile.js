@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // Components
@@ -15,9 +16,12 @@ const getLength = (context, contextMax) => ({
 });
 
 const RiskTile = props => (
-  <div className="risk-tile">
+  <div
+    className="risk-tile"
+    onClick={() => { props.expand(props.name); }}
+  >
     <div className="risk-tile-content">
-      <h2 className="risk-tile-title">{props.scoreName}</h2>
+      <h2 className="risk-tile-title">{props.name}</h2>
       <div className="risk-tile-status">{props.status}</div>
       <div className="risk-tile-score flex-c flex-align-c flex-v-bottom">
         <div className="risk-tile-score-value">{props.score}</div>
@@ -35,5 +39,17 @@ const RiskTile = props => (
     </div>
   </div>
 );
+
+RiskTile.propTypes = {
+  expand: PropTypes.func,
+  context: PropTypes.number,
+  contextMax: PropTypes.number,
+  isCollapsed: PropTypes.bool,
+  isExpanded: PropTypes.bool,
+  name: PropTypes.string,
+  score: PropTypes.number,
+  status: PropTypes.string,
+  unit: PropTypes.string,
+};
 
 export default RiskTile;

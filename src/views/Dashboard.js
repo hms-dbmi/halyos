@@ -27,8 +27,8 @@ class Dashboard extends React.Component {
     this.state = {
       envIsCollapsed: false,
       envIsExpanded: false,
-      mesIsCollapsed: false,
-      mesIsExpanded: false,
+      meaIsCollapsed: false,
+      meaIsExpanded: false,
       meaDesIsCollapsed: true,
       meaDesIsExpanded: false,
       pcsIsCollapsed: false,
@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
 
   expandMea(collapse) {
     this.setState({
-      mesIsExpanded: !collapse,
+      meaIsExpanded: !collapse,
       envIsCollapsed: !collapse,
       envIsExpanded: false,
       meaDesIsCollapsed: true,
@@ -71,11 +71,26 @@ class Dashboard extends React.Component {
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
-      mesIsExpanded: !collapse,
+      meaIsExpanded: !collapse,
       meaDesIsCollapsed: collapse,
       meaDesIsExpanded: !collapse,
       pcsIsCollapsed: !collapse,
       pcsIsExpanded: false,
+    });
+  }
+
+  expandRisk(risk) {
+    const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
+
+    this.setState({
+      envIsCollapsed: !!newRisk,
+      envIsExpanded: false,
+      meaIsExpanded: !!newRisk,
+      meaDesIsCollapsed: !newRisk,
+      meaDesIsExpanded: !!newRisk,
+      pcsIsCollapsed: !!newRisk,
+      pcsIsExpanded: false,
+      riskIsExpanded: newRisk
     });
   }
 
@@ -124,7 +139,7 @@ class Dashboard extends React.Component {
       pcsStyle.width = clientWidth;
     }
 
-    const mesWidth = 'pure-u-12-24';
+    const mesWidth = this.state.meaIsExpanded ? 'pure-u-16-24' : 'pure-u-12-24';
 
     let pcsWidth = this.state.pcsIsExpanded ? 'pure-u-12-24' : 'pure-u-8-24';
     pcsWidth = this.state.pcsIsCollapsed || this.state.meaDesIsExpanded
@@ -138,16 +153,61 @@ class Dashboard extends React.Component {
       ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
       : envWidth;
 
-    const meaDesWidth = this.state.meaDesIsExpanded
+    let meaDesWidth = this.state.meaDesIsExpanded
       ? 'pure-u-12-24'
       : 'pure-u-12-24 dashboard-bottom-panel-hidden';
+    meaDesWidth = this.state.meaDesIsExpanded && this.state.meaIsExpanded
+      ? 'pure-u-8-24'
+      : meaDesWidth;
+
+    const riskDetails = typeof this.state.riskIsExpanded !== 'undefined';
+
+    let riskCardiacWidth = !riskDetails
+      ? 'pure-u-1-5'
+      : 'pure-u-1-5 dashboard-risk-hidden';
+    riskCardiacWidth = this.state.riskIsExpanded === 'Cardiac'
+      ? 'pure-u-16-24'
+      : riskCardiacWidth;
+
+    let riskStrokeWidth = !riskDetails
+      ? 'pure-u-1-5'
+      : 'pure-u-1-5 dashboard-risk-hidden';
+    riskStrokeWidth = this.state.riskIsExpanded === 'Stroke'
+      ? 'pure-u-16-24'
+      : riskStrokeWidth;
+
+    let riskKidneyWidth = !riskDetails
+      ? 'pure-u-1-5'
+      : 'pure-u-1-5 dashboard-risk-hidden';
+    riskKidneyWidth = this.state.riskIsExpanded === 'Kidney Failure'
+      ? 'pure-u-16-24'
+      : riskKidneyWidth;
+
+    let riskCopdWidth = !riskDetails
+      ? 'pure-u-1-5'
+      : 'pure-u-1-5 dashboard-risk-hidden';
+    riskCopdWidth = this.state.riskIsExpanded === 'COPD Mortality'
+      ? 'pure-u-16-24'
+      : riskCopdWidth;
+
+    let riskDiabetesWidth = !riskDetails
+      ? 'pure-u-1-5'
+      : 'pure-u-1-5 dashboard-risk-hidden';
+    riskDiabetesWidth = this.state.riskIsExpanded === 'Diabetes'
+      ? 'pure-u-16-24'
+      : riskDiabetesWidth;
+
+    const riskAboutWidth = riskDetails
+      ? 'pure-u-6-24'
+      : 'pure-u-6-24 dashboard-risk-hidden';
 
     return (
       <div className="dashboard full-dim flex-c flex-col">
-        <ul className="dashboard-risk-scores flex-c no-list-style">
-          <li className="flex-g-1">
+        <ul className="dashboard-risk-scores pure-g no-list-style">
+          <li className={riskCardiacWidth}>
             <RiskTile
-              scoreName="Cardiac"
+              expand={this.expandRisk.bind(this)}
+              name="Cardiac"
               score={reynoldsScore(
                 this.props.patient,
                 this.props.observations
@@ -157,9 +217,10 @@ class Dashboard extends React.Component {
               url="General_Cardiac"
             />
           </li>
-          <li className="flex-g-1">
+          <li className={riskStrokeWidth}>
             <RiskTile
-              scoreName="Stroke"
+              expand={this.expandRisk.bind(this)}
+              name="Stroke"
               score={CHADScore(
                 this.props.patient,
                 this.props.conditions
@@ -169,9 +230,10 @@ class Dashboard extends React.Component {
               url="Stroke"
             />
           </li>
-          <li className="flex-g-1">
+          <li className={riskKidneyWidth}>
             <RiskTile
-              scoreName="Kidney Failure"
+              expand={this.expandRisk.bind(this)}
+              name="Kidney Failure"
               score={KFRScore(
                 this.props.patient,
                 this.props.observations
@@ -181,9 +243,10 @@ class Dashboard extends React.Component {
               url="Kidney_Failure"
             />
           </li>
-          <li className="flex-g-1">
+          <li className={riskCopdWidth}>
             <RiskTile
-              scoreName="COPD Mortality"
+              expand={this.expandRisk.bind(this)}
+              name="COPD Mortality"
               score={COPDScore(
                 this.props.patient,
                 this.props.observations,
@@ -194,9 +257,10 @@ class Dashboard extends React.Component {
               url="COPD_Mortality"
             />
           </li>
-          <li className="flex-g-1">
+          <li className={riskDiabetesWidth}>
             <RiskTile
-              scoreName="Diabetes"
+              expand={this.expandRisk.bind(this)}
+              name="Diabetes"
               score={diabetesScore(
                 this.props.patient,
                 this.props.observations,
@@ -208,10 +272,13 @@ class Dashboard extends React.Component {
               url="Diabetes"
             />
           </li>
+          <li className={riskAboutWidth}>
+            <p>About Risk</p>
+          </li>
         </ul>
 
         <div className="dashboard-bottom flex-g-1">
-          <div className={`dashboard-bottom-panel full-h ${mesWidth}`}>
+          <div className={`dashboard-bottom-panel pure-g full-h ${mesWidth}`}>
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
@@ -219,8 +286,8 @@ class Dashboard extends React.Component {
               <Measurements
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}
-                isCollapsed={this.state.mesIsCollapsed}
-                isExpanded={this.state.mesIsExpanded}
+                isCollapsed={this.state.meaIsCollapsed}
+                isExpanded={this.state.meaIsExpanded}
                 measurements={sortMeasurements(this.props.observations)} />
             </div>
           </div>
