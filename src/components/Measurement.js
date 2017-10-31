@@ -60,18 +60,18 @@ class Measurement extends React.Component {
       <div className="measurement">
         <div className="measurement-info pure-g">
           <div className="pure-u-15-24">
-            <div className="full-wh flex-c flex-v-center">
-              <div
+            <div className="full-wh flex-c flex-v-center flex-wrap">
+              <p
                 className="measurement-title p"
                 onClick={() => this.showDetails()}
               >
                 {this.props.name}
-              </div>
+              </p>
               <div className="measurement-unit">[{this.props.unit}]</div>
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center">
-            {this.props.past || "N/A"}
+            {this.props.past || <abbr title="Not available">N/A</abbr>}
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
             {this.props.past && <Icon

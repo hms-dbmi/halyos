@@ -11,12 +11,15 @@
   }
 }
 
+.measurement-title {
+  margin: 0 0.5rem 0 0;
+}
+
 .measurement-info {
   min-height: 1.5rem;
 }
 
 .measurement-unit {
-  margin-left: 0.5rem;
   color: $gray;
   font-size: 0.9em;
 }
