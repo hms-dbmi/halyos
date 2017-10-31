@@ -53,6 +53,7 @@ class Measurement extends React.Component {
     this.setState({
       isDetailsShown: !this.state.isDetailsShown
     });
+    this.props.expandAbout(this.state.isDetailsShown);
   }
 
   render() {
@@ -105,6 +106,7 @@ class Measurement extends React.Component {
 }
 
 Measurement.propTypes = {
+  expandAbout: PropTypes.func,
   name: PropTypes.string,
   unit: PropTypes.string,
   past: PropTypes.string,

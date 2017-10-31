@@ -24,6 +24,7 @@
     left: 0;
   }
 
+  &:nth-child(3) .wrapper,
   &:last-child .wrapper {
     right: 0;
   }
@@ -82,4 +83,9 @@
 h3.dashboard-panel-headline:after,
 .dashboard-panel-headline h3:after {
     content: ':';
+}
+
+h3.dashboard-panel-headline.dashboard-panel-headline-no-colon:after,
+.dashboard-panel-headline h3.dashboard-panel-headline-no-colon:after {
+    content: '';
 }

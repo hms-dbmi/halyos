@@ -3,6 +3,7 @@ import React from 'react';
 
 // Components
 import Measurements from '../components/Measurements';
+import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
@@ -19,129 +20,6 @@ import { sortMeasurements } from '../services/general_utils';
 // Styles
 import './Dashboard.css';
 
-const measurements = [
-  {
-    name: 'Systolic Blood Pressure',
-    units: 'mmHg',
-    past: '120',
-    present: '110',
-  },
-  {
-    name: 'Diastolic Blood Pressure',
-    units: 'mmHg',
-    past: '90',
-    present: '95',
-  },
-  {
-    name: 'Heart Rate',
-    units: 'bpm',
-    past: '90',
-    present: '70',
-  },
-  {
-    name: 'Respiration Rate',
-    units: 'breaths/min',
-    past: '18',
-    present: '18',
-  },
-  {
-    name: 'Systolic Blood Pressure',
-    units: 'mmHg',
-    past: '120',
-    present: '110',
-  },
-  {
-    name: 'Diastolic Blood Pressure',
-    units: 'mmHg',
-    past: '90',
-    present: '95',
-  },
-  {
-    name: 'Heart Rate',
-    units: 'bpm',
-    past: '90',
-    present: '70',
-  },
-  {
-    name: 'Respiration Rate',
-    units: 'breaths/min',
-    past: '18',
-    present: '18',
-  },
-  {
-    name: 'Systolic Blood Pressure',
-    units: 'mmHg',
-    past: '120',
-    present: '110',
-  },
-  {
-    name: 'Diastolic Blood Pressure',
-    units: 'mmHg',
-    past: '90',
-    present: '95',
-  },
-  {
-    name: 'Heart Rate',
-    units: 'bpm',
-    past: '90',
-    present: '70',
-  },
-  {
-    name: 'Respiration Rate',
-    units: 'breaths/min',
-    past: '18',
-    present: '18',
-  },
-  {
-    name: 'Systolic Blood Pressure',
-    units: 'mmHg',
-    past: '120',
-    present: '110',
-  },
-  {
-    name: 'Diastolic Blood Pressure',
-    units: 'mmHg',
-    past: '90',
-    present: '95',
-  },
-  {
-    name: 'Heart Rate',
-    units: 'bpm',
-    past: '90',
-    present: '70',
-  },
-  {
-    name: 'Respiration Rate',
-    units: 'breaths/min',
-    past: '18',
-    present: '18',
-  },
-  {
-    name: 'Systolic Blood Pressure',
-    units: 'mmHg',
-    past: '120',
-    present: '110',
-  },
-  {
-    name: 'Diastolic Blood Pressure',
-    units: 'mmHg',
-    past: '90',
-    present: '95',
-  },
-  {
-    name: 'Heart Rate',
-    units: 'bpm',
-    past: '90',
-    present: '70',
-  },
-  {
-    name: 'Respiration Rate',
-    units: 'breaths/min',
-    past: '18',
-    present: '18',
-  },
-];
-
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -151,6 +29,8 @@ class Dashboard extends React.Component {
       envIsExpanded: false,
       mesIsCollapsed: false,
       mesIsExpanded: false,
+      meaDesIsCollapsed: true,
+      meaDesIsExpanded: false,
       pcsIsCollapsed: false,
       pcsIsExpanded: false,
     };
@@ -168,15 +48,32 @@ class Dashboard extends React.Component {
     this.setState({
       envIsCollapsed: collapse,
       envIsExpanded: !collapse,
+      meaDesIsCollapsed: true,
+      meaDesIsExpanded: false,
       pcsIsCollapsed: !collapse,
       pcsIsExpanded: false,
     });
   }
 
-  expandMes(collapse) {
+  expandMea(collapse) {
     this.setState({
-      mesIsCollapsed: collapse,
       mesIsExpanded: !collapse,
+      envIsCollapsed: !collapse,
+      envIsExpanded: false,
+      meaDesIsCollapsed: true,
+      meaDesIsExpanded: false,
+      pcsIsCollapsed: !collapse,
+      pcsIsExpanded: false,
+    });
+  }
+
+  expandMeaAbout(collapse) {
+    this.setState({
+      envIsCollapsed: !collapse,
+      envIsExpanded: false,
+      mesIsExpanded: !collapse,
+      meaDesIsCollapsed: collapse,
+      meaDesIsExpanded: !collapse,
       pcsIsCollapsed: !collapse,
       pcsIsExpanded: false,
     });
@@ -228,16 +125,23 @@ class Dashboard extends React.Component {
     }
 
     const mesWidth = 'pure-u-12-24';
-    const pcsWidth = this.state.pcsIsExpanded
+
+    let pcsWidth = this.state.pcsIsExpanded ? 'pure-u-12-24' : 'pure-u-8-24';
+    pcsWidth = this.state.pcsIsCollapsed || this.state.meaDesIsExpanded
+      ? 'pure-u-8-24 dashboard-bottom-panel-hidden'
+      : pcsWidth;
+
+    let envWidth = this.state.envIsExpanded
       ? 'pure-u-12-24'
-      : this.state.pcsIsCollapsed
-        ? 'pure-u-8-24 dashboard-bottom-panel-hidden'
-        : 'pure-u-8-24';
-    const envWidth = this.state.envIsExpanded
+      : 'pure-u-4-24';
+    envWidth = this.state.pcsIsCollapsed || this.state.meaDesIsExpanded
+      ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
+      : envWidth;
+
+    const meaDesWidth = this.state.meaDesIsExpanded
       ? 'pure-u-12-24'
-      : this.state.pcsIsCollapsed
-        ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
-        : 'pure-u-4-24';
+      : 'pure-u-12-24 dashboard-bottom-panel-hidden';
+
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores flex-c no-list-style">
@@ -313,7 +217,8 @@ class Dashboard extends React.Component {
               ref={(el) => { this.mesEl = el; }}
             >
               <Measurements
-                expand={this.expandMes.bind(this)}
+                expand={this.expandMea.bind(this)}
+                expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.mesIsCollapsed}
                 isExpanded={this.state.mesIsExpanded}
                 measurements={sortMeasurements(this.props.observations)} />
@@ -346,6 +251,19 @@ class Dashboard extends React.Component {
               />
             </div>
           </div>
+          <div className={`dashboard-bottom-panel full-h ${meaDesWidth}`}>
+            <div
+              className="wrapper"
+              ref={(el) => { this.envEl = el; }}
+            >
+              <MeasurementAbout
+                expand={this.expandMeaAbout.bind(this)}
+                isCollapsed={this.state.meaDesIsCollapsed}
+                isExpanded={this.state.meaDesIsExpanded}
+                name='Measurement'
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -353,11 +271,11 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-  conditions: PropTypes.object,
+  conditions: PropTypes.array,
   getPatientDemographics: PropTypes.func,
-  isFetchingAllPatientData: PropTypes.func,
-  medreq: PropTypes.object,
-  observations: PropTypes.object,
+  isFetchingAllPatientData: PropTypes.bool,
+  medreq: PropTypes.array,
+  observations: PropTypes.array,
   patient: PropTypes.object,
 };
 

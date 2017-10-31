@@ -51,6 +51,7 @@ class Measurements extends React.Component {
           {this.state.measurements.map((item, index) => (
             <Measurement
               key={index}
+              expandAbout={this.props.expandAbout}
               name={item.name}
               unit={item.measurements[0].units}
               past={item.measurements[1] && item.measurements[1].value}
@@ -65,6 +66,7 @@ class Measurements extends React.Component {
 
 Measurements.propTypes = {
   expand: PropTypes.func,
+  expandAbout: PropTypes.func,
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
   measurements: PropTypes.array,
