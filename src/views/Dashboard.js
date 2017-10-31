@@ -134,7 +134,7 @@ class Dashboard extends React.Component {
     let envWidth = this.state.envIsExpanded
       ? 'pure-u-12-24'
       : 'pure-u-4-24';
-    envWidth = this.state.pcsIsCollapsed || this.state.meaDesIsExpanded
+    envWidth = this.state.meaDesIsExpanded
       ? 'pure-u-4-24 dashboard-bottom-panel-hidden'
       : envWidth;
 
