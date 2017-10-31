@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // Components
@@ -8,12 +9,12 @@ import RiskTile from '../components/RiskTile';
 
 // Services
 import { getPatID } from '../services/smart_setup';
-import {reynoldsScore} from '../services/RiskCalculators/reynolds.js'
-import {CHADScore} from '../services/RiskCalculators/CHAD.js'
-import {KFRScore} from '../services/RiskCalculators/get_KFRisk.js'
-import {COPDScore} from '../services/RiskCalculators/COPD.js'
-import {diabetesScore} from '../services/RiskCalculators/get_diabetes.js'
-import {sortMeasurements} from '../services/general_utils.js';
+import { reynoldsScore } from '../services/RiskCalculators/reynolds';
+import { CHADScore } from '../services/RiskCalculators/CHAD';
+import { KFRScore } from '../services/RiskCalculators/get_KFRisk';
+import { COPDScore } from '../services/RiskCalculators/COPD';
+import { diabetesScore } from '../services/RiskCalculators/get_diabetes';
+import { sortMeasurements } from '../services/general_utils';
 
 // Styles
 import './Dashboard.css';
@@ -243,7 +244,10 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Cardiac"
-              score={reynoldsScore(this.props.patient, this.props.observations)}
+              score={reynoldsScore(
+                this.props.patient,
+                this.props.observations
+              )}
               unit="%"
               context={1}
               url="General_Cardiac"
@@ -252,7 +256,10 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Stroke"
-              score={CHADScore(this.props.patient, this.props.conditions)}
+              score={CHADScore(
+                this.props.patient,
+                this.props.conditions
+              )}
               unit="%"
               context={1}
               url="Stroke"
@@ -261,7 +268,10 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Kidney Failure"
-              score={KFRScore(this.props.patient, this.props.observations)}
+              score={KFRScore(
+                this.props.patient,
+                this.props.observations
+              )}
               unit="%"
               context={5}
               url="Kidney_Failure"
@@ -270,7 +280,11 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="COPD Mortality"
-              score={COPDScore(this.props.patient, this.props.observations, this.props.conditions)}
+              score={COPDScore(
+                this.props.patient,
+                this.props.observations,
+                this.props.conditions
+              )}
               unit="%"
               context={4}
               url="COPD_Mortality"
@@ -279,7 +293,12 @@ class Dashboard extends React.Component {
           <li className="flex-g-1">
             <RiskTile
               scoreName="Diabetes"
-              score={diabetesScore(this.props.patient, this.props.observations, this.props.conditions, this.props.medreq)}
+              score={diabetesScore(
+                this.props.patient,
+                this.props.observations,
+                this.props.conditions,
+                this.props.medreq
+              )}
               unit="%"
               context={5}
               url="Diabetes"
@@ -332,5 +351,14 @@ class Dashboard extends React.Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  conditions: PropTypes.object,
+  getPatientDemographics: PropTypes.func,
+  isFetchingAllPatientData: PropTypes.func,
+  medreq: PropTypes.object,
+  observations: PropTypes.object,
+  patient: PropTypes.object,
+};
 
 export default Dashboard;
