@@ -1,4 +1,31 @@
-.measurements {}
+@import 'styles/flexbox.scss';
+@import 'styles/colors.scss';
+
+.measurements {
+  .react-datepicker {
+    font-family: 'Overpass', sans-serif;
+    font-size: 1rem;
+    border: 0;
+  }
+
+  .react-datepicker__header {
+    background: $gray-lightest;
+    border-bottom: 0;
+  }
+
+  .react-datepicker__day {
+    font-weight: 600;
+  }
+
+  .react-datepicker__day--outside-month {
+    font-weight: 300;
+    opacity: 0.33;
+  }
+
+  .react-datepicker__day--selected {
+    font-weight: 700;
+  }
+}
 
 .measurements-list {
   overflow: auto;
