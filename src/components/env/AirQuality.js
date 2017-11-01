@@ -17,7 +17,6 @@ const AirQuality = props => (
     level={"Good"}
     /*level={props.airQuality}*/
   >
-  {console.log(airQualityLocal.data)}
     <div>
       <h5>Air Quality (AQI) Near You</h5>
       <div>

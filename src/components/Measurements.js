@@ -47,8 +47,6 @@ class Measurements extends React.Component {
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
 
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAA', pastDate);
-
     return (
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
