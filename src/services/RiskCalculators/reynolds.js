@@ -1,16 +1,16 @@
 /**
-  
+
     Cardiac Reynolds Risk Score
-    
+
     @param {int} age - the age of the patient (patient resource)
     @param {int} sysbp - systolic BP (observation resource)
     @param {int} hsCRP - C-Reactive Protein (observation resource)
     @param {int} chol - total cholesterol the patient (observation resource)
     @param {int} hdl - high density lipprotein cholesterol (HDL) the patient (observation resource)
-    @param {boolean} smoker - sex of the patient (user input) 
+    @param {boolean} smoker - sex of the patient (user input)
     @param {boolean} famHist - sex of the patient (user input)
     @param {string} gender - sex of the patient (patient resource)
-    
+
     @return cardiac risk score
 
 */
@@ -63,38 +63,34 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
 */
 
 export function reynoldsScore(pt, obs, smoker = false) {
-  if(pt && obs) {
-    var codesObject = {
-      '30522-7': [], //hsCRP
-      "2093-3": [], //cholesterol
-      "2085-9": [], //HDL
-      "8480-6": [] //sysBP
+  if (pt && obs) {
+    const codesObject = {
+      '30522-7': [], // hsCRP
+      '2093-3': [], // cholesterol
+      '2085-9': [], // HDL
+      '8480-6': [] // sysBP
     };
-    var sortedObs = searchByCode(obs, codesObject);
-    for (var key in sortedObs) {
-      if(sortedObs.hasOwnProperty(key)) {
-        if(sortedObs[key].length == 0) {
-          //console.log(sortedObs);
-          console.log("reynolds", sortedObs);
-          alert("Patient does not have adequate measurements for Reynolds Risk Score.");
+    const sortedObs = searchByCode(obs, codesObject);
+    for (let key in sortedObs) {
+      if (sortedObs.hasOwnProperty(key)) {
+        if (sortedObs[key].length === 0) {
+          alert('Patient does not have adequate measurements for Reynolds Risk Score.');
           return;
         }
       }
     }
-    var reynolds = (calculateReynolds(calculateAge(pt.birthDate),
-    sortedObs['8480-6'][0].value,
-    sortedObs['30522-7'][0].value,
-    sortedObs['2093-3'][0].value,
-    sortedObs['2085-9'][0].value,
-    smoker, //smoker
-    false, //famHist
-    pt.gender));
-    return reynolds;
+
+    return calculateReynolds(calculateAge(pt.birthDate),
+      sortedObs['8480-6'][0].value,
+      sortedObs['30522-7'][0].value,
+      sortedObs['2093-3'][0].value,
+      sortedObs['2085-9'][0].value,
+      smoker, // smoker
+      false, // famHist
+      pt.gender
+    );
   }
-  else {
-    return '...'
-  }
- 
+  return '...';
 }
 
 // function reynolds() { //need to invalidate for diabetic men & modify for diabetic women; add units check
