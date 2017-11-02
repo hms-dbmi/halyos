@@ -90,6 +90,7 @@ class Measurement extends React.Component {
         <div className="measurement-graph">
           {this.state.isDetailsShown && (
             <PastGraph
+              name={this.props.name}
               obs_data={GRAPH_DATA}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}

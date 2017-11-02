@@ -50,6 +50,7 @@ class Measurements extends React.Component {
         <main className="measurements-list flex-c flex-col flex-g-1 r scrollbar">
           {this.state.measurements.map((item, index) => (
             <Measurement
+              name={item.name}
               key={index}
               expandAbout={this.props.expandAbout}
               name={item.name}
