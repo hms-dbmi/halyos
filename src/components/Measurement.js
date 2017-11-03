@@ -57,6 +57,15 @@ class Measurement extends React.Component {
   }
 
   render() {
+    var uniqueGraphID = this.props.name + "chart"
+    var options = {
+      "xmax": 60, "xmin": 0,
+      "ymax": 40, "ymin": 0, 
+      "title": "Simple Graph1",
+      "xlabel": "X Axis",
+      "ylabel": "Y Axis"  
+    }
+
     return (
       <div className="measurement">
         <div className="measurement-info pure-g">
@@ -87,10 +96,11 @@ class Measurement extends React.Component {
             {this.props.future}
           </div>
         </div>
-        <div className="measurement-graph">
+        <div className="measurement-graph" id={uniqueGraphID}>
           {this.state.isDetailsShown && (
             <PastGraph
-              name={this.props.name}
+              elemid={uniqueGraphID}
+              options={options}
               obs_data={GRAPH_DATA}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}

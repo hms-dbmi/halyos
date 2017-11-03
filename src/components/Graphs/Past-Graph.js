@@ -16,78 +16,21 @@ class PastGraph extends Component {
 
   constructor(props){
     super(props);
-    this.drawChart = this.drawChart.bind(this)
-    this.getSimpleGraph = this.getSimpleGraph.bind(this)
-    this.state = {d3: ''}
-  }
-
-  /* ************************** Life Cycle Methods ************************** */
-
-
-  
-  componentDidMount() {
-      this.drawChart()
-      this.setState({d3: this.svg});
-   }
-   componentDidUpdate() {
-      this.drawChart()
-   }
-
-  render(){
-    
-    // return <svg ref={node => this.node = node}
-    //   width={500} height={500}>
-    //   </svg>
-    this.uniqueID = this.props.name + "chart1"
-    console.log("key", this.uniqueID);
-    return (
-            <div id={this.uniqueID} ref={(elem) => { this.svg = elem; }} />
-            
-          );
-
-  }
-
-
-  /* **************************** Custom Methods **************************** */
-
-
-  drawChart(){
-
-    const elem = this.svg;
-    /* 
-      D3 code to create our visualization by appending onto this.svg 
-    */
-
-    var chart = this.getSimpleGraph(this.uniqueID, {
-          "xmax": 60, "xmin": 0,
-          "ymax": 40, "ymin": 0, 
-          "title": "Simple Graph1",
-          "xlabel": "X Axis",
-          "ylabel": "Y Axis"  
-        });
-    }
-
-    
-
-}
-
-
-SimpleGraph = function(elemid, options) {
     var self = this;
-    console.log("elemid", elemid);
+    console.log("elemid", this.props.elemid);
     console.log("ehre", );
-    this.chart = document.getElementById(elemid);
+    this.chart = document.getElementById(this.props.elemid);
     console.log("print obj", this.chart)
     this.cx = this.chart.clientWidth;
     this.cy = this.chart.clientHeight;
-    this.options = options || {};
-    this.options.xmax = options.xmax || 30;
-    this.options.xmin = options.xmin || 0;
-    this.options.ymax = options.ymax || 10;
-    this.options.ymin = options.ymin || 0;
+    this.options = this.props.options || {};
+    this.options.xmax = this.props.options.xmax || 30;
+    this.options.xmin = this.props.options.xmin || 0;
+    this.options.ymax = this.props.options.ymax || 10;
+    this.options.ymin = this.props.options.ymin || 0;
 
     this.padding = {
-       "top":    this.options.title  ? 40 : 20,
+       "top":    this.options.title ? 40 : 20,
        "right":                 30,
        "bottom": this.options.xlabel ? 60 : 10,
        "left":   this.options.ylabel ? 70 : 45
@@ -118,8 +61,6 @@ SimpleGraph = function(elemid, options) {
 
     this.dragged = this.selected = null;
 
-
-
     var xrange =  (this.options.xmax - this.options.xmin),
         yrange2 = (this.options.ymax - this.options.ymin) / 2,
         yrange4 = yrange2 / 2,
@@ -133,7 +74,8 @@ SimpleGraph = function(elemid, options) {
     this.line = d3.line()
         .x(function(d, i) { return this.x(this.points[i].x); }.bind(this))
         .y(function(d, i) { return this.y(this.points[i].y); }.bind(this));
-
+    console.log("d3", d3);
+    console.log("d3 seleciton", d3.select(this.chart))
     this.vis = d3.select(this.chart).append("svg")
         .attr("width",  this.cx)
         .attr("height", this.cy)
@@ -146,8 +88,6 @@ SimpleGraph = function(elemid, options) {
         .attr("height", this.size.height)
         // .style("fill", "#EEEEEE")
         .attr("pointer-events", "all")
-        .on("mousedown.drag", self.plot_drag())
-        .on("touchstart.drag", self.plot_drag());
 
     // this.plot.call(d3.zoom().x(this.x).y(this.y).on("zoom", this.redraw()));
 
@@ -201,36 +141,38 @@ SimpleGraph = function(elemid, options) {
     this.redraw()();
   }
 
-  registerKeyboardHandler(callback) {
-    var callback = callback;
-    d3.select(window).on("keydown", callback);  
-  };
+  /* ************************** Life Cycle Methods ************************** */
 
-  SimpleGraph.prototype.plot_drag = function() {
-  var self = this;
-  return function() {
-    this.registerKeyboardHandler(self.keydown());
-    d3.select('body').style("cursor", "move");
-    if (d3.event.altKey) {
-      var p = d3.mouse(self.vis.node());
-      var newpoint = {};
-      newpoint.x = self.x.invert(Math.max(0, Math.min(self.size.width,  p[0])));
-      newpoint.y = self.y.invert(Math.max(0, Math.min(self.size.height, p[1])));
-      self.points.push(newpoint);
-      self.points.sort(function(a, b) {
-        if (a.x < b.x) { return -1 };
-        if (a.x > b.x) { return  1 };
-        return 0
-      });
-      self.selected = newpoint;
-      self.update();
-      d3.event.preventDefault();
-      d3.event.stopPropagation();
-    }    
+
+  
+  componentDidMount() {
+      this.setState({d3: this.svg});
+   }
+   componentDidUpdate() {
+   }
+
+  render(){
+    
+
+
+
+    // return <svg ref={node => this.node = node}
+    //   width={500} height={500}>
+    //   </svg>
+    this.uniqueID = this.props.name + "chart1"
+    console.log("key", this.uniqueID);
+    return (
+            <div id={this.uniqueID} ref={(elem) => { this.svg = elem; }} />
+            
+          );
+
   }
-}
 
-  SimpleGraph.prototype.update = function() {
+
+  /* **************************** Custom Methods **************************** */
+
+
+  update() {
     var self = this;
     var lines = this.vis.select("path").attr("d", this.line(this.points));
           
@@ -278,20 +220,20 @@ SimpleGraph = function(elemid, options) {
 
 
 
-  /*
+    /*
 
-  var circle = this.vis.select("svg").selectAll("circle")
-        .data(this.points, function(d) { return d; });
-  circle.enter().append("circle")
-        .attr("class", function(d) { return d === self.selected ? "selected" : null; })
-        .attr("cx",    function(d) { return self.x(d.x); })
-        .attr("cy",    function(d) { return self.y(d.y); })
-        .attr("r", 10.0)
-        .style("cursor", "ns-resize")
-        // .on("mousedown.drag",  self.datapoint_drag())
-        // .on("touchstart.drag", self.datapoint_drag());
+    var circle = this.vis.select("svg").selectAll("circle")
+          .data(this.points, function(d) { return d; });
+    circle.enter().append("circle")
+          .attr("class", function(d) { return d === self.selected ? "selected" : null; })
+          .attr("cx",    function(d) { return self.x(d.x); })
+          .attr("cy",    function(d) { return self.y(d.y); })
+          .attr("r", 10.0)
+          .style("cursor", "ns-resize")
+          // .on("mousedown.drag",  self.datapoint_drag())
+          // .on("touchstart.drag", self.datapoint_drag());
 
-  */
+    */
     circle
         .attr("class", function(d) { return d === self.selected ? "selected" : null; })
         .attr("cx",    function(d) { 
@@ -305,11 +247,10 @@ SimpleGraph = function(elemid, options) {
       d3.event.stopPropagation();
     }
   }
-
-  SimpleGraph.prototype.datapoint_drag = function() {
+    
+  datapoint_drag() {
     var self = this;
     return function(d) {
-      this.registerKeyboardHandler(self.keydown());
       document.onselectstart = function() { return false; };
       self.selected = self.dragged = d;
       self.update();
@@ -317,11 +258,11 @@ SimpleGraph = function(elemid, options) {
     }
   }
 
-  SimpleGraph.prototype.mousemove = function() {
+  mousemove() {
     var self = this;
     console.log("self", self)
     return function() {
-      var p = d3.mouse(self.vis[0][0]);
+      var p = d3.mouse(self.vis.node());
       var t = d3.event.changedTouches;
       
       if (self.dragged) {
@@ -363,7 +304,7 @@ SimpleGraph = function(elemid, options) {
     }
   }
 
-  SimpleGraph.prototype.mouseup = function() {
+  mouseup() {
     var self = this;
     return function() {
       document.onselectstart = function() { return true; };
@@ -387,7 +328,8 @@ SimpleGraph = function(elemid, options) {
     }
   }
 
-  SimpleGraph.prototype.keydown = function() {
+
+  keydown() {
     var self = this;
     return function() {
       if (!self.selected) return;
@@ -404,7 +346,7 @@ SimpleGraph = function(elemid, options) {
     }
   }
 
-  SimpleGraph.prototype.redraw = function() {
+  redraw() {
     var self = this;
     return function() {
       var tx = function(d) { 
@@ -485,8 +427,8 @@ SimpleGraph = function(elemid, options) {
       self.update();    
     }  
   }
-
-  SimpleGraph.prototype.xaxis_drag = function() {
+ 
+  xaxis_drag() {
     var self = this;
     return function(d) {
       document.onselectstart = function() { return false; };
@@ -494,6 +436,7 @@ SimpleGraph = function(elemid, options) {
       self.downx = self.x.invert(p[0]);
     }
   }
+
 
 // SimpleGraph.prototype.yaxis_drag = function(d) {
 //   var self = this;
@@ -503,5 +446,7 @@ SimpleGraph = function(elemid, options) {
 //     self.downy = self.y.invert(p[1]);
 //   }
 // };
+
+}
 
 export default PastGraph;
