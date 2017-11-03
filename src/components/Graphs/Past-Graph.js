@@ -21,8 +21,12 @@ class PastGraph extends Component {
     console.log("ehre", );
     this.chart = document.getElementById(this.props.elemid);
     console.log("print obj", this.chart)
-    this.cx = this.chart.clientWidth;
-    this.cy = this.chart.clientHeight;
+    // this.cx = this.chart.clientWidth;
+    // this.cy = this.chart.clientHeight;
+    this.cx = 300;
+    this.cy = 300
+    console.log("width", this.chart.clientWidth);
+
     this.options = this.props.options || {};
     this.options.xmax = this.props.options.xmax || 30;
     this.options.xmin = this.props.options.xmin || 0;
@@ -146,9 +150,17 @@ class PastGraph extends Component {
 
   
   componentDidMount() {
-      this.setState({d3: this.svg});
+      this.update();
    }
    componentDidUpdate() {
+   }
+
+   componentWillUnmount(){
+    console.log("thisvis dismount", this.vis);
+    var child = this.vis.node().parentNode;
+    var parent = this.vis.node().parentNode.parentNode;
+    parent.removeChild(child);
+
    }
 
   render(){

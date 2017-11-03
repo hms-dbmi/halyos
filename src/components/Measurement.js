@@ -96,7 +96,7 @@ class Measurement extends React.Component {
             {this.props.future}
           </div>
         </div>
-        <div className="measurement-graph" id={uniqueGraphID}>
+        <div className="measurement-graph" id={uniqueGraphID} width="690px" height="690px">
           {this.state.isDetailsShown && (
             <PastGraph
               elemid={uniqueGraphID}
@@ -104,10 +104,6 @@ class Measurement extends React.Component {
               obs_data={GRAPH_DATA}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
-              mainWidth={500}
-              mainHeight={200}
-              viewWidth={500}
-              viewHeight={50}
             />
           )}
         </div>
