@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components
 import Icon from './Icon';
-import PastGraph from './Graphs/Past-Graph';
+import PastGraph from './graphs/PastGraph';
 
 // Styles
 import './Measurement.css';
@@ -96,7 +96,7 @@ class Measurement extends React.Component {
             {this.props.future}
           </div>
         </div>
-        <div className="measurement-graph" id={uniqueGraphID} width="690px" height="690px">
+        <div className="measurement-graph" id={uniqueGraphID}>
           {this.state.isDetailsShown && (
             <PastGraph
               elemid={uniqueGraphID}
