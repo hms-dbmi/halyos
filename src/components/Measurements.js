@@ -97,41 +97,17 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.filter(function(item){
+          {this.state.measurements.sort(function(item){
             for(var key in measuresForRisks) {
               if(!measuresForRisks.hasOwnProperty(key)) {
                 continue;
               }
               console.log(measuresForRisks, key);
               if(measuresForRisks[key].includes(item.code)) {
-                return true;
+                return -1;
               }
             }
-            return false;
-          }).map((item, index) => (
-            <Measurement
-              name={item.name}
-              key={index}
-              expandAbout={this.props.expandAbout}
-              name={item.name}
-              unit={item.measurements[0].units}
-              past={item.measurements[1] && item.measurements[1].value}
-              present={item.measurements[0].value}
-              pastDate={item.measurements[1] && item.measurements[1].date}
-              presentDate={item.measurements[0].date}
-            />
-          ))}
-          {this.state.measurements.filter(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              console.log(measuresForRisks, key);
-              if(measuresForRisks[key].includes(item.code)) {
-                return false;
-              }
-            }
-            return true;
+            return 1;
           }).map((item, index) => (
             <Measurement
               name={item.name}
