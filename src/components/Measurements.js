@@ -102,7 +102,6 @@ class Measurements extends React.Component {
               if(!measuresForRisks.hasOwnProperty(key)) {
                 continue;
               }
-              console.log(measuresForRisks, key);
               if(measuresForRisks[key].includes(item.code)) {
                 return -1;
               }
