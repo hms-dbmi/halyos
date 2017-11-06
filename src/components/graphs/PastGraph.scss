@@ -1,0 +1,15 @@
+.area {
+  stroke: #999;
+  stroke-width: 3.5px;
+  fill: white;
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+
+

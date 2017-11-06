@@ -96,6 +96,7 @@ class Measurements extends React.Component {
           )}
           {this.state.measurements.map((item, index) => (
             <Measurement
+              name={item.name}
               key={index}
               expandAbout={this.props.expandAbout}
               name={item.name}
