@@ -102,6 +102,8 @@ class Measurements extends React.Component {
               unit={item.measurements[0].units}
               past={item.measurements[1] && item.measurements[1].value}
               present={item.measurements[0].value}
+              pastDate={item.measurements[1] && item.measurements[1].date}
+              presentDate={item.measurements[0].date}
             />
           ))}
         </main>
