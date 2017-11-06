@@ -108,7 +108,16 @@ class Measurements extends React.Component {
               }
             }
             return 1;
-          }).map((item, index) => (
+          }).filter(function(item) {
+              if(this.props.risk) {
+                if(measuresForRisks[this.props.risk].includes(item.code)) {
+                  return true;
+                }
+                return false;
+              }
+              return true;
+            }.bind(this)
+          ).map((item, index) => (
             <Measurement
               name={item.name}
               key={index}
@@ -146,6 +155,7 @@ Measurements.propTypes = {
   measurements: PropTypes.array,
   pastDate: PropTypes.number,
   setPastDate: PropTypes.func,
+  risk: PropTypes.string
 };
 
 const mapStateToProps = state => ({
