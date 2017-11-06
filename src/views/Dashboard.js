@@ -7,7 +7,7 @@ import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
-import AboutRisk from '../components/AboutRisk';
+import riskText from '../texts/riskText';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -214,7 +214,7 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               unit="%"
-              context={1}
+              context={10}
               url="General_Cardiac"
             />
           </li>
@@ -274,7 +274,8 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskAboutWidth}>
-            <p><AboutRisk risk={this.state.riskIsExpanded}/></p>
+            <p>About {this.state.riskIsExpanded}:</p>
+            <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
           </li>
         </ul>
 
