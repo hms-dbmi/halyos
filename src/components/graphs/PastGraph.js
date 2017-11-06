@@ -6,9 +6,6 @@ import { refRangeStyle, lineStyle, yAxisStyle, xAxisStyle, scatterStyle, viewfin
 import ReactSimpleRange from 'react-simple-range';
 
 import { SimpleGraph } from './SimpleGraph';
-// import { select } from 'd3-selection';
-// import { scaleLinear } from 'd3-scale';
-// import { zoom } from 'd3-zoom';
 import * as d3 from "d3";
 
 // Styles
@@ -27,24 +24,13 @@ class PastGraph extends Component {
 
   
   componentDidMount() {
-    console.log("d3", d3)
-    console.log("this.unique", this.div);
     var idName = "#" + this.uniqueID;
     var enclosingDiv = d3.select(idName);
-    console.log("enclosingDiv", enclosingDiv);
     this.svg = enclosingDiv.append("svg");
 
-//width="960" height="500"
     this.svg
           .attr("width", 450)
           .attr("height", 250)
-          // .attr("width", 960)
-          // .attr("height", 500)
-
-    // this.svg = d3.select("svg");
-
-    // var margin = {top: 20, right: 20, bottom: 110, left: 40},
-    // margin2 = {top: 430, right: 20, bottom: 30, left: 40},
 
     var margin = {top: 20, right: 0, bottom: 130, left: 40}, 
     margin2 = {top: 150, right: 0, bottom: 70, left: 40},    
@@ -61,7 +47,6 @@ class PastGraph extends Component {
     this.y = d3.scaleLinear().range([height, 0]),
     this.y2 = d3.scaleLinear().range([height2, 0]);
 
-    console.log("this.x", this.x);
     this.xAxis = d3.axisBottom(this.x);
 
     var xAxis2 = d3.axisBottom(this.x2),
@@ -114,29 +99,23 @@ class PastGraph extends Component {
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
     var data = [];
-    console.log("obs data", this.props.obs_data)
     for (var i = 0; i < this.props.obs_data.length; i++){
       var temp = this.type(this.props.obs_data[i]);
       data[i] = temp
     }
-    // var data = this.props.obs_data;
-
-    // console.log("initial")
-    // d3.csv("sp500.csv", this.type, function(error, data) {
-      // if (error) throw error;
 
     this.x.domain(d3.extent(data, function(d) { return d.x; }.bind(this)));
     this.y.domain([0, d3.max(data, function(d) { return d.y; }.bind(this)) + 30]);
     this.x2.domain(this.x.domain());
     this.y2.domain(this.y.domain());
 
-    console.log("data", data);
 
     this.focus.append("path")
         .datum(data)
         .attr("class", "area")
         .attr("d", this.area);
 
+    //TODO: switch over to paths, currently using unfilled areas
     // focus.append("path")
     //       .datum(data)
     //       .attr("class", "line")
@@ -179,25 +158,9 @@ class PastGraph extends Component {
 
   }
 
-  componentDidUpdate() {
-  }
-
-  componentWillUnmount(){
-    console.log("thisvis dismount", this.div);
-    var parent = this.div;
-    // var parent = this.vis.node().parentNode.parentNode;
-    // parent.removeChild(child);
-
-  }
-
   render(){
 
-    // return <svg ref={node => this.node = node}
-    //   width={500} height={500}>
-    //   </svg>
-    console.log("this.div", this.div)
     this.uniqueID = this.props.elemid + "graph";
-    console.log("key", this.uniqueID);
     return (
             <div id={this.uniqueID} ref={(elem) => { this.div = elem; }} />
           );
@@ -211,7 +174,6 @@ class PastGraph extends Component {
     if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
     var s = d3.event.selection || this.x2.range();
 
-    console.log("this", this)
     this.x.domain(s.map(this.x2.invert, this.x2));
     this.focus.select(".area").attr("d", this.area);
     this.focus.select(".axis--x").call(this.xAxis);
