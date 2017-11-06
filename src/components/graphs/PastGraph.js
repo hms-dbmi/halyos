@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { render, ReactDOM } from 'react-dom';
-import { VictoryArea, VictoryTooltip, VictoryGroup, VictoryScatter, createContainer, VictoryChart, VictoryLine, VictoryAxis, VictoryZoomContainer, VictoryBrushContainer, VictoryBar, VictoryContainer, VictoryVoronoiContainer, VictoryLabel } from 'victory';
 
-import { refRangeStyle, lineStyle, yAxisStyle, xAxisStyle, scatterStyle, viewfinderLineStyle } from './Past-Graph-style.js'
 import ReactSimpleRange from 'react-simple-range';
 
 import { SimpleGraph } from './SimpleGraph';
@@ -104,8 +102,10 @@ class PastGraph extends Component {
       data[i] = temp
     }
 
+    var yMax = d3.max(data, function(d) { return d.y; }.bind(this));
+    var yMaxPadded = yMax * 1.15;
     this.x.domain(d3.extent(data, function(d) { return d.x; }.bind(this)));
-    this.y.domain([0, d3.max(data, function(d) { return d.y; }.bind(this)) + 30]);
+    this.y.domain([0, +yMaxPadded]);
     this.x2.domain(this.x.domain());
     this.y2.domain(this.y.domain());
 
@@ -142,11 +142,18 @@ class PastGraph extends Component {
         .attr("transform", "translate(0," + height2 + ")")
         .call(xAxis2);
 
+    
+    var rangeLength = this.x.range()[1] - this.x.range()[0];
+    
+    //we are setting the initial zoom to be between 5 and 95% of the total
+    var bufferSize = rangeLength * 0.05;
+    var initialBrushRange = [this.x.range()[0] + bufferSize, this.x.range()[1] - bufferSize];
+    console.log("brush move", initialBrushRange)
     this.context.append("g")
         .attr("class", "brush")
         .call(this.brush)
         //TODO
-        .call(this.brush.move, this.x.range());
+        .call(this.brush.move, initialBrushRange);
 
     this.svg.append("rect")
         .attr("class", "zoom")
