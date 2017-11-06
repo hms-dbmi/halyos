@@ -37,18 +37,32 @@ class PastGraph extends Component {
 
     this.width = +this.svg.attr("width") - margin.left - margin.right;
 
-
-    this.parseDate = d3.timeParse("%b %Y");
-
     this.x = d3.scaleTime().range([0, this.width]),
     this.x2 = d3.scaleTime().range([0, this.width]),
     this.y = d3.scaleLinear().range([height, 0]),
     this.y2 = d3.scaleLinear().range([height2, 0]);
 
+    var data = this.props.obs_data;
+    var yMax = d3.max(data, function(d) { return d.y; }.bind(this));
+    // var yMin = d3.min(data, function(d) { return d.y; }.bind(this));
+
+    
+    //we want to create custom tick values, 8 is the max divison before you can't see the numbers anymore
+    var tickArray = [];
+    var stepSize = Math.floor((yMax - 0) / 11);
+    var tick = 0;
+    while(tick < yMax){
+      tickArray.push(tick);
+      tick = tick + stepSize;
+    }
+    tickArray.push(tick);
+
+
+
     this.xAxis = d3.axisBottom(this.x);
 
     var xAxis2 = d3.axisBottom(this.x2),
-        yAxis = d3.axisLeft(this.y);
+        yAxis = d3.axisLeft(this.y).tickValues(tickArray).tickSizeOuter(0);
 
     this.brush = d3.brushX()
         .extent([[0, 0], [this.width, height2]])
@@ -96,13 +110,8 @@ class PastGraph extends Component {
         .attr("class", "context")
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-    var data = [];
-    for (var i = 0; i < this.props.obs_data.length; i++){
-      var temp = this.type(this.props.obs_data[i]);
-      data[i] = temp
-    }
+    
 
-    var yMax = d3.max(data, function(d) { return d.y; }.bind(this));
     var yMaxPadded = yMax * 1.15;
     this.x.domain(d3.extent(data, function(d) { return d.x; }.bind(this)));
     this.y.domain([0, +yMaxPadded]);
@@ -152,7 +161,6 @@ class PastGraph extends Component {
     this.context.append("g")
         .attr("class", "brush")
         .call(this.brush)
-        //TODO
         .call(this.brush.move, initialBrushRange);
 
     this.svg.append("rect")
@@ -161,7 +169,6 @@ class PastGraph extends Component {
         .attr("height", height)
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(this.zoom);
-    // });
 
   }
 
@@ -198,11 +205,6 @@ class PastGraph extends Component {
     this.context.select(".brush").call(this.brush.move, this.x.range().map(t.invertX, t));
   }
 
-  type(d) {
-    d.date = this.parseDate(d.date);
-    d.price = +d.price;
-    return d;
-  }
   
 }
 
