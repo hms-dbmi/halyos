@@ -57,7 +57,10 @@ class Measurement extends React.Component {
   }
 
   render() {
+    console.log("name", this.props.name)
     var uniqueGraphID = this.props.name + "chart"
+    uniqueGraphID = uniqueGraphID.replace(/\W/g,"_");
+    console.log("cleanedID", uniqueGraphID)
     var options = {
       "xmax": 60, "xmin": 0,
       "ymax": 40, "ymin": 0, 

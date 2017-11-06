@@ -1,6 +1,8 @@
+
+
 /*body { font: 13px sans-serif; }*/
 
-rect { fill: #fff; }
+/* rect { fill: #fff; }
 
 /*ul {
   list-style-type: none;
@@ -13,11 +15,11 @@ ul li {
   margin: 0em;
   padding: 0em 1em; }*/
 
-.axis { font-size: 1.5em; }
+/*.axis { font-size: 1.5em; }
 
 .chart {
   /*background-color: #F7F2C5;*/
-  width: 960px;
+/*  width: 960px;
   height: 500px; }
 
 circle, .line {
@@ -41,5 +43,21 @@ circle:hover {
 circle.selected:hover {
   fill: #ff7f0e;
   stroke: #ff7f0e; }
+
+*/
+
+.area {
+  stroke: grey;
+  stroke-width: 3.5px;
+  fill: white;
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
 
 
