@@ -1,7 +1,7 @@
 export default {
 	riskText: {
 		
-		'General_Cardiac': { //HDL
+		'Cardiac': { //HDL
 			name: "Reynolds Risk Score",
 			text: "Getting a heart attack is bad."
 		},
@@ -11,12 +11,12 @@ export default {
 			text: "Getting a stroke attack is bad."
 		},
 
-		'Kidney_Failure': { //sysBP
+		'Kidney Failure': { //sysBP
 			name: "Kidney Failure Risk Score",
 			text: "Kidneys are important."
 		},
 
-		'COPD': { //diasBP
+		'COPD Mortality': { //diasBP
 			name: "Chronic Obstructive Pulmonary Disease Risk Score",
 			text: "Breathing is necessary for life."
 		},

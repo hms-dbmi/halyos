@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import riskText from '../texts/risk-text.js';
 import { measurementTitleStyle, measurementDetailTextStyle, affectedRiskScoreTitleStyle, measurementDetailsHeaderStyle, measurementDetailsSubheadingStyle } from '../styles/measurement-view-style.js'
 
-export class AboutRisk extends Component {
+export default class AboutRisk extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ export class AboutRisk extends Component {
     //console.log("HIYA!", this.props);
     if(riskText['riskText'][nextProps.risk]) {
       this.setState({
-      name: riskText['riskText'][this.props.risk].name,
+      name: riskText['riskText'][nextProps.risk].name,
       text: riskText['riskText'][nextProps.risk].text
       });
     }

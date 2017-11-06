@@ -7,6 +7,7 @@ import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
 import RiskTile from '../components/RiskTile';
+import AboutRisk from '../components/AboutRisk';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -273,7 +274,7 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskAboutWidth}>
-            <p>About Risk</p>
+            <p><AboutRisk risk={this.state.riskIsExpanded}/></p>
           </li>
         </ul>
 
