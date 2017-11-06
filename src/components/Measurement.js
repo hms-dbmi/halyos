@@ -66,7 +66,15 @@ class Measurement extends React.Component {
       "ymax": 40, "ymin": 0, 
       "title": "Simple Graph1",
       "xlabel": "X Axis",
-      "ylabel": "Y Axis"  
+      "ylabel": "Y Axis"
+    }  
+
+    function getDate(date) {
+      console.log(date);
+      var year = date.substring(0,4)
+      var month = date.substring(5,7)
+      var day = date.substring(8,10)
+      return month+"/"+day+"/"+year;
     }
 
     return (
@@ -83,8 +91,9 @@ class Measurement extends React.Component {
               <div className="measurement-unit">[{this.props.unit}]</div>
             </div>
           </div>
-          <div className="measurement-past pure-u-2-24 flex-c flex-v-center">
+          <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
             {this.props.past || <abbr title="Not available">N/A</abbr>}
+            {!this.props.past || <span className="tooltiptext">{this.props.pastDate && getDate(this.props.pastDate)}</span>}
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
             {this.props.past && <Icon
@@ -92,8 +101,9 @@ class Measurement extends React.Component {
               mirrorH={getMirrorH(this.props.past, this.props.present)}
             />}
           </div>
-          <div className="measurement-present pure-u-3-24 flex-c flex-v-center">
+          <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip">
             {this.props.present}
+            <span className="tooltiptext">{this.props.presentDate && getDate(this.props.presentDate)}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
             {this.props.future}

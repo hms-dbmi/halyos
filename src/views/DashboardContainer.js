@@ -1,23 +1,18 @@
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import {
-    fetchAllPatientDataIfNeeded,
-    fetchAllObservations
+  fetchAllPatientDataIfNeeded
 } from '../services/fhir/FhirActions';
 
-const mapStateToProps = state => {
-	return {
-		patient: state.fhirPatientData.ptData,
-		isFetchingAllPatientData: state.fhirPatientData.isFetchingAllPatientData
-	}
-}
+const mapStateToProps = state => ({
+  patient: state.fhirPatientData.ptData,
+  isFetchingAllPatientData: state.fhirPatientData.isFetchingAllPatientData
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getPatientDemographics:
-      patient_id => dispatch(fetchAllPatientDataIfNeeded(patient_id))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  getPatientDemographics:
+    patientId => dispatch(fetchAllPatientDataIfNeeded(patientId))
+});
 
 const DashboardContainer = connect(
   mapStateToProps,

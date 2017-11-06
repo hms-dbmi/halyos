@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import $ from 'jquery';
 
 // Services
 import { calculateAge } from '../services/risk_score_utils';
@@ -8,12 +7,11 @@ import { calculateAge } from '../services/risk_score_utils';
 // Styles
 import './PreventativeCareSuggestions.css';
 
-//Fake Data
-import {preventativeCareSuggestionsLocal} from '../data/fhirData.js';
-
 const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
 
 const getUrl = (birthDate, gender) => `${URL}${40 || calculateAge(birthDate)}&sex=${gender}`;
+
+const staticURL = (birthDate, gender) => './data/preventativeCareSuggestions.json';
 
 class PreventativeCareSuggestions extends React.Component {
   constructor(props) {
@@ -36,7 +34,7 @@ class PreventativeCareSuggestions extends React.Component {
   }
 
   loadData() {
-    fetch(getUrl(this.props.birthDate, this.props.gender))
+    fetch(staticURL(this.props.birthDate, this.props.gender))
       .then(response => response.json())
       .then((data) => {
         this.wrangleData(data);
@@ -64,10 +62,7 @@ class PreventativeCareSuggestions extends React.Component {
         <h3 className="dashboard-panel-headline">Suggested Preventative Care</h3>
         <div className="flex-g-1 r">
           <ul className="pcs-list no-list-style full-dim scrollbar">
-            {/*{this.state.interventionsList.map((text, index) => (
-              <li key={index}>{text}</li>
-            ))}*/}
-            {preventativeCareSuggestionsLocal.map((text, index) => (
+            {this.state.interventionsList.map((text, index) => (
               <li key={index}>{text}</li>
             ))}
           </ul>
