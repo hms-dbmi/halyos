@@ -52,6 +52,7 @@ class Measurement extends React.Component {
   }
 
   showDetails() {
+    console.log(this.props)
     if(this.props.past && this.props.pastDate) {
       this.setState({
         isDetailsShown: !this.state.isDetailsShown
