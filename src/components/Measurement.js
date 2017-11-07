@@ -61,7 +61,6 @@ class Measurement extends React.Component {
   }
 
   render() {
-    // console.log("past date", this.props.userPastDate.format('MM/DD/YY'));
     var uniqueGraphID = this.props.name + "chart"
     uniqueGraphID = uniqueGraphID.replace(/\W/g,"_");
     var options = {
