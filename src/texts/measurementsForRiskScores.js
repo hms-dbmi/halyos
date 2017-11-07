@@ -19,5 +19,8 @@ export default {
 	'Diabetes': [
 		'56115-9', '56114-2', '56117-5', '8280-0', '8281-8', //waist circumference
 		'39156-5' //BMI
+	],
+	'Important Measures': [
+		'2345-7' //glucose
 	]
 }
