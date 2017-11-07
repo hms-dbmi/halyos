@@ -118,7 +118,6 @@ class Measurement extends React.Component {
               options={options}
               obs_data={parseGraphData(this.props.graphData)}
               units="mmHg"
-              reference_range={{ min: 110, max: 130 }}
             />
           )}
         </div>
