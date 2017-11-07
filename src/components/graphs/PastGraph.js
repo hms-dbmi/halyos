@@ -48,18 +48,18 @@ class PastGraph extends Component {
     var yMax = d3.max(data, function(d) { return d.y; }.bind(this));
     // var yMin = d3.min(data, function(d) { return d.y; }.bind(this));
 
-    
     //we want to create custom tick values, 8 is the max divison before you can't see the numbers anymore
     var tickArray = [];
     var stepSize = Math.floor((yMax - 0) / 11);
+    if(stepSize === 0) {
+        stepSize = yMax/11;
+    }
     var tick = 0;
     while(tick < yMax){
       tickArray.push(tick);
       tick = tick + stepSize;
     }
     tickArray.push(tick);
-
-
 
     this.xAxis = d3.axisBottom(this.x);
 
@@ -198,7 +198,6 @@ class PastGraph extends Component {
   }
 
   render(){
-
     this.uniqueID = this.props.elemid + "graph";
     return (
             <div id={this.uniqueID} ref={(elem) => { this.div = elem; }} />

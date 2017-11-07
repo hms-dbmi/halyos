@@ -40,6 +40,8 @@ const GRAPH_DATA = [
   }
 ];
 
+const parseGraphData = (raw_data) => raw_data.map((item) => ({x: new Date(item.date), y: parseFloat(item.value)}));
+
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
@@ -50,10 +52,12 @@ class Measurement extends React.Component {
   }
 
   showDetails() {
-    this.setState({
-      isDetailsShown: !this.state.isDetailsShown
-    });
-    this.props.expandAbout(this.state.isDetailsShown);
+    if(this.props.past && this.props.pastDate) {
+      this.setState({
+        isDetailsShown: !this.state.isDetailsShown
+      });
+      this.props.expandAbout(this.state.isDetailsShown);
+    }
   }
 
   render() {
@@ -113,7 +117,7 @@ class Measurement extends React.Component {
               pastDate={this.props.userPastDate}
               elemid={uniqueGraphID}
               options={options}
-              obs_data={GRAPH_DATA}
+              obs_data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
             />
