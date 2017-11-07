@@ -22,7 +22,6 @@ class PastGraph extends Component {
 
   
   componentDidMount() {
-    //console.log("pastDate", this.props.pastDate.toDate());
     var idName = "#" + this.uniqueID;
     var enclosingDiv = d3.select(idName);
     this.svg = enclosingDiv.append("svg");
@@ -87,10 +86,6 @@ class PastGraph extends Component {
         .x(function(d) { return this.x2(d.x); }.bind(this))
         .y0(height2)
         .y1(function(d) { return this.y2(d.y); }.bind(this));
-
-    // console.log("height data", this.y(this.height))
-    // console.log("height data2", this.height)
-    // console.log("function", this.y)
 
     this.pastDateArea = d3.area()
         .x(function(d) { return this.x(this.props.pastDate.toDate()) }.bind(this))
@@ -224,8 +219,6 @@ class PastGraph extends Component {
   zoomed() {
     if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
     var t = d3.event.transform;
-    //console.log("what is t", t);
-    //console.log("rescale x", t.rescaleX(this.x2))
     this.x.domain(t.rescaleX(this.x2).domain());
     this.focus.select(".area").attr("d", this.area);
     this.focus.select(".axis--x").call(this.xAxis);
