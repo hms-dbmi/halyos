@@ -110,6 +110,7 @@ class Measurement extends React.Component {
         <div className="measurement-graph" id={uniqueGraphID}>
           {this.state.isDetailsShown && (
             <PastGraph
+              pastDate={this.props.userPastDate}
               elemid={uniqueGraphID}
               options={options}
               obs_data={GRAPH_DATA}

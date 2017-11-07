@@ -5,6 +5,12 @@
   clip-path: url(#clip);
 }
 
+.pastarea {
+  stroke: red;
+  stroke-width: 5.0px;
+  fill: white;
+}
+
 .zoom {
   cursor: move;
   fill: none;
