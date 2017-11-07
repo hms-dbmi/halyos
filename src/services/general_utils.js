@@ -61,6 +61,7 @@ export function sortMeasurements(obs){
         if(!found) {
           sortedMeasures.push(
             {"name": obs[i].resource.component[k].code.text,
+             "code": obs[i].resource.component[k].code.coding[0].code,
              "measurements": [
                 {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
                  "date": obs[i].resource.effectiveDateTime,
@@ -92,6 +93,7 @@ export function sortMeasurements(obs){
       if(!found) {
         sortedMeasures.push(
           {"name": obs[i].resource.code.text,
+           "code": obs[i].resource.code.coding[0].code,
            "measurements": [
               {"value": obs[i].resource.valueQuantity.value.toFixed(2),
                "date": obs[i].resource.effectiveDateTime,
