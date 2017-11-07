@@ -17,6 +17,9 @@ import { setPastDate } from '../actions';
 import './Measurements.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
+//Text
+import measuresForRisks from '../texts/measurementsForRiskScores';
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
