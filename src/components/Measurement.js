@@ -40,6 +40,8 @@ const GRAPH_DATA = [
   }
 ];
 
+const parseGraphData = (raw_data) => raw_data.map((item) => ({x: new Date(item.date), y: parseFloat(item.value)}));
+
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
@@ -111,7 +113,7 @@ class Measurement extends React.Component {
             <PastGraph
               elemid={uniqueGraphID}
               options={options}
-              obs_data={GRAPH_DATA}
+              obs_data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
             />
@@ -121,7 +123,7 @@ class Measurement extends React.Component {
     );
   }
 }
-
+//              obs_data={parseGraphData(this.props.graphData)}
 Measurement.propTypes = {
   expandAbout: PropTypes.func,
   name: PropTypes.string,

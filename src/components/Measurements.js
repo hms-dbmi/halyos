@@ -127,6 +127,7 @@ class Measurements extends React.Component {
               present={item.measurements[0].value}
               pastDate={item.measurements[1] && item.measurements[1].date}
               presentDate={item.measurements[0].date}
+              graphData={item.measurements}
             />
           ))}
         </main>
