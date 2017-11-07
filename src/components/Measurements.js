@@ -118,6 +118,7 @@ class Measurements extends React.Component {
             }.bind(this)
           ).map((item, index) => (
             <Measurement
+              userPastDate={pastDate}
               name={item.name}
               key={index}
               expandAbout={this.props.expandAbout}

@@ -52,13 +52,16 @@ class Measurement extends React.Component {
   }
 
   showDetails() {
-    this.setState({
-      isDetailsShown: !this.state.isDetailsShown
-    });
-    this.props.expandAbout(this.state.isDetailsShown);
+    if(this.props.past && this.props.pastDate) {
+      this.setState({
+        isDetailsShown: !this.state.isDetailsShown
+      });
+      this.props.expandAbout(this.state.isDetailsShown);
+    }
   }
 
   render() {
+    // console.log("past date", this.props.userPastDate.format('MM/DD/YY'));
     var uniqueGraphID = this.props.name + "chart"
     uniqueGraphID = uniqueGraphID.replace(/\W/g,"_");
     var options = {
@@ -111,6 +114,7 @@ class Measurement extends React.Component {
         <div className="measurement-graph" id={uniqueGraphID}>
           {this.state.isDetailsShown && (
             <PastGraph
+              pastDate={this.props.userPastDate}
               elemid={uniqueGraphID}
               options={options}
               obs_data={parseGraphData(this.props.graphData)}
