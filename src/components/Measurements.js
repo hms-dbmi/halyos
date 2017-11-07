@@ -13,6 +13,9 @@ import Measurement from './Measurement';
 // Actions
 import { setPastDate } from '../actions';
 
+//Data
+import measuresForRisks from '../texts/measurementsForRiskScores';
+
 // Styles
 import './Measurements.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -94,7 +97,26 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.map((item, index) => (
+          {this.state.measurements.sort(function(item){
+            for(var key in measuresForRisks) {
+              if(!measuresForRisks.hasOwnProperty(key)) {
+                continue;
+              }
+              if(measuresForRisks[key].includes(item.code)) {
+                return -1;
+              }
+            }
+            return 1;
+          }).filter(function(item) {
+              if(this.props.risk) {
+                if(measuresForRisks[this.props.risk].includes(item.code)) {
+                  return true;
+                }
+                return false;
+              }
+              return true;
+            }.bind(this)
+          ).map((item, index) => (
             <Measurement
               name={item.name}
               key={index}
@@ -132,6 +154,7 @@ Measurements.propTypes = {
   measurements: PropTypes.array,
   pastDate: PropTypes.number,
   setPastDate: PropTypes.func,
+  risk: PropTypes.string
 };
 
 const mapStateToProps = state => ({
