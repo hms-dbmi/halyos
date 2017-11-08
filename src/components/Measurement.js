@@ -46,7 +46,8 @@ class Measurement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDetailsShown: false
+      isDetailsShown: false,
+      value:0
     };
   }
 
@@ -64,6 +65,11 @@ class Measurement extends React.Component {
           this.props.expandAbout(this.state.isDetailsShown);
         }
       }
+  }
+
+  handleChange(event){
+    console.log("value", event.target.value);
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,7 +129,15 @@ class Measurement extends React.Component {
             <span className="tooltiptext">{this.props.presentDate && getDate(this.props.presentDate)}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
-            {this.props.future}
+            {/* {this.props.future} 
+              <input type="range" orient="vertical" />
+          */}
+            <div className="slider-wrapper">
+              <input type="range" 
+                     value={this.state.value} 
+                     onChange={this.handleChange}
+              />
+            </div>
           </div>
         </div>
         <div className="measurement-graph" id={uniqueGraphID}>
