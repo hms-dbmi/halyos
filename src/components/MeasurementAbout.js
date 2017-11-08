@@ -7,6 +7,9 @@ import Button from './Button';
 // Styles
 import './MeasurementAbout.css';
 
+//Texts
+import text from '../texts/measurementText';
+
 const MeasurementAbout = props => (
   <div className="measurement-about full-wh flex-c flex-col">
     <header className="dashboard-panel-headline flex-c flex-align-sb">
@@ -21,11 +24,11 @@ const MeasurementAbout = props => (
     </header>
     <div className="flex-g-1 r">
       <h4><strong>What</strong> does my {props.name} mean?</h4>
-      <p>{props.what || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].meaning || 'Loading...'}</p>
       <h4><strong>Why</strong> is my {props.name} important?</h4>
-      <p>{props.why || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].important || 'Loading...'}</p>
       <h4><strong>How</strong> can I make it better?</h4>
-      <p>{props.how || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].improve || 'Loading...'}</p>
     </div>
   </div>
 );
@@ -34,7 +37,7 @@ MeasurementAbout.propTypes = {
   expand: PropTypes.func,
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   what: PropTypes.string,
   why: PropTypes.string,
   how: PropTypes.string,

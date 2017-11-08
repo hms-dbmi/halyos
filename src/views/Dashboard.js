@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
     });
   }
 
-  expandMeaAbout(collapse) {
+  expandMeaAbout(collapse, measure = null) {
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
@@ -77,6 +77,7 @@ class Dashboard extends React.Component {
       meaDesIsExpanded: !collapse,
       pcsIsCollapsed: !collapse,
       pcsIsExpanded: false,
+      currMeasure: measure
     });
   }
 
@@ -220,7 +221,7 @@ class Dashboard extends React.Component {
           </li>
           <li className={riskStrokeWidth}>
             <RiskTile
-              expand={this.expandRisk.bind(this)}
+              expand={(args) => alert("No details available.")}
               name="Stroke"
               score={CHADScore(
                 this.props.patient,
@@ -330,7 +331,7 @@ class Dashboard extends React.Component {
                 expand={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaDesIsCollapsed}
                 isExpanded={this.state.meaDesIsExpanded}
-                name='Measurement'
+                name={this.state.currMeasure}
               />
             </div>
           </div>
