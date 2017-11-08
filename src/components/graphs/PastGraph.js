@@ -22,7 +22,7 @@ class PastGraph extends Component {
 
   
   componentDidMount() {
-    console.log("pastDate", this.props.pastDate.toDate());
+    // console.log("pastDate", this.props.pastDate.toDate());
     var idName = "#" + this.uniqueID;
     var enclosingDiv = d3.select(idName);
     this.svg = enclosingDiv.append("svg");
@@ -48,10 +48,12 @@ class PastGraph extends Component {
     var yMax = d3.max(data, function(d) { return d.y; }.bind(this));
     // var yMin = d3.min(data, function(d) { return d.y; }.bind(this));
 
-    
     //we want to create custom tick values, 8 is the max divison before you can't see the numbers anymore
     var tickArray = [];
     var stepSize = Math.floor((yMax - 0) / 11);
+    if(stepSize === 0) {
+        stepSize = yMax/11;
+    }
     var tick = 0;
     while(tick < yMax){
       tickArray.push(tick);
@@ -59,7 +61,6 @@ class PastGraph extends Component {
     }
     tickArray.push(tick);
 
-    
     this.xAxis = d3.axisBottom(this.x);
     
     var xAxis2 = d3.axisBottom(this.x2),
@@ -87,9 +88,9 @@ class PastGraph extends Component {
         .y0(height2)
         .y1(function(d) { return this.y2(d.y); }.bind(this));
 
-    console.log("height data", this.y(this.height))
-    console.log("height data2", this.height)
-    console.log("function", this.y)
+    // console.log("height data", this.y(this.height))
+    // console.log("height data2", this.height)
+    // console.log("function", this.y)
 
     // var valueline = d3.line()
     //     .curve(d3.curveMonotoneX)
@@ -214,7 +215,6 @@ class PastGraph extends Component {
   }
 
   render(){
-
     this.uniqueID = this.props.elemid + "graph";
     return (
             <div id={this.uniqueID} ref={(elem) => { this.div = elem; }} />

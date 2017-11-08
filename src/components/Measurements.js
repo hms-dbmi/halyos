@@ -17,19 +17,42 @@ import { setPastDate } from '../actions';
 import './Measurements.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
+//Text
+import measuresForRisks from '../texts/measurementsForRiskScores';
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isDatePickerShown: false,
-      measurements: this.props.measurements
+      measurements: this.props.measurements.sort(function(item){
+            for(var key in measuresForRisks) {
+              if(!measuresForRisks.hasOwnProperty(key)) {
+                continue;
+              }
+              if(measuresForRisks[key].includes(item.code)) {
+                return -1;
+              }
+            }
+            return 1;
+          })
     };
   }
 
   filterList(query) {
     this.setState({
       measurements: this.props.measurements
-        .filter(item => item.name.toLowerCase().indexOf(query) !== -1)
+        .filter(item => item.name.toLowerCase().indexOf(query) !== -1).sort(function(item){
+            for(var key in measuresForRisks) {
+              if(!measuresForRisks.hasOwnProperty(key)) {
+                continue;
+              }
+              if(measuresForRisks[key].includes(item.code)) {
+                return -1;
+              }
+            }
+            return 1;
+          })
     });
   }
 
@@ -94,7 +117,16 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.map((item, index) => (
+          {this.state.measurements.filter(function(item) {
+              if(this.props.risk) {
+                if(measuresForRisks[this.props.risk].includes(item.code)) {
+                  return true;
+                }
+                return false;
+              }
+              return true;
+            }.bind(this)
+          ).map((item, index) => (
             <Measurement
               userPastDate={pastDate}
               name={item.name}
@@ -106,6 +138,8 @@ class Measurements extends React.Component {
               present={item.measurements[0].value}
               pastDate={item.measurements[1] && item.measurements[1].date}
               presentDate={item.measurements[0].date}
+              graphData={item.measurements}
+              risk={this.props.risk}
             />
           ))}
         </main>
