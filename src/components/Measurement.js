@@ -45,7 +45,6 @@ const parseGraphData = (raw_data) => raw_data.map((item) => ({x: new Date(item.d
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isDetailsShown: false
     };
@@ -53,10 +52,26 @@ class Measurement extends React.Component {
 
   showDetails() {
     if(this.props.past && this.props.pastDate) {
+      if(this.props.risk) {
+        this.setState({
+          isDetailsShown: !this.state.isDetailsShown
+        });
+      }
+      else {
+          this.setState({
+            isDetailsShown: !this.state.isDetailsShown
+          });
+          this.props.expandAbout(this.state.isDetailsShown);
+        }
+      }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.risk != this.props.risk) {
       this.setState({
-        isDetailsShown: !this.state.isDetailsShown
-      });
-      this.props.expandAbout(this.state.isDetailsShown);
+        isDetailsShown: false
+      })
+      nextProps.risk ? nextProps.expandAbout(false) : nextProps.expandAbout(true)
     }
   }
 
