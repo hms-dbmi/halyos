@@ -199,10 +199,10 @@ class PastGraph extends Component {
     //     .datum(pastDateData)
     //     .attr("class", "area")
     //     .attr("d", this.pastDateArea)
-    console.log("date", this.props.pastDate.toDate());
+    //console.log("date", this.props.pastDate.toDate());
     var pastDateData = [{x:this.props.pastDate.toDate(), y:this.height}, {x:this.props.pastDate.toDate(), y:this.height}]
-    console.log("final data2", pastDateData);
-    console.log("final data", [data[2],data[2]]);
+    //console.log("final data2", pastDateData);
+    //console.log("final data", [data[2],data[2]]);
     this.focus.append("path")
         .datum(pastDateData)
         .attr("class", "area")
