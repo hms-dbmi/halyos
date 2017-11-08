@@ -61,7 +61,7 @@ class Measurement extends React.Component {
           this.setState({
             isDetailsShown: !this.state.isDetailsShown
           });
-          this.props.expandAbout(this.state.isDetailsShown);
+          this.props.expandAbout(this.state.isDetailsShown, this.props.name);
         }
       }
   }
