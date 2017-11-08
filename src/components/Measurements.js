@@ -25,7 +25,17 @@ class Measurements extends React.Component {
     super(props);
     this.state = {
       isDatePickerShown: false,
-      measurements: this.props.measurements
+      measurements: this.props.measurements.sort(function(item){
+            for(var key in measuresForRisks) {
+              if(!measuresForRisks.hasOwnProperty(key)) {
+                continue;
+              }
+              if(measuresForRisks[key].includes(item.code)) {
+                return -1;
+              }
+            }
+            return 1;
+          })
     };
   }
 
@@ -97,17 +107,7 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.sort(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              if(measuresForRisks[key].includes(item.code)) {
-                return -1;
-              }
-            }
-            return 1;
-          }).filter(function(item) {
+          {this.state.measurements.filter(function(item) {
               if(this.props.risk) {
                 if(measuresForRisks[this.props.risk].includes(item.code)) {
                   return true;
@@ -129,6 +129,7 @@ class Measurements extends React.Component {
               pastDate={item.measurements[1] && item.measurements[1].date}
               presentDate={item.measurements[0].date}
               graphData={item.measurements}
+              risk={this.props.risk}
             />
           ))}
         </main>
