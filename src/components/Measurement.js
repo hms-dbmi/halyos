@@ -69,7 +69,7 @@ class Measurement extends React.Component {
 
   handleChange(event){
     console.log("value", event.target.value);
-    
+    this.setState({value:event.target.value});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -135,7 +135,7 @@ class Measurement extends React.Component {
             <div className="slider-wrapper">
               <input type="range" 
                      value={this.state.value} 
-                     onChange={this.handleChange}
+                     onChange={this.handleChange.bind(this)}
               />
             </div>
           </div>
