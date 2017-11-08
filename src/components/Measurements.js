@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import Button from './Button';
 import Icon from './Icon';
 import Measurement from './Measurement';
-
+import MeasurementContainer from "./MeasurementContainer"
 // Actions
 import { setPastDate } from '../actions';
 
@@ -127,7 +127,7 @@ class Measurements extends React.Component {
               return true;
             }.bind(this)
           ).map((item, index) => (
-            <Measurement
+            <MeasurementContainer
               code={item.code}
               userPastDate={pastDate}
               name={item.name}

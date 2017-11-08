@@ -49,6 +49,7 @@ class Measurement extends React.Component {
       isDetailsShown: false,
       value:0
     };
+    // console.log("state", this.props)
   }
 
   showDetails() {
@@ -69,6 +70,10 @@ class Measurement extends React.Component {
   }
 
   handleChange(event){
+    console.log("function", this.props.addFutureMeasurement)
+    console.log("other1", this.props.code)
+    console.log("other2", event.target.value)
+    this.props.addFutureMeasurement(this.props.code, event.target.value);
     this.setState({value:event.target.value});
   }
 
@@ -98,6 +103,13 @@ class Measurement extends React.Component {
       var month = date.substring(5,7)
       var day = date.substring(8,10)
       return month+"/"+day+"/"+year;
+    }
+    
+    var sliderValue;
+    if (this.props.futureMeasurements){
+      sliderValue = this.props.futureMeasurements[this.props.code];
+    } else {
+      sliderValue = 0;
     }
 
     return (
@@ -134,7 +146,7 @@ class Measurement extends React.Component {
           */}
             <div className="slider-wrapper">
               <input type="range" 
-                     value={this.state.value} 
+                     value={sliderValue} 
                      onChange={this.handleChange.bind(this)}
               />
             </div>
