@@ -221,7 +221,7 @@ class Dashboard extends React.Component {
           </li>
           <li className={riskStrokeWidth}>
             <RiskTile
-              expand={this.expandRisk.bind(this)}
+              expand={(args) => alert("No details available.")}
               name="Stroke"
               score={CHADScore(
                 this.props.patient,
