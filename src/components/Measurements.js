@@ -42,7 +42,17 @@ class Measurements extends React.Component {
   filterList(query) {
     this.setState({
       measurements: this.props.measurements
-        .filter(item => item.name.toLowerCase().indexOf(query) !== -1)
+        .filter(item => item.name.toLowerCase().indexOf(query) !== -1).sort(function(item){
+            for(var key in measuresForRisks) {
+              if(!measuresForRisks.hasOwnProperty(key)) {
+                continue;
+              }
+              if(measuresForRisks[key].includes(item.code)) {
+                return -1;
+              }
+            }
+            return 1;
+          })
     });
   }
 
