@@ -21,6 +21,26 @@ export function calcKFRisk(gender, age, gfr, uac) {
   return score;
 }
 
+export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = null, obs = null, conds = null, meds = null) {
+  if(presMeasures && pt && futureMeasures) {
+      return calcKFRisk(
+        pt.gender,
+        calculateAge(pt.birthDate),
+        futureMeasures['48643-1'] || futureMeasures['48642-3'] || futureMeasures['33914-3'] || presMeasures['48643-1'] || presMeasures['48642-3'] || presMeasures['33914-3'],
+        futureMeasures['14958-3'] || futureMeasures['14959-1']|| presMeasures['14958-3'] || presMeasures['14959-1']
+      );
+  }
+  else if (presMeasures && pt) {
+      return calcKFRisk(
+        pt.gender,
+        calculateAge(pt.birthDate),
+        presMeasures['48643-1'] || presMeasures['48642-3'] || presMeasures['33914-3'],
+        presMeasures['14958-3'] || presMeasures['14959-1']
+      );
+  }
+  return '...'
+}
+
 /**
     @param pt -- the patient resource
     @param obs -- the bundle that contains all observation resources

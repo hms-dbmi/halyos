@@ -1,4 +1,5 @@
-import { ADD_FUTURE_BY_MEASUREMENT } from './MeasurementActions';
+import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT } from './MeasurementActions';
+
 
 
 export function measurementState(state = {}, action){
@@ -8,6 +9,14 @@ export function measurementState(state = {}, action){
 				...state,
 				futureMeasurements : {
 					...state.futureMeasurements,
+					[action.code]: action.future_value
+				}
+			}
+		case ADD_PRESENT_BY_MEASUREMENT:
+			return {
+				...state,
+				presentMeasurements : {
+					...state.presentMeasurements,
 					[action.code]: action.future_value
 				}
 			}

@@ -54,6 +54,34 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
   }
 }
 
+export function futureReynolds(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+  if(presMeasures && pt && futureMeasures) {
+      return calculateReynolds(
+        calculateAge(pt.birthDate),
+        (futureMeasures['8480-6'] || presMeasures['8480-6']),
+        (futureMeasures['30522-7'] || presMeasures['30522-7']),
+        (futureMeasures['2093-3'] || presMeasures['2093-3']),
+        (futureMeasures['2085-9'] || presMeasures['2085-9']),
+        false, //smoker
+        false, //famhist
+        pt.gender
+      );
+  }
+  else if (presMeasures && pt) {
+      return calculateReynolds(
+        calculateAge(pt.birthDate),
+        presMeasures['8480-6'],
+        presMeasures['30522-7'],
+        presMeasures['2093-3'],
+        presMeasures['2085-9'],
+        false, //smoker
+        false, //famhist
+        pt.gender
+      );
+  }
+  return '...'
+}
+
 
 /**
     @param pt -- the patient resource

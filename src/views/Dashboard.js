@@ -6,16 +6,16 @@ import Measurements from '../components/Measurements';
 import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
-import RiskTile from '../components/RiskTile';
+import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
 
 // Services
 import { getPatID } from '../services/smart_setup';
-import { reynoldsScore } from '../services/RiskCalculators/reynolds';
-import { CHADScore } from '../services/RiskCalculators/CHAD';
-import { KFRScore } from '../services/RiskCalculators/get_KFRisk';
-import { COPDScore } from '../services/RiskCalculators/COPD';
-import { diabetesScore } from '../services/RiskCalculators/get_diabetes';
+import { reynoldsScore, futureReynolds } from '../services/RiskCalculators/reynolds';
+import { CHADScore, futureCHAD } from '../services/RiskCalculators/CHAD';
+import { KFRScore, futureKFRRisk } from '../services/RiskCalculators/get_KFRisk';
+import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
+import { diabetesScore, futureDiabetes } from '../services/RiskCalculators/get_diabetes';
 import { sortMeasurements } from '../services/general_utils';
 
 // Styles
@@ -207,46 +207,52 @@ class Dashboard extends React.Component {
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
           <li className={riskCardiacWidth}>
-            <RiskTile
+            <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Cardiac"
               score={reynoldsScore(
                 this.props.patient,
                 this.props.observations
               )}
+              futureScore={futureReynolds}
+              data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={10}
               url="General_Cardiac"
             />
           </li>
           <li className={riskStrokeWidth}>
-            <RiskTile
+            <RiskTileContainer
               expand={(args) => alert("No details available.")}
               name="Stroke"
               score={CHADScore(
                 this.props.patient,
                 this.props.conditions
               )}
+              futureScore={futureCHAD}
+              data={{"patient":this.props.patient, "conditions":this.props.conditions}}
               unit="%"
               context={1}
               url="Stroke"
             />
           </li>
           <li className={riskKidneyWidth}>
-            <RiskTile
+            <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Kidney Failure"
               score={KFRScore(
                 this.props.patient,
                 this.props.observations
               )}
+              futureScore={futureKFRRisk}
+              data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={5}
               url="Kidney_Failure"
             />
           </li>
           <li className={riskCopdWidth}>
-            <RiskTile
+            <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="COPD Mortality"
               score={COPDScore(
@@ -254,13 +260,15 @@ class Dashboard extends React.Component {
                 this.props.observations,
                 this.props.conditions
               )}
+              futureScore={futureCOPD}
+              data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions}}
               unit="%"
               context={4}
               url="COPD_Mortality"
             />
           </li>
           <li className={riskDiabetesWidth}>
-            <RiskTile
+            <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Diabetes"
               score={diabetesScore(
@@ -269,6 +277,8 @@ class Dashboard extends React.Component {
                 this.props.conditions,
                 this.props.medreq
               )}
+              futureScore={futureDiabetes}
+              data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions, "medications":this.props.medreq}}
               unit="%"
               context={5}
               url="Diabetes"

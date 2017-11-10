@@ -78,6 +78,31 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         return score;
 }
 
+export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+  if(presMeasures && pt && futureMeasures) {
+      return calcDiabetesRisk(
+        calculateAge(pt.birthDate),
+        pt.gender,
+        futureMeasures['39156-5'] || presMeasures['39156-5'],
+        pullCondition(conds, ['80394007']).length != 0,
+        false,
+        futureMeasures['56115-9'] || futureMeasures['56114-2'] || futureMeasures['56117-5'] || futureMeasures['8280-0'] || futureMeasures['8281-8'] ||
+        presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
+      );
+  }
+  else if (presMeasures && pt) {
+      return calcDiabetesRisk(
+        calculateAge(pt.birthDate),
+        pt.gender,
+        presMeasures['39156-5'],
+        pullCondition(conds, ['80394007']).length != 0,
+        false,
+        presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
+      );
+  }
+  return '...'
+}
+
 /**
     @param pt -- the patient resource
     @param obs -- the bundle that contains all observation resources

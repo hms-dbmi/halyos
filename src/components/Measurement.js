@@ -49,7 +49,7 @@ class Measurement extends React.Component {
       isDetailsShown: false,
       value: this.props.present
     };
-    this.props.addFutureMeasurement(this.props.code, this.props.present);
+    this.props.addPresentMeasurement(this.props.code, this.props.present);
   }
 
   showDetails() {
@@ -72,7 +72,7 @@ class Measurement extends React.Component {
   handleChange(event){
     // console.log("function", this.props.addFutureMeasurement)
     // console.log("other1", this.props.code)
-    console.log("other2", event.target.value)
+    //console.log("other2", event.target.value)
     this.props.addFutureMeasurement(this.props.code, event.target.value);
     this.setState({value:event.target.value});
   }
@@ -108,6 +108,8 @@ class Measurement extends React.Component {
     var sliderValue;
     if (this.props.futureMeasurements){
       sliderValue = this.props.futureMeasurements[this.props.code];
+    } else if (this.props.presentMeasurements) {
+      sliderValue = this.props.presentMeasurements[this.props.code];
     } else {
       sliderValue = 0;
     }
