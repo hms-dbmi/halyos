@@ -22,7 +22,6 @@ class PastGraph extends Component {
 
   
   componentDidMount() {
-    // console.log("pastDate", this.props.pastDate.toDate());
     var idName = "#" + this.uniqueID;
     var enclosingDiv = d3.select(idName);
     this.svg = enclosingDiv.append("svg");
@@ -77,20 +76,16 @@ class PastGraph extends Component {
         .on("zoom", this.zoomed.bind(this));
 
     this.area = d3.area()
-        .curve(d3.curveMonotoneX)
+        // .curve(d3.curveMonotoneX)
         .x(function(d) { return this.x(d.x); }.bind(this))
         .y0(this.height)
         .y1(function(d) { return this.y(d.y); }.bind(this));
 
     this.area2 = d3.area()
-        .curve(d3.curveMonotoneX)
+        // .curve(d3.curveMonotoneX)
         .x(function(d) { return this.x2(d.x); }.bind(this))
         .y0(height2)
         .y1(function(d) { return this.y2(d.y); }.bind(this));
-
-    // console.log("height data", this.y(this.height))
-    // console.log("height data2", this.height)
-    // console.log("function", this.y)
 
     // var valueline = d3.line()
     //     .curve(d3.curveMonotoneX)
@@ -116,7 +111,6 @@ class PastGraph extends Component {
         .attr("class", "context")
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-
     //actually using the data
 
     this.pastDateArea = d3.area()
@@ -126,6 +120,11 @@ class PastGraph extends Component {
         // .x(function(d) { return this.x(this.props.pastDate.toDate()) }.bind(this))
         .y0(0)
         .y1(function(d) { return this.height }.bind(this))
+
+    this.pastDateAreaContext = d3.area()
+        .x(function(d) { return this.x2(d.x) }.bind(this))
+        .y0(0)
+        .y1(function(d) { return height2 }.bind(this))
 
     var yMaxPadded = yMax * 1.15;
     this.x.domain(d3.extent(data, function(d) { return d.x; }.bind(this)));
@@ -182,6 +181,28 @@ class PastGraph extends Component {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(this.zoom);
 
+    // add scatter points
+    
+    var dots = this.focus.selectAll("dot")
+        .data(data)
+        .enter().append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) { return this.x(d.x); }.bind(this))
+        .attr("cy", function(d) { return this.y(d.y); }.bind(this))
+        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "dot");
+        // .attr("class", "point");
+
+    var dots = this.context.selectAll("dot")
+        .data(data)
+        .enter().append("circle")
+        .attr("r", 2)
+        .attr("cx", function(d) { return this.x2(d.x); }.bind(this))
+        .attr("cy", function(d) { return this.y2(d.y); }.bind(this))
+        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "dotContext");
+        // .attr("class", "point");
+    // console.log("data", dots);
     //we will draw the previous date line below
     // this.context
 
@@ -199,18 +220,26 @@ class PastGraph extends Component {
     //     .datum(pastDateData)
     //     .attr("class", "area")
     //     .attr("d", this.pastDateArea)
-    //console.log("date", this.props.pastDate.toDate());
+
     var pastDateData = [{x:this.props.pastDate.toDate(), y:this.height}, {x:this.props.pastDate.toDate(), y:this.height}]
-    //console.log("final data2", pastDateData);
-    //console.log("final data", [data[2],data[2]]);
+    var pastDateDataContext = [{x:this.props.pastDate.toDate(), y:height2}, {x:this.props.pastDate.toDate(), y:height2}]
     this.focus.append("path")
         .datum(pastDateData)
         .attr("class", "area")
         .attr("d", this.pastDateArea)
         .attr("class","bar")
-        .style("fill","orange")
         .style("stroke", "red")
         .style("stroke-width", "3.5px");
+
+    this.context.append("path")
+        .datum(pastDateDataContext)
+        .attr("class", "area")
+        .attr("d", this.pastDateAreaContext)
+        .attr("class","bar")
+        .style("stroke", "red")
+        .style("stroke-width", "3.5px");
+
+
 
   }
 
@@ -232,6 +261,9 @@ class PastGraph extends Component {
 
     this.focus.select(".area").attr("d", this.area);
     this.focus.select(".bar").attr("d", this.pastDateArea);
+    this.focus.selectAll(".dot")//.attr("d", this.pastDateArea);
+        .attr("cx", function(d) { return this.x(d.x); }.bind(this))
+        .attr("cy", function(d) { return this.y(d.y); }.bind(this))
 
     this.focus.select(".axis--x").call(this.xAxis);
     this.svg.select(".zoom").call(this.zoom.transform, d3.zoomIdentity
@@ -243,12 +275,14 @@ class PastGraph extends Component {
   zoomed() {
     if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
     var t = d3.event.transform;
-    // console.log("what is t", t);
-    // console.log("rescale x", t.rescaleX(this.x2))
     this.x.domain(t.rescaleX(this.x2).domain());
 
     this.focus.select(".area").attr("d", this.area);
     this.focus.select(".bar").attr("d",this.pastDateArea);
+    console.log("this.focus", this.focus.selectAll(".point"));
+    this.focus.selectAll(".dot")//.attr("d", this.pastDateArea);
+        .attr("cx", function(d) { return this.x(d.x); }.bind(this))
+        .attr("cy", function(d) { return this.y(d.y); }.bind(this))
 
     this.focus.select(".axis--x").call(this.xAxis);
     this.context.select(".brush").call(this.brush.move, this.x.range().map(t.invertX, t));
