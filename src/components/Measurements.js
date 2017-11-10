@@ -69,13 +69,11 @@ class Measurements extends React.Component {
 
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
-    var presentColor = {backgroundColor: "#FFFFFF"};
+    var presentColor = {backgroundColor: "#ADD8E6"};
     var futureColor = {backgroundColor: "#FFFFFF"};
-    if(this.props.periodOfTime === "Present" || this.props.periodOfTime === null) {
-      presentColor = {backgroundColor: "#ADD8E6"}
-    }
     if(this.props.periodOfTime === "Future") {
       futureColor = {backgroundColor: "#ADD8E6"}
+      presentColor = {backgroundColor: "#FFFFFF"}
     }
     return (
       <div className="measurements full-wh flex-c flex-col">
