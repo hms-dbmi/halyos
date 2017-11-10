@@ -137,6 +137,14 @@ class PastGraph extends Component {
         .attr("class", "area")
         .attr("d", this.area);
 
+      this.context.append("path")
+        .datum(data)
+        // .attr("class", "line")
+        // .attr("d", valueline2);      
+        .attr("class", "area")
+        .attr("d", this.area2)
+        .style("stroke-width", "1.75px")
+
     //TODO: switch over to paths, currently using unfilled areas
     // focus.append("path")
     //       .datum(data)
@@ -151,13 +159,6 @@ class PastGraph extends Component {
     this.focus.append("g")
         .attr("class", "axis axis--y")
         .call(yAxis);
-
-    this.context.append("path")
-        .datum(data)
-        // .attr("class", "line")
-        // .attr("d", valueline2);      
-        .attr("class", "area")
-        .attr("d", this.area2);
 
     this.context.append("g")
         .attr("class", "axis axis--x")
@@ -182,8 +183,8 @@ class PastGraph extends Component {
         .call(this.zoom);
 
     // add scatter points
-    
-    var dots = this.focus.selectAll("dot")
+   
+    this.focus.selectAll("dot")
         .data(data)
         .enter().append("circle")
         .attr("r", 5)
@@ -193,7 +194,7 @@ class PastGraph extends Component {
         .attr("class", "dot");
         // .attr("class", "point");
 
-    var dots = this.context.selectAll("dot")
+    this.context.selectAll("dot")
         .data(data)
         .enter().append("circle")
         .attr("r", 2)
@@ -203,6 +204,8 @@ class PastGraph extends Component {
         .attr("class", "dotContext");
         // .attr("class", "point");
     // console.log("data", dots);
+
+
     //we will draw the previous date line below
     // this.context
 
@@ -237,7 +240,7 @@ class PastGraph extends Component {
         .attr("d", this.pastDateAreaContext)
         .attr("class","bar")
         .style("stroke", "red")
-        .style("stroke-width", "3.5px");
+        .style("stroke-width", "3.5px")
 
 
 
