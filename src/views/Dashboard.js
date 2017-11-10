@@ -215,6 +215,7 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureReynolds}
+              pastScore={1}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={10}
@@ -230,6 +231,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCHAD}
+              pastScore={1}
               data={{"patient":this.props.patient, "conditions":this.props.conditions}}
               unit="%"
               context={1}
@@ -245,6 +247,7 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureKFRRisk}
+              pastScore={1}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={5}
@@ -261,6 +264,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCOPD}
+              pastScore={1}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions}}
               unit="%"
               context={4}
@@ -278,6 +282,7 @@ class Dashboard extends React.Component {
                 this.props.medreq
               )}
               futureScore={futureDiabetes}
+              pastScore={1}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions, "medications":this.props.medreq}}
               unit="%"
               context={5}

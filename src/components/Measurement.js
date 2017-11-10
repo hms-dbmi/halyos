@@ -93,11 +93,11 @@ class Measurement extends React.Component {
     uniqueGraphID = uniqueGraphID.replace(/\W/g,"_");
     var options = {
       "xmax": 60, "xmin": 0,
-      "ymax": 40, "ymin": 0, 
+      "ymax": 40, "ymin": 0,
       "title": "Simple Graph1",
       "xlabel": "X Axis",
       "ylabel": "Y Axis"
-    }  
+    }
 
     function getDate(date) {
       var year = date.substring(0,4)
@@ -144,15 +144,15 @@ class Measurement extends React.Component {
             <span className="tooltiptext">{this.props.presentDate && getDate(this.props.presentDate)}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
-            {/* {this.props.future} 
+            {/* {this.props.future}
               <input type="range" orient="vertical" />
           */}
             {this.props.futureMeasurements && parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3)}
             <div className="slider-wrapper">
-              <input type="range" 
+              <input type="range"
                      min={this.props.present*0.5}
                      max={this.props.present*2}
-                     value={sliderValue} 
+                     value={sliderValue}
                      onChange={this.handleChange.bind(this)}
               />
             </div>
@@ -164,7 +164,7 @@ class Measurement extends React.Component {
               pastDate={this.props.userPastDate}
               elemid={uniqueGraphID}
               options={options}
-              obs_data={parseGraphData(this.props.graphData)}
+              data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
             />

@@ -1,3 +1,5 @@
+@import '../../styles/colors.scss';
+
 .area {
   stroke: #999;
   stroke-width: 3.5px;
@@ -28,4 +30,66 @@
 
 .dotContext {
   fill: #999;
+}
+
+.past-graph {
+  width: 100%;
+  height: 12.5rem;
+}
+
+.past-graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.past-graph-node,
+.past-graph-node-overview {
+  fill: $gray-dark;
+}
+
+.past-graph-node-overview {
+  fill: $gray-dark;
+}
+
+.past-graph-connection,
+.past-graph-connection-overview {
+  fill: none;
+  stroke: $gray;
+  stroke-width: 1px;
+}
+
+.past-graph-date-v-bar,
+.past-graph-date-v-bar-overview {
+  stroke: $red;
+  stroke-width: 2px;
+}
+
+.past-graph-brush {
+  fill: transparent;
+
+  .selection {
+    fill: $primary;
+    fill-opacity: 0.25;
+    stroke: none;
+  }
+
+  .handle {
+    fill: $primary;
+  }
+}
+
+.past-graph-zoom {
+  fill: transparent;
+}
+
+.axis--x line,
+.axis--y line,
+.axis--x path,
+.axis--y path {
+  stroke: $gray-light;
+}
+
+.axis--x text,
+.axis--y text {
+  fill: $gray-dark;
 }
