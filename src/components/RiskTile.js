@@ -11,7 +11,7 @@ const CONTEXT_MAX = 10;
 
 const getLength = (context, contextMax) => ({
   width: `${100 * context / (contextMax || CONTEXT_MAX)}%`,
-  height: `${(contextMax || CONTEXT_MAX) - context}px`,
+  height: `${(contextMax || CONTEXT_MAX) - context + 1}px`,
   bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
 });
 
@@ -24,7 +24,7 @@ const RiskTile = props => (
       <h2 className="risk-tile-title">{props.name}</h2>
       <div className="risk-tile-status">{props.status}</div>
       <div className="risk-tile-score flex-c flex-align-c flex-v-bottom">
-        <div className="risk-tile-score-value">{(props.periodOfTime==="Present" || props.periodOfTime===null) ? props.score : props.futureScore(props.presentMeasurements, props.futureMeasurements, props.data.patient, props.data.conditions, props.data.medications)}</div>
+        <div className="risk-tile-score-value">{(props.periodOfTime === "Present" || props.periodOfTime === null) ? props.score : props.futureScore(props.presentMeasurements, props.futureMeasurements, props.data.patient, props.data.conditions, props.data.medications)}</div>
         <div className="risk-tile-score-unit">{props.unit}</div>
       </div>
       <div className="flex-c flex-align-sb">
