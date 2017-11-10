@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components
 import Icon from './Icon';
-import PastGraph from './graphs/PastGraph';
+import PastGraph from './PastGraph';
 
 // Styles
 import './Measurement.css';
@@ -14,31 +14,6 @@ const getArrowDir = (past, present) => (past !== present
 );
 
 const getMirrorH = (past, present) => past > present;
-
-const GRAPH_DATA = [
-  {
-    x: new Date('2017-02-03'),
-    y: 124
-  }, {
-    x: new Date('2017-02-12'),
-    y: 120
-  }, {
-    x: new Date('2017-02-15'),
-    y: 119
-  }, {
-    x: new Date('2017-02-23'),
-    y: 132
-  }, {
-    x: new Date('2017-03-03'),
-    y: 126
-  }, {
-    x: new Date('2017-03-23'),
-    y: 129
-  }, {
-    x: new Date('2017-04-03'),
-    y: 125
-  }
-];
 
 const parseGraphData = (raw_data) => raw_data.map((item) => ({x: new Date(item.date), y: parseFloat(item.value)}));
 
