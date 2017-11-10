@@ -7,8 +7,8 @@ import * as d3 from 'd3';
 import './PastGraph.css';
 
 const WIDTH = 600;
-const HEIGHT = 150;
-const HEIGHT2 = 24;
+const HEIGHT = 140;
+const HEIGHT2 = 20;
 const margin = {
   top: 0, right: 0, bottom: 0, left: 0
 };
@@ -193,26 +193,6 @@ class PastGraph extends React.Component {
       .attr('height', HEIGHT)
       .attr('transform', `translate(${margin.left},${margin.top})`)
       .call(this.zoom);
-
-    // .attr('class', 'point');
-    // console.log('data', dots);
-    // we will draw the previous date line below
-    // this.context
-
-    // this.focus.append('line')
-    //     .attr('x1', this.x(this.props.pastDate.toDate()))  //<<== change your code here
-    //     .attr('y1', 0)
-    //     .attr('x2', this.x(this.props.pastDate.toDate()))  //<<== and here
-    //     .attr('y2', HEIGHT)
-    //     .style('stroke-width', 2)
-    //     .style('stroke', '#EE4913')
-    //     .attr('class', 'vertline')
-    //     .style('fill', 'none');
-
-    // this.focus.append('path')
-    //     .datum(pastDateData)
-    //     .attr('class', 'area')
-    //     .attr('d', this.pastDateArea)
 
     const pastDateData = [{
       x: this.props.pastDate.toDate(),
