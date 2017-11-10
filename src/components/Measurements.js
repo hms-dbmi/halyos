@@ -108,7 +108,7 @@ class Measurements extends React.Component {
                     <span>{pastDate.format('MM/DD/YY')}</span>
                     <Button
                       icon="cross"
-                      onClick={() => { this.props.setPastDate(null); }}
+                      onClick={() => { this.props.setPastDate(null);}}
                     />
                   </div>
                 )}

@@ -37,7 +37,7 @@ MeasurementAbout.propTypes = {
   expand: PropTypes.func,
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
-  name: PropTypes.string,
+  name: PropTypes.string, 
   what: PropTypes.string,
   why: PropTypes.string,
   how: PropTypes.string,
