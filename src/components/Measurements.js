@@ -89,10 +89,16 @@ class Measurements extends React.Component {
             <Icon id="calendar"/>
             Past
           </div>
-          <div className="pure-u-3-24 smaller" onClick={() => this.props.setTimePeriod("Present")}>
+          <div
+            className="pure-u-3-24 smaller"
+            onClick={() => this.props.setTimePeriod('Present')}
+          >
             Present
           </div>
-          <div className="pure-u-3-24 smaller" onClick={() => this.props.setTimePeriod("Future")}>
+          <div
+            className="pure-u-3-24 smaller"
+            onClick={() => this.props.setTimePeriod('Future')}
+          >
             Future
           </div>
         </header>
@@ -111,15 +117,15 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.filter(function(item) {
-              if(this.props.risk) {
-                if(measuresForRisks[this.props.risk].includes(item.code)) {
+          {this.state.measurements.filter((item) => {
+              if (this.props.risk) {
+                if (measuresForRisks[this.props.risk].includes(item.code)) {
                   return true;
                 }
                 return false;
               }
               return true;
-            }.bind(this)
+            }
           ).map((item, index) => (
             <MeasurementContainer
               code={item.code}
