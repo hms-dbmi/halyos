@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // Components
-import Button from './Button';
 import Icon from './Icon';
-import Measurement from './Measurement';
-import MeasurementContainer from "./MeasurementContainer"
+import MeasurementContainer from './MeasurementContainer';
 // Actions
 import { setPastDate } from '../actions';
 
@@ -17,7 +15,7 @@ import { setPastDate } from '../actions';
 import './Measurements.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
-//Text
+// Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
 class Measurements extends React.Component {
@@ -26,16 +24,16 @@ class Measurements extends React.Component {
     this.state = {
       isDatePickerShown: false,
       measurements: this.props.measurements.sort(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              if(measuresForRisks[key].includes(item.code)) {
-                return -1;
-              }
-            }
-            return 1;
-          })
+        for (var key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (measuresForRisks[key].includes(item.code)) {
+            return -1;
+          }
+        }
+        return 1;
+      })
     };
   }
 
