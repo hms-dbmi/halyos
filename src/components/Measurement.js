@@ -49,6 +49,9 @@ class Measurement extends React.Component {
       isDetailsShown: false,
     };
     this.props.addPresentMeasurement(this.props.code, this.props.present);
+    if(!this.props.futureMeasurements || !this.props.futureMeasurements[this.props.code]) {
+      this.props.addFutureMeasurement(this.props.code, this.props.present)
+    }
   }
 
   showDetails() {
@@ -144,6 +147,7 @@ class Measurement extends React.Component {
             {/* {this.props.future} 
               <input type="range" orient="vertical" />
           */}
+            {this.props.futureMeasurements && parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3)}
             <div className="slider-wrapper">
               <input type="range" 
                      min={this.props.present*0.5}
