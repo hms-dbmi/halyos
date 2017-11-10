@@ -149,10 +149,14 @@ class Measurements extends React.Component {
             selected={pastDate}
             onChange={this.pastChangeHandler.bind(this)}
             onClickOutside={this.toggleDatePicker.bind(this)}
-            monthsShown={2}
+            monthsShown={1}
             fixedHeight
             withPortal
             inline
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
           />
         )}
       </div>

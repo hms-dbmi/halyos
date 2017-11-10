@@ -282,7 +282,6 @@ class PastGraph extends Component {
 
     this.focus.select(".area").attr("d", this.area);
     this.focus.select(".bar").attr("d",this.pastDateArea);
-    console.log("this.focus", this.focus.selectAll(".point"));
     this.focus.selectAll(".dot")//.attr("d", this.pastDateArea);
         .attr("cx", function(d) { return this.x(d.x); }.bind(this))
         .attr("cy", function(d) { return this.y(d.y); }.bind(this))
