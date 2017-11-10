@@ -69,7 +69,12 @@ class Measurements extends React.Component {
 
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
-
+    var presentColor = {backgroundColor: "#ADD8E6"};
+    var futureColor = {backgroundColor: "#FFFFFF"};
+    if(this.props.periodOfTime === "Future") {
+      futureColor = {backgroundColor: "#ADD8E6"}
+      presentColor = {backgroundColor: "#FFFFFF"}
+    }
     return (
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
@@ -91,10 +96,10 @@ class Measurements extends React.Component {
             <Icon id="calendar"/>
             Past
           </div>
-          <div className="pure-u-3-24 smaller">
+          <div className="pure-u-3-24 smaller" style={presentColor} onClick={() => this.props.setTimePeriod("Present")}>
             Present
           </div>
-          <div className="pure-u-3-24 smaller">
+          <div className="pure-u-3-24 smaller" style={futureColor} onClick={() => this.props.setTimePeriod("Future")}>
             Future
           </div>
         </header>
@@ -106,10 +111,6 @@ class Measurements extends React.Component {
                 {this.props.pastDate && (
                   <div className="flex-c flex-v-center">
                     <span>{pastDate.format('MM/DD/YY')}</span>
-                    <Button
-                      icon="cross"
-                      onClick={() => { this.props.setPastDate(null); }}
-                    />
                   </div>
                 )}
               </div>

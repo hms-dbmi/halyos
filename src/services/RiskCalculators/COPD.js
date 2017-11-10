@@ -42,6 +42,30 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
     return mortality;
 }
 
+export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+  if(presMeasures && pt && futureMeasures) {
+      return calcCOPD(
+        calculateAge(pt.birthDate),
+        conds && pullCondition(conds, ["40917007"]).length != 0,
+        (futureMeasures['6299-2'] || presMeasures['6299-2']),
+        (futureMeasures['9279-1'] || presMeasures['9279-1']),
+        (futureMeasures['8480-6'] || presMeasures['8480-6']),
+        (futureMeasures['8462-4'] || presMeasures['8462-4']),
+      );
+  }
+  else if (presMeasures && pt) {
+      return calcCOPD(
+        calculateAge(pt.birthDate),
+        conds && pullCondition(conds, ["40917007"]).length != 0,
+        presMeasures['6299-2'],
+        presMeasures['9279-1'],
+        presMeasures['8480-6'],
+        presMeasures['8462-4']
+      );
+  }
+  return '...'
+}
+
 /**
     @param pt -- the patient resource
     @param obs -- the bundle that contains all observation resources
