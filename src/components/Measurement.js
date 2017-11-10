@@ -102,13 +102,13 @@ class Measurement extends React.Component {
       var day = date.substring(8,10)
       return month+"/"+day+"/"+year;
     }
-    
     var sliderValue;
-    if (this.props.futureMeasurements){
+    if (this.props.futureMeasurements && this.props.futureMeasurements[this.props.code]){
       sliderValue = this.props.futureMeasurements[this.props.code];
-    } else if (this.props.presentMeasurements) {
+    } else if (this.props.presentMeasurements && this.props.presentMeasurements[this.props.code]) {
       sliderValue = this.props.presentMeasurements[this.props.code];
     } else {
+      console.log("Failure")
       sliderValue = 0;
     }
 
