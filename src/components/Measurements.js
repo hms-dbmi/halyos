@@ -106,10 +106,6 @@ class Measurements extends React.Component {
                 {this.props.pastDate && (
                   <div className="flex-c flex-v-center">
                     <span>{pastDate.format('MM/DD/YY')}</span>
-                    <Button
-                      icon="cross"
-                      onClick={() => { this.props.setPastDate(null);}}
-                    />
                   </div>
                 )}
               </div>
