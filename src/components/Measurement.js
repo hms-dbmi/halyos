@@ -47,9 +47,8 @@ class Measurement extends React.Component {
     super(props);
     this.state = {
       isDetailsShown: false,
-      value:0
     };
-    // console.log("state", this.props)
+    this.props.addPresentMeasurement(this.props.code, this.props.present);
   }
 
   showDetails() {
@@ -70,11 +69,10 @@ class Measurement extends React.Component {
   }
 
   handleChange(event){
-    console.log("function", this.props.addFutureMeasurement)
-    console.log("other1", this.props.code)
-    console.log("other2", event.target.value)
+    // console.log("function", this.props.addFutureMeasurement)
+    // console.log("other1", this.props.code)
+    //console.log("other2", event.target.value)
     this.props.addFutureMeasurement(this.props.code, event.target.value);
-    this.setState({value:event.target.value});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,6 +106,8 @@ class Measurement extends React.Component {
     var sliderValue;
     if (this.props.futureMeasurements){
       sliderValue = this.props.futureMeasurements[this.props.code];
+    } else if (this.props.presentMeasurements) {
+      sliderValue = this.props.presentMeasurements[this.props.code];
     } else {
       sliderValue = 0;
     }
@@ -146,6 +146,8 @@ class Measurement extends React.Component {
           */}
             <div className="slider-wrapper">
               <input type="range" 
+                     min={this.props.present*0.5}
+                     max={this.props.present*2}
                      value={sliderValue} 
                      onChange={this.handleChange.bind(this)}
               />

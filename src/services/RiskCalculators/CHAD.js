@@ -60,6 +60,13 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
   return strkRisk;
 }
 
+export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+ if(conds && pt) {
+  return CHADScore(pt, conds);
+ }
+ return "...";
+}
+
 /**
 @param pt -- the patient resource
 @param conds -- the bundle of all conditions

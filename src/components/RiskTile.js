@@ -24,7 +24,7 @@ const RiskTile = props => (
       <h2 className="risk-tile-title">{props.name}</h2>
       <div className="risk-tile-status">{props.status}</div>
       <div className="risk-tile-score flex-c flex-align-c flex-v-bottom">
-        <div className="risk-tile-score-value">{props.score}</div>
+        <div className="risk-tile-score-value">{(props.periodOfTime==="Present" || props.periodOfTime===null) ? props.score : props.futureScore(props.presentMeasurements, props.futureMeasurements, props.data.patient, props.data.conditions, props.data.medications)}</div>
         <div className="risk-tile-score-unit">{props.unit}</div>
       </div>
       <div className="flex-c flex-align-sb">
