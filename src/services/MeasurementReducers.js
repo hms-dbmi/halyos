@@ -1,4 +1,4 @@
-import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT } from './MeasurementActions';
+import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT, SET_TIME_PERIOD } from './MeasurementActions';
 
 
 
@@ -20,6 +20,8 @@ export function measurementState(state = {}, action){
 					[action.code]: action.future_value
 				}
 			}
+		case SET_TIME_PERIOD:
+				return Object.assign({}, state, {periodOfTime: action.periodOfTime})
 	    default:
 	      return state
 	}

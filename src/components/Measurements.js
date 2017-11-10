@@ -91,10 +91,10 @@ class Measurements extends React.Component {
             <Icon id="calendar"/>
             Past
           </div>
-          <div className="pure-u-3-24 smaller">
+          <div className="pure-u-3-24 smaller" onClick={() => this.props.setTimePeriod("Present")}>
             Present
           </div>
-          <div className="pure-u-3-24 smaller">
+          <div className="pure-u-3-24 smaller" onClick={() => this.props.setTimePeriod("Future")}>
             Future
           </div>
         </header>

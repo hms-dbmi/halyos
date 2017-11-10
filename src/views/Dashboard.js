@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // Components
-import Measurements from '../components/Measurements';
+import MeasurementsContainer from '../components/MeasurementsContainer';
 import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
 import Environment from '../components/Environment';
@@ -296,7 +296,7 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
             >
-              <Measurements
+              <MeasurementsContainer
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}

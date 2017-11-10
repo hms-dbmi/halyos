@@ -47,7 +47,6 @@ class Measurement extends React.Component {
     super(props);
     this.state = {
       isDetailsShown: false,
-      value: this.props.present
     };
     this.props.addPresentMeasurement(this.props.code, this.props.present);
   }
@@ -74,7 +73,6 @@ class Measurement extends React.Component {
     // console.log("other1", this.props.code)
     //console.log("other2", event.target.value)
     this.props.addFutureMeasurement(this.props.code, event.target.value);
-    this.setState({value:event.target.value});
   }
 
   componentWillReceiveProps(nextProps) {

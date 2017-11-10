@@ -4,7 +4,8 @@ import RiskTile from './RiskTile';
 const mapStateToProps = state => {
 	return {
 		futureMeasurements: state.measurementState.futureMeasurements,
-		presentMeasurements: state.measurementState.presentMeasurements
+		presentMeasurements: state.measurementState.presentMeasurements,
+		periodOfTime: state.measurementState.periodOfTime
 	}
 }
 

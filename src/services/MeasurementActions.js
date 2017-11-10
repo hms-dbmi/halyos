@@ -1,5 +1,6 @@
 export const ADD_FUTURE_BY_MEASUREMENT = 'ADD_FUTURE_BY_MEASUREMENT';
 export const ADD_PRESENT_BY_MEASUREMENT = 'ADD_PRESENT_BY_MEASUREMENT';
+export const SET_TIME_PERIOD = 'SET_TIME_PERIOD';
 
 
 export function addFutureMeasurement(code, value) {
@@ -17,3 +18,11 @@ export function addPresentMeasurement(code, value) {
 		future_value:value
 	}
 }
+
+export function setTimePeriod(time) {
+	return {
+		type: SET_TIME_PERIOD,
+		periodOfTime: time
+	}
+}
+
