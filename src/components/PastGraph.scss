@@ -1,4 +1,5 @@
 @import '../styles/colors.scss';
+@import '../styles/transitions.scss';
 
 .area {
   stroke: #999;
@@ -35,6 +36,18 @@
 .past-graph {
   width: 100%;
   height: 12.5rem;
+}
+
+.graph-past {
+  background: yellow;
+}
+
+.graph-present {
+  background: yellow;
+}
+
+.graph-future {
+  background: yellow;
 }
 
 .past-graph-svg {
@@ -79,6 +92,39 @@
 }
 
 .past-graph-zoom {
+  fill: transparent;
+}
+
+.graph-present-future-line {
+  stroke: $gray;
+  stroke-width: 1px;
+  stroke-dasharray: 10, 5;
+}
+
+.graph-future-slider-bar {
+  stroke: $gray;
+  stroke-width: 2px;
+}
+
+.graph-future-node {
+  r: 5;
+  fill: $gray-dark;
+  transform-origin: center center;
+  transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
+
+  &.active,
+  &.hover {
+    fill: $gray-darkest;
+    r: 9;
+  }
+
+  &.active {
+    stroke: $primary;
+    stroke-width: 1px;
+  }
+}
+
+.graph-future-node-selection {
   fill: transparent;
 }
 

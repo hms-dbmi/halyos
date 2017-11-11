@@ -23,8 +23,8 @@ class Measurements extends React.Component {
     super(props);
     this.state = {
       isDatePickerShown: false,
-      measurements: this.props.measurements.sort(function(item){
-        for (var key in measuresForRisks) {
+      measurements: this.props.measurements.sort((item) => {
+        for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
@@ -39,18 +39,19 @@ class Measurements extends React.Component {
 
   filterList(query) {
     this.setState({
-      measurements: this.props.measurements
-        .filter(item => item.name.toLowerCase().indexOf(query) !== -1).sort(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              if(measuresForRisks[key].includes(item.code)) {
-                return -1;
-              }
-            }
-            return 1;
-          })
+      measurements: this.props.measurements.filter(
+        item => item.name.toLowerCase().indexOf(query) !== -1
+      ).sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (measuresForRisks[key].includes(item.code)) {
+            return -1;
+          }
+        }
+        return 1;
+      })
     });
   }
 
