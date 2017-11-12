@@ -133,6 +133,7 @@ class Measurements extends React.Component {
               userPastDate={pastDate}
               name={item.name}
               key={index}
+              isExpanded={this.props.isExpanded}
               expandAbout={this.props.expandAbout}
               unit={item.measurements[0].units}
               past={item.measurements[1] && item.measurements[1].value}
