@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 export function registerKeyboardHandler(callback) {
   var callback = callback;
-  d3.select(window).on("keydown", callback);  
+  d3.select(window).on("keydown", callback);
 };
 
 export function SimpleGraph(elemid, options) {
@@ -58,8 +58,8 @@ export function SimpleGraph(elemid, options) {
       yrange4 = yrange2 / 2,
       datacount = this.size.width/200;
 
-  this.points = d3.range(datacount).map(function(i) { 
-    return { x: i * xrange / datacount, y: this.options.ymin + yrange4 + Math.random() * yrange2 }; 
+  this.points = d3.range(datacount).map(function(i) {
+    return { x: i * xrange / datacount, y: this.options.ymin + yrange4 + Math.random() * yrange2 };
   }, self);
 
   this.vis = d3.select(this.chart).append("svg")
@@ -127,7 +127,7 @@ export function SimpleGraph(elemid, options) {
 
   this.redraw()();
 };
-  
+
 //
 // SimpleGraph methods
 //
@@ -152,14 +152,14 @@ SimpleGraph.prototype.plot_drag = function() {
       self.update();
       d3.event.preventDefault();
       d3.event.stopPropagation();
-    }    
+    }
   }
 };
 
 SimpleGraph.prototype.update = function() {
   var self = this;
   var lines = this.vis.select("path").attr("d", this.line(this.points));
-        
+
   // console.log("data: ", this.points[this.points.length - 1]);
   // console.log("points: ", this.vis.select("svg").selectAll("circle"))
 
@@ -220,7 +220,7 @@ circle.enter().append("circle")
 */
   circle
       .attr("class", function(d) { return d === self.selected ? "selected" : null; })
-      .attr("cx",    function(d) { 
+      .attr("cx",    function(d) {
         return self.x(d.x); })
       .attr("cy",    function(d) { return self.y(d.y); });
 
@@ -239,7 +239,7 @@ SimpleGraph.prototype.datapoint_drag = function() {
     document.onselectstart = function() { return false; };
     self.selected = self.dragged = d;
     self.update();
-    
+
   }
 };
 
@@ -248,7 +248,7 @@ SimpleGraph.prototype.mousemove = function() {
   return function() {
     var p = d3.mouse(self.vis[0][0]),
         t = d3.event.changedTouches;
-    
+
     if (self.dragged) {
       self.dragged.y = self.y.invert(Math.max(0, Math.min(self.size.height, p[1])));
       self.update();
@@ -306,8 +306,8 @@ SimpleGraph.prototype.mouseup = function() {
       d3.event.preventDefault();
       d3.event.stopPropagation();
     }
-    if (self.dragged) { 
-      self.dragged = null 
+    if (self.dragged) {
+      self.dragged = null
     }
   }
 }
@@ -332,14 +332,14 @@ SimpleGraph.prototype.keydown = function() {
 SimpleGraph.prototype.redraw = function() {
   var self = this;
   return function() {
-    var tx = function(d) { 
-      return "translate(" + self.x(d) + ",0)"; 
+    var tx = function(d) {
+      return "translate(" + self.x(d) + ",0)";
     },
-    ty = function(d) { 
+    ty = function(d) {
       return "translate(0," + self.y(d) + ")";
     },
-    stroke = function(d) { 
-      return d ? "#ccc" : "#666"; 
+    stroke = function(d) {
+      return d ? "#ccc" : "#666";
     },
     fx = self.x.tickFormat(10),
     fy = self.y.tickFormat(10);
@@ -407,8 +407,8 @@ SimpleGraph.prototype.redraw = function() {
 
     gy.exit().remove();
     self.plot.call(d3.zoom().x(self.x).y(self.y).on("zoom", self.redraw()));
-    self.update();    
-  }  
+    self.update();
+  }
 }
 
 SimpleGraph.prototype.xaxis_drag = function() {

@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // Components
-import Button from './Button';
 import Icon from './Icon';
-import Measurement from './Measurement';
-import MeasurementContainer from "./MeasurementContainer"
+import MeasurementContainer from './MeasurementContainer';
 // Actions
 import { setPastDate } from '../actions';
 
@@ -17,7 +15,7 @@ import { setPastDate } from '../actions';
 import './Measurements.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
-//Text
+// Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
 class Measurements extends React.Component {
@@ -25,34 +23,35 @@ class Measurements extends React.Component {
     super(props);
     this.state = {
       isDatePickerShown: false,
-      measurements: this.props.measurements.sort(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              if(measuresForRisks[key].includes(item.code)) {
-                return -1;
-              }
-            }
-            return 1;
-          })
+      measurements: this.props.measurements.sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (measuresForRisks[key].includes(item.code)) {
+            return -1;
+          }
+        }
+        return 1;
+      })
     };
   }
 
   filterList(query) {
     this.setState({
-      measurements: this.props.measurements
-        .filter(item => item.name.toLowerCase().indexOf(query) !== -1).sort(function(item){
-            for(var key in measuresForRisks) {
-              if(!measuresForRisks.hasOwnProperty(key)) {
-                continue;
-              }
-              if(measuresForRisks[key].includes(item.code)) {
-                return -1;
-              }
-            }
-            return 1;
-          })
+      measurements: this.props.measurements.filter(
+        item => item.name.toLowerCase().indexOf(query) !== -1
+      ).sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (measuresForRisks[key].includes(item.code)) {
+            return -1;
+          }
+        }
+        return 1;
+      })
     });
   }
 
@@ -69,12 +68,7 @@ class Measurements extends React.Component {
 
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
-    var presentColor = {backgroundColor: "#ADD8E6"};
-    var futureColor = {backgroundColor: "#FFFFFF"};
-    if(this.props.periodOfTime === "Future") {
-      futureColor = {backgroundColor: "#ADD8E6"}
-      presentColor = {backgroundColor: "#FFFFFF"}
-    }
+
     return (
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
@@ -96,10 +90,16 @@ class Measurements extends React.Component {
             <Icon id="calendar"/>
             Past
           </div>
-          <div className="pure-u-3-24 smaller" style={presentColor} onClick={() => this.props.setTimePeriod("Present")}>
+          <div
+            className="pure-u-3-24 smaller"
+            onClick={() => this.props.setTimePeriod('Present')}
+          >
             Present
           </div>
-          <div className="pure-u-3-24 smaller" style={futureColor} onClick={() => this.props.setTimePeriod("Future")}>
+          <div
+            className="pure-u-3-24 smaller"
+            onClick={() => this.props.setTimePeriod('Future')}
+          >
             Future
           </div>
         </header>
@@ -118,15 +118,15 @@ class Measurements extends React.Component {
               <div className="pure-u-3-24"></div>
             </div>
           )}
-          {this.state.measurements.filter(function(item) {
-              if(this.props.risk) {
-                if(measuresForRisks[this.props.risk].includes(item.code)) {
+          {this.state.measurements.filter((item) => {
+              if (this.props.risk) {
+                if (measuresForRisks[this.props.risk].includes(item.code)) {
                   return true;
                 }
                 return false;
               }
               return true;
-            }.bind(this)
+            }
           ).map((item, index) => (
             <MeasurementContainer
               code={item.code}

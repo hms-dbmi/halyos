@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
 
 // Components
+import Button from './Button';
 import Icon from './Icon';
-import PastGraph from './graphs/PastGraph';
+import PastGraph from './PastGraph';
 
 // Styles
 import './Measurement.css';
@@ -15,32 +17,12 @@ const getArrowDir = (past, present) => (past !== present
 
 const getMirrorH = (past, present) => past > present;
 
-const GRAPH_DATA = [
-  {
-    x: new Date('2017-02-03'),
-    y: 124
-  }, {
-    x: new Date('2017-02-12'),
-    y: 120
-  }, {
-    x: new Date('2017-02-15'),
-    y: 119
-  }, {
-    x: new Date('2017-02-23'),
-    y: 132
-  }, {
-    x: new Date('2017-03-03'),
-    y: 126
-  }, {
-    x: new Date('2017-03-23'),
-    y: 129
-  }, {
-    x: new Date('2017-04-03'),
-    y: 125
-  }
-];
-
-const parseGraphData = (raw_data) => raw_data.map((item) => ({x: new Date(item.date), y: parseFloat(item.value)}));
+const parseGraphData = data => data.map(
+  item => ({
+    x: new Date(item.date),
+    y: parseFloat(item.value)
+  })
+);
 
 class Measurement extends React.Component {
   constructor(props) {
@@ -49,68 +31,74 @@ class Measurement extends React.Component {
       isDetailsShown: false,
     };
     this.props.addPresentMeasurement(this.props.code, this.props.present);
+    if (
+      !this.props.futureMeasurements ||
+      !this.props.futureMeasurements[this.props.code]
+    ) {
+      this.props.addFutureMeasurement(this.props.code, this.props.present);
+    }
   }
 
   showDetails() {
-    if(this.props.past && this.props.pastDate) {
-      if(this.props.risk) {
+    if (this.props.past && this.props.pastDate) {
+      if (this.props.risk) {
         this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name)
         this.setState({
           isDetailsShown: !this.state.isDetailsShown
         });
+      } else {
+        this.setState({
+          isDetailsShown: !this.state.isDetailsShown
+        });
+        this.props.expandAbout(this.state.isDetailsShown, this.props.name);
       }
-      else {
-          this.setState({
-            isDetailsShown: !this.state.isDetailsShown
-          });
-          this.props.expandAbout(this.state.isDetailsShown, this.props.name);
-        }
-      }
+    }
   }
 
-  handleChange(event){
-    // console.log("function", this.props.addFutureMeasurement)
-    // console.log("other1", this.props.code)
-    //console.log("other2", event.target.value)
-    this.props.addFutureMeasurement(this.props.code, event.target.value);
+  futureChangeHandler(newValue) {
+    this.props.addFutureMeasurement(this.props.code, newValue);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.risk != this.props.risk) {
+    if (nextProps.risk !== this.props.risk) {
       this.setState({
         isDetailsShown: false
-      })
-      nextProps.risk ? nextProps.expandAbout(false) : nextProps.expandAbout(true)
+      });
+
+      if (nextProps.risk) {
+        nextProps.expandAbout(false);
+      } else {
+        nextProps.expandAbout(true);
+      }
     }
   }
 
   render() {
-    // console.log("past date", this.props.userPastDate.format('MM/DD/YY'));
-    var uniqueGraphID = this.props.name + "chart"
-    uniqueGraphID = uniqueGraphID.replace(/\W/g,"_");
-    var options = {
-      "xmax": 60, "xmin": 0,
-      "ymax": 40, "ymin": 0, 
-      "title": "Simple Graph1",
-      "xlabel": "X Axis",
-      "ylabel": "Y Axis"
-    }  
+    let sliderValue;
 
-    function getDate(date) {
-      var year = date.substring(0,4)
-      var month = date.substring(5,7)
-      var day = date.substring(8,10)
-      return month+"/"+day+"/"+year;
-    }
-    var sliderValue;
-    if (this.props.futureMeasurements && this.props.futureMeasurements[this.props.code]){
+    if (
+      this.props.futureMeasurements &&
+      this.props.futureMeasurements[this.props.code]
+    ) {
       sliderValue = this.props.futureMeasurements[this.props.code];
-    } else if (this.props.presentMeasurements && this.props.presentMeasurements[this.props.code]) {
+    } else if (
+      this.props.presentMeasurements &&
+      this.props.presentMeasurements[this.props.code]
+    ) {
       sliderValue = this.props.presentMeasurements[this.props.code];
     } else {
-      console.log("Failure")
+      console.warn('Couldn\'t set slider value. Force it to be zero.');
       sliderValue = 0;
     }
+
+    const futureScore = this.props.futureMeasurements &&
+      parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
+
+    const pastDate = this.props.pastDate &&
+      moment(this.props.pastDate).format('MMM Do YYYY');
+
+    const presentDate = this.props.pastDate &&
+      moment(this.props.presentDate).format('MMM Do YYYY');
 
     return (
       <div className="measurement">
@@ -127,42 +115,46 @@ class Measurement extends React.Component {
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
-            {this.props.past || <abbr title="Not available">N/A</abbr>}
-            {!this.props.past || <span className="tooltiptext">{this.props.pastDate && getDate(this.props.pastDate)}</span>}
+            {this.props.past ||
+              <abbr title="Not available">N/A</abbr>
+            }
+            {this.props.past &&
+              <span className="tooltiptext">{pastDate || 'N/A'}</span>
+            }
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
-            {this.props.past && <Icon
-              id={getArrowDir(this.props.past, this.props.present)}
-              mirrorH={getMirrorH(this.props.past, this.props.present)}
-            />}
+            {this.props.past &&
+              <Icon
+                id={getArrowDir(this.props.past, this.props.present)}
+                mirrorH={getMirrorH(this.props.past, this.props.present)}
+              />
+            }
           </div>
           <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip">
             {this.props.present}
-            <span className="tooltiptext">{this.props.presentDate && getDate(this.props.presentDate)}</span>
+            <span className="tooltiptext">{presentDate || 'N/A'}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
-            {/* {this.props.future} 
-              <input type="range" orient="vertical" />
-          */}
-            <div className="slider-wrapper">
-              <input type="range" 
-                     min={this.props.present*0.5}
-                     max={this.props.present*2}
-                     value={sliderValue} 
-                     onChange={this.handleChange.bind(this)}
-              />
-            </div>
+            {futureScore}
+            <Button
+              icon="help"
+              iconOnly={true}
+              className="measurement-future-help"
+              onClick={this.showDetails.bind(this)}
+            />
           </div>
         </div>
-        <div className="measurement-graph" id={uniqueGraphID}>
+        <div className="measurement-graph">
           {this.state.isDetailsShown && this.props.isExpanded && (
             <PastGraph
               pastDate={this.props.userPastDate}
-              elemid={uniqueGraphID}
-              options={options}
-              obs_data={parseGraphData(this.props.graphData)}
+              data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
+              futureMin={this.props.present / 2}
+              futureMax={this.props.present * 2}
+              futureValue={sliderValue}
+              futureChangeHandler={this.futureChangeHandler.bind(this)}
             />
           )}
         </div>
@@ -170,7 +162,7 @@ class Measurement extends React.Component {
     );
   }
 }
-//              obs_data={parseGraphData(this.props.graphData)}
+
 Measurement.propTypes = {
   expandAbout: PropTypes.func,
   name: PropTypes.string,
@@ -178,6 +170,16 @@ Measurement.propTypes = {
   past: PropTypes.string,
   present: PropTypes.string,
   future: PropTypes.string,
+  code: PropTypes.string,
+  risk: PropTypes.string,
+  pastDate: PropTypes.string,
+  presentDate: PropTypes.string,
+  presentMeasurements: PropTypes.array,
+  futureMeasurements: PropTypes.array,
+  graphData: PropTypes.obj,
+  userPastDate: PropTypes.obj,
+  addPresentMeasurement: PropTypes.func,
+  addFutureMeasurement: PropTypes.func,
 };
 
 export default Measurement;
