@@ -133,6 +133,7 @@ class Measurements extends React.Component {
               userPastDate={pastDate}
               name={item.name}
               key={index}
+              isExpanded={this.props.isExpanded}
               expandAbout={this.props.expandAbout}
               unit={item.measurements[0].units}
               past={item.measurements[1] && item.measurements[1].value}
@@ -149,10 +150,14 @@ class Measurements extends React.Component {
             selected={pastDate}
             onChange={this.pastChangeHandler.bind(this)}
             onClickOutside={this.toggleDatePicker.bind(this)}
-            monthsShown={2}
+            monthsShown={1}
             fixedHeight
             withPortal
             inline
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
           />
         )}
       </div>

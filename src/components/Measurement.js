@@ -145,7 +145,7 @@ class Measurement extends React.Component {
           </div>
         </div>
         <div className="measurement-graph">
-          {this.state.isDetailsShown && (
+          {this.state.isDetailsShown && this.props.isExpanded && (
             <PastGraph
               pastDate={this.props.userPastDate}
               data={parseGraphData(this.props.graphData)}
