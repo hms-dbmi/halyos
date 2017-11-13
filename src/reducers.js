@@ -8,7 +8,18 @@ import { envFactorsData } from './components/env/EnvReducers';
 
 import { measurementState } from './services/MeasurementReducers';
 
+import {SET_PAST_DATE} from './actions'
+
 export const pastDate = defaultSetReducer('pastDate', new Date(2012, 7, 15));
+
+export function setPastDate(state = {}, action) {
+	switch(action.type) {
+		case SET_PAST_DATE:
+			return Object.assign({}, state, {payload: action.pastDate})
+		default:
+			return state;
+	}
+}
 
 const rootReducer = combineReducers({
   routing,

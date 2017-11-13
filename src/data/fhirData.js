@@ -2080,7 +2080,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2009-06-25T18:16:38-04:00",
         "issued": "2009-06-25T18:16:38-04:00",
         "valueQuantity": {
-          "value": 221,
+          "value": 30,
           "unit": "mg/g",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/g"

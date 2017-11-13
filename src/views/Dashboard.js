@@ -11,11 +11,11 @@ import riskText from '../texts/riskText';
 
 // Services
 import { getPatID } from '../services/smart_setup';
-import { reynoldsScore, futureReynolds } from '../services/RiskCalculators/reynolds';
-import { CHADScore, futureCHAD } from '../services/RiskCalculators/CHAD';
-import { KFRScore, futureKFRRisk } from '../services/RiskCalculators/get_KFRisk';
-import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
-import { diabetesScore, futureDiabetes } from '../services/RiskCalculators/get_diabetes';
+import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
+import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
+import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
+import { COPDScore, futureCOPD, pastCOPDScore } from '../services/RiskCalculators/COPD';
+import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCalculators/get_diabetes';
 import { sortMeasurements } from '../services/general_utils';
 
 // Styles
@@ -215,7 +215,7 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureReynolds}
-              pastScore={1}
+              pastScore={reynoldsScorePast}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={10}
@@ -231,7 +231,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCHAD}
-              pastScore={1}
+              pastScore={CHADPastScore}
               data={{"patient":this.props.patient, "conditions":this.props.conditions}}
               unit="%"
               context={1}
@@ -247,7 +247,7 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureKFRRisk}
-              pastScore={1}
+              pastScore={pastKFRRisk}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={5}
@@ -264,7 +264,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCOPD}
-              pastScore={1}
+              pastScore={pastCOPDScore}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions}}
               unit="%"
               context={4}
@@ -282,7 +282,7 @@ class Dashboard extends React.Component {
                 this.props.medreq
               )}
               futureScore={futureDiabetes}
-              pastScore={1}
+              pastScore={diabetesPast}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions, "medications":this.props.medreq}}
               unit="%"
               context={5}

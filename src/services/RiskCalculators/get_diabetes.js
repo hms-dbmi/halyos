@@ -12,7 +12,8 @@
     @return diabetes risk score
 
 */
-import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {getNearestFlat} from '../../services/general_utils';
 
 const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 const BMI = '39156-5';
@@ -101,6 +102,47 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
       );
   }
   return '...'
+}
+
+export function diabetesPast(date, pt = null, obs = null, conds = null, meds = null) {
+    if(pt && obs) {
+      const codesObject = {
+        '56115-9': [],
+        '56114-2': [],
+        '56117-5': [],
+        '8280-0': [],
+        '8281-8': [],
+        '39156-5': []
+      };
+      const sortedObs = searchByCode(obs, codesObject);
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56114-2'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56117-5'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8280-0'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8281-8']);
+      var hyperglycemia = pullCondition(conds, ['80394007']);
+      let hyperglycemiaBool = false;
+      let goalDate = new Date(date);
+      for(let i = 0; i < hyperglycemia.length; i++){
+        let currDate = new Date(hyperglycemia[i].resource.onsetDateTime)
+        if(currDate < goalDate) {
+          hyperglycemiaBool = true;
+        }
+      }
+      if(codesObject['56115-9'].length == 0 || codesObject['39156-5'].length == 0) {
+          alert("Patient does not have enough measurements for Diabetes Risk Score");
+          return;
+      }
+      else {
+        return calcDiabetesRisk(calculateAge(pt.birthDate),
+          pt.gender,
+          getNearestFlat(codesObject['39156-5'], date).value,
+          hyperglycemiaBool,
+          false, //NEEDS TO BE FIXED
+          getNearestFlat(codesObject['56115-9'], date).value
+          )
+      }
+  }
+  return "..."
 }
 
 /**

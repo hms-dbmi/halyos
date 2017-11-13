@@ -14,7 +14,8 @@
     @return cardiac risk score
 
 */
-import {searchByCode, calculateAge} from '../../services/risk_score_utils.js';
+import {searchByCode, calculateAge} from '../../services/risk_score_utils';
+import {getNearestFlat} from '../../services/general_utils';
 
 const $ = window.$;
 const _ = window._;
@@ -82,16 +83,8 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
   return '...'
 }
 
-
-/**
-    @param pt -- the patient resource
-    @param obs -- the bundle that contains all observation resources
-    @param smoker -- boolean indicating whether or not patient is a smoker; assumes false
-    @return the reynolds score as a percent
-*/
-
-export function reynoldsScore(pt, obs, smoker = false) {
-  if (pt && obs) {
+export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null) {
+    if (pt && obs) {
     const codesObject = {
       '30522-7': [], // hsCRP
       '2093-3': [], // cholesterol
@@ -107,198 +100,52 @@ export function reynoldsScore(pt, obs, smoker = false) {
         }
       }
     }
-
     return calculateReynolds(calculateAge(pt.birthDate),
-      sortedObs['8480-6'][0].value,
-      sortedObs['30522-7'][0].value,
-      sortedObs['2093-3'][0].value,
-      sortedObs['2085-9'][0].value,
-      smoker, // smoker
+      getNearestFlat(sortedObs['8480-6'], date).value,
+      getNearestFlat(sortedObs['30522-7'], date).value,
+      getNearestFlat(sortedObs['2093-3'], date).value,
+      getNearestFlat(sortedObs['2085-9'], date).value,
+      false, // smoker
       false, // famHist
       pt.gender
     );
   }
-  return '...';
+  return "..."
 }
 
-// function reynolds() { //need to invalidate for diabetic men & modify for diabetic women; add units check
-//   var dateData = [];
-//   var scoreData = [];
-//   var smart = getPatID("patIDReynolds");
-//   var labs = smart.patient.api.fetchAll({type: "Observation", query: {code: {$or: ['http://loinc.org|30522-7',
-//            'http://loinc.org|14647-2', 'http://loinc.org|2093-3',
-//            'http://loinc.org|2085-9', 'http://loinc.org|55284-4']}}});
-//   $.when(getPatient(smart), labs).done(function(patRaw, labs) {
-//     var score;
-//     let validPatient = true;
-//     if (patRaw.data.total == 0) {
-//       alert("This patient does not exist.");
-//       validPatient = false;
-//     }
-//     else {
-//       var age = calculateAge(patRaw.data.entry[0].resource.birthDate);
-//       var gender = patRaw.data.entry[0].resource.gender;
-//     }
-//     labs = _.sortBy(labs, 'effectiveDateTime').reverse();
-//     var byCodes = smart.byCodes(labs, 'code');
-//     var hscrpArr = byCodes(HSCRP);
-//     var cholesterolArr = byCodes(CHOLESTEROL);
-//     var hdlArr = byCodes(HDL);
-//     var BPArr = byCodes(BP);
-//     var smoker = document.getElementById("smoker").checked;
-//     var famHist = document.getElementById("famHist").checked;
-//     if (hscrpArr.length == 0 || cholesterolArr.length == 0 || hdlArr.length == 0
-//     || BPArr.length == 0) {
-//       alert("Patient is missing measurements.");
-//       return;
-//     }
-//     var scoreSets = findPriorSets({hscrpArr, cholesterolArr, hdlArr, BPArr},
-//       [["30522-7"], ["2093-3"], ["2085-9"], ["55284-4"]],
-//       ['hsCRP', 'Cholesterol', 'HDL', 'BP'], labs);
-//     if(scoreSets.length === 0) {
-//       validPatient = false;
-//     }
-//     if (validPatient) {
-//       var i = 0;
-//       for(i = 0; i < scoreSets.length; i++) {
-//         score = calculateReynolds(age,scoreSets[i]['BP'].component[0].valueQuantity.value,
-//         scoreSets[i]['hsCRP'].valueQuantity.value, scoreSets[i]['Cholesterol'].valueQuantity.value,
-//         scoreSets[i]['HDL'].valueQuantity.value, smoker, famHist, gender);
-//         let sum = 0;
-//         let counter = 0;
-//         let tempTime;
-//         let maxTime = 0;
-//         for(variable in scoreSets[i]) {
-//           tempTime = new Date(scoreSets[i][variable].effectiveDateTime);
-//           sum += tempTime.getTime();
-//           if (tempTime > maxTime) {
-//             maxTime = tempTime;
-//           }
-//           counter++;
-//         }
-//         dateData.push(new Date(maxTime));
-//         scoreData.push(score);
-//         //alert("As of " + new Date(maxTime) + ", your chance of dying from a major cardiac event in the next ten years was " + score + "%.");
-//       }
-//       hypotheticals = calculateHypotheticals(age, scoreSets[i-1]['BP'].component[0].valueQuantity.value,
-//       scoreSets[i-1]['hsCRP'].valueQuantity.value, scoreSets[i-1]['Cholesterol'].valueQuantity.value,
-//       scoreSets[i-1]['HDL'].valueQuantity.value, smoker, famHist, gender);
-//       document.getElementById("score").innerHTML = "Your most recent risk of a major cardiac event is " + score + "%.";
-//       document.getElementById("hypothetical").innerHTML = "If your blood pressure was 10mmHg lower, your risk would only be " +
-//       hypotheticals[0] + "%. If your C Reactive Protein were 0.2 mg/L lower, your risk would only be " +
-//       hypotheticals[1] + "%. If your cholesterol was 20 mg/dL lower, your risk would only be " +
-//       hypotheticals[2] + '%. If your hdl "good" cholesterol was 5 mg/dL higher, your risk would only be ' +
-//       hypotheticals[3] + "%. If you didn't smoke, your risk would only be " +
-//       hypotheticals[4] + "%.";
-//       var data = [
-//         {
-//           x: dateData,
-//           y: scoreData,
-//           type: 'scatter'
-//         }
-//       ];
-//       Plotly.newPlot('reynoldsTime', data);
-//     }
-//     else {
-//       alert("This patient does not have enough measurements within a given time frame.");
-//     }
-//   });
-// }
+/**
+    @param pt -- the patient resource
+    @param obs -- the bundle that contains all observation resources
+    @param smoker -- boolean indicating whether or not patient is a smoker; assumes false
+    @return the reynolds score as a percent
+*/
 
-// function reynoldsPop() { //takes 2 mins to run on HAPI FHIR w 62.5k observations
-//   //calculate averages based on observations -- skewed b/c sick ppl have more observations
-//   var sysBPData = {'sum': 0, 'count': 0};
-//   var cholData = {'sum': 0, 'count': 0};
-//   var hdlData = {'sum': 0, 'count': 0};
-//   var hsCRPData = {'sum': 0, 'count': 0};
-//   var smart = getGeneralServer();
-//   var labs = smart.api.fetchAll({type: 'Observation',
-//   query: {code: {$or: ['http://loinc.org|30522-7',
-//            'http://loinc.org|14647-2', 'http://loinc.org|2093-3',
-//            'http://loinc.org|2085-9', 'http://loinc.org|55284-4']}}});
-//   $.when(labs).done(function(labs) {
-//     var byCodes = smart.byCodes(labs, 'code');
-//     var hscrpArr = byCodes(HSCRP);
-//     var cholesterolArr = byCodes(CHOLESTEROL);
-//     var hdlArr = byCodes(HDL);
-//     var BPArr = byCodes(BP);
-//     for(var i = 0; i < BPArr.length; i++) {
-//       if (BPArr[i]) {
-//         if(BPArr[i].component) {
-//           if(BPArr[i].component[0]) {
-//             if(BPArr[i].component[0].valueQuantity) {
-//               if (BPArr[i].component[0].valueQuantity.value <= 300) {
-//                 sysBPData['sum'] += BPArr[i].component[0].valueQuantity.value;
-//                 sysBPData['count'] += 1;
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//     for(var i = 0; i < cholesterolArr.length; i++) {
-//       if(cholesterolArr[i]) {
-//         if(cholesterolArr[i].valueQuantity) {
-//           if(cholesterolArr[i].valueQuantity.value <= 1000) {
-//             cholData['sum'] += cholesterolArr[i].valueQuantity.value;
-//             cholData['count'] += 1;
-//           }
-//         }
-//       }
-//     }
-//     for(var i = 0; i < hdlArr.length; i++) {
-//       if(hdlArr[i]) {
-//         if(hdlArr[i].valueQuantity) {
-//           if(hdlArr[i].valueQuantity.value <= 300) {
-//             hdlData['sum'] += hdlArr[i].valueQuantity.value;
-//             hdlData['count'] += 1;
-//           }
-//         }
-//       }
-//     }
-//     for(var i = 0; i < hscrpArr.length; i++) {
-//       if(hscrpArr[i]) {
-//         if(hscrpArr[i].valueQuantity) {
-//           if(hscrpArr[i].valueQuantity.value <= 100) {
-//             hsCRPData['sum'] += hscrpArr[i].valueQuantity.value;
-//             hsCRPData['count'] += 1;
-//           }
-//         }
-//       }
-//     }
-
-//     var smart2 = getPatID("patIDReynolds");
-//     var labs2 = smart2.patient.api.fetchAll({type: "Observation", query: {code: {$or: ['http://loinc.org|30522-7',
-//              'http://loinc.org|14647-2', 'http://loinc.org|2093-3',
-//              'http://loinc.org|2085-9', 'http://loinc.org|55284-4']}}});
-//     $.when(labs2).done(function(labs2) {
-//       labs2 = _.sortBy(labs2, 'effectiveDateTime').reverse();
-//       var byCodes = smart2.byCodes(labs2, 'code');
-//       var hscrpArr = byCodes(HSCRP);
-//       var cholesterolArr = byCodes(CHOLESTEROL);
-//       var hdlArr = byCodes(HDL);
-//       var BPArr = byCodes(BP);
-//       var trace1 = {
-//         x: ['Systolic BP', 'Cholesterol', 'HDL "Good" Cholesterol', "C Reactive Protein"],
-//         y: [BPArr[0].component[0].valueQuantity.value, cholesterolArr[0].valueQuantity.value,
-//           hdlArr[0].valueQuantity.value, hscrpArr[0].valueQuantity.value],
-//         name: 'You',
-//         type: 'bar'
-//       };
-
-//       var trace2 = {
-//         x: ['Systolic BP', 'Cholesterol', 'HDL "Good" Cholesterol', "C Reactive Protein"],
-//         y: [sysBPData['sum']/sysBPData['count'], cholData['sum']/cholData['count'],
-//             hdlData['sum']/hdlData['count'], hsCRPData['sum']/hsCRPData['count']],
-//         name: 'Average Patient',
-//         type: 'bar'
-//       };
-
-//       var data = [trace1, trace2];
-
-//       var layout = {barmode: 'group'};
-
-//       Plotly.newPlot('reynoldsAvgs', data, layout);
-//     });
-//   });
-// }
+export function reynoldsScore(pt, obs, smoker = false) {
+    if (pt && obs) {
+      const codesObject = {
+        '30522-7': [], // hsCRP
+        '2093-3': [], // cholesterol
+        '2085-9': [], // HDL
+        '8480-6': [] // sysBP
+      };
+      const sortedObs = searchByCode(obs, codesObject);
+      for (let key in sortedObs) {
+        if (sortedObs.hasOwnProperty(key)) {
+          if (sortedObs[key].length === 0) {
+            alert('Patient does not have adequate measurements for Reynolds Risk Score.');
+            return;
+          }
+        }
+      }
+      return calculateReynolds(calculateAge(pt.birthDate),
+        sortedObs['8480-6'][0].value,
+        sortedObs['30522-7'][0].value,
+        sortedObs['2093-3'][0].value,
+        sortedObs['2085-9'][0].value,
+        smoker, // smoker
+        false, // famHist
+        pt.gender
+      );
+    }
+  return '...';
+}

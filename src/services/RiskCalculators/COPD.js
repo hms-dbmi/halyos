@@ -14,6 +14,7 @@
 */
 
 import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {getNearestFlat} from '../../services/general_utils';
 
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 	var score = Number((age >= 65)) + Number((!(confusion.size == null))) + Number((bun > 19)) +
@@ -40,6 +41,47 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
         break;
     }
     return mortality;
+}
+
+export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = null) {
+    if(pt && obs && conds) {
+        var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
+        var measurementObject = {
+            '8480-6': [], //sysBP
+            '8462-4': [], //diasBP
+            '6299-2': [], //bun
+            '9279-1': [] //rr
+        };
+        var sortedObs = searchByCode(obs, measurementObject);
+        for (var key in sortedObs) {
+            if(sortedObs.hasOwnProperty(key)) {
+                if(sortedObs[key].length == 0) {
+                    alert("Patient does not have adequate measurements for COPD Risk Score.");
+                    ////console.log(sortedObs);
+                    return;
+                }
+            }
+        }
+        let filteredConfusion = false;
+        let goalDate = new Date(date);
+        for(let i = 0; i < confusion.length; i++){
+            let currDate = new Date(confusion[i].resource.onsetDateTime)
+            if(currDate < goalDate) {
+                filteredConfusion = true;
+            }
+        }
+        var COPDScore = calcCOPD(calculateAge(pt.birthDate),
+            confusion,
+            getNearestFlat(sortedObs['6299-2'], date).value,
+            getNearestFlat(sortedObs['9279-1'], date).value,
+            getNearestFlat(sortedObs['8480-6'], date).value,
+            getNearestFlat(sortedObs['8462-4'], date).value
+            )
+        return COPDScore;
+    }
+    else {
+        return '...'
+    }
 }
 
 export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
@@ -103,7 +145,6 @@ export function COPDScore(pt, obs, conds) {
     else {
         return '...'
     }
-    
 }
 // function getCOPD() {
 // 	var smart = getPatID("patCOPDRisk");
