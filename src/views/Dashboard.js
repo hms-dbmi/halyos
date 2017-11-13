@@ -14,8 +14,8 @@ import { getPatID } from '../services/smart_setup';
 import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
 import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
 import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
-import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
-import { diabetesScore, futureDiabetes } from '../services/RiskCalculators/get_diabetes';
+import { COPDScore, futureCOPD, pastCOPDScore } from '../services/RiskCalculators/COPD';
+import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCalculators/get_diabetes';
 import { sortMeasurements } from '../services/general_utils';
 
 // Styles
@@ -254,7 +254,7 @@ class Dashboard extends React.Component {
               url="Kidney_Failure"
             />
           </li>
-          {/*<li className={riskCopdWidth}>
+          <li className={riskCopdWidth}>
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="COPD Mortality"
@@ -264,7 +264,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCOPD}
-              pastScore={1}
+              pastScore={pastCOPDScore}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions}}
               unit="%"
               context={4}
@@ -282,13 +282,13 @@ class Dashboard extends React.Component {
                 this.props.medreq
               )}
               futureScore={futureDiabetes}
-              pastScore={1}
+              pastScore={diabetesPast}
               data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions, "medications":this.props.medreq}}
               unit="%"
               context={5}
               url="Diabetes"
             />
-          </li>*/}
+          </li>
           <li className={riskAboutWidth}>
             <p>About {this.state.riskIsExpanded}:</p>
             <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
