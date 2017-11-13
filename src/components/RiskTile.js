@@ -15,7 +15,7 @@ const getLength = (context, contextMax) => ({
   bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
 });
 
-const RiskTile = props => (
+const RiskTile = props => (g
   <div
     className="risk-tile"
     onClick={() => { props.expand(props.name); }}
