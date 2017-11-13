@@ -17,7 +17,8 @@ const mapStateToProps = (state, ownProps) => ({
   pastScore: ownProps.pastScore(
     state.pastDate,
     ownProps.data.patient,
-    ownProps.data.observations
+    ownProps.data.observations,
+    ownProps.data.conditions
     )
 });
 

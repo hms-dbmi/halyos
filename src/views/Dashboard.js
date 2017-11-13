@@ -12,7 +12,7 @@ import riskText from '../texts/riskText';
 // Services
 import { getPatID } from '../services/smart_setup';
 import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
-import { CHADScore, futureCHAD } from '../services/RiskCalculators/CHAD';
+import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
 import { KFRScore, futureKFRRisk } from '../services/RiskCalculators/get_KFRisk';
 import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
 import { diabetesScore, futureDiabetes } from '../services/RiskCalculators/get_diabetes';
@@ -222,7 +222,7 @@ class Dashboard extends React.Component {
               url="General_Cardiac"
             />
           </li>
-          {/*<li className={riskStrokeWidth}>
+          <li className={riskStrokeWidth}>
             <RiskTileContainer
               expand={(args) => alert("No details available.")}
               name="Stroke"
@@ -231,14 +231,14 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCHAD}
-              pastScore={CHADScore}
+              pastScore={CHADPastScore}
               data={{"patient":this.props.patient, "conditions":this.props.conditions}}
               unit="%"
               context={1}
               url="Stroke"
             />
           </li>
-          <li className={riskKidneyWidth}>
+          {/*<li className={riskKidneyWidth}>
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Kidney Failure"

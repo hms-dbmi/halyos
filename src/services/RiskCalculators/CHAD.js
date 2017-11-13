@@ -67,6 +67,22 @@ export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null
  return "...";
 }
 
+export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = null) {
+    if(conds && pt) {
+      let filteredConds = [];
+      let goalDate = new Date(date);
+      for(let i = 0; i < conds.length; i++){
+        let currDate = new Date(conds[i].resource.onsetDateTime)
+        if(currDate < goalDate) {
+          filteredConds.push(conds[i]);
+        }
+      }
+      console.log(conds, filteredConds)
+      return CHADScore(pt, filteredConds);
+    }
+    return "..."
+}
+
 /**
 @param pt -- the patient resource
 @param conds -- the bundle of all conditions
