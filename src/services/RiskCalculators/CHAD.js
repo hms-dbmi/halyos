@@ -77,7 +77,6 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
           filteredConds.push(conds[i]);
         }
       }
-      console.log(conds, filteredConds)
       return CHADScore(pt, filteredConds);
     }
     return "..."

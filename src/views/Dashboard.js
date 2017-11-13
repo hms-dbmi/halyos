@@ -13,7 +13,7 @@ import riskText from '../texts/riskText';
 import { getPatID } from '../services/smart_setup';
 import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
 import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
-import { KFRScore, futureKFRRisk } from '../services/RiskCalculators/get_KFRisk';
+import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
 import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
 import { diabetesScore, futureDiabetes } from '../services/RiskCalculators/get_diabetes';
 import { sortMeasurements } from '../services/general_utils';
@@ -238,7 +238,7 @@ class Dashboard extends React.Component {
               url="Stroke"
             />
           </li>
-          {/*<li className={riskKidneyWidth}>
+          <li className={riskKidneyWidth}>
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Kidney Failure"
@@ -247,14 +247,14 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureKFRRisk}
-              pastScore={1}
+              pastScore={pastKFRRisk}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={5}
               url="Kidney_Failure"
             />
           </li>
-          <li className={riskCopdWidth}>
+          {/*<li className={riskCopdWidth}>
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="COPD Mortality"
