@@ -10,8 +10,15 @@ const mapStateToProps = (state, ownProps) => ({
     state.measurementState.futureMeasurements,
     ownProps.data.patient,
     ownProps.data.conditions,
-    ownProps.data.medications
-  )
+    ownProps.data.medications,
+    ownProps.data.observations
+  ),
+  pastDate: state.pastDate,
+  pastScore: ownProps.pastScore(
+    state.pastDate,
+    ownProps.data.patient,
+    ownProps.data.observations
+    )
 });
 
 const RiskTileContainer = connect(

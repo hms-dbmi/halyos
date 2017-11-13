@@ -133,6 +133,31 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
 
 /**
   
+    This function takes in an array of sorted observations (from sortMeasurements) and a target date, and outputs the closest measurement
+
+    @param obs: bundle of observations in descending order
+    @param date: date of interest
+
+    @return: observation resource
+*/
+
+export function getNearestFlat(obs, date) { //make this binary search
+  let currDate = new Date(obs[0].date)
+  let goalDate = new Date(date)
+  let minTime = Math.abs(currDate-goalDate);
+  let minIndex = 0;
+  for (var i = 1; i < obs.length; i++) {
+    currDate = new Date(obs[i].date)
+    if(Math.abs(currDate-goalDate) < minTime) {
+      minTime = Math.abs(currDate-goalDate)
+      minIndex = i;
+    }
+  }
+  return obs[minIndex]
+}
+
+/**
+  
     This function takes in a bundle of observations and a target date, and outputs the closest measurement
 
     @param obs: bundle of observations in descending order

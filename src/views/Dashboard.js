@@ -11,7 +11,7 @@ import riskText from '../texts/riskText';
 
 // Services
 import { getPatID } from '../services/smart_setup';
-import { reynoldsScore, futureReynolds } from '../services/RiskCalculators/reynolds';
+import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
 import { CHADScore, futureCHAD } from '../services/RiskCalculators/CHAD';
 import { KFRScore, futureKFRRisk } from '../services/RiskCalculators/get_KFRisk';
 import { COPDScore, futureCOPD } from '../services/RiskCalculators/COPD';
@@ -215,14 +215,14 @@ class Dashboard extends React.Component {
                 this.props.observations
               )}
               futureScore={futureReynolds}
-              pastScore={1}
+              pastScore={reynoldsScorePast}
               data={{"patient":this.props.patient, "observations":this.props.observations}}
               unit="%"
               context={10}
               url="General_Cardiac"
             />
           </li>
-          <li className={riskStrokeWidth}>
+          {/*<li className={riskStrokeWidth}>
             <RiskTileContainer
               expand={(args) => alert("No details available.")}
               name="Stroke"
@@ -231,7 +231,7 @@ class Dashboard extends React.Component {
                 this.props.conditions
               )}
               futureScore={futureCHAD}
-              pastScore={1}
+              pastScore={CHADScore}
               data={{"patient":this.props.patient, "conditions":this.props.conditions}}
               unit="%"
               context={1}
@@ -288,7 +288,7 @@ class Dashboard extends React.Component {
               context={5}
               url="Diabetes"
             />
-          </li>
+          </li>*/}
           <li className={riskAboutWidth}>
             <p>About {this.state.riskIsExpanded}:</p>
             <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
