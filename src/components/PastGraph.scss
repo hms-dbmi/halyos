@@ -57,7 +57,17 @@
 
 .past-graph-node,
 .past-graph-node-overview {
+
+}
+
+.other-points,
+.other-points-overview {
   fill: $gray-dark;
+}
+
+.last-point,
+.last-point-overview {
+  fill: $yellow;
 }
 
 .past-graph-node-overview {
