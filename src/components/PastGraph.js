@@ -43,6 +43,10 @@ class PastGraph extends React.Component {
     this.init();
   }
 
+  componentWillReceiveProps(nextProps){
+    this.update(nextProps);
+  }
+
   render() {
     return (
       <div
@@ -304,7 +308,35 @@ class PastGraph extends React.Component {
 
   }
 
-  update() {
+  update(nextProps) {
+
+    //update the vert. lines on new set Past date
+
+    const pastDateData = [{
+      x: nextProps.pastDate.toDate(),
+      y: HEIGHT
+    }, {
+      x: nextProps.pastDate.toDate(),
+      y: HEIGHT
+    }];
+
+    const pastDateDataContext = [{
+      x: nextProps.pastDate.toDate(),
+      y: HEIGHT2
+    }, {
+      x: nextProps.pastDate.toDate(),
+      y: HEIGHT2
+    }];
+
+    this.focus.select(".past-graph-date-v-bar")
+      .datum(pastDateData)
+      .attr('d', this.pastDateArea)
+      .attr("class", "past-graph-date-v-bar");
+
+    this.svg.select(".context").select('.past-graph-date-v-bar-overview')
+      .datum(pastDateDataContext)
+      .attr('d', this.pastDateAreaOverview)
+      .attr("class", "past-graph-date-v-bar-overview")
 
   }
 
@@ -351,7 +383,7 @@ class PastGraph extends React.Component {
       .attr('cy', d => this.y(d.y));
 
     this.focus.select('.axis--x').call(this.xAxis);
-    this.context.select('.past-graph-brush').call(
+    this.svg.select('.past-graph-brush').call(
       this.brush.move, this.x.range().map(t.invertX, t)
     );
   }

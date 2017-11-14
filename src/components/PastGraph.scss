@@ -75,6 +75,7 @@
 .past-graph-date-v-bar-overview {
   stroke: $red;
   stroke-width: 2px;
+  clip-path: url(#clip);
 }
 
 .past-graph-brush {
