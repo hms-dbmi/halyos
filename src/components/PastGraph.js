@@ -181,6 +181,8 @@ class PastGraph extends React.Component {
       this.x.range()[1] - bufferSize
     ];
 
+    const presentDate = this.props.data[0].x
+    console.log("presentDate", presentDate);
     // add scatter points
     this.focusGraph.selectAll('past-graph-node')
       .data(this.props.data)
@@ -188,7 +190,16 @@ class PastGraph extends React.Component {
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
-      .attr('class', 'past-graph-node');
+      .each(function(d) {
+              var point = d3.select(this);
+              if (d.x == presentDate){
+                point
+                  .attr("class", "last-point past-graph-node")
+              } else {
+                point
+                  .attr("class", "other-points past-graph-node")
+              }
+            });
 
     this.context.selectAll('past-graph-node-overview')
       .data(this.props.data)
@@ -357,6 +368,9 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
+    // this.focus.selectAll('.last-point')
+    //   .attr('cx', d => this.x(d.x))
+    //   .attr('cy', d => this.y(d.y));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-zoom').call(this.zoom.transform, d3.zoomIdentity
@@ -381,6 +395,9 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
+    // this.focus.selectAll('.last-point')
+    //   .attr('cx', d => this.x(d.x))
+    //   .attr('cy', d => this.y(d.y));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(
