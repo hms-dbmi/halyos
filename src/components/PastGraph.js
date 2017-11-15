@@ -89,7 +89,7 @@ class PastGraph extends React.Component {
       stepSize = yMax / 11;
     }
     let tick = 0;
-    while (tick < yMaxPadded) {
+    while (tick < yMaxPadded*0.9) {
       if(tick >= yMinPadded) {
         tickArray.push(tick);
       }
