@@ -78,7 +78,9 @@ class PastGraph extends React.Component {
     this.y2 = d3.scaleLinear().range([HEIGHT2, 0]);
 
     const yMax = d3.max(this.props.data, d => d.y);
-
+    const yMin = d3.min(this.props.data, d => d.y);
+    const yMaxPadded = yMax * 1.25;
+    const yMinPadded = yMin * 0.75;
     // we want to create custom tick values, 8 is the max divison before you
     // can't see the numbers anymore
     const tickArray = [];
@@ -87,11 +89,14 @@ class PastGraph extends React.Component {
       stepSize = yMax / 11;
     }
     let tick = 0;
-    while (tick < yMax) {
-      tickArray.push(tick);
+    while (tick < yMaxPadded) {
+      if(tick >= yMinPadded) {
+        tickArray.push(tick);
+      }
       tick += stepSize;
     }
     tickArray.push(tick);
+    console.log(tickArray)
 
     this.xAxis = d3.axisBottom(this.x);
 
@@ -143,9 +148,8 @@ class PastGraph extends React.Component {
       .y0(0)
       .y1(HEIGHT2);
 
-    const yMaxPadded = yMax * 1.15;
     this.x.domain(d3.extent(this.props.data, d => d.x));
-    this.y.domain([0, +yMaxPadded]);
+    this.y.domain([+yMinPadded, +yMaxPadded]);
     this.x2.domain(this.x.domain());
     this.y2.domain(this.y.domain());
 
@@ -182,7 +186,6 @@ class PastGraph extends React.Component {
     ];
 
     const presentDate = this.props.data[0].x
-    console.log("presentDate", presentDate);
     // add scatter points
     this.focusGraph.selectAll('past-graph-node')
       .data(this.props.data)
@@ -286,6 +289,7 @@ class PastGraph extends React.Component {
         .on('drag', this.draggedFuture.bind(this))
         .on('end', this.dragEndedFuture.bind(this))
       );
+
   }
 
   dragStartedFuture() {
@@ -295,7 +299,6 @@ class PastGraph extends React.Component {
 
   draggedFuture() {
     this.changedFutureValue = true;
-
     const newFutureValue = Math.min(
       this.y.domain()[1],
       Math.max(
@@ -303,7 +306,6 @@ class PastGraph extends React.Component {
       )
     );
     const newCy = this.y(newFutureValue);
-
     this.props.futureChangeHandler(newFutureValue);
 
     this.futureNode.attr('cy', newCy);

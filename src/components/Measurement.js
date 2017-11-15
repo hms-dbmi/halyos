@@ -97,7 +97,7 @@ class Measurement extends React.Component {
     const pastDate = this.props.pastDate &&
       moment(this.props.pastDate).format('MMM Do YYYY');
 
-    const presentDate = this.props.pastDate &&
+    const presentDate = this.props.presentDate &&
       moment(this.props.presentDate).format('MMM Do YYYY');
 
     return (
