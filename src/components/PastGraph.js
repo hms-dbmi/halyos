@@ -261,7 +261,7 @@ class PastGraph extends React.Component {
     this.presentFutureLine = this.future.append('line')
       .attr('class', 'graph-present-future-line')
       .attr('x1', 0)
-      .attr('y1', this.y(this.props.data[this.props.data.length - 1].y))
+      .attr('y1', this.y(this.props.data[0].y))
       .attr('x2', 100)
       .attr('y2', this.y(this.props.futureValue));
 
