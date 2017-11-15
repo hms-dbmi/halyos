@@ -26,5 +26,27 @@ export default {
 			meaning: "When your heart beats, it pumps blood round your body to give it the energy and oxygen it needs. As the blood moves, it pushes against the sides of the blood vessels. The strength of this pushing is your blood pressure. If your blood pressure is too high, it puts extra strain on your arteries (and your heart) and this may lead to heart attacks and strokes. The first (or top) number is your systolic blood pressure. It is the highest level your blood pressure reaches when your heart beats. The second (or bottom) number is your diastolic blood pressure. It is the lowest level your blood pressure reaches as your heart relaxes between beats.",
 			important: "However, there are some circumstances where diastolic blood pressure may be more important than systolic. For example, some studies suggest that, in people aged younger than 40 years, diastolic blood pressure is a better way of assessing risk. However, younger people are less likely to have a stroke or heart attack, so information on their risk of future problems is limited. It could be that diastolic blood pressure becomes more important when it is very high. There is some evidence to suggest that, for example, a blood pressure of 180/120mmHg gives a greater risk of stroke or heart attack than 180/100mmHg. The only way to resolve this issue is to obtain data from thousands of patients collected on a systematic basis. The statistical tests to investigate the relative importance of systolic and diastolic blood pressure are immensely complicated. However, current evidence strongly suggests that, over the age of 40, it is systolic pressure that is most important.",
 			improve: "Eat a well-balanced, low-salt diet. Limit alcohol. Enjoy regular physical activity. Maintain a healthy weight. Take your medications properly."
-		},		
+		},
+
+		'Microalbumin Creatine Ratio': {
+			text: "Microalbumin Creatine Ratio",
+			meaning: "This urine test measures very small amounts of a protein called albumin. Your liver makes albumin and your body uses it to grow and repair tissues and to help your body get rid of extra fluid. Another test to check the level of a substance called creatinine in the urine is usually done at the same time. Then the ratio of albumin to creatinine is reported. Creatinine is one of the waste chemicals in the blood that the kidney filters into the urine.",
+			important: "This test is done to check for early signs of kidney damage, especially if you have diabetes. When the kidneys are diseased or damaged, it’s easier for larger substances to pass into the urine. Albumin is one of the first larger substances to show up in the urine when the kidneys are damaged. For this reason, the microalbumin test, which can measure small amounts of protein, is a good screening test for early kidney disease.",
+			improve: "A poor result can indicate the beginnings of kidney disease. Often times high blood pressure is a factor that leads to kidney disease. Work on lowering your blood pressure. You should also stop consuming alcohol, as damaged kidneys cannot process the toxin ethanol from the alcohol."
+		},
+
+		'Urea Nitrogen': {
+			text: "Urea Nitrogen",
+			meaning: "A common blood test, the blood urea nitrogen (BUN) test reveals important information about how well your kidneys and liver are working. A BUN test measures the amount of urea nitrogen that's in your blood.",
+			important: "The blood urea nitrogen or BUN test is primarily used, along with the creatinine test, to evaluate kidney function in a wide range of circumstances, to help diagnose kidney disease, and to monitor people with acute or chronic kidney dysfunction or failure. It also may be used to evaluate a person's general health status when ordered as part of a renal panel, basic metabolic panel (BMP) or comprehensive metabolic panel (CMP).",
+			improve: "A poor result can indicate the beginnings of kidney disease. Often times high blood pressure is a factor that leads to kidney disease. Work on lowering your blood pressure. You should also stop consuming alcohol, as damaged kidneys cannot process the toxin ethanol from the alcohol."
+		},
+
+		'Body Mass Index': {
+			text: "Body Mass Index",
+			meaning: "Body Mass Index (BMI) is an established measure utilized by physicians and health experts to determine weight status (i.e. underweight, overweight or within a healthy weight range). It is determined from your height and weight.",
+			important: "The higher your BMI, the higher your risk for certain diseases such as heart disease, high blood pressure, type 2 diabetes, gallstones, breathing problems, and certain cancers.",
+			improve: "Talk to your doctor about healthy ways to reduce your weight. Eating healthy and getting exercise are great places to start!"
+		},
+
 };

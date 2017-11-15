@@ -13,7 +13,7 @@ import text from '../texts/measurementText';
 const MeasurementAbout = props => (
   <div className="measurement-about full-wh flex-c flex-col">
     <header className="dashboard-panel-headline flex-c flex-align-sb">
-      <h3 className="dashboard-panel-headline-no-colon">About: {props.name}</h3>
+      <h3 className="dashboard-panel-headline-no-colon" style={{fontSize:"16"}}>About: {props.name || "Click on a measurement to learn more!"}</h3>
       {props.isExpanded && (
         <Button
           icon="cross"
@@ -21,7 +21,7 @@ const MeasurementAbout = props => (
           onClick={() => props.expand(true)}
         />
       )}
-    </header>
+    </header>{!props.name ||
     <div className="flex-g-1 r">
       <h4><strong>What</strong> does my {props.name} mean?</h4>
       <p>{props.name && text[props.name] && text[props.name].meaning || 'Loading...'}</p>
@@ -29,7 +29,7 @@ const MeasurementAbout = props => (
       <p>{props.name && text[props.name] && text[props.name].important || 'Loading...'}</p>
       <h4><strong>How</strong> can I make it better?</h4>
       <p>{props.name && text[props.name] && text[props.name].improve || 'Loading...'}</p>
-    </div>
+    </div>}
   </div>
 );
 
