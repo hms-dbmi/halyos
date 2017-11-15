@@ -182,7 +182,6 @@ class PastGraph extends React.Component {
     ];
 
     const presentDate = this.props.data[0].x
-    console.log("presentDate", presentDate);
     // add scatter points
     this.focusGraph.selectAll('past-graph-node')
       .data(this.props.data)
