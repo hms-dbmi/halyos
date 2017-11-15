@@ -77,7 +77,7 @@ class Header extends React.Component {
             <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
-            <div>John Doe</div>
+            <div>Jane Doe</div>
             <Icon id="person"/>
           </div>
         </nav>
