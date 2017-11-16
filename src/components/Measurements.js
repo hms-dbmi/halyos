@@ -88,7 +88,7 @@ class Measurements extends React.Component {
             onClick={this.toggleDatePicker.bind(this)}
           >
             <Icon id="calendar"/>
-            Past
+             &nbsp;Past
           </div>
           <div
             className="pure-u-3-24 smaller"
