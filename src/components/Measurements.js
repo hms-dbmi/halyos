@@ -151,13 +151,16 @@ class Measurements extends React.Component {
             onChange={this.pastChangeHandler.bind(this)}
             onClickOutside={this.toggleDatePicker.bind(this)}
             monthsShown={1}
+            minDate={moment().subtract(80, "years")}
+            maxDate={moment()}
             fixedHeight
             withPortal
             inline
             peekNextMonth
             showMonthDropdown
             showYearDropdown
-            dropdownMode="select"
+            scrollableYearDropdown
+            yearDropdownItemNumber={50}
           />
         )}
       </div>
