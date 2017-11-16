@@ -11,44 +11,45 @@ import {patientLocal, encountersLocal, conditionsLocal, medStatementsLocal, medR
 class Main extends React.Component {
 
   componentDidMount() {
-    this.patient = this.props.ptapi.fetchAll({
-      type: 'Patient',
-    });
-    this.observations = this.props.ptapi.fetchAll({
-      type: 'Observation',
-      query: {
-        $sort: [['date', 'desc'], ['code', 'asc']],
-      },
-    });
-    this.conditions = this.props.ptapi.fetchAll({
-      type: 'Condition',
-    });
-    this.encounters = this.props.ptapi.fetchAll({
-      type: 'Encounter',
-      query: {
-        $sort: [['date', 'desc']],
-      },
-    });
-    this.medicationOrder = this.props.ptapi.fetchAll({
-      type: 'MedicationStatement',
-    });
-    this.medicationRequest = this.props.ptapi.fetchAll({
-      type: 'MedicationRequest',
-      query: {
-        'context.diagnosis.code': {
-          $or: [
-            // History of antihypertensive drug treatment
-            // MedicationRequest?context.reason=10509002
-            '38341003',
-          ],
-        },
-      },
-    });
+    // this.patient = this.props.ptapi.fetchAll({
+    //   type: 'Patient',
+    // });
+    // this.observations = this.props.ptapi.fetchAll({
+    //   type: 'Observation',
+    //   query: {
+    //     $sort: [['date', 'desc'], ['code', 'asc']],
+    //   },
+    // });
+    // this.conditions = this.props.ptapi.fetchAll({
+    //   type: 'Condition',
+    // });
+    // this.encounters = this.props.ptapi.fetchAll({
+    //   type: 'Encounter',
+    //   query: {
+    //     $sort: [['date', 'desc']],
+    //   },
+    // });
+    // this.medicationOrder = this.props.ptapi.fetchAll({
+    //   type: 'MedicationStatement',
+    // });
+    // this.medicationRequest = this.props.ptapi.fetchAll({
+    //   type: 'MedicationRequest',
+    //   query: {
+    //     'context.diagnosis.code': {
+    //       $or: [
+    //         // History of antihypertensive drug treatment
+    //         // MedicationRequest?context.reason=10509002
+    //         '38341003',
+    //       ],
+    //     },
+    //   },
+    // });
 
   }
 
 
   render() {
+    console.log(patientLocal);
     return (
       <main className='content'>
         <Switch>

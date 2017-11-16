@@ -1,4 +1,4 @@
-import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT, SET_TIME_PERIOD } from './MeasurementActions';
+import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT, SET_TIME_PERIOD, ADD_PAST_BY_MEASUREMENT } from './MeasurementActions';
 
 
 
@@ -18,6 +18,14 @@ export function measurementState(state = {}, action){
 				presentMeasurements : {
 					...state.presentMeasurements,
 					[action.code]: action.future_value
+				}
+			}
+		case ADD_PAST_BY_MEASUREMENT:
+			return {
+				...state,
+				pastMeasurements : {
+					...state.pastMeasurements,
+					[action.code]: action.past_value
 				}
 			}
 		case SET_TIME_PERIOD:

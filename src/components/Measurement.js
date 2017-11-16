@@ -53,6 +53,9 @@ class Measurement extends React.Component {
         this.props.expandAbout(this.state.isDetailsShown, this.props.name);
       }
     }
+    else {
+      alert("Details cannot be displayed, as the patient only has one measurement.")
+    }
   }
 
   futureChangeHandler(newValue) {
@@ -94,8 +97,10 @@ class Measurement extends React.Component {
     const futureScore = this.props.futureMeasurements &&
       parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
 
-    const pastDate = this.props.pastDate &&
-      moment(this.props.pastDate).format('MMM Do YYYY');
+    console.log(this.props.pastMeasurementsValue, this.props.pastMeasurementsDate)
+
+    const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
+    const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
     const presentDate = this.props.presentDate &&
       moment(this.props.presentDate).format('MMM Do YYYY');
@@ -115,18 +120,18 @@ class Measurement extends React.Component {
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
-            {this.props.past ||
+            {pastValue ||
               <abbr title="Not available">N/A</abbr>
             }
-            {this.props.past &&
+            {pastValue &&
               <span className="tooltiptext">{pastDate || 'N/A'}</span>
             }
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center">
             {this.props.past &&
               <Icon
-                id={getArrowDir(this.props.past, this.props.present)}
-                mirrorH={getMirrorH(this.props.past, this.props.present)}
+                id={getArrowDir(pastValue, this.props.present)}
+                mirrorH={getMirrorH(pastValue, this.props.present)}
               />
             }
           </div>

@@ -4,8 +4,9 @@ import {
   fetchAllPatientDataIfNeeded
 } from '../services/fhir/FhirActions';
 
-const mapStateToProps = state => ({
-  patient: state.fhirPatientData.ptData,
+const mapStateToProps = (state, ownProps) => ({
+  //patient: state.fhirPatientData.ptData,
+  patient: ownProps.patient[0].resource,
   isFetchingAllPatientData: state.fhirPatientData.isFetchingAllPatientData
 });
 

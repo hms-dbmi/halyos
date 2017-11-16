@@ -2,17 +2,22 @@ import { connect } from 'react-redux';
 import Measurement from './Measurement';
 import {
   addFutureMeasurement,
-  addPresentMeasurement
+  addPresentMeasurement,
+  addPastMeasurement
 } from '../services/MeasurementActions';
+import {getNearestFlat} from '../services/general_utils';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   futureMeasurements: state.measurementState.futureMeasurements,
-  presentMeasurements: state.measurementState.presentMeasurements
+  presentMeasurements: state.measurementState.presentMeasurements,
+  pastMeasurementsValue: getNearestFlat(ownProps.graphData, state.pastDate).value,
+  pastMeasurementsDate: getNearestFlat(ownProps.graphData, state.pastDate).date
 });
 
 const mapDispatchToProps = dispatch => ({
   addPresentMeasurement: (code, value) => dispatch(addPresentMeasurement(code, value)),
   addFutureMeasurement: (code, value) => dispatch(addFutureMeasurement(code, value)),
+  addPastMeasurement: (code, value) => dispatch(addPastMeasurement(code, value)),
 });
 
 const MeasurementContainer = connect(

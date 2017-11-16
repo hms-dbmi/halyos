@@ -1,5 +1,6 @@
 export const ADD_FUTURE_BY_MEASUREMENT = 'ADD_FUTURE_BY_MEASUREMENT';
 export const ADD_PRESENT_BY_MEASUREMENT = 'ADD_PRESENT_BY_MEASUREMENT';
+export const ADD_PAST_BY_MEASUREMENT = 'ADD_PAST_BY_MEASUREMENT';
 export const SET_TIME_PERIOD = 'SET_TIME_PERIOD';
 
 
@@ -16,6 +17,14 @@ export function addPresentMeasurement(code, value) {
 		type: ADD_PRESENT_BY_MEASUREMENT,
 		code:code,
 		future_value:value
+	}
+}
+
+export function addPastMeasurement(code, value) {
+	return {
+		type: ADD_PAST_BY_MEASUREMENT,
+		code: code,
+		past_value: value
 	}
 }
 

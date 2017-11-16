@@ -179,7 +179,7 @@ export const patientLocal = [
           }
         ],
         "gender": "female",
-        "birthDate": "1965-07-27",
+        "birthDate": "1945-07-28",
         "address": [
           {
             "extension": [
@@ -1664,7 +1664,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2016-08-20T23:34:18-04:00",
         "issued": "2016-08-20T23:34:18-04:00",
         "valueQuantity": {
-          "value": 21,
+          "value": 38,
           "unit": "mg/g",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/g"
@@ -1716,7 +1716,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2015-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
-          "value": 20,
+          "value": 29,
           "unit": "mg/g",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/g"
@@ -1765,7 +1765,163 @@ export const observationsLocal = [
         "context": {
           "reference": "Encounter/182549"
         },
-        "effectiveDateTime": "2015-09-24T20:18:16-04:00",
+        "effectiveDateTime": "2016-04-24T20:18:16-04:00",
+        "issued": "2016-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 2.2,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org/",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30522-7",
+              "display": "CRP SerPl HS-mCnc"
+            }
+          ],
+          "text": "C reactive protein"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/182549"
+        },
+        "effectiveDateTime": "2014-09-24T20:18:16-04:00",
+        "issued": "2015-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 2.5,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org/",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30522-7",
+              "display": "CRP SerPl HS-mCnc"
+            }
+          ],
+          "text": "C reactive protein"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/182549"
+        },
+        "effectiveDateTime": "2012-09-24T20:18:16-04:00",
+        "issued": "2011-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 2.1,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org/",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30522-7",
+              "display": "CRP SerPl HS-mCnc"
+            }
+          ],
+          "text": "C reactive protein"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/182549"
+        },
+        "effectiveDateTime": "2011-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
           "value": 2.4,
@@ -3848,7 +4004,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2016-08-20T23:34:18-04:00",
         "issued": "2016-08-20T23:34:18-04:00",
         "valueQuantity": {
-          "value": 66,
+          "value": 58,
           "unit": "mg/dL",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/dL"
@@ -3900,7 +4056,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2015-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
-          "value": 73,
+          "value": 65,
           "unit": "mg/dL",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/dL"
@@ -6999,171 +7155,6 @@ export const observationsLocal = [
       }
     },
     {
-      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/192747",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "192747",
-        "meta": {
-          "versionId": "1",
-          "lastUpdated": "2017-07-21T13:48:39.641-04:00"
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f205\n      </p><p><b>identifier</b>: 1304-03720-eGFR\n      </p><p><b>status</b>: final\n      </p><p><b>code</b>: Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD) \n        <span>(Details : {LOINC code '33914-3' = 'Glomerular filtration rate/1.73 sq M.predicted by Creatinine-based formula (MDRD)', given as 'Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)'})</span></p><p><b>subject</b>: \n        <a>Roel</a></p><p><b>issued</b>: Apr 4, 2013 2:34:00 PM\n      </p><p><b>performer</b>: \n        <a>Luigi Maas</a></p><p><b>interpretation</b>: interpretation of results should be assigned based upon the level of kindey function \n        <span>(Details )</span></p><p><b>comment</b>: GFR estimating equations developed by the Modification of Diet in Renal Disease (MDRD) Study Group and the Chronic Kidney Disease Epidemiology Collaboration (CKD-EPI)....\n      </p><p><b>method</b>: MDRD \n        <span>(Details : {SNOMED CT code '702668005' = '??', given as 'MDRD'})</span></p><blockquote><p><b>component</b></p><p><b>code</b>: Glomerular filtration rate/1.73 sq M predicted among blacks [Volume Rate/?Area] in Serum or Plasma by Creatinine-based formula (MDRD) \n          <span>(Details : {LOINC code '48643-1' = 'Glomerular filtration rate/1.73 sq M predicted among blacks by Creatinine-based formula (MDRD)', given as 'Glomerular filtration rate/1.73 sq M predicted among blacks [Volume Rate/?Area] in Serum or Plasma by Creatinine-based formula (MDRD)'})</span></p><p><b>value</b>: &gt;60 mL/min/1.73m2\n          <span> (Details: http://unitsofmeasure.org code mL/min/{1.73_m2} = 'mL/min/{1.73_m2}')</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td></tr><tr><td>*</td></tr></table></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: Glomerular filtration rate/1.73 sq M predicted among non-blacks [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD) \n          <span>(Details : {LOINC code '48642-3' = 'Glomerular filtration rate/1.73 sq M predicted among non-blacks by Creatinine-based formula (MDRD)', given as 'Glomerular filtration rate/1.73 sq M predicted among non-blacks [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)'})</span></p><p><b>value</b>: 60 mL/min/1.73m2\n          <span> (Details: http://unitsofmeasure.org code mL/min/{1.73_m2} = 'mL/min/{1.73_m2}')</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td></tr><tr><td>*</td></tr></table></blockquote></div>"
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsDNASequenceVariant",
-            "valueString": "NG_007726.3:g.146252T>G"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsGene",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://www.genenames.org",
-                  "code": "3236",
-                  "display": "EGFR"
-                }
-              ]
-            }
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsDNARegionName",
-            "valueString": "Exon 21"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsGenomicSourceClass",
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/LOINC-48002-0-answerlist",
-                  "code": "LA6684-0",
-                  "display": "somatic"
-                }
-              ]
-            }
-          }
-        ],
-        "identifier": [
-          {
-            "system": "https://intranet.aumc.nl/labvalues",
-            "value": "1304-03720-eGFR"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "33914-3",
-              "display": "Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/182296",
-          "display": "Roel"
-        },
-        "issued": "2013-04-04T14:34:00+01:00",
-        "performer": [
-          {
-            "reference": "Practitioner/5355",
-            "display": "Luigi Maas"
-          }
-        ],
-        "interpretation": {
-          "text": "interpretation of results should be assigned based upon the level of kindey function"
-        },
-        "comment": "GFR estimating equations developed by the Modification of Diet in Renal Disease (MDRD) Study Group and the Chronic Kidney Disease Epidemiology Collaboration (CKD-EPI)....",
-        "method": {
-          "coding": [
-            {
-              "system": "http://snomed.info/id",
-              "code": "702668005",
-              "display": "MDRD"
-            }
-          ]
-        },
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "48643-1",
-                  "display": "Glomerular filtration rate/1.73 sq M predicted among blacks [Volume Rate/?Area] in Serum or Plasma by Creatinine-based formula (MDRD)"
-                }
-              ]
-            },
-            "valueQuantity": {
-              "value": 60,
-              "comparator": ">",
-              "unit": "mL/min/1.73m2",
-              "system": "http://unitsofmeasure.org",
-              "code": "mL/min/{1.73_m2}"
-            },
-            "referenceRange": [
-              {
-                "low": {
-                  "value": 60,
-                  "unit": "mL/min/1.73m2",
-                  "system": "http://unitsofmeasure.org",
-                  "code": "mL/min/{1.73_m2}"
-                },
-                "age": {
-                  "low": {
-                    "value": 18,
-                    "unit": "yrs",
-                    "system": "http://unitsofmeasure.org",
-                    "code": "a"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "48642-3",
-                  "display": "Glomerular filtration rate/1.73 sq M predicted among non-blacks [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)"
-                }
-              ]
-            },
-            "valueQuantity": {
-              "value": 60,
-              "unit": "mL/min/1.73m2",
-              "system": "http://unitsofmeasure.org",
-              "code": "mL/min/{1.73_m2}"
-            },
-            "referenceRange": [
-              {
-                "low": {
-                  "value": 60,
-                  "unit": "mL/min/1.73m2",
-                  "system": "http://unitsofmeasure.org",
-                  "code": "mL/min/{1.73_m2}"
-                },
-                "age": {
-                  "low": {
-                    "value": 18,
-                    "unit": "yrs",
-                    "system": "http://unitsofmeasure.org",
-                    "code": "a"
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
       "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182596",
       "resource": {
         "resourceType": "Observation",
@@ -7205,7 +7196,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2016-08-20T23:34:18-04:00",
         "issued": "2016-08-20T23:34:18-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 40,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7257,7 +7248,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2015-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 43,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7309,7 +7300,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2014-09-17T12:10:35-04:00",
         "issued": "2014-09-17T12:10:35-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 53,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7361,7 +7352,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2013-09-03T18:38:25-04:00",
         "issued": "2013-09-03T18:38:25-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 55,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7413,7 +7404,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2012-07-27T23:07:01-04:00",
         "issued": "2012-07-27T23:07:01-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 58,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7517,7 +7508,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2010-04-21T15:59:14-04:00",
         "issued": "2010-04-21T15:59:14-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 61,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7569,7 +7560,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2009-05-23T11:57:22-04:00",
         "issued": "2009-05-23T11:57:22-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 62,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -7621,7 +7612,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2008-05-21T21:05:02-04:00",
         "issued": "2008-05-21T21:05:02-04:00",
         "valueQuantity": {
-          "value": 60,
+          "value": 59,
           "unit": "mL/min/{1.73_m2}",
           "system": "http://unitsofmeasure.org/",
           "code": "mL/min/{1.73_m2}"
@@ -8299,7 +8290,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2016-08-20T23:34:18-04:00",
         "issued": "2016-08-20T23:34:18-04:00",
         "valueQuantity": {
-          "value": 29.737602259985717,
+          "value": 30.737602259985717,
           "unit": "kg/m2",
           "system": "http://unitsofmeasure.org/",
           "code": "kg/m2"
@@ -8353,7 +8344,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2015-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
-          "value": 30.22402910832787,
+          "value": 29.22402910832787,
           "unit": "kg/m2",
           "system": "http://unitsofmeasure.org/",
           "code": "kg/m2"
@@ -10409,7 +10400,7 @@ export const observationsLocal = [
               "text": "Systolic Blood Pressure"
             },
             "valueQuantity": {
-              "value": 189,
+              "value": 196,
               "unit": "mmHg",
               "system": "http://unitsofmeasure.org/",
               "code": "mmHg"
@@ -11238,7 +11229,109 @@ export const observationsLocal = [
         },
         "effectiveDateTime": "2016-09-08T06:20:47-04:00",
         "valueQuantity": {
+          "value": 106,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org/",
+          "code": "cm"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/192751",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "192751",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-21T15:53:57.946-04:00"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "56115-9",
+              "display": "Waist Circumference"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "effectiveDateTime": "2014-04-08T06:20:47-04:00",
+        "valueQuantity": {
           "value": 96,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org/",
+          "code": "cm"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/192751",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "192751",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2013-07-21T15:53:57.946-04:00"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "56115-9",
+              "display": "Waist Circumference"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "effectiveDateTime": "2013-02-04T06:20:47-04:00",
+        "valueQuantity": {
+          "value": 93,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org/",
+          "code": "cm"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/192751",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "192751",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-21T15:53:57.946-04:00"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "56115-9",
+              "display": "Waist Circumference"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "effectiveDateTime": "2011-12-08T06:20:47-04:00",
+        "valueQuantity": {
+          "value": 92,
           "unit": "cm",
           "system": "http://unitsofmeasure.org/",
           "code": "cm"
@@ -11862,7 +11955,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2016-08-20T23:34:18-04:00",
         "issued": "2016-08-20T23:34:18-04:00",
         "valueQuantity": {
-          "value": 12,
+          "value": 19.5,
           "unit": "mg/dL",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/dL"
@@ -11914,7 +12007,7 @@ export const observationsLocal = [
         "effectiveDateTime": "2015-09-24T20:18:16-04:00",
         "issued": "2015-09-24T20:18:16-04:00",
         "valueQuantity": {
-          "value": 13,
+          "value": 15,
           "unit": "mg/dL",
           "system": "http://unitsofmeasure.org/",
           "code": "mg/dL"

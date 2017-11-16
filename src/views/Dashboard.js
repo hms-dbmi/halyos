@@ -105,7 +105,6 @@ class Dashboard extends React.Component {
 
     let lat;
     let long;
-
     if (this.props.patient.address[0].extension[0].url.endsWith('geolocation')) {
       if (this.props.patient.address[0].extension[0].extension[0].url === 'latitude') {
         lat = this.props.patient.address[0].extension[0].extension[0].valueDecimal;

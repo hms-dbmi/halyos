@@ -24,11 +24,11 @@ const MeasurementAbout = props => (
     </header>{!props.name ||
     <div className="flex-g-1 r">
       <h4><strong>What</strong> does my {props.name} mean?</h4>
-      <p>{props.name && text[props.name] && text[props.name].meaning || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].meaning || 'Not available...'}</p>
       <h4><strong>Why</strong> is my {props.name} important?</h4>
-      <p>{props.name && text[props.name] && text[props.name].important || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].important || 'Not available...'}</p>
       <h4><strong>How</strong> can I make it better?</h4>
-      <p>{props.name && text[props.name] && text[props.name].improve || 'Loading...'}</p>
+      <p>{props.name && text[props.name] && text[props.name].improve || 'Not available...'}</p>
     </div>}
   </div>
 );

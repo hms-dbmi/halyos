@@ -73,6 +73,10 @@ export function getCondName(condCode, codes, names) {
   }
 }
 
+export function findClosest(date, measures) {
+  
+}
+
 /**
   @param: obsBundle -- fetchAll observation bundle
   @param: object -- a javascript object where keys represent the LOINC codes of interest and their values are empty arrays
