@@ -60,8 +60,9 @@ export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = nu
         return;
     }
     else {
+      let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
       return calcKFRisk(pt.gender,
-        calculateAge(pt.birthDate),
+        calculateAge(pt.birthDate)-yearsYounger,
         getNearestFlat(codesObject["48643-1"], date).value,
         getNearestFlat(codesObject['14958-3'], date).value
         )

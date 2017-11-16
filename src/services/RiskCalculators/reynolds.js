@@ -100,7 +100,8 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
         }
       }
     }
-    return calculateReynolds(calculateAge(pt.birthDate),
+    let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+    return calculateReynolds(calculateAge(pt.birthDate)-yearsYounger,
       getNearestFlat(sortedObs['8480-6'], date).value,
       getNearestFlat(sortedObs['30522-7'], date).value,
       getNearestFlat(sortedObs['2093-3'], date).value,

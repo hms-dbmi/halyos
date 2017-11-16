@@ -97,8 +97,6 @@ class Measurement extends React.Component {
     const futureScore = this.props.futureMeasurements &&
       parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
 
-    console.log(this.props.pastMeasurementsValue, this.props.pastMeasurementsDate)
-
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
     const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
