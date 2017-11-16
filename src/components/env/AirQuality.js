@@ -29,16 +29,11 @@ const AirQuality = props => (
     <div>
       <h5>Air Quality (AQI) Near You</h5>
       <div>
-        <h6>Main Pollutant</h6>
-        <div>
-          {/*{props.pollutant}*/}
-          <h6>{airQualityLocal.data.current.pollution.mainus}</h6>
-        </div>
-        <h6>Air Quality Level</h6>
-        <div>
+        Main Pollutant: {airQualityLocal.data.current.pollution.mainus}
+        <br/> <br/>
+        Air Quality Level: <br/>
           {/*{props.airQualityExplanation}*/}
           The air quality index is {airQualityLocal.data.current.pollution.aqius}. This means air quality is considered satisfactory, and air pollution poses little or no risk.
-        </div>
       </div>
     </div>
   </EnvironmentTile>
