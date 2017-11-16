@@ -70,7 +70,8 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
                 filteredConfusion = true;
             }
         }
-        var COPDScore = calcCOPD(calculateAge(pt.birthDate),
+        let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+        var COPDScore = calcCOPD(calculateAge(pt.birthDate)-yearsYounger,
             confusion,
             getNearestFlat(sortedObs['6299-2'], date).value,
             getNearestFlat(sortedObs['9279-1'], date).value,

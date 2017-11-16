@@ -77,7 +77,20 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
           filteredConds.push(conds[i]);
         }
       }
-      return CHADScore(pt, filteredConds);
+      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+      var hypertension = pullCondition(conds, ["38341003"]);
+      var vascDisease = pullCondition(conds, ["27550009"]);
+      var diabetes = pullCondition(conds, ["73211009"]);
+      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+      let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+      var CHADscore = calcCHADScore(calculateAge(pt.birthDate)-yearsYounger, //age
+        pt.gender, //gender
+        chf, //chf
+        hypertension, //hypertension
+        vascDisease, //vascDisease
+        diabetes, //diabetes
+        strTIAthrom); //strTIAthrom
+      return CHADscore;
     }
     return "..."
 }

@@ -49,7 +49,6 @@ class Main extends React.Component {
 
 
   render() {
-    console.log(patientLocal);
     return (
       <main className='content'>
         <Switch>

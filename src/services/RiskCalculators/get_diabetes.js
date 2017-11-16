@@ -21,10 +21,10 @@ const BMI = '39156-5';
 export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist) {
           //starts with the intercept
         let exp_factor = -5.514;
-        //age
-        if (age < 54 && age > 45){
+        //age -- double check this
+        if (age < 54){
           exp_factor += 0.628;
-        } else if (age > 55 && age < 64){
+        } else if (age >= 55){
           exp_factor += 0.892;
         } else {
           //its good that we have this, removed for demo.
@@ -133,7 +133,8 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
           return;
       }
       else {
-        return calcDiabetesRisk(calculateAge(pt.birthDate),
+        let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+        return calcDiabetesRisk(calculateAge(pt.birthDate)-yearsYounger,
           pt.gender,
           getNearestFlat(codesObject['39156-5'], date).value,
           hyperglycemiaBool,
