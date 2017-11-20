@@ -43,11 +43,11 @@ const RiskTile = props => (
       </div>
       <div className="flex-c flex-align-sb">
         <div className="risk-tile-context">{`within ${props.context} years`}</div>
-        <Button
+        {/* <Button
           icon="info"
           iconOnly={true}
           className="risk-tile-info"
-          onClick={() => alert('More info on the risk here.')} />
+          onClick={() => alert('More info on the risk here.')} /> */}
       </div>
       <div className="risk-tile-context-bar" style={getLength(props.context, props.contextMax)}></div>
     </div>

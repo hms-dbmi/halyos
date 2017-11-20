@@ -108,6 +108,12 @@ class Measurement extends React.Component {
         <div className="measurement-info pure-g">
           <div className="pure-u-15-24">
             <div className="full-wh flex-c flex-v-center flex-wrap">
+              <Button
+                icon="help"
+                iconOnly={true}
+                className="measurement-future-help"
+                onClick={this.showDetails.bind(this)}
+              />
               <p
                 className="measurement-title p"
                 onClick={() => this.showDetails()}
@@ -139,12 +145,6 @@ class Measurement extends React.Component {
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
             {futureScore}
-            <Button
-              icon="help"
-              iconOnly={true}
-              className="measurement-future-help"
-              onClick={this.showDetails.bind(this)}
-            />
           </div>
         </div>
         <div className="measurement-graph">
