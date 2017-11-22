@@ -17,16 +17,16 @@
 import {searchByCode, calculateAge} from '../../services/risk_score_utils';
 import {getNearestFlat} from '../../services/general_utils';
 
-const $ = window.$;
-const _ = window._;
+// const $ = window.$;
+// const _ = window._;
 
-const BP = "55284-4";
-const HSCRP = "30522-7";
-const CHOLESTEROL = "2093-3";
-const HDL = "2085-9";
+// const BP = "55284-4";
+// const HSCRP = "30522-7";
+// const CHOLESTEROL = "2093-3";
+// const HDL = "2085-9";
 
 export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist, gender) {
-  if (gender == "female") {
+  if (gender === "female") {
     let b = 0.0799*age+3.137*Math.log(sysBP)+0.180*Math.log(hsCRP)
     +1.382*Math.log(chol)-1.172*Math.log(hdl);
     if (smoker) {
@@ -35,9 +35,9 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     if (famHist) {
       b += 0.438;
     }
-    var score = 100*(1-Math.pow(0.98756,Math.pow(Math.E,b-22.325)));
-    score = score.toFixed(0);
-    return score;
+    let finalScore = 100*(1-Math.pow(0.98756,Math.pow(Math.E,b-22.325)));
+    finalScore = finalScore.toFixed(0);
+    return finalScore;
   }
   else {
     let b = 4.385*Math.log(age)+2.607*Math.log(sysBP)+0.963*Math.log(chol)
@@ -49,9 +49,9 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     if (famHist) {
       b += 0.541;
     }
-    var score = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
-    score = score.toFixed(0);
-    return score;
+    let finalScore = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
+    finalScore = finalScore.toFixed(0);
+    return finalScore;
   }
 }
 

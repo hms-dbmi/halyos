@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// Components
-import Button from './Button';
-
 // Styles
 import './RiskTile.css';
 
@@ -61,9 +58,6 @@ RiskTile.propTypes = {
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
   name: PropTypes.string,
-  score: PropTypes.number,
-  futureScore: PropTypes.number,
-  pastScore: PropTypes.number,
   status: PropTypes.string,
   unit: PropTypes.string,
 };

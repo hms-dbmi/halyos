@@ -77,8 +77,8 @@ export function sortMeasurements(obs){
       if(!obs[i].resource.code.text) {
         obs[i].resource.code.text = obs[i].resource.code.coding[0].display
       }
-      var found = false;
-      for(var j = 0; j < sortedMeasures.length; j++) {
+      let found = false;
+      for(let j = 0; j < sortedMeasures.length; j++) {
         if(sortedMeasures[j].name === obs[i].resource.code.text) {
           sortedMeasures[j].measurements.push(
             {"value": obs[i].resource.valueQuantity.value.toFixed(2),

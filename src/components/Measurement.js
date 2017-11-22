@@ -151,6 +151,7 @@ class Measurement extends React.Component {
           {this.state.isDetailsShown && this.props.isExpanded && (
             <PastGraph
               pastDate={this.props.userPastDate}
+              pastDateMeasurement={this.props.pastMeasurementsDate}
               data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
@@ -177,10 +178,10 @@ Measurement.propTypes = {
   risk: PropTypes.string,
   pastDate: PropTypes.string,
   presentDate: PropTypes.string,
-  presentMeasurements: PropTypes.array,
-  futureMeasurements: PropTypes.array,
-  graphData: PropTypes.obj,
-  userPastDate: PropTypes.obj,
+  presentMeasurements: PropTypes.instanceOf(Object),
+  futureMeasurements: PropTypes.instanceOf(Object),
+  graphData: PropTypes.array,
+  userPastDate: PropTypes.instanceOf(moment),
   addPresentMeasurement: PropTypes.func,
   addFutureMeasurement: PropTypes.func,
 };

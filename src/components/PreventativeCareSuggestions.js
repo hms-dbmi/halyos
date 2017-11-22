@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// Services
-import { calculateAge } from '../services/risk_score_utils';
-
 // Styles
 import './PreventativeCareSuggestions.css';
 
-const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
-
-const getUrl = (birthDate, gender) => `${URL}${40 || calculateAge(birthDate)}&sex=${gender}`;
+//use lines below for getting live API response
+//const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
+//const getUrl = (birthDate, gender) => `${URL}${40 || calculateAge(birthDate)}&sex=${gender}`;
 
 const staticURL = (birthDate, gender) => './data/preventativeCareSuggestions.json';
 
@@ -21,16 +18,28 @@ class PreventativeCareSuggestions extends React.Component {
       interventionsList: []
     };
 
+  }
+
+  // componentWillUpdate(nextProps) {
+  //   if (
+  //     nextProps.birthDate !== this.props.birthDate ||
+  //     nextProps.gender !== this.props.gender
+  //   ) {
+  //     this.loadData();
+  //   }
+  // }
+
+  componentDidMount() {
+    this.setState({
+      mounted: true
+    })
     this.loadData();
   }
 
-  componentWillUpdate(nextProps) {
-    if (
-      nextProps.birthDate !== this.props.birthDate ||
-      nextProps.gender !== this.props.gender
-    ) {
-      this.loadData();
-    }
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    })
   }
 
   loadData() {
@@ -50,10 +59,11 @@ class PreventativeCareSuggestions extends React.Component {
     for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
       interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
     }
-
-    this.setState({
-      interventionsList: interventions
-    });
+    if(this.state.mounted) {
+      this.setState({
+        interventionsList: interventions
+      });
+    }
   }
 
   render() {

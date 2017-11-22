@@ -13,7 +13,7 @@
     @return CHAD risk score
 
 */
-import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {
@@ -25,8 +25,8 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
   else {
     age = 2;
   }
-  var score = age + (gender == "female") + (!(chf.length == 0)) + (!(hypertension.length == 0)) + 
-  (!(vascDisease.length == 0)) + (!(diabetes.length == 0)) + 2*(!(strTIAthrom.length == 0));
+  var score = age + (gender === "female") + (!(chf.length === 0)) + (!(hypertension.length === 0)) + 
+  (!(vascDisease.length === 0)) + (!(diabetes.length === 0)) + 2*(!(strTIAthrom.length === 0));
   var strkRisk;
   switch (score) {
     case 0:
@@ -56,6 +56,8 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
     case 8:
       strkRisk = 10.8;
       break;
+    default:
+      strkRisk = "N/A";
   }
   return strkRisk;
 }

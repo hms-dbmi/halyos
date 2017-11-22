@@ -39,6 +39,8 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
       case 5:
         mortality = 27.8;
         break;
+      default:
+        mortality = "N/A";
     }
     return mortality;
 }
@@ -55,7 +57,7 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
         var sortedObs = searchByCode(obs, measurementObject);
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
-                if(sortedObs[key].length == 0) {
+                if(sortedObs[key].length === 0) {
                     alert("Patient does not have adequate measurements for COPD Risk Score.");
                     ////console.log(sortedObs);
                     return;
@@ -71,8 +73,8 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
             }
         }
         let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
-        var COPDScore = calcCOPD(calculateAge(pt.birthDate)-yearsYounger,
-            confusion,
+        let COPDScore = calcCOPD(calculateAge(pt.birthDate)-yearsYounger,
+            filteredConfusion,
             getNearestFlat(sortedObs['6299-2'], date).value,
             getNearestFlat(sortedObs['9279-1'], date).value,
             getNearestFlat(sortedObs['8480-6'], date).value,
@@ -89,7 +91,7 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
   if(presMeasures && pt && futureMeasures) {
       return calcCOPD(
         calculateAge(pt.birthDate),
-        conds && pullCondition(conds, ["40917007"]).length != 0,
+        conds && pullCondition(conds, ["40917007"]).length !== 0,
         (futureMeasures['6299-2'] || presMeasures['6299-2']),
         (futureMeasures['9279-1'] || presMeasures['9279-1']),
         (futureMeasures['8480-6'] || presMeasures['8480-6']),
@@ -99,7 +101,7 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
   else if (presMeasures && pt) {
       return calcCOPD(
         calculateAge(pt.birthDate),
-        conds && pullCondition(conds, ["40917007"]).length != 0,
+        conds && pullCondition(conds, ["40917007"]).length !== 0,
         presMeasures['6299-2'],
         presMeasures['9279-1'],
         presMeasures['8480-6'],
@@ -128,7 +130,7 @@ export function COPDScore(pt, obs, conds) {
         var sortedObs = searchByCode(obs, measurementObject);
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
-                if(sortedObs[key].length == 0) {
+                if(sortedObs[key].length === 0) {
                     alert("Patient does not have adequate measurements for COPD Risk Score.");
                     ////console.log(sortedObs);
                     return;

@@ -25,6 +25,22 @@
   .react-datepicker__day--selected {
     font-weight: 700;
   }
+
+  .past-label {
+    color: #b300b3;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .present-label {
+    color: #000000;
+    font-weight: bold;
+  }
+
+  .future-label {
+    color: #009900;
+    font-weight: bold;
+  }
 }
 
 .measurements-list {
