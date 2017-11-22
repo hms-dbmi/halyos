@@ -15,8 +15,8 @@
 import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
 import {getNearestFlat} from '../../services/general_utils';
 
-const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
-const BMI = '39156-5';
+// const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
+// const BMI = '39156-5';
 
 export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist) {
           //starts with the intercept
@@ -54,14 +54,14 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         }
 
         //waist circumference
-        if (gender == "male"){
+        if (gender === "male"){
           if (waist > 94 && waist < 102){
             exp_factor += 0.857;
           } else if (waist >= 102 ) {
             exp_factor += 1.350;
           }
           // console.log("This is the first console: ",scoreSets[i]);
-        } else if (gender == "female") {
+        } else if (gender === "female") {
           if (waist > 80 && waist < 88){
             exp_factor += 0.857;
           } else if (waist >= 89) {
@@ -85,7 +85,7 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
         calculateAge(pt.birthDate),
         pt.gender,
         futureMeasures['39156-5'] || presMeasures['39156-5'],
-        pullCondition(conds, ['80394007']).length != 0,
+        pullCondition(conds, ['80394007']).length !== 0,
         false,
         futureMeasures['56115-9'] || futureMeasures['56114-2'] || futureMeasures['56117-5'] || futureMeasures['8280-0'] || futureMeasures['8281-8'] ||
         presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
@@ -96,7 +96,7 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
         calculateAge(pt.birthDate),
         pt.gender,
         presMeasures['39156-5'],
-        pullCondition(conds, ['80394007']).length != 0,
+        pullCondition(conds, ['80394007']).length !== 0,
         false,
         presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
       );
@@ -114,7 +114,7 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
         '8281-8': [],
         '39156-5': []
       };
-      const sortedObs = searchByCode(obs, codesObject);
+      searchByCode(obs, codesObject);
       codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56114-2'])
       codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56117-5'])
       codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8280-0'])
@@ -128,7 +128,7 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
           hyperglycemiaBool = true;
         }
       }
-      if(codesObject['56115-9'].length == 0 || codesObject['39156-5'].length == 0) {
+      if(codesObject['56115-9'].length === 0 || codesObject['39156-5'].length === 0) {
           alert("Patient does not have enough measurements for Diabetes Risk Score");
           return;
       }
@@ -158,7 +158,7 @@ export function diabetesScore(pt, obs, conds, medreq) {
     var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
     var bmi = pullCondition(obs, ['39156-5']);
     var hyperglycemia = pullCondition(conds, ['80394007']);
-    if (waist.length == 0 || bmi.length == 0) {
+    if (waist.length === 0 || bmi.length === 0) {
       alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
       ////console.log(bmi, waist);
       return;
@@ -166,7 +166,7 @@ export function diabetesScore(pt, obs, conds, medreq) {
     var score = calcDiabetesRisk(calculateAge(pt.birthDate),
       pt.gender,
       bmi[0].resource.valueQuantity.value,
-      (hyperglycemia.length != 0),
+      (hyperglycemia.length !== 0),
       false, //NEEDS TO BE FIXED
       waist[0].resource.valueQuantity.value);
     return score;

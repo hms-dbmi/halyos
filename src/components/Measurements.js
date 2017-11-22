@@ -174,7 +174,7 @@ Measurements.propTypes = {
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
   measurements: PropTypes.array,
-  pastDate: PropTypes.number,
+  pastDate: PropTypes.instanceOf(Date),
   setPastDate: PropTypes.func,
 };
 

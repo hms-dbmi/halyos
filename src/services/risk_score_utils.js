@@ -1,6 +1,3 @@
-import $ from 'jquery'; 
-import React from 'react';
-
 const TIME_THRESHOLD = 10000000;
 
 export function findPriorSets(bundles, codes, names, aggBund) {
@@ -37,7 +34,7 @@ export function findPriorSets(bundles, codes, names, aggBund) {
       variablesObject[iteratorType] = aggBund[i];
       let j = i-1;
       while(j >= 0 && calculateTimeDiffHours(aggBund[j].effectiveDateTime, aggBund[i].effectiveDateTime) < TIME_THRESHOLD) {
-        var currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
+        let currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
         if (!(variablesObject.hasOwnProperty(currName))) {
           variablesObject[currName] = aggBund[j];
         }
@@ -45,7 +42,7 @@ export function findPriorSets(bundles, codes, names, aggBund) {
       }
       j = i+1;
       while(j < aggBund.length && calculateTimeDiffHours(aggBund[j].effectiveDateTime, aggBund[i].effectiveDateTime) < TIME_THRESHOLD) {
-        var currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
+        let currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
         if (!(variablesObject.hasOwnProperty(currName))) {
           variablesObject[currName] = aggBund[j];
         }
@@ -87,7 +84,7 @@ export function searchByCode(obsBundle, object) {
   for (var j = 0; j < obsBundle.length; j++) {
     if(obsBundle[j].resource.component) {
       for (var i = 0; i < obsBundle[j].resource.component.length; i++) {
-        var code = obsBundle[j].resource.component[i].code.coding[0].code;
+        let code = obsBundle[j].resource.component[i].code.coding[0].code;
         if(object.hasOwnProperty(code)) {
           object[code].push({
             'code': code,
@@ -101,7 +98,7 @@ export function searchByCode(obsBundle, object) {
       }
     }
     else {
-      var code = obsBundle[j].resource.code.coding[0].code;
+      let code = obsBundle[j].resource.code.coding[0].code;
       if(object.hasOwnProperty(code)) {
         object[code].push({
           'code': code,

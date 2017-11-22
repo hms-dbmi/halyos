@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as d3 from 'd3';
-import moment from 'moment';
 
 // Styles
 import './PastGraph.css';
@@ -196,7 +195,7 @@ class PastGraph extends React.Component {
       .attr('cy', d => this.y(d.y))
       .each(function(d) {
               var point = d3.select(this);
-              if (d.x == presentDate){
+              if (d.x === presentDate){
                 point
                   .attr("class", "last-point past-graph-node")
               } else if(d.x.getTime() === measurementPastDate.getTime()) {
@@ -364,7 +363,7 @@ class PastGraph extends React.Component {
       .attr('cy', d => this.y(d.y))
       .each(function(d) {
               var point = d3.select(this);
-              if (d.x == presentDate){
+              if (d.x === presentDate){
                 point
                   .attr("class", "last-point past-graph-node")
               } else if(d.x.getTime() === measurementPastDate.getTime()) {
@@ -432,12 +431,12 @@ class PastGraph extends React.Component {
 }
 
 PastGraph.propTypes = {
-  data: PropTypes.obj,
+  data: PropTypes.instanceOf(Object),
   futureMin: PropTypes.number,
   futureMax: PropTypes.number,
-  futureValue: PropTypes.number,
+  futureValue: PropTypes.string,
   futureChangeHandler: PropTypes.func,
-  pastDate: PropTypes.obj,
+  pastDate: PropTypes.instanceOf(Object),
 };
 
 export default PastGraph;

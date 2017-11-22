@@ -4,9 +4,6 @@ import React from 'react';
 // Components
 import EnvironmentTile from '../EnvironmentTile';
 
-//Static Data
-import {fluLocal} from '../../data/fhirData';
-
 const Flu = props => (
   <EnvironmentTile
     name="Flu"
