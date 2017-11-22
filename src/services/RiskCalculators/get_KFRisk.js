@@ -89,7 +89,6 @@ export function KFRScore(pt, obs) {
       if(gfr[0].resource.component) {
         gfr[0] = gfr[0].resource.component[0];
       }
-      console.log(gfr)
       var KFRisk = calcKFRisk(pt.gender, 
       calculateAge(pt.birthDate), 
       gfr[0].resource.valueQuantity.value, //gfr

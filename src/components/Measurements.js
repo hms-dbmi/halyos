@@ -84,20 +84,20 @@ class Measurements extends React.Component {
             </div>
           </div>
           <div
-            className="pure-u-3-24 smaller flex-c flex-v-center"
+            className="pure-u-3-24 smaller flex-c flex-v-center past-label"
             onClick={this.toggleDatePicker.bind(this)}
           >
             <Icon id="calendar"/>
              &nbsp;Past
           </div>
           <div
-            className="pure-u-3-24 smaller"
+            className="pure-u-3-24 smaller present-label"
             onClick={() => this.props.setTimePeriod('Present')}
           >
             Present
           </div>
           <div
-            className="pure-u-3-24 smaller"
+            className="pure-u-3-24 smaller future-label"
             onClick={() => this.props.setTimePeriod('Future')}
           >
             Future

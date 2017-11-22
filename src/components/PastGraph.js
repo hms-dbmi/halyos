@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as d3 from 'd3';
+import moment from 'moment';
 
 // Styles
 import './PastGraph.css';
@@ -96,7 +97,6 @@ class PastGraph extends React.Component {
       tick += stepSize;
     }
     tickArray.push(tick);
-    console.log(tickArray)
 
     this.xAxis = d3.axisBottom(this.x);
 
@@ -187,6 +187,7 @@ class PastGraph extends React.Component {
 
     const presentDate = this.props.data[0].x
     // add scatter points
+    let measurementPastDate = new Date(this.props.pastDateMeasurement)
     this.focusGraph.selectAll('past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
@@ -198,6 +199,8 @@ class PastGraph extends React.Component {
               if (d.x == presentDate){
                 point
                   .attr("class", "last-point past-graph-node")
+              } else if(d.x.getTime() === measurementPastDate.getTime()) {
+                  point.attr("class", "past-point past-graph-node")
               } else {
                 point
                   .attr("class", "other-points past-graph-node")
@@ -324,7 +327,6 @@ class PastGraph extends React.Component {
   update(nextProps) {
 
     //update the vert. lines on new set Past date
-
     const pastDateData = [{
       x: nextProps.pastDate.toDate(),
       y: HEIGHT
@@ -351,6 +353,27 @@ class PastGraph extends React.Component {
       .attr('d', this.pastDateAreaOverview)
       .attr("class", "past-graph-date-v-bar-overview")
 
+    const presentDate = this.props.data[0].x
+    // update color of scatter points
+    let measurementPastDate = new Date(nextProps.pastDateMeasurement)
+    this.focusGraph.selectAll('past-graph-node')
+      .data(this.props.data)
+      .enter().append('circle')
+      .attr('r', 5)
+      .attr('cx', d => this.x(d.x))
+      .attr('cy', d => this.y(d.y))
+      .each(function(d) {
+              var point = d3.select(this);
+              if (d.x == presentDate){
+                point
+                  .attr("class", "last-point past-graph-node")
+              } else if(d.x.getTime() === measurementPastDate.getTime()) {
+                  point.attr("class", "past-point past-graph-node")
+              } else {
+                point
+                  .attr("class", "other-points past-graph-node")
+              }
+            });
   }
 
   brushed() {

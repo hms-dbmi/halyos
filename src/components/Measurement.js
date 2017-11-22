@@ -151,6 +151,7 @@ class Measurement extends React.Component {
           {this.state.isDetailsShown && this.props.isExpanded && (
             <PastGraph
               pastDate={this.props.userPastDate}
+              pastDateMeasurement={this.props.pastMeasurementsDate}
               data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}

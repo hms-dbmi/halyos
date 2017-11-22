@@ -65,9 +65,14 @@
   fill: $gray-dark;
 }
 
+.past-point,
+.past-point-overview {
+  fill: #b300b3;
+}
+
 .last-point,
 .last-point-overview {
-  fill: $yellow;
+  fill: $black;
 }
 
 .past-graph-node-overview {
@@ -119,7 +124,7 @@
 
 .graph-future-node {
   r: 5;
-  fill: $gray-dark;
+  fill: #009900;
   transform-origin: center center;
   transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
 
