@@ -274,10 +274,18 @@ class PastGraph extends React.Component {
       .attr('y1', 0)
       .attr('y2', HEIGHT);
 
-    this.futureNode = this.future.append('circle')
+    if(this.props.futureValue === this.props.present) {
+      this.futureNode = this.future.append('circle')
+      .attr('class', 'graph-future-node-unchanged')
+      .attr('cx', 100)
+      .attr('cy', this.y(this.props.futureValue));
+    }
+    else {
+      this.futureNode = this.future.append('circle')
       .attr('class', 'graph-future-node')
       .attr('cx', 100)
       .attr('cy', this.y(this.props.futureValue));
+    }
 
     this.futureNodeSelection = this.future.append('circle')
       .attr('class', 'graph-future-node-selection')
@@ -317,6 +325,7 @@ class PastGraph extends React.Component {
 
   dragEndedFuture() {
     this.futureNode.classed('active', false);
+    this.futureNode.attr('class', 'graph-future-node')
   }
 
   wrangleData() {

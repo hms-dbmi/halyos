@@ -140,6 +140,24 @@
   }
 }
 
+.graph-future-node-unchanged {
+  r: 5;
+  fill: $gray-dark;
+  transform-origin: center center;
+  transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
+
+  &.active,
+  &.hover {
+    fill: $gray-darkest;
+    r: 9;
+  }
+
+  &.active {
+    stroke: $primary;
+    stroke-width: 1px;
+  }
+}
+
 .graph-future-node-selection {
   fill: transparent;
 }

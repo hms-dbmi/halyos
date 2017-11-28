@@ -155,6 +155,7 @@ class Measurement extends React.Component {
               data={parseGraphData(this.props.graphData)}
               units="mmHg"
               reference_range={{ min: 110, max: 130 }}
+              present={this.props.present}
               futureMin={this.props.present / 2}
               futureMax={this.props.present * 2}
               futureValue={sliderValue}
