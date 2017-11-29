@@ -75,9 +75,15 @@ class PastGraph extends React.Component {
     this.x2 = d3.scaleTime().range([0, WIDTH]);
     this.y = d3.scaleLinear().range([HEIGHT, 0]);
     this.y2 = d3.scaleLinear().range([HEIGHT2, 0]);
-
-    const yMax = d3.max(this.props.data, d => d.y);
-    const yMin = d3.min(this.props.data, d => d.y);
+    let yMin, yMax;
+    if(this.props.referenceRange) {
+      yMax = Math.max(d3.max(this.props.data, d => d.y), this.props.referenceRange[1]);
+      yMin = Math.min(d3.min(this.props.data, d => d.y), this.props.referenceRange[0]);
+    }
+    else {
+      yMax = d3.max(this.props.data, d => d.y);
+      yMin = d3.min(this.props.data, d => d.y);
+    }
     const yMaxPadded = yMax * 1.25;
     const yMinPadded = yMin * 0.75;
     // we want to create custom tick values, 8 is the max divison before you
@@ -205,6 +211,26 @@ class PastGraph extends React.Component {
               }
             });
 
+    if(this.props.referenceRange) {
+      let minRef = [
+        {x: this.x.domain()[0], y: this.props.referenceRange[0]},
+        {x: this.x.domain()[1], y: this.props.referenceRange[0]},
+        ]
+      let maxRef = [
+        {x: this.x.domain()[0], y: this.props.referenceRange[1]},
+        {x: this.x.domain()[1], y: this.props.referenceRange[1]},
+        ]
+      this.focusGraph.append('path')
+        .datum(minRef)
+        .attr('class', 'past-graph-connection')
+        .attr('d', this.line);
+
+      this.focusGraph.append('path')
+        .datum(maxRef)
+        .attr('class', 'past-graph-connection')
+        .attr('d', this.line);
+    }
+
     this.context.selectAll('past-graph-node-overview')
       .data(this.props.data)
       .enter().append('circle')
@@ -272,7 +298,7 @@ class PastGraph extends React.Component {
       .attr('x2', 100)
       .attr('y1', 0)
       .attr('y2', HEIGHT);
-    console.log(this.props.futureValue, this.props.present)
+
     if(this.props.futureValue === this.props.present) {
       this.futureNode = this.future.append('circle')
       .attr('class', 'graph-future-node-unchanged')
