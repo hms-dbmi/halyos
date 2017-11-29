@@ -151,7 +151,7 @@ class Measurement extends React.Component {
             <span className="tooltiptext">{presentDate || 'N/A'}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center">
-            {futureScore}
+            {futureScore && parseFloat(futureScore).toFixed(2)}
           </div>
         </div>
         <div className="measurement-graph">

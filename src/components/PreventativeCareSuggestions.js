@@ -15,7 +15,8 @@ class PreventativeCareSuggestions extends React.Component {
     super(props);
 
     this.state = {
-      interventionsList: []
+      interventionsList: [],
+      mounted: false
     };
 
   }

@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
   /* ************************** Life Cycle Methods ************************** */
 
   componentDidMount() {
-    this.props.getPatientDemographics(getPatID());
+    //this.props.getPatientDemographics(getPatID()); UNCOMMENT ME TO USE LIVE DATA
   }
 
   /* **************************** Custom Methods **************************** */
