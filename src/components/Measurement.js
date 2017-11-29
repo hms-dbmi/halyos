@@ -10,6 +10,9 @@ import PastGraph from './PastGraph';
 // Styles
 import './Measurement.css';
 
+//Reference Ranges
+import refRanges from '../texts/referenceRanges.js';
+
 const getArrowDir = (past, present) => (past !== present
   ? 'arrow-top-right'
   : 'arrow-right'
@@ -60,6 +63,10 @@ class Measurement extends React.Component {
 
   futureChangeHandler(newValue) {
     this.props.addFutureMeasurement(this.props.code, newValue);
+  }
+
+  activeMeasureHandler(code) {
+    this.props.activeMeasure(code);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,13 +160,15 @@ class Measurement extends React.Component {
               pastDate={this.props.userPastDate}
               pastDateMeasurement={this.props.pastMeasurementsDate}
               data={parseGraphData(this.props.graphData)}
+              code={this.props.code}
               units="mmHg"
-              reference_range={{ min: 110, max: 130 }}
-              present={this.props.present}
+              referenceRange={refRanges[this.props.code] && [refRanges[this.props.code].min, refRanges[this.props.code].max]}
+              present={parseFloat(this.props.present)}
               futureMin={this.props.present / 2}
               futureMax={this.props.present * 2}
-              futureValue={sliderValue}
+              futureValue={parseFloat(sliderValue)}
               futureChangeHandler={this.futureChangeHandler.bind(this)}
+              activeMeasureHandler={this.activeMeasureHandler.bind(this)}
             />
           )}
         </div>

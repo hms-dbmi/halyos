@@ -19,7 +19,6 @@ const margin2 = {
 class PastGraph extends React.Component {
   constructor(props) {
     super(props);
-
     // Detached SVG base element
     this.svg = d3.select('body').append('svg')
       .remove()
@@ -273,7 +272,7 @@ class PastGraph extends React.Component {
       .attr('x2', 100)
       .attr('y1', 0)
       .attr('y2', HEIGHT);
-
+    console.log(this.props.futureValue, this.props.present)
     if(this.props.futureValue === this.props.present) {
       this.futureNode = this.future.append('circle')
       .attr('class', 'graph-future-node-unchanged')
@@ -305,6 +304,7 @@ class PastGraph extends React.Component {
   dragStartedFuture() {
     this.futureNode.classed('active', true);
     this.futureNodeSelection.raise();
+    this.props.activeMeasureHandler(this.props.code)
   }
 
   draggedFuture() {
@@ -326,6 +326,7 @@ class PastGraph extends React.Component {
   dragEndedFuture() {
     this.futureNode.classed('active', false);
     this.futureNode.attr('class', 'graph-future-node')
+    this.props.activeMeasureHandler(null);
   }
 
   wrangleData() {
@@ -443,7 +444,7 @@ PastGraph.propTypes = {
   data: PropTypes.instanceOf(Object),
   futureMin: PropTypes.number,
   futureMax: PropTypes.number,
-  futureValue: PropTypes.string,
+  futureValue: PropTypes.number,
   futureChangeHandler: PropTypes.func,
   pastDate: PropTypes.instanceOf(Object),
 };
