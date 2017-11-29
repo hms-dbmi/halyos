@@ -163,7 +163,7 @@ class Measurement extends React.Component {
               code={this.props.code}
               units="mmHg"
               referenceRange={refRanges[this.props.code] && [refRanges[this.props.code].min, refRanges[this.props.code].max]}
-              present={this.props.present}
+              present={parseFloat(this.props.present)}
               futureMin={this.props.present / 2}
               futureMax={this.props.present * 2}
               futureValue={parseFloat(sliderValue)}

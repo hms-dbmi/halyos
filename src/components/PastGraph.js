@@ -272,7 +272,7 @@ class PastGraph extends React.Component {
       .attr('x2', 100)
       .attr('y1', 0)
       .attr('y2', HEIGHT);
-
+    console.log(this.props.futureValue, this.props.present)
     if(this.props.futureValue === this.props.present) {
       this.futureNode = this.future.append('circle')
       .attr('class', 'graph-future-node-unchanged')
