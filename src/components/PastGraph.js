@@ -19,7 +19,7 @@ const margin2 = {
 class PastGraph extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log(this.props.referenceRange);
     // Detached SVG base element
     this.svg = d3.select('body').append('svg')
       .remove()
