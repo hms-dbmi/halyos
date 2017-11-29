@@ -12,44 +12,50 @@ const getLength = (context, contextMax) => ({
   bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
 });
 
-const RiskTile = props => (
-  <div
-    className="risk-tile"
-    onClick={() => { props.expand(props.name); }}
-  >
-    <div className="risk-tile-content">
-      <h2 className="risk-tile-title">{props.name}</h2>
-      <div className="risk-tile-status">{props.status}</div>
-      <div className="risk-tile-score flex-c flex-align-c">
-        {props.pastScore &&
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
-            <div className="risk-tile-score-value">{props.pastScore}</div>
-            <div className="risk-tile-score-unit">{props.unit}</div>
+class RiskTile extends React.Component {
+
+  render() {
+    let background = (this.props.activeMeasure ? '#EEB4B4' : '#EEEEEE')
+    return (
+      <div
+        className="risk-tile"
+        onClick={() => { this.props.expand(this.props.name); }}
+      >
+        <div className="risk-tile-content" style={{background: background}}>
+          <h2 className="risk-tile-title">{this.props.name}</h2>
+          <div className="risk-tile-status">{this.props.status}</div>
+          <div className="risk-tile-score flex-c flex-align-c">
+            {this.props.pastScore &&
+              <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
+                <div className="risk-tile-score-value">{this.props.pastScore}</div>
+                <div className="risk-tile-score-unit">{this.props.unit}</div>
+              </div>
+            }
+            <div className="flex-c flex-align-c flex-v-bottom">
+              <div className="risk-tile-score-value">{this.props.score}</div>
+              <div className="risk-tile-score-unit">{this.props.unit}</div>
+            </div>
+            {this.props.futureScore &&
+              <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-future">
+                <div className="risk-tile-score-value">{this.props.futureScore}</div>
+                <div className="risk-tile-score-unit">{this.props.unit}</div>
+              </div>
+            }
           </div>
-        }
-        <div className="flex-c flex-align-c flex-v-bottom">
-          <div className="risk-tile-score-value">{props.score}</div>
-          <div className="risk-tile-score-unit">{props.unit}</div>
+          <div className="flex-c flex-align-sb">
+            <div className="risk-tile-context">{`within ${this.props.context} years`}</div>
+            {/* <Button
+              icon="info"
+              iconOnly={true}
+              className="risk-tile-info"
+              onClick={() => alert('More info on the risk here.')} /> */}
+          </div>
+          <div className="risk-tile-context-bar" style={getLength(this.props.context, this.props.contextMax)}></div>
         </div>
-        {props.futureScore &&
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-future">
-            <div className="risk-tile-score-value">{props.futureScore}</div>
-            <div className="risk-tile-score-unit">{props.unit}</div>
-          </div>
-        }
-      </div>
-      <div className="flex-c flex-align-sb">
-        <div className="risk-tile-context">{`within ${props.context} years`}</div>
-        {/* <Button
-          icon="info"
-          iconOnly={true}
-          className="risk-tile-info"
-          onClick={() => alert('More info on the risk here.')} /> */}
-      </div>
-      <div className="risk-tile-context-bar" style={getLength(props.context, props.contextMax)}></div>
-    </div>
-  </div>
-);
+      </div>)
+  }
+  
+};
 
 RiskTile.propTypes = {
   expand: PropTypes.func,

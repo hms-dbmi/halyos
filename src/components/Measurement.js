@@ -65,6 +65,10 @@ class Measurement extends React.Component {
     this.props.addFutureMeasurement(this.props.code, newValue);
   }
 
+  activeMeasureHandler(code) {
+    this.props.activeMeasure(code);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.risk !== this.props.risk) {
       this.setState({
@@ -156,13 +160,15 @@ class Measurement extends React.Component {
               pastDate={this.props.userPastDate}
               pastDateMeasurement={this.props.pastMeasurementsDate}
               data={parseGraphData(this.props.graphData)}
+              code={this.props.code}
               units="mmHg"
               referenceRange={refRanges[this.props.code] && [refRanges[this.props.code].min, refRanges[this.props.code].max]}
               present={this.props.present}
               futureMin={this.props.present / 2}
               futureMax={this.props.present * 2}
-              futureValue={sliderValue}
+              futureValue={parseFloat(sliderValue)}
               futureChangeHandler={this.futureChangeHandler.bind(this)}
+              activeMeasureHandler={this.activeMeasureHandler.bind(this)}
             />
           )}
         </div>

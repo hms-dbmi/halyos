@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import RiskTile from './RiskTile';
 
+//Measurements for Risk Tile
+import measuresForRisk from '../texts/measurementsForRiskScores';
+
 const mapStateToProps = (state, ownProps) => ({
   futureMeasurements: state.measurementState.futureMeasurements,
   presentMeasurements: state.measurementState.presentMeasurements,
@@ -19,7 +22,8 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.data.patient,
     ownProps.data.observations,
     ownProps.data.conditions
-    )
+    ),
+  activeMeasure: measuresForRisk[ownProps.name].includes(state.measurementState.activeMeasure)
 });
 
 const RiskTileContainer = connect(

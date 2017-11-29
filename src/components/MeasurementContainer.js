@@ -3,7 +3,8 @@ import Measurement from './Measurement';
 import {
   addFutureMeasurement,
   addPresentMeasurement,
-  addPastMeasurement
+  addPastMeasurement,
+  activeMeasure
 } from '../services/MeasurementActions';
 import {getNearestFlat} from '../services/general_utils';
 
@@ -18,6 +19,7 @@ const mapDispatchToProps = dispatch => ({
   addPresentMeasurement: (code, value) => dispatch(addPresentMeasurement(code, value)),
   addFutureMeasurement: (code, value) => dispatch(addFutureMeasurement(code, value)),
   addPastMeasurement: (code, value) => dispatch(addPastMeasurement(code, value)),
+  activeMeasure: (code) => dispatch(activeMeasure(code)),
 });
 
 const MeasurementContainer = connect(
