@@ -43,7 +43,6 @@ class Measurement extends React.Component {
   }
 
   showDetails() {
-    if (this.props.past && this.props.pastDate) {
       if (this.props.risk) {
         this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name)
         this.setState({
@@ -55,10 +54,6 @@ class Measurement extends React.Component {
         });
         this.props.expandAbout(this.state.isDetailsShown, this.props.name);
       }
-    }
-    else {
-      alert("Details cannot be displayed, as the patient only has one measurement.")
-    }
   }
 
   futureChangeHandler(newValue) {
