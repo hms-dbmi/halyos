@@ -133,7 +133,7 @@ class Measurement extends React.Component {
               <span className="tooltiptext">{pastDate || 'N/A'}</span>
             }
           </div>
-          <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center" style={{'justify-content': 'center'}}>
+          <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
             {this.props.past &&
               <Icon
                 id={getArrowDir(pastValue, this.props.present)}
@@ -141,11 +141,11 @@ class Measurement extends React.Component {
               />
             }
           </div>
-          <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip" style={{'justify-content': 'center'}}>
+          <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip" style={{'justifyContent': 'center'}}>
             {this.props.present}
             <span className="tooltiptext">{presentDate || 'N/A'}</span>
           </div>
-          <div className="measurement-future pure-u-3-24 flex-c flex-v-center" style={{'justify-content': 'center'}}>
+          <div className="measurement-future pure-u-3-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
             {futureScore && parseFloat(futureScore).toFixed(2)}
           </div>
         </div>

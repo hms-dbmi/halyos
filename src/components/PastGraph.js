@@ -47,11 +47,23 @@ class PastGraph extends React.Component {
   }
 
   render() {
+    function setPresent() {
+      const newFutureValue = this.props.present
+      const newCy = this.y(newFutureValue);
+      this.props.futureChangeHandler(newFutureValue);
+      this.futureNode.attr('cy', newCy);
+      this.futureNode.attr('class', 'graph-future-node-unchanged')
+      this.futureNodeSelection.attr('cy', newCy);
+      this.presentFutureLine.attr('y2', newCy);
+    }
     return (
-      <div
-        className="past-graph"
-        ref={(elem) => { this.baseEl = elem; }}
-      />
+      <div>
+        <div
+          className="past-graph"
+          ref={(elem) => { this.baseEl = elem; }}
+        />
+        <button type="button" onClick={setPresent.bind(this)}> Reset to present value </button>
+      </div>
     );
   }
 
