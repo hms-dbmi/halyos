@@ -62,7 +62,7 @@ class PastGraph extends React.Component {
           className="past-graph"
           ref={(elem) => { this.baseEl = elem; }}
         />
-        <button type="button" onClick={setPresent.bind(this)}> Reset to present value </button>
+        <button type="button" onClick={setPresent.bind(this)}> Reset to present valueg </button>
       </div>
     );
   }
