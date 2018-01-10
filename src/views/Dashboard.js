@@ -8,6 +8,7 @@ import PreventativeCareSuggestions from '../components/PreventativeCareSuggestio
 import Environment from '../components/Environment';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
+import ExternalContainer from '../components/ExternalContainer';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -293,13 +294,12 @@ class Dashboard extends React.Component {
             <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
           </li>
         </ul>
-
         <div className="dashboard-bottom flex-g-1">
           <div className={`dashboard-bottom-panel pure-g full-h ${mesWidth}`}>
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            >
+            > <ExternalContainer/>
               <MeasurementsContainer
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}
