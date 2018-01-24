@@ -8,6 +8,7 @@ import PreventativeCareSuggestions from '../components/PreventativeCareSuggestio
 import Environment from '../components/Environment';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
+import ExternalContainer from '../components/ExternalContainer';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -211,7 +212,8 @@ class Dashboard extends React.Component {
               name="Cardiac"
               score={reynoldsScore(
                 this.props.patient,
-                this.props.observations
+                this.props.observations,
+                this.props.external.smoking[1]
               )}
               futureScore={futureReynolds}
               pastScore={reynoldsScorePast}
@@ -293,7 +295,6 @@ class Dashboard extends React.Component {
             <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
           </li>
         </ul>
-
         <div className="dashboard-bottom flex-g-1">
           <div className={`dashboard-bottom-panel pure-g full-h ${mesWidth}`}>
             <div
