@@ -3,20 +3,10 @@ import React from 'react';
 class External extends React.Component {
 	constructor(props){
 		super(props);
-		if(!this.props.smoking) {
-			this.props.updateSmoking([false,false,false])
-			this.state = {
-				pastSmoke: false,
-				presentSmoke: false,
-				futureSmoke: false
-			}
-		}
-		else {
-			this.state = {
-				pastSmoke: this.props.smoking[0],
-				presentSmoke: this.props.smoking[1],
-				futureSmoke: this.props.smoking[2]
-			}
+		this.state = {
+			pastSmoke: this.props.smoking[0],
+			presentSmoke: this.props.smoking[1],
+			futureSmoke: this.props.smoking[2]
 		}
 	}
 

@@ -55,7 +55,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
   }
 }
 
-export function futureReynolds(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+export function futureReynolds(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null, smoker = false) {
   if(presMeasures && pt && futureMeasures) {
       return calculateReynolds(
         calculateAge(pt.birthDate),
@@ -63,7 +63,7 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
         (futureMeasures['30522-7'] || presMeasures['30522-7']),
         (futureMeasures['2093-3'] || presMeasures['2093-3']),
         (futureMeasures['2085-9'] || presMeasures['2085-9']),
-        false, //smoker
+        smoker, //smoker
         false, //famhist
         pt.gender
       );
@@ -75,7 +75,7 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
         presMeasures['30522-7'],
         presMeasures['2093-3'],
         presMeasures['2085-9'],
-        false, //smoker
+        smoker, //smoker
         false, //famhist
         pt.gender
       );
@@ -83,7 +83,7 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
   return '...'
 }
 
-export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null) {
+export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null, smoker = false) {
     if (pt && obs) {
     const codesObject = {
       '30522-7': [], // hsCRP
@@ -106,7 +106,7 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
       getNearestFlat(sortedObs['30522-7'], date).value,
       getNearestFlat(sortedObs['2093-3'], date).value,
       getNearestFlat(sortedObs['2085-9'], date).value,
-      false, // smoker
+      smoker, // smoker
       false, // famHist
       pt.gender
     );

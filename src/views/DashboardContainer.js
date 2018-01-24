@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
   //patient: state.fhirPatientData.ptData,
   patient: ownProps.patient[0].resource,
   isFetchingAllPatientData: state.fhirPatientData.isFetchingAllPatientData,
-  test: state.externalState
+  external: state.externalState
 });
 
 const mapDispatchToProps = dispatch => ({

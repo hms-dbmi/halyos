@@ -14,16 +14,19 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.data.patient,
     ownProps.data.conditions,
     ownProps.data.medications,
-    ownProps.data.observations
+    ownProps.data.observations,
+    state.externalState.smoking[2]
   ),
   pastDate: state.pastDate,
   pastScore: ownProps.pastScore(
     state.pastDate,
     ownProps.data.patient,
     ownProps.data.observations,
-    ownProps.data.conditions
+    ownProps.data.conditions,
+    null,
+    state.externalState.smoking[0]
     ),
-  activeMeasure: measuresForRisk[ownProps.name].includes(state.measurementState.activeMeasure)
+  activeMeasure: measuresForRisk[ownProps.name].includes(state.measurementState.activeMeasure),
 });
 
 const RiskTileContainer = connect(

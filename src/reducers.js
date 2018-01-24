@@ -8,11 +8,13 @@ import { envFactorsData } from './components/env/EnvReducers';
 
 import { measurementState } from './services/MeasurementReducers';
 
-import {externalState} from './services/ExternalReducers'
+import {externalState} from './services/ExternalReducers';
 
 import {SET_PAST_DATE} from './actions'
 
 export const pastDate = defaultSetReducer('pastDate', new Date(2012, 7, 15));
+
+//export const externalState = defaultSetReducer('externalState', {smoking:[false, false, false]})
 
 export function setPastDate(state = {}, action) {
 	switch(action.type) {

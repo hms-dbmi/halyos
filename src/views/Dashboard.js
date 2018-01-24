@@ -212,7 +212,8 @@ class Dashboard extends React.Component {
               name="Cardiac"
               score={reynoldsScore(
                 this.props.patient,
-                this.props.observations
+                this.props.observations,
+                this.props.external.smoking[1]
               )}
               futureScore={futureReynolds}
               pastScore={reynoldsScorePast}
@@ -222,7 +223,6 @@ class Dashboard extends React.Component {
               url="General_Cardiac"
             />
           </li>
-          {console.log(this.props.test)}
           <li className={riskStrokeWidth}>
             <RiskTileContainer
               expand={(args) => alert("No details available.")}
