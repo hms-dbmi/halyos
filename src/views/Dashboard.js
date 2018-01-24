@@ -222,6 +222,7 @@ class Dashboard extends React.Component {
               url="General_Cardiac"
             />
           </li>
+          {console.log(this.props.test)}
           <li className={riskStrokeWidth}>
             <RiskTileContainer
               expand={(args) => alert("No details available.")}
@@ -299,7 +300,7 @@ class Dashboard extends React.Component {
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            > <ExternalContainer/>
+            >
               <MeasurementsContainer
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}

@@ -8,6 +8,8 @@ import { envFactorsData } from './components/env/EnvReducers';
 
 import { measurementState } from './services/MeasurementReducers';
 
+import {externalState} from './services/ExternalReducers'
+
 import {SET_PAST_DATE} from './actions'
 
 export const pastDate = defaultSetReducer('pastDate', new Date(2012, 7, 15));
@@ -28,7 +30,8 @@ const rootReducer = combineReducers({
   envFactorsData,
   fhirEncounterData,
   measurementState,
-  pastDate
+  pastDate,
+  externalState
 });
 
 export default rootReducer;
