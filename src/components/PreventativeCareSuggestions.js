@@ -1,44 +1,70 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import $ from 'jquery';
 
-// Services
-import { calculateAge } from '../services/risk_score_utils';
-
-// STyles
+// Styles
 import './PreventativeCareSuggestions.css';
 
-const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
+//use lines below for getting live API response
+//const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
+//const getUrl = (birthDate, gender) => `${URL}${40 || calculateAge(birthDate)}&sex=${gender}`;
 
-const getUrl = (birthDate, gender) => `${URL}${40 || calculateAge(birthDate)}&sex=${gender}`;
+const staticURL = (birthDate, gender) => './data/preventativeCareSuggestions.json';
 
 class PreventativeCareSuggestions extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      interventionsList: []
+      interventionsList: [],
+      mounted: false
     };
 
-    this.update();
   }
 
-  componentDidUpdate() {
-    this.update();
+  // componentWillUpdate(nextProps) {
+  //   if (
+  //     nextProps.birthDate !== this.props.birthDate ||
+  //     nextProps.gender !== this.props.gender
+  //   ) {
+  //     this.loadData();
+  //   }
+  // }
+
+  componentDidMount() {
+    this.setState({
+      mounted: true
+    })
+    this.loadData();
   }
 
-  update() {
-    $.get(getUrl(this.props.birthDate, this.props.gender)).done((data) => {
-      const interventions = [];
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    })
+  }
 
-      for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
-        interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
-      }
+  loadData() {
+    fetch(staticURL(this.props.birthDate, this.props.gender))
+      .then(response => response.json())
+      .then((data) => {
+        this.wrangleData(data);
+      })
+      .catch((error) => {
+        console.error('Could not retrieve or parse preventative care suggestions.', error);
+      });
+  }
 
+  wrangleData(data) {
+    const interventions = [];
+
+    for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
+      interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
+    }
+    if(this.state.mounted) {
       this.setState({
         interventionsList: interventions
       });
-    });
+    }
   }
 
   render() {

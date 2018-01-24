@@ -1,0 +1,149 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.measurement {
+  position: relative;
+  padding: 0.5rem 0;
+  border-top: 1px solid $gray-lightest;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.measurement-title {
+  margin: 0 0.5rem 0 0;
+}
+
+.measurement-info {
+  min-height: 1.5rem;
+}
+
+.measurement-unit {
+  color: $gray;
+  font-size: 0.9em;
+}
+
+.measurement-past-to-future {
+  color: $gray;
+  font-size: 0.8em;
+}
+
+.tooltip {
+    position: relative;
+    display: block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -50px;
+    
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*
+
+slider styling
+
+*/
+
+.slider-wrapper {
+  display: inline-block;
+  // width: 20px;
+  // height: 60px;
+  padding: 0;
+}
+
+.slider-wrapper input {
+  width: 60px;
+  height: 20px;
+  margin: 0;
+  // transform-origin: 30px 30px;
+  // transform: rotate(-90deg);
+}
+
+input[type=range]{
+    -webkit-appearance: none;
+    -webkit-transform:rotate(-90deg);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+//Chrome
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 20px;
+    height: 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #666;
+    margin-top: -3px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+//Firefox
+
+input[type=range]::-moz-range-track {
+    width: 58px;
+    height: 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #666;
+  // margin-top: -3px;
+}
+
+
+

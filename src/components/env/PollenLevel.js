@@ -38,7 +38,7 @@ class PollenLevel extends React.Component {
           <td>{item.Category}</td>
         </tr>
       );
-
+      
       switch (avgLevel) {
         case 1:
         case 2:
@@ -64,7 +64,7 @@ class PollenLevel extends React.Component {
       >
         <div>
           <h5>Pollen Levels</h5>
-          {listItems.length ? (
+          {!listItems.length ? (
             <div>...</div>
           ) : (
             <table>

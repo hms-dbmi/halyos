@@ -8,11 +8,7 @@ import Icon from './Icon';
 import './Topbar.css';
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { observations: null };
-  }
-
+  
   componentWillMount() {
     // a Set is used below for unique observation codes, could be {} probably.
     this.observationList = [];
@@ -47,7 +43,6 @@ class Header extends React.Component {
           }
         }
 
-        this.setState({ observations: updatedList });
       });
   }
 
@@ -77,7 +72,7 @@ class Header extends React.Component {
             <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
-            <div>John Doe</div>
+            <div>Jane Doe</div>
             <Icon id="person"/>
           </div>
         </nav>

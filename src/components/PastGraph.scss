@@ -1,0 +1,175 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.area {
+  stroke: #999;
+  stroke-width: 3.5px;
+  fill: white;
+  clip-path: url(#clip);
+}
+
+.pastarea {
+  stroke: red;
+  stroke-width: 5.0px;
+  fill: white;
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+.bar {
+  clip-path: url(#clip);
+}
+
+.dot {
+  fill: #999;
+  clip-path: url(#clip);
+}
+
+.dotContext {
+  fill: #999;
+}
+
+.past-graph {
+  width: 100%;
+  height: 12.5rem;
+}
+
+.graph-past {
+  background: yellow;
+}
+
+.graph-present {
+  background: yellow;
+}
+
+.graph-future {
+  background: yellow;
+}
+
+.past-graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.past-graph-node,
+.past-graph-node-overview {
+
+}
+
+.other-points,
+.other-points-overview {
+  fill: $gray-dark;
+}
+
+.past-point,
+.past-point-overview {
+  fill: #b300b3;
+}
+
+.last-point,
+.last-point-overview {
+  fill: $black;
+}
+
+.past-graph-node-overview {
+  fill: $gray-dark;
+}
+
+.past-graph-connection,
+.past-graph-connection-overview {
+  fill: none;
+  stroke: $gray;
+  stroke-width: 1px;
+}
+
+.past-graph-date-v-bar,
+.past-graph-date-v-bar-overview {
+  stroke: $red;
+  stroke-width: 2px;
+  clip-path: url(#clip);
+}
+
+.past-graph-brush {
+  fill: transparent;
+
+  .selection {
+    fill: $primary;
+    fill-opacity: 0.25;
+    stroke: none;
+  }
+
+  .handle {
+    fill: $primary;
+  }
+}
+
+.past-graph-zoom {
+  fill: transparent;
+}
+
+.graph-present-future-line {
+  stroke: $gray;
+  stroke-width: 1px;
+  stroke-dasharray: 10, 5;
+}
+
+.graph-future-slider-bar {
+  stroke: $gray;
+  stroke-width: 2px;
+}
+
+.graph-future-node {
+  r: 5;
+  fill: #009900;
+  transform-origin: center center;
+  transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
+
+  &.active,
+  &.hover {
+    fill: $gray-darkest;
+    r: 9;
+  }
+
+  &.active {
+    stroke: $primary;
+    stroke-width: 1px;
+  }
+}
+
+.graph-future-node-unchanged {
+  r: 5;
+  fill: $gray-dark;
+  transform-origin: center center;
+  transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
+
+  &.active,
+  &.hover {
+    fill: $gray-darkest;
+    r: 9;
+  }
+
+  &.active {
+    stroke: $primary;
+    stroke-width: 1px;
+  }
+}
+
+.graph-future-node-selection {
+  fill: transparent;
+}
+
+.axis--x line,
+.axis--y line,
+.axis--x path,
+.axis--y path {
+  stroke: $gray-light;
+}
+
+.axis--x text,
+.axis--y text {
+  fill: $gray-dark;
+}

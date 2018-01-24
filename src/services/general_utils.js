@@ -20,12 +20,92 @@ export function getValueQuantities(obs, callback){
     if(obs.component){
         for (let comp of obs.component){
                 callback(obs,comp);
-
         }
         return;
     }
         callback(obs,obs);
+}
 
+/**
+    This method categorizes measurements so that 
+
+    @param obs: list of observations
+
+    @return [{"name": "xxxx", "measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}], 
+    not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
+**/
+export function sortMeasurements(obs){
+  var sortedMeasures = []
+  for(var i = 0; i < obs.length; i++) {
+    if(obs[i].resource.component) {
+      for(var k = 0; k < obs[i].resource.component.length; k++) {
+        var found = false;
+        if(!obs[i].resource.component[k].code.text) {
+          obs[i].resource.component[k].code.text = obs[i].resource.code.coding[0].display
+        }
+        if(!obs[i].resource.effectiveDateTime) {
+          obs[i].resource.effectiveDateTime = obs[i].resource.issued
+        }
+        for(var j = 0; j < sortedMeasures.length; j++) {
+          if(sortedMeasures[j].name === obs[i].resource.component[k].code.text) {
+            sortedMeasures[j].measurements.push(
+              {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.component[k].valueQuantity.unit
+              }
+            );
+            found = true;
+            break;
+          }
+        }
+        if(!found) {
+          sortedMeasures.push(
+            {"name": obs[i].resource.component[k].code.text,
+             "code": obs[i].resource.component[k].code.coding[0].code,
+             "measurements": [
+                {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
+                 "date": obs[i].resource.effectiveDateTime,
+                  "units": obs[i].resource.component[k].valueQuantity.unit
+                }
+              ]
+            }
+          );
+        }
+      }
+    }
+    else {
+      if(!obs[i].resource.code.text) {
+        obs[i].resource.code.text = obs[i].resource.code.coding[0].display
+      }
+      let found = false;
+      for(let j = 0; j < sortedMeasures.length; j++) {
+        if(sortedMeasures[j].name === obs[i].resource.code.text) {
+          sortedMeasures[j].measurements.push(
+            {"value": obs[i].resource.valueQuantity.value.toFixed(2),
+             "date": obs[i].resource.effectiveDateTime,
+              "units": obs[i].resource.valueQuantity.unit
+            }
+          );
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        sortedMeasures.push(
+          {"name": obs[i].resource.code.text,
+           "code": obs[i].resource.code.coding[0].code,
+           "measurements": [
+              {"value": obs[i].resource.valueQuantity.value.toFixed(2),
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.valueQuantity.unit
+              }
+            ]
+          }
+        );
+      }
+    }
+  }
+  return sortedMeasures;
 }
 
 /**
@@ -49,6 +129,31 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
           (1 - c((lon2 - lon1) * p))/2;
 
   return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+
+/**
+  
+    This function takes in an array of sorted observations (from sortMeasurements) and a target date, and outputs the closest measurement
+
+    @param obs: bundle of observations in descending order
+    @param date: date of interest
+
+    @return: observation resource
+*/
+
+export function getNearestFlat(obs, date) { //make this binary search
+  let currDate = new Date(obs[0].date)
+  let goalDate = new Date(date)
+  let minTime = Math.abs(currDate-goalDate);
+  let minIndex = 0;
+  for (var i = 1; i < obs.length; i++) {
+    currDate = new Date(obs[i].date)
+    if(Math.abs(currDate-goalDate) < minTime) {
+      minTime = Math.abs(currDate-goalDate)
+      minIndex = i;
+    }
+  }
+  return obs[minIndex]
 }
 
 /**

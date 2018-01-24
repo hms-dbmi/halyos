@@ -12,18 +12,19 @@
     @return diabetes risk score
 
 */
-import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {getNearestFlat} from '../../services/general_utils';
 
-const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
-const BMI = '39156-5';
+// const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
+// const BMI = '39156-5';
 
 export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntihypDrugs, waist) {
           //starts with the intercept
         let exp_factor = -5.514;
-        //age
-        if (age < 54 && age > 45){
+        //age -- double check this
+        if (age < 54){
           exp_factor += 0.628;
-        } else if (age > 55 && age < 64){
+        } else if (age >= 55){
           exp_factor += 0.892;
         } else {
           //its good that we have this, removed for demo.
@@ -53,14 +54,14 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         }
 
         //waist circumference
-        if (gender == "male"){
+        if (gender === "male"){
           if (waist > 94 && waist < 102){
             exp_factor += 0.857;
           } else if (waist >= 102 ) {
             exp_factor += 1.350;
           }
           // console.log("This is the first console: ",scoreSets[i]);
-        } else if (gender == "female") {
+        } else if (gender === "female") {
           if (waist > 80 && waist < 88){
             exp_factor += 0.857;
           } else if (waist >= 89) {
@@ -78,6 +79,73 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
         return score;
 }
 
+export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+  if(presMeasures && pt && futureMeasures) {
+      return calcDiabetesRisk(
+        calculateAge(pt.birthDate),
+        pt.gender,
+        futureMeasures['39156-5'] || presMeasures['39156-5'],
+        pullCondition(conds, ['80394007']).length !== 0,
+        false,
+        futureMeasures['56115-9'] || futureMeasures['56114-2'] || futureMeasures['56117-5'] || futureMeasures['8280-0'] || futureMeasures['8281-8'] ||
+        presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
+      );
+  }
+  else if (presMeasures && pt) {
+      return calcDiabetesRisk(
+        calculateAge(pt.birthDate),
+        pt.gender,
+        presMeasures['39156-5'],
+        pullCondition(conds, ['80394007']).length !== 0,
+        false,
+        presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
+      );
+  }
+  return '...'
+}
+
+export function diabetesPast(date, pt = null, obs = null, conds = null, meds = null) {
+    if(pt && obs) {
+      const codesObject = {
+        '56115-9': [],
+        '56114-2': [],
+        '56117-5': [],
+        '8280-0': [],
+        '8281-8': [],
+        '39156-5': []
+      };
+      searchByCode(obs, codesObject);
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56114-2'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56117-5'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8280-0'])
+      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8281-8']);
+      var hyperglycemia = pullCondition(conds, ['80394007']);
+      let hyperglycemiaBool = false;
+      let goalDate = new Date(date);
+      for(let i = 0; i < hyperglycemia.length; i++){
+        let currDate = new Date(hyperglycemia[i].resource.onsetDateTime)
+        if(currDate < goalDate) {
+          hyperglycemiaBool = true;
+        }
+      }
+      if(codesObject['56115-9'].length === 0 || codesObject['39156-5'].length === 0) {
+          alert("Patient does not have enough measurements for Diabetes Risk Score");
+          return;
+      }
+      else {
+        let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+        return calcDiabetesRisk(calculateAge(pt.birthDate)-yearsYounger,
+          pt.gender,
+          getNearestFlat(codesObject['39156-5'], date).value,
+          hyperglycemiaBool,
+          false, //NEEDS TO BE FIXED
+          getNearestFlat(codesObject['56115-9'], date).value
+          )
+      }
+  }
+  return "..."
+}
+
 /**
     @param pt -- the patient resource
     @param obs -- the bundle that contains all observation resources
@@ -90,17 +158,17 @@ export function diabetesScore(pt, obs, conds, medreq) {
     var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
     var bmi = pullCondition(obs, ['39156-5']);
     var hyperglycemia = pullCondition(conds, ['80394007']);
-    if (waist.length == 0 || bmi.length == 0) {
+    if (waist.length === 0 || bmi.length === 0) {
       alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
       ////console.log(bmi, waist);
       return;
     }
-    var score = calcDiabetesRisk(calculateAge(pt[0].birthDate),
-      pt[0].gender,
-      bmi[0].valueQuantity.value,
-      (hyperglycemia.length != 0),
+    var score = calcDiabetesRisk(calculateAge(pt.birthDate),
+      pt.gender,
+      bmi[0].resource.valueQuantity.value,
+      (hyperglycemia.length !== 0),
       false, //NEEDS TO BE FIXED
-      waist[0].valueQuantity.value);
+      waist[0].resource.valueQuantity.value);
     return score;
   }
   else {

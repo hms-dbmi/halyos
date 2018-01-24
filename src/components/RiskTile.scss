@@ -48,6 +48,14 @@
   line-height: 2.75rem;
 }
 
+.risk-tile-score-past {
+  color: #b300b3
+}
+
+.risk-tile-score-future {
+  color: #009900
+}
+
 .risk-tile-context {
   margin-left: 0.125rem;
   color: $gray;
@@ -63,4 +71,15 @@
 .risk-tile-info.button {
   margin: 0 0.25rem 0.25rem 0;
   border-color: $gray-light;
+}
+
+.risk-tile-score-past,
+.risk-tile-score-future {
+  .risk-tile-score-value {
+    font-size: 2rem;
+  }
+
+  .risk-tile-score-unit {
+    font-size: 0.85rem;
+  }
 }

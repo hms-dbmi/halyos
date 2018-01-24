@@ -1,8 +1,10 @@
 import 'whatwg-fetch'
+import {pollenLocal} from '../../data/fhirData.js';
 
 export const FETCH_POLLEN_REQUEST = "FETCH_POLLEN_REQUEST";
 export const FETCH_POLLEN_SUCCESS = "FETCH_POLLEN_SUCCESS";
 export const FETCH_POLLEN_FAILURE = "FETCH_POLLEN_FAILURE";
+
 
 export const requestPollenLevels = zipCode => ({
   type: FETCH_POLLEN_REQUEST,
@@ -29,13 +31,14 @@ export function fetchPollenLevels(zipCode) {
     // Vimig's API Key: Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA
     // Samson's API Key: jfytctksruIxkfUdyQxo8JdG9QAB7jgi
 
-    return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
-      .then(
-        response => response.json(),
-        error => console.error('An error occured.', error)
-      )
-      .then(json =>
-        dispatch(receivePollenLevels(zipCode, json))
-      );
+    // return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
+    //   .then(
+    //     response => response.json(),
+    //     error => console.error('An error occured.', error)
+    //   )
+    //   .then(json =>
+    //     dispatch(receivePollenLevels(zipCode, json))
+    //   );
+      return dispatch(receivePollenLevels(zipCode, pollenLocal));
   };
 }

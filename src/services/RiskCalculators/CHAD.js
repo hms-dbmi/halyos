@@ -13,7 +13,7 @@
     @return CHAD risk score
 
 */
-import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 
 export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
   if (age < 65) {
@@ -25,8 +25,8 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
   else {
     age = 2;
   }
-  var score = age + (gender == "female") + (!(chf.length == 0)) + (!(hypertension.length == 0)) + 
-  (!(vascDisease.length == 0)) + (!(diabetes.length == 0)) + 2*(!(strTIAthrom.length == 0));
+  var score = age + (gender === "female") + (!(chf.length === 0)) + (!(hypertension.length === 0)) + 
+  (!(vascDisease.length === 0)) + (!(diabetes.length === 0)) + 2*(!(strTIAthrom.length === 0));
   var strkRisk;
   switch (score) {
     case 0:
@@ -56,8 +56,45 @@ export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabe
     case 8:
       strkRisk = 10.8;
       break;
+    default:
+      strkRisk = "N/A";
   }
   return strkRisk;
+}
+
+export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
+ if(conds && pt) {
+  return CHADScore(pt, conds);
+ }
+ return "...";
+}
+
+export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = null) {
+    if(conds && pt) {
+      let filteredConds = [];
+      let goalDate = new Date(date);
+      for(let i = 0; i < conds.length; i++){
+        let currDate = new Date(conds[i].resource.onsetDateTime)
+        if(currDate < goalDate) {
+          filteredConds.push(conds[i]);
+        }
+      }
+      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
+      var hypertension = pullCondition(conds, ["38341003"]);
+      var vascDisease = pullCondition(conds, ["27550009"]);
+      var diabetes = pullCondition(conds, ["73211009"]);
+      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
+      let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+      var CHADscore = calcCHADScore(calculateAge(pt.birthDate)-yearsYounger, //age
+        pt.gender, //gender
+        chf, //chf
+        hypertension, //hypertension
+        vascDisease, //vascDisease
+        diabetes, //diabetes
+        strTIAthrom); //strTIAthrom
+      return CHADscore;
+    }
+    return "..."
 }
 
 /**
@@ -73,14 +110,14 @@ export function CHADScore(pt, conds){
       var vascDisease = pullCondition(conds, ["27550009"]);
       var diabetes = pullCondition(conds, ["73211009"]);
       var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
-      var CHADscore = calcCHADScore(calculateAge(pt[0].birthDate), //age
-        pt[0].gender, //gender
+      var CHADscore = calcCHADScore(calculateAge(pt.birthDate), //age
+        pt.gender, //gender
         chf, //chf
         hypertension, //hypertension
         vascDisease, //vascDisease
         diabetes, //diabetes
         strTIAthrom); //strTIAthrom
-      return CHADScore;
+      return CHADscore;
   }
   else {
     return '...'

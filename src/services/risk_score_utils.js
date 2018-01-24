@@ -1,6 +1,3 @@
-import $ from 'jquery'; 
-import React from 'react';
-
 const TIME_THRESHOLD = 10000000;
 
 export function findPriorSets(bundles, codes, names, aggBund) {
@@ -37,7 +34,7 @@ export function findPriorSets(bundles, codes, names, aggBund) {
       variablesObject[iteratorType] = aggBund[i];
       let j = i-1;
       while(j >= 0 && calculateTimeDiffHours(aggBund[j].effectiveDateTime, aggBund[i].effectiveDateTime) < TIME_THRESHOLD) {
-        var currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
+        let currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
         if (!(variablesObject.hasOwnProperty(currName))) {
           variablesObject[currName] = aggBund[j];
         }
@@ -45,7 +42,7 @@ export function findPriorSets(bundles, codes, names, aggBund) {
       }
       j = i+1;
       while(j < aggBund.length && calculateTimeDiffHours(aggBund[j].effectiveDateTime, aggBund[i].effectiveDateTime) < TIME_THRESHOLD) {
-        var currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
+        let currName = getCondName(aggBund[j].code.coding[0].code, codes, names);
         if (!(variablesObject.hasOwnProperty(currName))) {
           variablesObject[currName] = aggBund[j];
         }
@@ -73,6 +70,10 @@ export function getCondName(condCode, codes, names) {
   }
 }
 
+export function findClosest(date, measures) {
+  
+}
+
 /**
   @param: obsBundle -- fetchAll observation bundle
   @param: object -- a javascript object where keys represent the LOINC codes of interest and their values are empty arrays
@@ -81,31 +82,31 @@ export function getCondName(condCode, codes, names) {
   **/
 export function searchByCode(obsBundle, object) {
   for (var j = 0; j < obsBundle.length; j++) {
-    if(obsBundle[j].component) {
-      for (var i = 0; i < obsBundle[j].component.length; i++) {
-        var code = obsBundle[j].component[i].code.coding[0].code;
+    if(obsBundle[j].resource.component) {
+      for (var i = 0; i < obsBundle[j].resource.component.length; i++) {
+        let code = obsBundle[j].resource.component[i].code.coding[0].code;
         if(object.hasOwnProperty(code)) {
           object[code].push({
             'code': code,
-            'text': obsBundle[j].component[i].code.coding[0].display,
-            'value': obsBundle[j].component[i].valueQuantity.value,
-            'unit': obsBundle[j].component[i].valueQuantity.unit,
-            'date': obsBundle[j].effectiveDateTime,
-            'refRanges': obsBundle[j].referenceRange
+            'text': obsBundle[j].resource.component[i].code.coding[0].display,
+            'value': obsBundle[j].resource.component[i].valueQuantity.value,
+            'unit': obsBundle[j].resource.component[i].valueQuantity.unit,
+            'date': obsBundle[j].resource.effectiveDateTime,
+            'refRanges': obsBundle[j].resource.referenceRange
           });
         }
       }
     }
     else {
-      var code = obsBundle[j].code.coding[0].code;
+      let code = obsBundle[j].resource.code.coding[0].code;
       if(object.hasOwnProperty(code)) {
         object[code].push({
           'code': code,
-          'text': obsBundle[j].code.coding[0].display,
-          'value': obsBundle[j].valueQuantity.value,
-          'unit': obsBundle[j].valueQuantity.unit,
-          'date': obsBundle[j].effectiveDateTime,
-          'refRanges': obsBundle[j].referenceRange
+          'text': obsBundle[j].resource.code.coding[0].display,
+          'value': obsBundle[j].resource.valueQuantity.value,
+          'unit': obsBundle[j].resource.valueQuantity.unit,
+          'date': obsBundle[j].resource.effectiveDateTime,
+          'refRanges': obsBundle[j].resource.referenceRange
         });
       }
     }
@@ -144,7 +145,7 @@ export function calculateTimeDiffHours(date1, date2) {
 export function pullCondition(fetchResult, condID) {
   var resultSet = [];
   for (var i = 0; i<fetchResult.length; i++) {
-    if (condID.includes(fetchResult[i].code.coding[0].code)) {
+    if (condID.includes(fetchResult[i].resource.code.coding[0].code)) {
       resultSet.push(fetchResult[i]);
     }
   }

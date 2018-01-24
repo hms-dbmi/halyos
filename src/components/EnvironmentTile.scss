@@ -5,9 +5,37 @@
   margin: 0.25rem 0;
   padding: 0.25rem;
   background-color: $gray-lightest;
+}
 
-  h4 {
-    margin: 0;
-    font-size: 1rem;
-  }
+.environment-tile-title {
+  margin: 0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.environment-tile-level {
+  z-index: 1;
+  margin-top: -0.5rem;
+  font-size: 2.5rem;
+  color: $black;
+}
+
+.environment-tile-icon {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  width: auto;
+  height: auto;
+  color: $gray-lighter;
+}
+
+.environment-tile-overview {
+  position: relative;
+}
+
+.environment-tile-details.is-shown {
+  padding: 0 0.5rem;
+  border-left: 1px solid $white;
 }
