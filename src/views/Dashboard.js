@@ -9,6 +9,7 @@ import Environment from '../components/Environment';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
 import ExternalContainer from '../components/ExternalContainer';
+import RiskVisualization from '../components/RiskVisualization';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -204,6 +205,7 @@ class Dashboard extends React.Component {
       : 'pure-u-6-24 dashboard-risk-hidden';
     return (
       <div className="dashboard full-dim flex-c flex-col">
+        <RiskVisualization/>
         <ul className="dashboard-risk-scores pure-g no-list-style">
           <li className={riskCardiacWidth}>
             <RiskTileContainer
