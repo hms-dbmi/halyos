@@ -30,10 +30,11 @@ class External extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.risk)
 		return (
 			<div>
 			  <br/>
-			  <header className="pure-g flex-c flex-align-sb">
+			  {(this.props.risk === "Cardiac" || this.props.risk===undefined) && <header className="pure-g flex-c flex-align-sb"> 
           	    <div className="pure-u-15-24">
             	  <div className="flex-c flexc-v-center">
               		Do you smoke?
@@ -62,7 +63,8 @@ class External extends React.Component {
                 <div className="pure-u-3-24 smaller">
 				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
       		    </div>
-              </header>
+      		   
+              </header>}
 			</div>
 		);
 	}

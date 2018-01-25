@@ -113,7 +113,7 @@ class Measurements extends React.Component {
             Future
           </div>
         </header>
-        {this.state.view === "personalhist" && <ExternalContainer/>}
+        {this.state.view === "personalhist" && <ExternalContainer risk={this.props.risk}/>}
         {this.state.view === "measurements" &&
           <main className="measurements-list flex-c flex-col flex-g-1 r scrollbar">
             {this.props.pastDate && (

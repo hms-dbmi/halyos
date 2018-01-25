@@ -202,7 +202,6 @@ class Dashboard extends React.Component {
     const riskAboutWidth = riskDetails
       ? 'pure-u-6-24'
       : 'pure-u-6-24 dashboard-risk-hidden';
-
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
