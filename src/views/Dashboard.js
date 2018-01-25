@@ -213,7 +213,8 @@ class Dashboard extends React.Component {
               score={reynoldsScore(
                 this.props.patient,
                 this.props.observations,
-                this.props.external.smoking[1]
+                this.props.external.smoking[1],
+                this.props.external.heartfamhist
               )}
               futureScore={futureReynolds}
               pastScore={reynoldsScorePast}

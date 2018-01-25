@@ -15,7 +15,8 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.data.conditions,
     ownProps.data.medications,
     ownProps.data.observations,
-    state.externalState.smoking[2]
+    state.externalState.smoking[2],
+    state.externalState.heartfamhist
   ),
   pastDate: state.pastDate,
   pastScore: ownProps.pastScore(
@@ -24,7 +25,8 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.data.observations,
     ownProps.data.conditions,
     null,
-    state.externalState.smoking[0]
+    state.externalState.smoking[0],
+    state.externalState.heartfamhist
     ),
   activeMeasure: measuresForRisk[ownProps.name].includes(state.measurementState.activeMeasure),
 });
