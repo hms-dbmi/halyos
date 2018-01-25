@@ -55,7 +55,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
   }
 }
 
-export function futureReynolds(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null, smoker = false) {
+export function futureReynolds(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null, smoker = false, famhist = false) {
   if(presMeasures && pt && futureMeasures) {
       return calculateReynolds(
         calculateAge(pt.birthDate),
@@ -64,7 +64,7 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
         (futureMeasures['2093-3'] || presMeasures['2093-3']),
         (futureMeasures['2085-9'] || presMeasures['2085-9']),
         smoker, //smoker
-        false, //famhist
+        famhist, //famhist
         pt.gender
       );
   }
@@ -76,14 +76,14 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
         presMeasures['2093-3'],
         presMeasures['2085-9'],
         smoker, //smoker
-        false, //famhist
+        famhist, //famhist
         pt.gender
       );
   }
   return '...'
 }
 
-export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null, smoker = false) {
+export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null, smoker = false, famhist = false) {
     if (pt && obs) {
     const codesObject = {
       '30522-7': [], // hsCRP
@@ -107,7 +107,7 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
       getNearestFlat(sortedObs['2093-3'], date).value,
       getNearestFlat(sortedObs['2085-9'], date).value,
       smoker, // smoker
-      false, // famHist
+      famhist, // famHist
       pt.gender
     );
   }
@@ -121,7 +121,7 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
     @return the reynolds score as a percent
 */
 
-export function reynoldsScore(pt, obs, smoker = false) {
+export function reynoldsScore(pt, obs, smoker = false, famhist = false) {
     if (pt && obs) {
       const codesObject = {
         '30522-7': [], // hsCRP
@@ -144,7 +144,7 @@ export function reynoldsScore(pt, obs, smoker = false) {
         sortedObs['2093-3'][0].value,
         sortedObs['2085-9'][0].value,
         smoker, // smoker
-        false, // famHist
+        famhist, // famHist
         pt.gender
       );
     }

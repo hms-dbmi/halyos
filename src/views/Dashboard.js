@@ -202,7 +202,6 @@ class Dashboard extends React.Component {
     const riskAboutWidth = riskDetails
       ? 'pure-u-6-24'
       : 'pure-u-6-24 dashboard-risk-hidden';
-
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
@@ -213,7 +212,8 @@ class Dashboard extends React.Component {
               score={reynoldsScore(
                 this.props.patient,
                 this.props.observations,
-                this.props.external.smoking[1]
+                this.props.external.smoking[1],
+                this.props.external.heartfamhist
               )}
               futureScore={futureReynolds}
               pastScore={reynoldsScorePast}
