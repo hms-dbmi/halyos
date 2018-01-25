@@ -6,7 +6,8 @@ class External extends React.Component {
 		this.state = {
 			pastSmoke: this.props.smoking[0],
 			presentSmoke: this.props.smoking[1],
-			futureSmoke: this.props.smoking[2]
+			futureSmoke: this.props.smoking[2],
+			heartfamhist: this.props.heartfamhist
 		}
 	}
 
@@ -23,20 +24,24 @@ class External extends React.Component {
 		if(e.target.name === "futureSmoke") {
 			this.props.updateSmoking([this.state.pastSmoke, this.state.presentSmoke, e.target.checked])
 		}
+		if(e.target.name === "heartfamhist") {
+			this.props.updateHeartfamhist(e.target.checked)
+		}
 	}
 
 	render() {
+		console.log(this.props.risk)
 		return (
 			<div>
 			  <br/>
-			  <header className="pure-g flex-c flex-align-sb">
+			  {(this.props.risk === "Cardiac" || this.props.risk===undefined) && <header className="pure-g flex-c flex-align-sb"> 
           	    <div className="pure-u-15-24">
             	  <div className="flex-c flexc-v-center">
               		Do you smoke?
             	  </div>
           		</div>
           	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
-         		  <input type="checkBox" name="pastSmoke" value={this.state.pastSmoke} onChange={this.onChange.bind(this)} checked={this.state.pastSmoke && true}/> 
+         		  <input type="checkBox" name="pastSmoke" value={this.state.pastSmoke} onChange={this.onChange.bind(this)} checked={this.state.pastSmoke && true}/>
       		    </div>
       		    <div className="pure-u-3-24 smaller">
 				  <input type="checkBox" name="presentSmoke" value={this.state.presentSmoke} onChange={this.onChange.bind(this)} checked={this.state.presentSmoke && true}/>
@@ -44,7 +49,22 @@ class External extends React.Component {
                 <div className="pure-u-3-24 smaller">
 				  <input type="checkBox" name="futureSmoke" value={this.state.futureSmoke} onChange={this.onChange.bind(this)} checked={this.state.futureSmoke && true}/>
       		    </div>
-              </header>
+      		    <div className="pure-u-15-24">
+            	  <div className="flex-c flexc-v-center">
+              		Do you have a family history of heart disease?
+            	  </div>
+          		</div>
+          	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
+         		  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
+      		    </div>
+      		    <div className="pure-u-3-24 smaller">
+				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
+          	    </div>
+                <div className="pure-u-3-24 smaller">
+				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
+      		    </div>
+      		   
+              </header>}
 			</div>
 		);
 	}
