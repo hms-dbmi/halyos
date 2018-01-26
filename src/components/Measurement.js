@@ -12,6 +12,7 @@ import './Measurement.css';
 
 //Reference Ranges
 import refRanges from '../texts/referenceRanges.js';
+import { getPatID } from '../services/smart_setup';
 
 const getArrowDir = (past, present) => (past !== present
   ? 'arrow-top-right'
@@ -41,8 +42,8 @@ class Measurement extends React.Component {
       this.props.addFutureMeasurement(this.props.code, this.props.present);
     }
 
-    // var test = this.props.fetchMostRecentObsByCode(182296, '2085-9');
-    // var test = this.props.fetchMostRecentObsByCode(182296, '55284-4');
+    var test = this.props.fetchMostRecentObsByCode(getPatID(), this.props.code);
+    
 
   }
 
@@ -109,6 +110,12 @@ class Measurement extends React.Component {
     const presentDate = this.props.presentDate &&
       moment(this.props.presentDate).format('MMM Do YYYY');
 
+    let currentMeasurement = "";
+    if(this.props.mostRecentMeasurements && this.props.mostRecentMeasurements.hasOwnProperty("" + this.props.code)) {
+      currentMeasurement = this.props.mostRecentMeasurements["" + this.props.code].value.toFixed(2);
+    }
+
+
     return (
       <div className="measurement">
         <div className="measurement-info pure-g">
@@ -146,7 +153,7 @@ class Measurement extends React.Component {
             }
           </div>
           <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip" style={{'justifyContent': 'center'}}>
-            {this.props.present}
+            {currentMeasurement}
             <span className="tooltiptext">{presentDate || 'N/A'}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>

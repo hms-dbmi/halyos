@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => ({
   presentMeasurements: state.measurementState.presentMeasurements,
   pastMeasurementsValue: getNearestFlat(ownProps.graphData, state.pastDate).value,
   pastMeasurementsDate: getNearestFlat(ownProps.graphData, state.pastDate).date,
-  mostRecentMeasurements: state.fhirObservationData,
+  mostRecentMeasurements: state.fhirObservationData.mostRecentMeasurements,
 });
 
 const mapDispatchToProps = dispatch => ({

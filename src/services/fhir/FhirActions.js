@@ -167,7 +167,7 @@ export const receiveMostRecentObsByCode = (patientID, code, json) => ({
   type: FETCH_RECENT_OBSERVATION_SUCCESS,
   patientID,
   code,
-  recent_obs: json.entry[0].resource.component ? json.entry[0].resource.component[0].valueQuantity : json.entry[0].resource.valueQuantity,
+  recent_obs: json.entry ? (json.entry[0].resource.component ? json.entry[0].resource.component[0].valueQuantity : json.entry[0].resource.valueQuantity) : {"unit": "N/A","value": 0},
   receivedAt: Date.now()
 });
 
