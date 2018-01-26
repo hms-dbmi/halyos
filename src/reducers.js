@@ -29,6 +29,7 @@ const rootReducer = combineReducers({
   routing,
   fhirPatientData,
   fhirObservationData,
+  fhirEncounterData,
   envFactorsData,
   fhirEncounterData,
   measurementState,

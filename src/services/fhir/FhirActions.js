@@ -1,4 +1,6 @@
+import 'whatwg-fetch'
 import { getURL } from '../smart_setup';
+
 
 // get observations
 export const FETCH_OBSERVATIONS_REQUEST = 'FETCH_OBSERVATIONS_REQUEST';
@@ -145,3 +147,42 @@ export function fetchMostRecentEncounterData(patientID) {
   };
 }
 
+
+//get observations data
+
+//get most recent observations by code
+
+// https://fhirtest.uhn.ca/baseDstu3/Observation?subject=182296&_count=1&_sort=date&code=2085-9
+export const FETCH_RECENT_OBSERVATION_REQUEST = 'FETCH_RECENT_OBSERVATION_REQUEST';
+export const FETCH_RECENT_OBSERVATION_SUCCESS = 'FETCH_RECENT_OBSERVATION_SUCCESS';
+
+
+export const requestMostRecentObsByCode = (patientID, code) => ({
+  type: FETCH_RECENT_OBSERVATION_REQUEST,
+  patientID,
+  code
+});
+
+export const receiveMostRecentObsByCode = (patientID, code, json) => ({
+  type: FETCH_RECENT_OBSERVATION_SUCCESS,
+  patientID,
+  code,
+  recent_obs: json.entry ? (json.entry[0].resource.component ? json.entry[0].resource.component[0].valueQuantity : json.entry[0].resource.valueQuantity) : {"unit": "N/A","value": 0},
+  receivedAt: Date.now()
+});
+
+export function fetchMostRecentObsByCode(patientID, code) {
+  return (dispatch) => {
+    dispatch(requestMostRecentObsByCode(patientID));
+    const baseUrl = getURL();
+
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then(json =>
+        dispatch(receiveMostRecentObsByCode(patientID, code, json))
+      );
+  };
+}

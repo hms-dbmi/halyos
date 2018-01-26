@@ -1,8 +1,10 @@
-//LocalData
+import 'whatwg-fetch'
 import {pollenLocal} from '../../data/fhirData.js';
-export const FETCH_POLLEN_REQUEST = 'FETCH_POLLEN_REQUEST';
-export const FETCH_POLLEN_SUCCESS = 'FETCH_POLLEN_SUCCESS';
-export const FETCH_POLLEN_FAILURE = 'FETCH_POLLEN_FAILURE';
+
+export const FETCH_POLLEN_REQUEST = "FETCH_POLLEN_REQUEST";
+export const FETCH_POLLEN_SUCCESS = "FETCH_POLLEN_SUCCESS";
+export const FETCH_POLLEN_FAILURE = "FETCH_POLLEN_FAILURE";
+
 
 export const requestPollenLevels = zipCode => ({
   type: FETCH_POLLEN_REQUEST,
@@ -23,6 +25,7 @@ export const failPollenLevels = zipCode => ({
 });
 
 export function fetchPollenLevels(zipCode) {
+
   return function (dispatch) {
     dispatch(requestPollenLevels(zipCode));
     // Vimig's API Key: Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA

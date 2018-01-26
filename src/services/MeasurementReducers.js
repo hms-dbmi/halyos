@@ -1,7 +1,5 @@
 import { ADD_FUTURE_BY_MEASUREMENT, ADD_PRESENT_BY_MEASUREMENT, SET_TIME_PERIOD, ADD_PAST_BY_MEASUREMENT, CHANGE_ACTIVE_MEASURE } from './MeasurementActions';
 
-
-
 export function measurementState(state = {}, action){
 	switch (action.type){
 		case ADD_FUTURE_BY_MEASUREMENT:
