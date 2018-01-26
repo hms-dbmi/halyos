@@ -84,7 +84,7 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
-
+    console.log(newRisk)
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
@@ -221,6 +221,7 @@ class Dashboard extends React.Component {
               unit="%"
               context={10}
               url="General_Cardiac"
+              currRisk={this.state.riskIsExpanded}
             />
           </li>
           <li className={riskStrokeWidth}>
@@ -237,6 +238,7 @@ class Dashboard extends React.Component {
               unit="%"
               context={1}
               url="Stroke"
+              currRisk={this.state.riskIsExpanded}
             />
           </li>
           <li className={riskKidneyWidth}>
@@ -253,6 +255,7 @@ class Dashboard extends React.Component {
               unit="%"
               context={5}
               url="Kidney_Failure"
+              currRisk={this.state.riskIsExpanded}
             />
           </li>
           <li className={riskCopdWidth}>
@@ -270,6 +273,7 @@ class Dashboard extends React.Component {
               unit="%"
               context={4}
               url="COPD_Mortality"
+              currRisk={this.state.riskIsExpanded}
             />
           </li>
           <li className={riskDiabetesWidth}>
@@ -288,6 +292,7 @@ class Dashboard extends React.Component {
               unit="%"
               context={5}
               url="Diabetes"
+              currRisk={this.state.riskIsExpanded}
             />
           </li>
           <li className={riskAboutWidth}>
