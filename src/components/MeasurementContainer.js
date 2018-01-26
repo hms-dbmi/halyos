@@ -6,13 +6,18 @@ import {
   addPastMeasurement,
   activeMeasure
 } from '../services/MeasurementActions';
+import {
+  fetchMostRecentObsByCode,
+} from '../services/fhir/FhirActions';
+
 import {getNearestFlat} from '../services/general_utils';
 
 const mapStateToProps = (state, ownProps) => ({
   futureMeasurements: state.measurementState.futureMeasurements,
   presentMeasurements: state.measurementState.presentMeasurements,
   pastMeasurementsValue: getNearestFlat(ownProps.graphData, state.pastDate).value,
-  pastMeasurementsDate: getNearestFlat(ownProps.graphData, state.pastDate).date
+  pastMeasurementsDate: getNearestFlat(ownProps.graphData, state.pastDate).date,
+  mostRecentMeasurements: state.fhirObservationData,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
   addFutureMeasurement: (code, value) => dispatch(addFutureMeasurement(code, value)),
   addPastMeasurement: (code, value) => dispatch(addPastMeasurement(code, value)),
   activeMeasure: (code) => dispatch(activeMeasure(code)),
+  fetchMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code))
 });
 
 const MeasurementContainer = connect(

@@ -42,4 +42,3 @@ export function setTimePeriod(time) {
 		periodOfTime: time
 	}
 }
-

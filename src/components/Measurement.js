@@ -40,6 +40,10 @@ class Measurement extends React.Component {
     ) {
       this.props.addFutureMeasurement(this.props.code, this.props.present);
     }
+
+    // var test = this.props.fetchMostRecentObsByCode(182296, '2085-9');
+    // var test = this.props.fetchMostRecentObsByCode(182296, '55284-4');
+
   }
 
   showDetails() {
@@ -80,6 +84,8 @@ class Measurement extends React.Component {
 
   render() {
     let sliderValue;
+
+    console.log("test", this.props.mostRecentMeasurements);
 
     if (
       this.props.futureMeasurements &&
