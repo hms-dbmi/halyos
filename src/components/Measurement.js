@@ -85,8 +85,6 @@ class Measurement extends React.Component {
   render() {
     let sliderValue;
 
-    console.log("test", this.props.mostRecentMeasurements);
-
     if (
       this.props.futureMeasurements &&
       this.props.futureMeasurements[this.props.code]
