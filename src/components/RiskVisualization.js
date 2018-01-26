@@ -63,7 +63,9 @@ export default class RiskVisualization extends Component {
 
 	render() {
 		return (
-			<div dangerouslySetInnerHTML={this.createViz()}>
+			<div> Risk: {this.props.score}%
+				<div dangerouslySetInnerHTML={this.createViz()}>
+				</div>
 			</div>
 		);
 	}

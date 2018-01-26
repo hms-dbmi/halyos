@@ -86,11 +86,12 @@ class RiskTile extends React.Component {
             present={this.state.pastScore}
             worse={this.state.pastBad}
             better={this.state.pastGood}
+            score={Math.round(this.props.pastScore)}
             />
             &nbsp;&nbsp;&nbsp;&nbsp;
           </div>
           <div className="flex-c flex-align-c flex-v-bottom">
-            <RiskVisualization present={Math.round(this.props.score)}/>
+            <RiskVisualization present={Math.round(this.props.score)} score={Math.round(this.props.score)}/>
             &nbsp;&nbsp;&nbsp;&nbsp;
           </div>
           <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-future">
@@ -98,6 +99,7 @@ class RiskTile extends React.Component {
             present={this.state.futScore}
             worse={this.state.futBad}
             better={this.state.futGood}
+            score={Math.round(this.props.futureScore)}
             />
           </div>
         </div>
