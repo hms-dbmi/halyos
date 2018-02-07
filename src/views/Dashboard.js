@@ -8,7 +8,6 @@ import PreventativeCareSuggestions from '../components/PreventativeCareSuggestio
 import Environment from '../components/Environment';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
-import ExternalContainer from '../components/ExternalContainer';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -84,7 +83,6 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
-    console.log(newRisk)
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,

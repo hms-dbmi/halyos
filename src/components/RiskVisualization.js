@@ -26,7 +26,7 @@ export default class RiskVisualization extends Component {
 		for(var i = 0; i < this.state.present; i++) {
 			count = i+1
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="black" />'
+			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#656565" />'
 			code = code + '</svg>'
 			if (i % 10 == 9) {
 				code = code + '<br/>'
@@ -35,7 +35,7 @@ export default class RiskVisualization extends Component {
 		for(var i = count; i < this.state.present+this.state.better; i++) {
 			count = i+1
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="green" />'
+			code = code +  '<circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="#1C1C1C" />'
 			code = code + '</svg>'
 			if (i % 10 == 9) {
 				code = code + '<br/>'
@@ -44,7 +44,8 @@ export default class RiskVisualization extends Component {
 		for(var i = count; i < this.state.present+this.state.better+this.state.worse; i++) {
 			count = i+1
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="red" />'
+			code = code +  '<circle cx="10" cy="10" r="2" stroke="black" stroke-width="1" fill="#1C1C1C" />'
+			//code = code +  '<circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="none" />'
 			code = code + '</svg>'
 			if (i % 10 == 9) {
 				code = code + '<br/>'
@@ -52,7 +53,7 @@ export default class RiskVisualization extends Component {
 		}
 		for(var i = count; i < 100; i++) {
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1" fill="grey" />'
+			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#D4D4D4" />'
 			code = code + '</svg>'
 			if (i % 10 == 9) {
 				code = code + '<br/>'

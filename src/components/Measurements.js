@@ -124,6 +124,7 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
+            <hr/>
             <div className="dashboard-panel-subtopbar">
                 <div className="pure-u-24-24">
                   <div className="flex-c flex-v-center" style={{fontSize:20}}>
@@ -131,7 +132,7 @@ class Measurements extends React.Component {
                   </div>
                 </div>
             </div>
-            <ExternalContainer/>
+            <ExternalContainer risk={this.props.risk}/>
             <div className="dashboard-panel-subtopbar">
                 <div className="pure-u-24-24">
                   <div className="flex-c flex-v-center" style={{fontSize:20}}>

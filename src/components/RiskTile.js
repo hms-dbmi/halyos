@@ -53,13 +53,13 @@ class RiskTile extends React.Component {
     if(parseInt(nextProps.futureScore) > parseInt(nextProps.score)) {
       this.setState({
         futScore: parseInt(nextProps.score),
-        futBad: parseInt(nextProps.futureScore)-parseInt(nextProps.score),
-        futGood: 0
+        futGood: parseInt(nextProps.futureScore)-parseInt(nextProps.score),
+        futBad: 0
       })
     } else {
       this.setState({
-        futGood: parseInt(nextProps.score)-parseInt(nextProps.futureScore),
-        futBad: 0
+        futBad: parseInt(nextProps.score)-parseInt(nextProps.futureScore),
+        futGood: 0
       })
     }
   }
