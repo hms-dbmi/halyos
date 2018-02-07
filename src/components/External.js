@@ -40,13 +40,13 @@ class External extends React.Component {
               		Do you smoke?
             	  </div>
           		</div>
-          	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
+          	    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
          		  <input type="checkBox" name="pastSmoke" value={this.state.pastSmoke} onChange={this.onChange.bind(this)} checked={this.state.pastSmoke && true}/>
       		    </div>
-      		    <div className="pure-u-3-24 smaller">
-				  <input type="checkBox" name="presentSmoke" value={this.state.presentSmoke} onChange={this.onChange.bind(this)} checked={this.state.presentSmoke && true}/>
+      		    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+				  <input type="checkBox" name="presentSmoke flex-c flex-v-center" value={this.state.presentSmoke} onChange={this.onChange.bind(this)} checked={this.state.presentSmoke && true}/>
           	    </div>
-                <div className="pure-u-3-24 smaller">
+                <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
 				  <input type="checkBox" name="futureSmoke" value={this.state.futureSmoke} onChange={this.onChange.bind(this)} checked={this.state.futureSmoke && true}/>
       		    </div>
       		    <div className="pure-u-15-24">
@@ -54,13 +54,13 @@ class External extends React.Component {
               		Do you have a family history of heart disease?
             	  </div>
           		</div>
-          	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
+          	    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
          		  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
       		    </div>
-      		    <div className="pure-u-3-24 smaller">
+      		    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
 				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
           	    </div>
-                <div className="pure-u-3-24 smaller">
+                <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
 				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
       		    </div>
       		   
