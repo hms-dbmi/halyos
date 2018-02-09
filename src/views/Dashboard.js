@@ -69,11 +69,9 @@ class Dashboard extends React.Component {
   }
 
   expandMeaAbout(collapse, measure = null) {
-    console.log(collapse, measure)
     if(!collapse && this.state.meaDesIsExpanded && measure != this.state.currMeasure) {
       //put away currentmeasurement
       this.expandMeaAbout(true, this.state.currMeasure)
-      console.log("ouch")
     }
     this.setState({
       envIsCollapsed: !collapse,
@@ -104,7 +102,6 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log(this.state)
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
