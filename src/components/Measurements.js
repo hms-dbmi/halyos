@@ -81,10 +81,6 @@ class Measurements extends React.Component {
         <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
             <div className="flex-c flexc-v-center">
-              <select ref={input => {this.myInput = input;}} onChange={this.onChange.bind(this)}>
-                <option value="measurements">Measurements</option>
-                <option value="personalhist">User Entered Value</option>
-              </select>
               <input
                 type="text"
                 placeholder="Search"
@@ -113,8 +109,6 @@ class Measurements extends React.Component {
             Future
           </div>
         </header>
-        {this.state.view === "personalhist" && <ExternalContainer risk={this.props.risk}/>}
-        {this.state.view === "measurements" &&
           <main className="measurements-list flex-c flex-col flex-g-1 r scrollbar">
             {this.props.pastDate && (
               <div className="dashboard-panel-subtopbar">
@@ -130,6 +124,22 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
+            <hr/>
+            <div className="dashboard-panel-subtopbar">
+                <div className="pure-u-24-24">
+                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
+                    <span>Data not available in EHR</span>
+                  </div>
+                </div>
+            </div>
+            <ExternalContainer risk={this.props.risk}/>
+            <div className="dashboard-panel-subtopbar">
+                <div className="pure-u-24-24">
+                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
+                    <span>Data from EHR</span>
+                  </div>
+                </div>
+            </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
                   if (measuresForRisks[this.props.risk].includes(item.code)) {
@@ -157,7 +167,6 @@ class Measurements extends React.Component {
               />
             ))}
           </main>
-        }
         {this.state.isDatePickerShown && (
           <DatePicker
             selected={pastDate}

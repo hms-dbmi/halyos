@@ -8,7 +8,6 @@ import PreventativeCareSuggestions from '../components/PreventativeCareSuggestio
 import Environment from '../components/Environment';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
-import ExternalContainer from '../components/ExternalContainer';
 
 // Services
 import { getPatID } from '../services/smart_setup';
@@ -70,6 +69,10 @@ class Dashboard extends React.Component {
   }
 
   expandMeaAbout(collapse, measure = null) {
+    if(!collapse && this.state.meaDesIsExpanded && measure != this.state.currMeasure) {
+      //put away currentmeasurement
+      this.expandMeaAbout(true, this.state.currMeasure)
+    }
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
@@ -84,7 +87,6 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
-    console.log(newRisk)
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,

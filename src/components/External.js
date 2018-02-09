@@ -30,42 +30,53 @@ class External extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.risk)
 		return (
 			<div>
+			{(this.props.risk === "Cardiac" || this.props.risk===undefined) &&
+			<div>
 			  <br/>
-			  {(this.props.risk === "Cardiac" || this.props.risk===undefined) && <header className="pure-g flex-c flex-align-sb"> 
-          	    <div className="pure-u-15-24">
-            	  <div className="flex-c flexc-v-center">
-              		Do you smoke?
-            	  </div>
-          		</div>
-          	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
-         		  <input type="checkBox" name="pastSmoke" value={this.state.pastSmoke} onChange={this.onChange.bind(this)} checked={this.state.pastSmoke && true}/>
-      		    </div>
-      		    <div className="pure-u-3-24 smaller">
-				  <input type="checkBox" name="presentSmoke" value={this.state.presentSmoke} onChange={this.onChange.bind(this)} checked={this.state.presentSmoke && true}/>
-          	    </div>
-                <div className="pure-u-3-24 smaller">
-				  <input type="checkBox" name="futureSmoke" value={this.state.futureSmoke} onChange={this.onChange.bind(this)} checked={this.state.futureSmoke && true}/>
-      		    </div>
-      		    <div className="pure-u-15-24">
-            	  <div className="flex-c flexc-v-center">
-              		Do you have a family history of heart disease?
-            	  </div>
-          		</div>
-          	    <div className="pure-u-3-24 smaller flex-c flex-v-center">
+			   <div className="measurement">
+		        <div className="measurement-info pure-g">
+		            <div className="full-wh flex-c flex-v-center flex-wrap">
+	            	  <div className="pure-u-15-24">
+            	  		<div className="flex-c flexc-v-center">
+          				  Do you smoke?
+            	 		</div>
+          			  </div>
+          	    	<div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+         		  	  <input type="checkBox" name="pastSmoke" value={this.state.pastSmoke} onChange={this.onChange.bind(this)} checked={this.state.pastSmoke && true}/>
+  		    	    </div>
+      		    	<div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+				  	  <input type="checkBox" name="presentSmoke" value={this.state.presentSmoke} onChange={this.onChange.bind(this)} checked={this.state.presentSmoke && true}/>
+          	    	</div>
+                  <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+				    <input type="checkBox" name="futureSmoke" value={this.state.futureSmoke} onChange={this.onChange.bind(this)} checked={this.state.futureSmoke && true}/>
+  		          </div>
+	            </div>
+              </div>
+	        </div>
+			<div className="measurement">
+	    	  <div className="measurement-info pure-g">
+		        <div className="full-wh flex-c flex-v-center flex-wrap">
+		          <div className="pure-u-15-24">
+            	    <div className="flex-c flexc-v-center">
+              		  Do you have a family history of heart disease?
+            	    </div>
+          		  </div>
+          	    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
          		  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
       		    </div>
-      		    <div className="pure-u-3-24 smaller">
+      		    <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
 				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
           	    </div>
-                <div className="pure-u-3-24 smaller">
+                <div className="pure-u-3-24 smaller flex-c flex-v-center" style={{'justifyContent': 'center'}}>
 				  <input type="checkBox" name="heartfamhist" value={this.state.heartfamhist} onChange={this.onChange.bind(this)} checked={this.state.heartfamhist && true}/>
       		    </div>
-      		   
-              </header>}
-			</div>
+		      </div>
+	        </div>
+       	   </div>
+       	  </div>}
+		</div>
 		);
 	}
 }
