@@ -83,7 +83,7 @@ class Measurements extends React.Component {
             <div className="flex-c flexc-v-center">
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Click here to search!"
                 className="search flex-g-1"
                 onChange={e => this.filterList(e.target.value.toLowerCase())}
               />

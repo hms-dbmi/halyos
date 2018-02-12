@@ -9,12 +9,11 @@
 .risk-tile-content {
   position: relative;
   margin: 0 0.5rem;
-  background: $gray-lightest;
+  border: 2px solid grey;
   transition: background $fast $ease;
 
   &:hover {
     cursor: pointer;
-    background: $highlight-bg;
   }
 }
 

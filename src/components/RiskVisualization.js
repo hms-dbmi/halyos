@@ -26,7 +26,7 @@ export default class RiskVisualization extends Component {
 		for(var i = 0; i < this.state.present; i++) {
 			count = i+1
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#656565" />'
+			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="0" fill="#656565" />'
 			code = code + '</svg>'
 			if (i % 10 === 9) {
 				code = code + '<br/>'
@@ -54,7 +54,7 @@ export default class RiskVisualization extends Component {
 		}
 		for(i = count; i < 100; i++) {
 			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#D4D4D4" />'
+			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="0" fill="#D4D4D4" />'
 			code = code + '</svg>'
 			if (i % 10 === 9) {
 				code = code + '<br/>'
@@ -65,9 +65,9 @@ export default class RiskVisualization extends Component {
 
 	render() {
 		return (
-			<div> Risk: {this.props.score}%
-				<div dangerouslySetInnerHTML={this.createViz()}>
-				</div>
+			<div>
+				<div className='header'> Risk: {this.props.score}% </div>
+				<div dangerouslySetInnerHTML={this.createViz()}/>
 			</div>
 		);
 	}
