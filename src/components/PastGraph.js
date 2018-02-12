@@ -56,6 +56,7 @@ class PastGraph extends React.Component {
       this.futureNodeSelection.attr('cy', newCy);
       this.presentFutureLine.attr('y2', newCy);
     }
+
     return (
       <div>
         <div
