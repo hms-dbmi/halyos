@@ -81,25 +81,31 @@ class RiskTile extends React.Component {
       {displayviz && <div className="risk-tile-content">
         <h2 className="risk-tile-title">{this.props.name}</h2>
         <div className="risk-tile-score flex-c flex-align-c">
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
+          <div className="flex-c flex-align-c flex-v-center risk-tile-score-past">
             <RiskVisualization 
             present={this.state.pastScore}
             worse={this.state.pastBad}
             better={this.state.pastGood}
             score={Math.round(this.props.pastScore)}
+            context={this.props.context}
             />
             &nbsp;&nbsp;&nbsp;&nbsp;
           </div>
-          <div className="flex-c flex-align-c flex-v-bottom">
-            <RiskVisualization present={Math.round(this.props.score)} score={Math.round(this.props.score)}/>
+          <div className="flex-c flex-align-c flex-v-center">
+            <RiskVisualization present={Math.round(this.props.score)}
+                               score={Math.round(this.props.score)}
+                               emphasize={true}
+                               context={this.props.context}
+                               />
             &nbsp;&nbsp;&nbsp;&nbsp;
           </div>
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-future">
+          <div className="flex-c flex-align-c flex-v-center risk-tile-score-future">
             <RiskVisualization 
             present={this.state.futScore}
             worse={this.state.futBad}
             better={this.state.futGood}
             score={Math.round(this.props.futureScore)}
+            context={this.props.context}
             />
           </div>
         </div>

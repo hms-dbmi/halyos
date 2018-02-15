@@ -298,7 +298,7 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskAboutWidth}>
-            <p>About {this.state.riskIsExpanded}:</p>
+            <p><b>About {this.state.riskIsExpanded}:</b></p>
             <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
           </li>
         </ul>
