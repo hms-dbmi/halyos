@@ -134,7 +134,7 @@ class RiskTile extends React.Component {
               className="risk-tile-info"
               onClick={() => alert('More info on the risk here.')} /> */}
           </div>
-          <div className="risk-tile-context-bar" style={getLength(this.props.context, this.props.contextMax)}></div>
+         {/* <div className="risk-tile-context-bar" style={getLength(this.props.context, this.props.contextMax)}></div>*/}
         </div>
       }
       </div>)
