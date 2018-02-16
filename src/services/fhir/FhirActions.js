@@ -171,23 +171,27 @@ export const receiveMostRecentObsByCode = (patientID, code, data) => ({
   receivedAt: Date.now()
 });
 
-export function fetchMostRecentObsByCode(patientID, code) {
+export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
-    let allUrl = baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date';
-    console.log("url", allUrl);
+    console.log("gettign the call!", code);
+
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
       )
       .then(function(json){
+
           let data = {};
           if(json){
             if(json.entry) {
-              if(json.entry[0].resource.component)
+              if(json.entry[0].resource.component){
+                
+                console.log("in data", json);
                 data = json.entry[0].resource.component[0].valueQuantity;
+              }
               else
                 data = json.entry[0].resource.valueQuantity;
             }

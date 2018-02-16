@@ -121,32 +121,74 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
     @return the reynolds score as a percent
 */
 
-export function reynoldsScore(pt, obs, smoker = false, famhist = false) {
-    if (pt && obs) {
+// export function reynoldsScore(pt, obs, smoker = false, famhist = false) {
+//     if (pt && obs) {
+//       const codesObject = {
+//         '30522-7': [], // hsCRP
+//         '2093-3': [], // cholesterol
+//         '2085-9': [], // HDL
+//         '8480-6': [] // sysBP
+//       };
+//       const sortedObs = searchByCode(obs, codesObject);
+//       for (let key in sortedObs) {
+//         if (sortedObs.hasOwnProperty(key)) {
+//           if (sortedObs[key].length === 0) {
+//             alert('Patient does not have adequate measurements for Reynolds Risk Score.');
+//             return;
+//           }
+//         }
+//       }
+//       return calculateReynolds(calculateAge(pt.birthDate),
+//         sortedObs['8480-6'][0].value,
+//         sortedObs['30522-7'][0].value,
+//         sortedObs['2093-3'][0].value,
+//         sortedObs['2085-9'][0].value,
+//         smoker, // smoker
+//         famhist, // famHist
+//         pt.gender
+//       );
+//     }
+//   return '...';
+// }
+
+
+export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = false) {
+
+    if (pt && obs && date == null) {
       const codesObject = {
-        '30522-7': [], // hsCRP
-        '2093-3': [], // cholesterol
-        '2085-9': [], // HDL
-        '8480-6': [] // sysBP
+        '30522-7': {}, // hsCRP
+        '2093-3': {}, // cholesterol
+        '2085-9': {}, // HDL
+        '55284-4': {} // sysBP --- 55284-4 is the code for both BPs
       };
-      const sortedObs = searchByCode(obs, codesObject);
-      for (let key in sortedObs) {
-        if (sortedObs.hasOwnProperty(key)) {
-          if (sortedObs[key].length === 0) {
-            alert('Patient does not have adequate measurements for Reynolds Risk Score.');
+      // console.log("obs!", obs);
+      // const sortedObs = searchByCode(obs, codesObject);
+      codesObject['30522-7'] = obs['30522-7'];
+      codesObject['2093-3'] = obs['2093-3'];
+      codesObject['2085-9'] = obs['2085-9'];
+      codesObject['55284-4'] = obs['55284-4'];
+
+      console.log("reynolds", codesObject);
+
+      for (let key in codesObject) {
+        if (codesObject.hasOwnProperty(key)) {
+          if (!codesObject[key]) {
+            // alert('Patient does not have adequate measurements for Reynolds Risk Score.');
             return;
           }
         }
       }
       return calculateReynolds(calculateAge(pt.birthDate),
-        sortedObs['8480-6'][0].value,
-        sortedObs['30522-7'][0].value,
-        sortedObs['2093-3'][0].value,
-        sortedObs['2085-9'][0].value,
+        codesObject['55284-4'].value,
+        codesObject['30522-7'].value,
+        codesObject['2093-3'].value,
+        codesObject['2085-9'].value,
         smoker, // smoker
         famhist, // famHist
         pt.gender
       );
+    } else if (pt && obs){
+
     }
   return '...';
 }
