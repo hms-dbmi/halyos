@@ -115,6 +115,7 @@ class Measurement extends React.Component {
       currentMeasurement = this.props.mostRecentMeasurements["" + this.props.code].value.toFixed(2);
     }
 
+    console.log("data" , this.props.mostRecentMeasurements);
 
     return (
       <div className="measurement">

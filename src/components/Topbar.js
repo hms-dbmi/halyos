@@ -31,8 +31,12 @@ class Header extends React.Component {
               observationList.add(name);
             }
           } else {
-            const name = JSON.stringify(data[i].code.coding[0]);
-            observationList.add(name);
+            //TODO: there's an error here where an obs can exist in the data, but without a code, if statement is a bandaid, figure out how/why 
+            let name = "";
+            if(data[i].code){
+              name = JSON.stringify(data[i].code.coding[0]);
+              observationList.add(name);
+            }
           }
         }
 
