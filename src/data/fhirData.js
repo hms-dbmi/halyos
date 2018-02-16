@@ -13,7 +13,7 @@ export const fluLocal = [{"id":1,"city":"Silver Spring(20906)","place_id":"21511
 
 export const patientLocal = [
 {
-      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Patient/182296",
+      "fullUrl": "http://hapi.fhir.org/baseDstu3/Patient/182296",
       "resource": {
         "resourceType": "Patient",
         "id": "182296",
