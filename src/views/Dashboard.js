@@ -40,7 +40,15 @@ class Dashboard extends React.Component {
   /* ************************** Life Cycle Methods ************************** */
 
   componentDidMount() {
-    //this.props.getPatientDemographics(getPatID()); UNCOMMENT ME TO USE LIVE DATA
+    this.props.getPatientDemographics(getPatID()); 
+
+    //for reynolds risk score
+    this.props.getMostRecentObsByCode(getPatID(), '30522-7');
+    this.props.getMostRecentObsByCode(getPatID(), '2093-3');
+    this.props.getMostRecentObsByCode(getPatID(), '2085-9');
+    this.props.getMostRecentObsByCode(getPatID(), '55284-4');
+
+
   }
 
   /* **************************** Custom Methods **************************** */
@@ -102,6 +110,9 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
+    // console.log("In Dashboard", this.props.mostRecentObs);
+    // console.log("In dash pt", this.props.patient);
+
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -212,8 +223,9 @@ class Dashboard extends React.Component {
               expand={this.expandRisk.bind(this)}
               name="Cardiac"
               score={reynoldsScore(
+                null,
                 this.props.patient,
-                this.props.observations,
+                this.props.mostRecentObs,
                 this.props.external.smoking[1],
                 this.props.external.heartfamhist
               )}
