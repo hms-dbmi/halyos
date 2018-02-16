@@ -88,3 +88,12 @@
     font-size: 0.85rem;
   }
 }
+
+.back:hover {
+  background: $gray-lightest
+}
+
+.arrow {
+  display: block;
+  margin: auto;
+}
