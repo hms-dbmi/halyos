@@ -163,26 +163,45 @@ export const requestMostRecentObsByCode = (patientID, code) => ({
   code
 });
 
-export const receiveMostRecentObsByCode = (patientID, code, json) => ({
+export const receiveMostRecentObsByCode = (patientID, code, data) => ({
   type: FETCH_RECENT_OBSERVATION_SUCCESS,
   patientID,
   code,
-  recent_obs: json.entry ? (json.entry[0].resource.component ? json.entry[0].resource.component[0].valueQuantity : json.entry[0].resource.valueQuantity) : {"unit": "N/A","value": 0},
+  recent_obs: data,
   receivedAt: Date.now()
 });
 
-export function fetchMostRecentObsByCode(patientID, code) {
+export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
+    console.log("gettign the call!", code);
 
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
       )
-      .then(json =>
-        dispatch(receiveMostRecentObsByCode(patientID, code, json))
+      .then(function(json){
+
+          let data = {};
+          if(json){
+            if(json.entry) {
+              if(json.entry[0].resource.component){
+                
+                console.log("in data", json);
+                data = json.entry[0].resource.component[0].valueQuantity;
+              }
+              else
+                data = json.entry[0].resource.valueQuantity;
+            }
+            else
+              data = {"unit": "N/A","value": 0};
+          } else {
+            data = {};
+          }
+          dispatch(receiveMostRecentObsByCode(patientID, code, data));
+        } 
       );
   };
 }

@@ -117,6 +117,7 @@ class Measurement extends React.Component {
 
     var yearsPast = Math.floor((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365))
     var monthsPast = Math.floor(((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365)-yearsPast)*12)
+    // console.log("data" , this.props.mostRecentMeasurements);
 
     var yearsPres = Math.floor((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365))
     var monthsPres = Math.floor(((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365)-yearsPres)*12)
