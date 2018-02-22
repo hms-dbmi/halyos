@@ -1,6 +1,7 @@
 @import '../styles/colors.scss';
 @import '../styles/ratio.scss';
 @import '../styles/transitions.scss';
+@import '../styles/flexbox.scss';
 
 .risk-tile {
   width: 100%;
@@ -15,6 +16,11 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.vertical-line {
+    border-left: 2px solid grey;
+    height: 300px;
 }
 
 .risk-tile-title {
@@ -81,4 +87,13 @@
   .risk-tile-score-unit {
     font-size: 0.85rem;
   }
+}
+
+.back:hover {
+  background: $gray-lightest
+}
+
+.arrow {
+  display: block;
+  margin: auto;
 }

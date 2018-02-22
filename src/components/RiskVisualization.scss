@@ -10,5 +10,17 @@
 }
 
 .header {
-	font-size: 25px
+	font-size: 25px;
+    .context {
+        font-size: 14px;
+        opacity: 0.65;
+    }
 }
+.risk {
+    padding: 10px 25px 10px 25px;
+}
+
+.present-risk {
+    padding: 10px 25px 10px 25px;
+    border: 2px solid #D4D4D4;
+} 

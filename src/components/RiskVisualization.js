@@ -65,8 +65,8 @@ export default class RiskVisualization extends Component {
 
 	render() {
 		return (
-			<div>
-				<div className='header'> Risk: {this.props.score}% </div>
+			<div className={this.props.emphasize ? 'present-risk' : 'risk'}>
+				<div className='header'> {this.props.period}: {this.props.score}% <span className="context"> within {this.props.context} years </span></div>
 				<div dangerouslySetInnerHTML={this.createViz()}/>
 			</div>
 		);

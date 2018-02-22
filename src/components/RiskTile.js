@@ -79,34 +79,53 @@ class RiskTile extends React.Component {
         onClick={() => { this.props.expand(this.props.name); }}
       >
       {displayviz && <div className="risk-tile-content">
-        <h2 className="risk-tile-title">{this.props.name}</h2>
-        <div className="risk-tile-score flex-c flex-align-c">
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
-            <RiskVisualization 
-            present={this.state.pastScore}
-            worse={this.state.pastBad}
-            better={this.state.pastGood}
-            score={Math.round(this.props.pastScore)}
-            />
-            &nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='flex-c flex-align-sb flex-v-stretch'>
+          <div className="flex-c flex-align-c flex-v-center back">
+            <div className="flex-c flex-align-c">
+              <svg width="60" className="arrow">
+                <polygon fill="grey" points="68,19.1 29.7,49.1 68,79.1 69.2,77.6 32.9,49.1 69.2,20.6 68,19.1 "/>
+              </svg>
+            </div>
           </div>
-          <div className="flex-c flex-align-c flex-v-bottom">
-            <RiskVisualization present={Math.round(this.props.score)} score={Math.round(this.props.score)}/>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-          <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-future">
-            <RiskVisualization 
-            present={this.state.futScore}
-            worse={this.state.futBad}
-            better={this.state.futGood}
-            score={Math.round(this.props.futureScore)}
-            />
+          <div> 
+            <h2 className="risk-tile-title">{this.props.name} Risk</h2>
+            <div className="risk-tile-score flex-c flex-align-sb">
+              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
+                <RiskVisualization 
+                present={this.state.pastScore}
+                worse={this.state.pastBad}
+                better={this.state.pastGood}
+                score={Math.round(this.props.pastScore)}
+                context={this.props.context}
+                period={"Past"}
+                />
+              </div>
+              <div className="flex-c flex-align-sb flex-v-center">
+                <RiskVisualization 
+                 present={Math.round(this.props.score)}
+                 score={Math.round(this.props.score)}
+                 emphasize={true}
+                 context={this.props.context}
+                 period={"Today"}
+                />
+              </div>
+              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
+                <RiskVisualization 
+                present={this.state.futScore}
+                worse={this.state.futBad}
+                better={this.state.futGood}
+                score={Math.round(this.props.futureScore)}
+                context={this.props.context}
+                period={"Future"}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>}
       {!displayviz &&
         <div className="risk-tile-content" style={{background: background}}>
-          <h2 className="risk-tile-title">{this.props.name}</h2>
+          <h2 className="risk-tile-title">{this.props.name} Risk</h2>
           <div className="risk-tile-status">{this.props.status}</div>
           <div className="risk-tile-score flex-c flex-align-c">
             {this.props.pastScore &&

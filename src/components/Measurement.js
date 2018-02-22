@@ -115,26 +115,30 @@ class Measurement extends React.Component {
       currentMeasurement = this.props.mostRecentMeasurements["" + this.props.code].value.toFixed(2);
     }
 
+    var yearsPast = Math.floor((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365))
+    var monthsPast = Math.floor(((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365)-yearsPast)*12)
     // console.log("data" , this.props.mostRecentMeasurements);
 
+    var yearsPres = Math.floor((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365))
+    var monthsPres = Math.floor(((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365)-yearsPres)*12)
     return (
       <div className="measurement">
         <div className="measurement-info pure-g">
           <div className="pure-u-15-24">
             <div className="full-wh flex-c flex-v-center flex-wrap">
-              <Button
-                icon="help"
-                iconOnly={true}
-                className="measurement-future-help"
-                onClick={this.showDetails.bind(this)}
-              />
               <p
                 className="measurement-title p"
                 onClick={() => this.showDetails()}
               >
                 {this.props.name}
               </p>
-              <div className="measurement-unit">[{this.props.unit}]</div>
+              <div className="measurement-unit">[{this.props.unit}]</div> &nbsp;
+              <Button
+                icon="help"
+                iconOnly={true}
+                className="measurement-future-help"
+                onClick={this.showDetails.bind(this)}
+              />
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
@@ -142,7 +146,7 @@ class Measurement extends React.Component {
               <abbr title="Not available">N/A</abbr>
             }
             {pastValue &&
-              <span className="tooltiptext">{pastDate || 'N/A'}</span>
+              <span className="tooltiptext">{yearsPast + ' years, ' + monthsPast + ' month(s) ago'|| 'N/A'}</span>
             }
           </div>
           <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
@@ -155,7 +159,7 @@ class Measurement extends React.Component {
           </div>
           <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip" style={{'justifyContent': 'center'}}>
             {currentMeasurement}
-            <span className="tooltiptext">{presentDate || 'N/A'}</span>
+            <span className="tooltiptext">{yearsPres + ' years, ' + monthsPres + ' month(s) ago' || 'N/A'}</span>
           </div>
           <div className="measurement-future pure-u-3-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
             {futureScore && parseFloat(futureScore).toFixed(2)}

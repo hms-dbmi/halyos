@@ -11,7 +11,8 @@ export const affectedRiskScoreTitleStyle = {
 export const measurementDetailsHeaderStyle = {
 	fontSize: 18,
 	fontFamily:"Rubik",
-	color:"#666666"
+	color:"#666666",
+	fontWeight: 'bold'
 }
 
 export const measurementDetailsSubheadingStyle = {
