@@ -66,7 +66,7 @@ export default class RiskVisualization extends Component {
 	render() {
 		return (
 			<div className={this.props.emphasize ? 'present-risk' : 'risk'}>
-				<div className='header'> {this.props.period}: {this.props.score}% <span className="context"> within {this.props.context} years </span></div>
+				<div className='header flex-c flex-v-bottom flex-align-sb'> {this.props.score}% <span className="time"> {this.props.period} </span></div>
 				<div dangerouslySetInnerHTML={this.createViz()}/>
 			</div>
 		);
