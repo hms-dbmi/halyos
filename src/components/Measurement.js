@@ -70,6 +70,13 @@ class Measurement extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if(this.props.currMeasure === this.props.name && nextProps.currMeasure !== this.props.name) {
+      console.log(this.props, nextProps)
+      this.setState({
+        isDetailsShown: false
+      })
+      this.props.expandAbout(false, nextProps.currMeasure)
+    }
     if (nextProps.risk !== this.props.risk) {
       this.setState({
         isDetailsShown: false
@@ -80,6 +87,22 @@ class Measurement extends React.Component {
       } else {
         nextProps.expandAbout(true);
       }
+    }
+  }
+
+  componentWillMount() {
+    if(this.props.currMeasure === this.props.name) {
+      this.setState({
+        isDetailsShown: true
+      })
+      if(this.props.currMeasure) {
+        this.props.expandAbout(true, this.props.currMeasure)
+      }
+    }
+    else {
+      this.setState({
+        isDetailsShown: false
+      })
     }
   }
 

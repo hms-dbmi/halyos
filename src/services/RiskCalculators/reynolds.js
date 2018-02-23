@@ -168,7 +168,7 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
       codesObject['2085-9'] = obs['2085-9'];
       codesObject['55284-4'] = obs['55284-4'];
 
-      console.log("reynolds", codesObject);
+      //console.log("reynolds", codesObject);
 
       for (let key in codesObject) {
         if (codesObject.hasOwnProperty(key)) {
