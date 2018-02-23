@@ -6,7 +6,6 @@
     width: 25px;
     background-color: #bbb;
     border-radius: 50%;
-    display: inline-block;
 }
 
 .header {
@@ -15,6 +14,8 @@
         font-size: 14px;
         opacity: 0.65;
     }
+    display: inline-flex;
+    align-items: baseline;
 }
 .risk {
     padding: 10px 25px 10px 25px;
@@ -24,3 +25,7 @@
     padding: 10px 25px 10px 25px;
     border: 2px solid #D4D4D4;
 } 
+
+.time {
+    font-size: 18px;
+}

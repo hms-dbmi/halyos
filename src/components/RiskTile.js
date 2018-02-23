@@ -88,7 +88,7 @@ class RiskTile extends React.Component {
             </div>
           </div>
           <div> 
-            <h2 className="risk-tile-title">{this.props.name} Risk</h2>
+            <h2 className="risk-tile-title">{this.props.name} Risk within {this.props.context} years</h2>
             <div className="risk-tile-score flex-c flex-align-sb">
               <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
                 <RiskVisualization 

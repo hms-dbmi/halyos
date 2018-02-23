@@ -164,6 +164,7 @@ class Measurements extends React.Component {
                 presentDate={item.measurements[0].date}
                 graphData={item.measurements}
                 risk={this.props.risk}
+                currMeasure={this.props.currMeasure}
               />
             ))}
           </main>

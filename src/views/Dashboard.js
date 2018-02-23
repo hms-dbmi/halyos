@@ -77,10 +77,7 @@ class Dashboard extends React.Component {
   }
 
   expandMeaAbout(collapse, measure = null) {
-    if(!collapse && this.state.meaDesIsExpanded && measure != this.state.currMeasure) {
-      //put away currentmeasurement
-      this.expandMeaAbout(true, this.state.currMeasure)
-    }
+    console.log(this.state)
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
@@ -326,7 +323,9 @@ class Dashboard extends React.Component {
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
                 measurements={sortMeasurements(this.props.observations)}
-                risk={this.state.riskIsExpanded} />
+                risk={this.state.riskIsExpanded} 
+                currMeasure={this.state.currMeasure}
+                />
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
