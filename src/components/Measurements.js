@@ -19,6 +19,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
+//utils
+import deepContains from '../utils/deep-contains';
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
@@ -30,9 +33,22 @@ class Measurements extends React.Component {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
-          if (measuresForRisks[key].includes(item.code)) {
+          if (deepContains(measuresForRisks[key],(item.code))) {
             return -1;
           }
+          // for(let measurementItem of measuresForRisks[key]){
+          //   if(Array.isArray(measurementItem)){
+          //     if(measurementItem.includes(item.code)){
+          //       console.log("code" , item.code);
+          //       return -1;
+          //     }
+          //   }
+          //   else {
+          //     if(measurementItem == item.code){
+          //       return -1;
+          //     }
+          //   }
+          // }
         }
         return 1;
       })
@@ -48,7 +64,7 @@ class Measurements extends React.Component {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
-          if (measuresForRisks[key].includes(item.code)) {
+          if (deepContains(measuresForRisks[key],item.code)) {
             return -1;
           }
         }
@@ -142,7 +158,7 @@ class Measurements extends React.Component {
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
-                  if (measuresForRisks[this.props.risk].includes(item.code)) {
+                  if (deepContains(measuresForRisks[this.props.risk],item.code)) {
                     return true;
                   }
                   return false;

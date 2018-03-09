@@ -3,44 +3,44 @@ import { getURL } from '../smart_setup';
 
 
 // get observations
-export const FETCH_OBSERVATIONS_REQUEST = 'FETCH_OBSERVATIONS_REQUEST';
-export const FETCH_OBSERVATIONS_SUCCESS = 'FETCH_OBSERVATIONS_SUCCESS';
-export const FETCH_OBSERVATIONS_FAILURE = 'FETCH_OBSERVATIONS_FAILURE';
+// export const FETCH_OBSERVATIONS_REQUEST = 'FETCH_OBSERVATIONS_REQUEST';
+// export const FETCH_OBSERVATIONS_SUCCESS = 'FETCH_OBSERVATIONS_SUCCESS';
+// export const FETCH_OBSERVATIONS_FAILURE = 'FETCH_OBSERVATIONS_FAILURE';
 
-export const requestAllObservations = patientID => ({
-  type: FETCH_OBSERVATIONS_REQUEST,
-  patientID
-});
+// export const requestAllObservations = patientID => ({
+//   type: FETCH_OBSERVATIONS_REQUEST,
+//   patientID
+// });
 
-export const receiveAllObservations = (patientID, json) => ({
-  type: FETCH_OBSERVATIONS_SUCCESS,
-  patientID,
-  obs: json,
-  receivedAt: Date.now()
-});
+// export const receiveAllObservations = (patientID, json) => ({
+//   type: FETCH_OBSERVATIONS_SUCCESS,
+//   patientID,
+//   obs: json,
+//   receivedAt: Date.now()
+// });
 
-export const failAllObservations = patientID => ({
-  type: FETCH_OBSERVATIONS_FAILURE,
-  patientID,
-  error: 'oops'
-});
+// export const failAllObservations = patientID => ({
+//   type: FETCH_OBSERVATIONS_FAILURE,
+//   patientID,
+//   error: 'oops'
+// });
 
-// http://fhirtest.uhn.ca/baseDstu3/Observation?patient=140570
-export function fetchAllObservations(patientID) {
-  return (dispatch) => {
-    dispatch(requestAllObservations(patientID));
-    const baseUrl = getURL();
+// // http://fhirtest.uhn.ca/baseDstu3/Observation?patient=140570
+// export function fetchAllObservations(patientID) {
+//   return (dispatch) => {
+//     dispatch(requestAllObservations(patientID));
+//     const baseUrl = getURL();
 
-    return fetch(baseUrl + '/Observation?patient=' + patientID)
-      .then(
-        response => response.json(),
-        error => console.error('An error occured.', error)
-      )
-      .then(json =>
-        dispatch(receiveAllObservations(patientID, json))
-      );
-  };
-}
+//     return fetch(baseUrl + '/Observation?patient=' + patientID)
+//       .then(
+//         response => response.json(),
+//         error => console.error('An error occured.', error)
+//       )
+//       .then(json =>
+//         dispatch(receiveAllObservations(patientID, json))
+//       );
+//   };
+// }
 
 // get patient data
 
@@ -175,7 +175,6 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
-    console.log("gettign the call!", code);
 
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
       .then(
@@ -188,9 +187,79 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
           if(json){
             if(json.entry) {
               if(json.entry[0].resource.component){
-                
-                console.log("in data", json);
-                data = json.entry[0].resource.component[0].valueQuantity;
+                let subdata = json.entry[0].resource.component;
+                for(let part of subdata){
+                  if(part.code.coding[0].code == subcode){
+                    data = part.valueQuantity;
+                    data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
+                    data['code'] = part.code.coding[0].code;
+                    //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
+                    data['text'] = part.code.text;
+                  }
+                }
+              }
+              else {
+                data = json.entry[0].resource.valueQuantity;
+                data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
+                data['code'] = json.entry[0].resource.code.coding[0].code;
+                data['text'] = json.entry[0].resource.code.text;
+              }
+            }
+            else { 
+              data = {"unit": "N/A","value": 0, "effectiveDateTime":"N/A", "text":"N/A", "system":"N/A", "code":"N/A"};
+            }
+          } 
+          else {
+            data = {};
+          }
+          dispatch(receiveMostRecentObsByCode(patientID, code, data));
+        } 
+      );
+  };
+}
+
+export const FETCH_ALL_OBSERVATION_REQUEST = 'FETCH_ALL_OBSERVATION_REQUEST';
+export const FETCH_ALL_OBSERVATION_SUCCESS = 'FETCH_ALL_OBSERVATION_SUCCESS';
+
+
+export const requestAllObsByCode = (patientID, code) => ({
+  type: FETCH_ALL_OBSERVATION_REQUEST,
+  patientID,
+  code
+});
+
+export const receiveAllObsByCode = (patientID, code, data) => ({
+  type: FETCH_ALL_OBSERVATION_SUCCESS,
+  patientID,
+  code,
+  recent_obs: data,
+  receivedAt: Date.now()
+});
+
+export function fetchAllObsByCode(patientID, code, subcode = null) {
+  return (dispatch) => {
+    dispatch(requestMostRecentObsByCode(patientID));
+    const baseUrl = getURL();
+
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then(function(json){
+
+          let dataList = [];
+          let data = {};
+          if(json){
+            if(json.entry) {
+              if(json.entry[0].resource.component){
+                let subdata = json.entry[0].resource.component;
+                for(let part of subdata){
+                  if(part.code.coding[0].code == subcode){
+                    data = part.valueQuantity;
+
+                  }
+                }
               }
               else
                 data = json.entry[0].resource.valueQuantity;
@@ -200,8 +269,10 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
           } else {
             data = {};
           }
+          console.log("print dat", data);
           dispatch(receiveMostRecentObsByCode(patientID, code, data));
         } 
       );
   };
 }
+

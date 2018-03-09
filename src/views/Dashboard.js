@@ -18,6 +18,8 @@ import { COPDScore, futureCOPD, pastCOPDScore } from '../services/RiskCalculator
 import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCalculators/get_diabetes';
 import { sortMeasurements } from '../services/general_utils';
 
+import measuresForRisks from '../texts/measurementsForRiskScores';
+
 // Styles
 import './Dashboard.css';
 
@@ -46,9 +48,17 @@ class Dashboard extends React.Component {
     this.props.getMostRecentObsByCode(getPatID(), '30522-7');
     this.props.getMostRecentObsByCode(getPatID(), '2093-3');
     this.props.getMostRecentObsByCode(getPatID(), '2085-9');
-    this.props.getMostRecentObsByCode(getPatID(), '55284-4');
+    this.props.getMostRecentObsByCode(getPatID(), '55284-4', '8480-6');
 
-
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        let riskScore = key;
+        let riskScoreMeasures = measuresForRisks[key];
+        for(let measurement of riskScoreMeasures){
+          this.props.getAllObsByCode(getPatID(), )
+        }
+      }
+    }
   }
 
   /* **************************** Custom Methods **************************** */

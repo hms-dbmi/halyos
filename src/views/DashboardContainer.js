@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import {
-  fetchAllPatientDataIfNeeded, fetchMostRecentObsByCode
+  fetchAllPatientDataIfNeeded, fetchMostRecentObsByCode, fetchAllObsByCode
 } from '../services/fhir/FhirActions';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   getPatientDemographics: patientId => dispatch(fetchAllPatientDataIfNeeded(patientId)),
-  getMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code))
+  getMostRecentObsByCode: (patientID, code, subcode = null) => dispatch(fetchMostRecentObsByCode(patientID, code, subcode)),
+  getAllObsByCode: (patientID, code, subcode = null) => dispatch(fetchAllObsByCode(patientID, code, subcode))
 });
 
 const DashboardContainer = connect(
