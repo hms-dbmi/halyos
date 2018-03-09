@@ -52,11 +52,18 @@ class Dashboard extends React.Component {
 
     for (const key in measuresForRisks) {
       if (!measuresForRisks.hasOwnProperty(key)) {
-        let riskScore = key;
-        let riskScoreMeasures = measuresForRisks[key];
-        for(let measurement of riskScoreMeasures){
-          this.props.getAllObsByCode(getPatID(), )
+        continue;
+      }
+      let riskScore = key;
+      let riskScoreMeasures = measuresForRisks[key];
+      for(let measurement of riskScoreMeasures){
+        if(Array.isArray(measurement)){
+          this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
         }
+        else {
+          this.props.getAllObsByCode(getPatID(), measurement);
+        }
+        
       }
     }
   }
@@ -117,7 +124,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    // console.log("In Dashboard", this.props.mostRecentObs);
+    console.log("In Dashboard", this.props.allObs);
     // console.log("In dash pt", this.props.patient);
 
     if (this.props.isFetchingAllPatientData || !this.props.patient) {

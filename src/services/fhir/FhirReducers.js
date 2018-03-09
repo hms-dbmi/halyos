@@ -5,16 +5,6 @@ import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } fr
 
 export function fhirObservationData(state = {}, action){
 	switch (action.type){
-		case FETCH_ALL_OBSERVATION_REQUEST:
-			return Object.assign({}, state, {
-		        isFetchingAllObsByCode: true,
-		  })
-    case FETCH_ALL_OBSERVATION_SUCCESS:
-    	return Object.assign({}, state, {
-	        isFetchingAllObsByCode: false,
-	        obs: action.obs,
-	        lastUpdated: action.receivedAt
-      })
     case FETCH_RECENT_OBSERVATION_REQUEST:
       return {
         ...state,
@@ -28,6 +18,21 @@ export function fhirObservationData(state = {}, action){
         mostRecentMeasurements : {
           ...state.mostRecentMeasurements,
           [action.code]: action.recent_obs
+        }
+      }
+    case FETCH_ALL_OBSERVATION_REQUEST:
+      return {
+        ...state,
+        isFetchingAllMeasurement:true,
+      }
+    case FETCH_ALL_OBSERVATION_SUCCESS:
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        allMeasurements : {
+          ...state.allMeasurements,
+          [action.code]: action.all_obs
         }
       }
     default:

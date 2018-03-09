@@ -85,7 +85,6 @@ export function fetchAllPatientData(patientID) {
 
 function shouldFetchAllPatientData(state, patientID) {
   const data = state.fhirPatientData.ptData;
-  // console.log('from shouldFetchAllPatientData, ', data);
   if (!data) {
     return true;
   } else if (state.fhirPatientData.isFetchingAllPatientData) {
@@ -101,7 +100,6 @@ export function fetchAllPatientDataIfNeeded(patientID) {
       // Dispatch a thunk from thunk!
       return dispatch(fetchAllPatientData(patientID));
     }
-    // console.log('Didn\'t have to get the data twice');
     // Let the calling code know there's nothing to wait for.
     return Promise.resolve();
   };
@@ -232,7 +230,7 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
   type: FETCH_ALL_OBSERVATION_SUCCESS,
   patientID,
   code,
-  recent_obs: data,
+  all_obs: data,
   receivedAt: Date.now()
 });
 
@@ -240,37 +238,45 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
-
-    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
+    //pulls oldest to newest
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_sort=date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-
           let dataList = [];
-          let data = {};
           if(json){
-            if(json.entry) {
-              if(json.entry[0].resource.component){
-                let subdata = json.entry[0].resource.component;
-                for(let part of subdata){
-                  if(part.code.coding[0].code == subcode){
-                    data = part.valueQuantity;
-
+            if(json.total == 0){
+              dispatch(receiveAllObsByCode(patientID, code, dataList));
+            }
+            else {
+              for(let item of json.entry){
+                let data = {};
+                if(item.resource.component){
+                  let subdata = item.resource.component;
+                  for(let part of subdata){
+                    if(part.code.coding[0].code == subcode){
+                      data = part.valueQuantity;
+                      data['effectiveDateTime'] = item.resource.effectiveDateTime;
+                      data['code'] = part.code.coding[0].code;
+                      //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
+                      data['text'] = part.code.text;
+                    }
                   }
                 }
+                else {
+                  data = item.resource.valueQuantity;
+                  data['effectiveDateTime'] = item.resource.effectiveDateTime;
+                  data['code'] = item.resource.code.coding[0].code;
+                  data['text'] = item.resource.code.text;
+                }
+
+                dataList.push(data);
               }
-              else
-                data = json.entry[0].resource.valueQuantity;
             }
-            else
-              data = {"unit": "N/A","value": 0};
-          } else {
-            data = {};
           }
-          console.log("print dat", data);
-          dispatch(receiveMostRecentObsByCode(patientID, code, data));
+        dispatch(receiveAllObsByCode(patientID, code, dataList));
         } 
       );
   };

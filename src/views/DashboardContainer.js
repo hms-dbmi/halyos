@@ -8,6 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
   //patient: state.fhirPatientData.ptData,
   patient: ownProps.patient[0].resource,
   mostRecentObs: state.fhirObservationData.mostRecentMeasurements,
+  allObs: state.fhirObservationData.allMeasurements,
   external: state.externalState
 });
 
