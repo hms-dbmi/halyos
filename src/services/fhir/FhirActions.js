@@ -245,12 +245,14 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-          let dataList = [];
+          let dataDict = {};
           if(json){
             if(json.total == 0){
-              dispatch(receiveAllObsByCode(patientID, code, dataList));
+              // dispatch(receiveAllObsByCode(patientID, code, dataDict));
+              return;
             }
             else {
+              let dataList = [];
               for(let item of json.entry){
                 let data = {};
                 if(item.resource.component){
@@ -259,24 +261,34 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     if(part.code.coding[0].code == subcode){
                       data = part.valueQuantity;
                       data['effectiveDateTime'] = item.resource.effectiveDateTime;
-                      data['code'] = part.code.coding[0].code;
+                      // data['code'] = part.code.coding[0].code;
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
-                      data['text'] = part.code.text;
+                      // data['text'] = part.code.text;
+                      if(!dataDict['name'])
+                        dataDict['name'] = part.code.text;
+                      if(!dataDict['code'])
+                        dataDict['code'] = part.code.coding[0].code;
                     }
                   }
                 }
                 else {
                   data = item.resource.valueQuantity;
                   data['effectiveDateTime'] = item.resource.effectiveDateTime;
-                  data['code'] = item.resource.code.coding[0].code;
-                  data['text'] = item.resource.code.text;
+                  // data['code'] = item.resource.code.coding[0].code;
+                  // data['text'] = item.resource.code.text;
+                  if(!dataDict['name'])
+                    dataDict['name'] = item.resource.code.text;
+                  if(!dataDict['code'])
+                    dataDict['code'] = item.resource.code.coding[0].code;
+
                 }
 
                 dataList.push(data);
               }
+              dataDict['measurements'] = dataList;
             }
           }
-        dispatch(receiveAllObsByCode(patientID, code, dataList));
+        dispatch(receiveAllObsByCode(patientID, code, dataDict));
         } 
       );
   };

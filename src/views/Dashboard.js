@@ -16,7 +16,6 @@ import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculator
 import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
 import { COPDScore, futureCOPD, pastCOPDScore } from '../services/RiskCalculators/COPD';
 import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCalculators/get_diabetes';
-import { sortMeasurements } from '../services/general_utils';
 
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
@@ -339,7 +338,7 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-                measurements={sortMeasurements(this.props.observations)}
+                measurements={this.props.allObs}
                 risk={this.state.riskIsExpanded} 
                 currMeasure={this.state.currMeasure}
                 />

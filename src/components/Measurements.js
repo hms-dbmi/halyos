@@ -25,10 +25,17 @@ import deepContains from '../utils/deep-contains';
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
+    // console.log("measurments in mea", this.props.measurements);
     this.state = {
       view: "measurements",
       isDatePickerShown: false,
-      measurements: this.props.measurements.sort((item) => {
+      measurements:[],
+    };
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+        measurements: nextProps.measurements.sort((item) => {
         for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
@@ -36,23 +43,11 @@ class Measurements extends React.Component {
           if (deepContains(measuresForRisks[key],(item.code))) {
             return -1;
           }
-          // for(let measurementItem of measuresForRisks[key]){
-          //   if(Array.isArray(measurementItem)){
-          //     if(measurementItem.includes(item.code)){
-          //       console.log("code" , item.code);
-          //       return -1;
-          //     }
-          //   }
-          //   else {
-          //     if(measurementItem == item.code){
-          //       return -1;
-          //     }
-          //   }
-          // }
+
         }
         return 1;
       })
-    };
+    })
   }
 
   filterList(query) {
@@ -173,7 +168,7 @@ class Measurements extends React.Component {
                 key={index}
                 isExpanded={this.props.isExpanded}
                 expandAbout={this.props.expandAbout}
-                unit={item.measurements[0].units}
+                unit={item.measurements[0].unit}
                 past={item.measurements[1] && item.measurements[1].value}
                 present={item.measurements[0].value}
                 pastDate={item.measurements[1] && item.measurements[1].date}

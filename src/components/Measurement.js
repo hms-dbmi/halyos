@@ -146,6 +146,7 @@ class Measurement extends React.Component {
 
     var yearsPres = Math.floor((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365))
     var monthsPres = Math.floor(((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365)-yearsPres)*12)
+    console.log("name", this.props.unit);
     return (
       <div className="measurement">
         <div className="measurement-info pure-g">

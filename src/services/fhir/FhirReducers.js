@@ -3,7 +3,10 @@ import { FETCH_PATIENT_REQUEST, FETCH_PATIENT_SUCCESS, FETCH_PATIENT_FAILURE } f
 import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_RECENT_ENCOUNTER_FAILURE } from './FhirActions'
 import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } from './FhirActions'
 
-export function fhirObservationData(state = {}, action){
+const initialFhirState = {
+  "allMeasurements" : [],
+};
+export function fhirObservationData(state = initialFhirState, action){
 	switch (action.type){
     case FETCH_RECENT_OBSERVATION_REQUEST:
       return {
@@ -30,10 +33,10 @@ export function fhirObservationData(state = {}, action){
         ...state,
         isFetchingAllMeasurement:false,
         lastUpdated:action.receivedAt,
-        allMeasurements : {
+        allMeasurements : [
           ...state.allMeasurements,
-          [action.code]: action.all_obs
-        }
+          action.all_obs
+        ]
       }
     default:
       return state
