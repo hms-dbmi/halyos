@@ -134,7 +134,7 @@ class RiskTile extends React.Component {
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
             } &nbsp;&nbsp;&nbsp;
-            <div className="flex-c flex-align-c flex-v-bottom">
+            <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-present">
               <div className="risk-tile-score-value">{this.props.score}</div>
               <div className="risk-tile-score-unit">{this.props.unit}</div>
             </div> &nbsp;&nbsp;&nbsp;
