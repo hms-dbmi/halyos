@@ -72,7 +72,6 @@ class RiskTile extends React.Component {
       displayviz = true
     }
 
-    let background = (this.props.activeMeasure ? 'red' : 'blue')
     return (
       <div
         className="risk-tile"
