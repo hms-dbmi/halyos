@@ -7,6 +7,14 @@
   width: 100%;
 }
 
+.risk-active {
+  background: $risk-active;
+}
+
+.risk-inactive {
+  background: $gray-lightest;
+}
+
 .risk-tile-content {
   position: relative;
   margin: 0 0.5rem;
@@ -54,11 +62,15 @@
 }
 
 .risk-tile-score-past {
-  color: #b300b3
+  color: $past
+}
+
+.risk-tile-score-present {
+  color: $present
 }
 
 .risk-tile-score-future {
-  color: #009900
+  color: $future
 }
 
 .risk-tile-context {

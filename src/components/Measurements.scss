@@ -27,18 +27,18 @@
   }
 
   .past-label {
-    color: #b300b3;
+    color: $past;
     font-weight: bold;
     cursor: pointer;
   }
 
   .present-label {
-    color: #000000;
+    color: $present;
     font-weight: bold;
   }
 
   .future-label {
-    color: #009900;
+    color: $future;
     font-weight: bold;
   }
 }
