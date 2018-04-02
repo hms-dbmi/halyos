@@ -175,8 +175,6 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
-    let url = baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date';
-    console.log("gettign the call!2", url);
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
       .then(
         response => response.json(),
