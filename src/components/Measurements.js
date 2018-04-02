@@ -46,12 +46,8 @@ class Measurements extends React.Component {
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
         for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (measuresForRisks[key].includes(item.code)) {
-            return -1;
-          }
+          if (!measuresForRisks.hasOwnProperty(key)) continue;
+          if (measuresForRisks[key].includes(item.code)) return -1;
         }
         return 1;
       })
@@ -59,9 +55,7 @@ class Measurements extends React.Component {
   }
 
   toggleDatePicker() {
-    this.setState({
-      isDatePickerShown: !this.state.isDatePickerShown
-    });
+    this.setState({ isDatePickerShown: !this.state.isDatePickerShown });
   }
 
   pastChangeHandler(date) {
