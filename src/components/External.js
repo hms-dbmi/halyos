@@ -34,7 +34,6 @@ class External extends React.Component {
 			<div>
 			{(this.props.risk === "Cardiac" || this.props.risk===undefined) &&
 			<div>
-			  <br/>
 			   <div className="measurement">
 		        <div className="measurement-info pure-g">
 		            <div className="full-wh flex-c flex-v-center flex-wrap">
