@@ -36,6 +36,13 @@ const getAngle = (props) => {
   return `rotate(${props.rotate | 0}deg)`;
 };
 
+const getStyle = (props) => {
+  if (props.rotate) {
+    return { transform: getAngle(props) };
+  }
+  return {};
+};
+
 const Icon = props => (
   <div
     className={getClass(props)}
@@ -48,7 +55,7 @@ const Icon = props => (
       fillRule={getFillRule(convertId(props.id))}
       strokeLinecap={getStrokeLinecap(convertId(props.id))}
       dangerouslySetInnerHTML={getSvg(convertId(props.id))}
-      style={{ transform: getAngle(props) }}
+      style={getStyle(props)}
     />
   </div>
 );
