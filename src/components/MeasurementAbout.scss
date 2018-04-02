@@ -9,12 +9,5 @@
     &:first-child {
       margin-top: 0.5rem;
     }
-
-    +p {
-      margin-top: 0.25rem;
-    }
-  }
-  div {
-    overflow: scroll;
   }
 }
