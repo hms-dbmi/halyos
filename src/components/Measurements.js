@@ -81,6 +81,7 @@ class Measurements extends React.Component {
         <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
             <div className="flex-c flexc-v-center">
+              <h3>Measurements</h3>
               <input
                 type="text"
                 placeholder="Click here to search!"
@@ -124,21 +125,22 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
-            <hr/>
-            <div className="dashboard-panel-subtopbar">
-                <div className="pure-u-24-24">
-                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
-                    <span>Data not available in EHR</span>
-                  </div>
+            <div className="measurements-sublist-header">
+              <div className="pure-u-24-24">
+                <div className="flex-c flex-v-center">
+                  <Icon id="arrow-right" rotate={90} />
+                  <span>Data not available in EHR:</span>
                 </div>
+              </div>
             </div>
             <ExternalContainer risk={this.props.risk}/>
-            <div className="dashboard-panel-subtopbar">
-                <div className="pure-u-24-24">
-                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
-                    <span>Data from EHR</span>
-                  </div>
+            <div className="measurements-sublist-header">
+              <div className="pure-u-24-24">
+                <div className="flex-c flex-v-center">
+                  <Icon id="arrow-right" rotate={90} />
+                  <span>Data from EHR:</span>
                 </div>
+              </div>
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
