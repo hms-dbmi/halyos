@@ -15,7 +15,7 @@ const MeasurementAbout = props => (
     <header className="dashboard-panel-headline flex-c flex-align-sb">
       <h3
         className="dashboard-panel-headline-no-colon"
-        style={{fontSize:"16px"}}>About: {props.name || "Click on a measurement to learn more!"}
+        style={{fontSize:"16px"}}>About: {props.name}
       </h3>
       {props.isExpanded && (
         <Button
@@ -24,15 +24,23 @@ const MeasurementAbout = props => (
           onClick={() => props.expand(true)}
         />
       )}
-    </header>{!props.name ||
-    <div className="flex-g-1 r scrollbar">
-      <h4>What does my <em>{props.name}</em> mean?</h4>
-      <p>{(props.name && text[props.name] && text[props.name].meaning) || 'Not available...'}</p>
-      <h4>Why is my <em>{props.name}</em> important?</h4>
-      <p>{(props.name && text[props.name] && text[props.name].important) || 'Not available...'}</p>
-      <h4>How can I make it better?</h4>
-      <p>{(props.name && text[props.name] && text[props.name].improve) || 'Not available...'}</p>
-    </div>}
+    </header>
+    {props.name ? (
+      <div className="flex-g-1 r scrollbar">
+        <h4>What does my <em>{props.name}</em> mean?</h4>
+        <p>{(props.name && text[props.name] && text[props.name].meaning) || 'Not available...'}</p>
+        <h4>Why is my <em>{props.name}</em> important?</h4>
+        <p>{(props.name && text[props.name] && text[props.name].important) || 'Not available...'}</p>
+        <h4>How can I make it better?</h4>
+        <p>{(props.name && text[props.name] && text[props.name].improve) || 'Not available...'}</p>
+      </div>
+    ) : (
+      <div className="flex-g-1 r tile-like">
+        <div className="full-wh flex flex-v-center flex-align-c">
+          <div className="notifier">Click on a measurement to learn more!</div>
+        </div>
+      </div>
+    )}
   </div>
 );
 

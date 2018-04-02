@@ -2,6 +2,12 @@
 @import '../styles/transitions.scss';
 
 .measurement-about {
+  h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   h4 {
     margin: 1rem 0 0.25rem 0;
     font-size: 1.125rem;
@@ -10,4 +16,18 @@
       margin-top: 0.5rem;
     }
   }
+}
+
+.tile-like {
+  margin-top: 0.25rem;
+  background: $gray-lightest;
+}
+
+.notifier {
+  position: relative;
+  top: 50%;
+  margin: -0.25rem auto 0 auto;
+  height: 1rem;
+  font-style: italic;
+  text-align: center;
 }
