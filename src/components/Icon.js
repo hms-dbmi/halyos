@@ -32,25 +32,37 @@ const getClass = (props) => {
   return className;
 };
 
+const getAngle = (props) => {
+  return `rotate(${props.rotate | 0}deg)`;
+};
+
 const Icon = props => (
   <div
     className={getClass(props)}
-    title={props.title}>
+    title={props.title}
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="full-dim"
       viewBox={getViewBox(convertId(props.id))}
       fillRule={getFillRule(convertId(props.id))}
       strokeLinecap={getStrokeLinecap(convertId(props.id))}
-      dangerouslySetInnerHTML={getSvg(convertId(props.id))} />
+      dangerouslySetInnerHTML={getSvg(convertId(props.id))}
+      style={{ transform: getAngle(props) }}
+    />
   </div>
 );
+
+Icon.defaultProps = {
+  rotate: 0
+};
 
 Icon.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   mirrorH: PropTypes.bool,
   mirrorV: PropTypes.bool,
+  rotate: PropTypes.number,
   title: PropTypes.string,
 };
 
