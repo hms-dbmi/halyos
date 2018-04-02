@@ -19,14 +19,15 @@
   position: relative;
   margin: 0 0.5rem;
   transition: background $fast $ease;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .risk-tile-large .risk-tile-content {
   margin: 0 1.5rem 0 0;
+}
+
+.risk-tile-clickable:hover,
+.back:hover {
+  cursor: pointer;
 }
 
 .vertical-line {
@@ -45,7 +46,7 @@
 .risk-tile-large .risk-tile-title {
   padding: 0.5rem 0 0 0;
   color: black;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .risk-tile-time {
@@ -63,6 +64,10 @@
 .risk-tile-score {
   margin: 1rem 0 1.25rem;
   color: $black;
+
+  > div {
+    width: 30%;
+  }
 }
 
 .risk-tile-score-value {
@@ -75,18 +80,6 @@
   font-size: 2rem;
   font-weight: normal;
   line-height: 2.75rem;
-}
-
-.risk-tile-score-past {
-  color: $past
-}
-
-.risk-tile-score-present {
-  color: $present
-}
-
-.risk-tile-score-future {
-  color: $future
 }
 
 .risk-tile-context {

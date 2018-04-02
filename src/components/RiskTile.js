@@ -72,58 +72,57 @@ class RiskTile extends React.Component {
     return (
       <div
         className="risk-tile"
-        onClick={() => { this.props.expand(this.props.name); }}
       >
       {displayviz && (
         <div className="risk-tile-content risk-tile-large">
           <div className='flex-c flex-align-sb flex-v-stretch'>
-            <div className="flex-c flex-align-c flex-v-center back">
+            <div
+              className="flex-c flex-align-c flex-v-center back"
+              onClick={() => { this.props.expand(this.props.name); }}
+            >
               <Icon id="arrow-right" mirrorV={true} />
             </div>
-            <div>
+            <div className="flex-g-1">
               <h2 className="risk-tile-title">
                 {this.props.name} Risk
               </h2>
               <div className="risk-tile-time">
                 within <span className="highlight">{this.props.context} years</span>
               </div>
-              <div className="risk-tile-score flex-c flex-align-sb">
-                <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
-                  <RiskVisualization
+              <div className="risk-tile-score flex-c flex-align-c">
+                <RiskVisualization
                   present={this.state.pastScore}
                   worse={this.state.pastBad}
                   better={this.state.pastGood}
                   score={Math.round(this.props.pastScore)}
                   context={this.props.context}
                   period={"Past"}
-                  />
-                </div>
-                <div className="flex-c flex-align-sb flex-v-center">
-                  <RiskVisualization
-                   present={Math.round(this.props.score)}
-                   score={Math.round(this.props.score)}
-                   emphasize={true}
-                   context={this.props.context}
-                   period={"Today"}
-                  />
-                </div>
-                <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
-                  <RiskVisualization
+                />
+                <RiskVisualization
+                  present={Math.round(this.props.score)}
+                  score={Math.round(this.props.score)}
+                  emphasize={true}
+                  context={this.props.context}
+                  period={"Today"}
+                />
+                <RiskVisualization
                   present={this.state.futScore}
                   worse={this.state.futBad}
                   better={this.state.futGood}
                   score={Math.round(this.props.futureScore)}
                   context={this.props.context}
                   period={"Future"}
-                  />
-                </div>
+                />
               </div>
             </div>
           </div>
         </div>
       )}
       {!displayviz &&
-        <div className={"risk-tile-content " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}>
+        <div
+          className={"risk-tile-content risk-tile-clickable " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}
+          onClick={() => { this.props.expand(this.props.name); }}
+        >
           <h2 className="risk-tile-title">{this.props.name} Risk</h2>
           <div className="risk-tile-status">{this.props.status}</div>
           <div className="risk-tile-score flex-c flex-align-c">
