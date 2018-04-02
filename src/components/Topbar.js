@@ -52,7 +52,6 @@ class Header extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">

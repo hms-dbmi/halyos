@@ -188,7 +188,6 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
             if(json.entry) {
               if(json.entry[0].resource.component){
                 
-                console.log("in data", json);
                 data = json.entry[0].resource.component[0].valueQuantity;
               }
               else
