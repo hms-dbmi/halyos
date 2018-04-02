@@ -21,7 +21,6 @@ export default class RiskVisualization extends Component {
   }
 
   createViz() {
-    console.log(this.state.present, this.state.better, this.state.worse);
     let code = '<svg viewBox="0 0 120 100">';
     let count = 0;
 
