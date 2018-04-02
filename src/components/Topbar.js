@@ -6,6 +6,7 @@ import Icon from './Icon';
 
 // Styles
 import './Topbar.css';
+import {patientLocal} from '../data/fhirData.js';
 
 class Header extends React.Component {
   
@@ -51,6 +52,7 @@ class Header extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">
@@ -71,12 +73,17 @@ class Header extends React.Component {
         </nav>
         <nav className="flex-c">
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
-            <div className="topbar-element-subtle">Last Visit</div>
+            <div className="topbar-element-subtle">Location&nbsp;</div>
+            <div>{patientLocal[0].resource.address[0].city}, {patientLocal[0].resource.address[0].state}</div>
+            <Icon id="map"/>
+          </div>
+          <div className="topbar-element topbar-last-visit flex-c flex-v-center">
+            <div className="topbar-element-subtle">Last Visit&nbsp;</div>
             <date>8/18/16</date>
             <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
-            <div>Jane Doe</div>
+            <div>Jane Doe&nbsp;</div>
             <Icon id="person"/>
           </div>
         </nav>
