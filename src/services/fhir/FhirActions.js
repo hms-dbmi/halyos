@@ -180,7 +180,6 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-
           let data = {};
           if(json){
             if(json.entry) {
