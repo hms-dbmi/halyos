@@ -21,45 +21,42 @@ export default class RiskVisualization extends Component {
 	}
 
 	createViz() {
-		var code = ""
+		var code = '<svg width="100%" height="100%" viewBox="0 0 200 200"><g>'
 		var count = 0
-		for(var i = 0; i < this.state.present; i++) {
-			count = i+1
-			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="0" fill="#656565" />'
-			code = code + '</svg>'
+		for(var i = 0; i <= this.state.present; i++) {
+			count = i
+			code = code + '<circle cx="' + Number(10+(count%10)*20).toString() + '" cy="' + Number(10+Math.floor(count/10)*20).toString() + '" r="7" stroke="black" stroke-width="0" fill="#656565" />'
 			if (i % 10 === 9) {
-				code = code + '<br/>'
+				code = code + '</g>'
 			}
 		}
-		for(i = count; i < this.state.present+this.state.better; i++) {
-			count = i+1
-			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#1C1C1C" />'
-			code = code +  '<circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="none" />'
-			code = code + '</svg>'
+		for(i = count; i <= this.state.present+this.state.better; i++) {
+			count = i
+			code = code + '<circle cx="' + Number(10+(count%10)*20).toString() + '" cy="' + Number(10+Math.floor(count/10)*20).toString() + '" r="7" stroke="black" stroke-width="0" fill="#1C1C1C" />'
+			code = code + '<circle cx="' + Number(10+(count%10)*20).toString() + '" cy="' + Number(10+Math.floor(count/10)*20).toString() + '" r="9" stroke="black" stroke-width="0" fill="none" />'
+			// code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="1" fill="#1C1C1C" />'
+			// code = code +  '<circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="none" />'
 			if (i % 10 === 9) {
-				code = code + '<br/>'
+				code = code + '</g><g>'
 			}
 		}
-		for(i = count; i < this.state.present+this.state.better+this.state.worse; i++) {
-			count = i+1
-			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="2" stroke="black" stroke-width="1" fill="#1C1C1C" />'
-			//code = code +  '<circle cx="10" cy="10" r="9" stroke="black" stroke-width="1" fill="none" />'
-			code = code + '</svg>'
+		for(i = count; i <= this.state.present+this.state.better+this.state.worse; i++) {
+			count = i
+			code = code + '<circle cx="' + Number(10+(count%10)*20).toString() + '" cy="' + Number(10+Math.floor(count/10)*20).toString() + '" r="2" stroke="black" stroke-width="0" fill="#1C1C1C" />'
+			//code = code +  '<circle cx="10" cy="10" r="2" stroke="black" stroke-width="1" fill="#1C1C1C" />'
 			if (i % 10 === 9) {
-				code = code + '<br/>'
+				code = code + '</g><g>'
 			}
 		}
 		for(i = count; i < 100; i++) {
-			code = code + '<svg width="23" height="20">'
-			code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="0" fill="#D4D4D4" />'
-			code = code + '</svg>'
+			count = i
+			code = code + '<circle cx="' + Number(10+(count%10)*20).toString() + '" cy="' + Number(10+Math.floor(count/10)*20).toString() + '" r="7" stroke="black" stroke-width="0" fill="#D4D4D4" />'
+			//code = code +  '<circle cx="10" cy="10" r="7" stroke="black" stroke-width="0" fill="#D4D4D4" />'
 			if (i % 10 === 9) {
-				code = code + '<br/>'
+				code = code + '</g><g>'
 			}
 		}
+		code = code + '</g></svg>'
 		return {__html: code};
 	}
 

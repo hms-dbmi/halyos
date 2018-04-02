@@ -5,7 +5,9 @@ $gray-dark: #666;
 $gray: #999;
 $gray-light: #bfbfbf;
 $gray-lighter: #d9d9d9;
-$gray-lightest: #eeeeee;
+$gray-lightest: #F9F3F3;
+//$gray-lightest: #ebeaff;
+//$gray-lightest: #eeeeee;
 $white: #fff;
 
 $gray-darkest-alpha: rgba(0,0,0,0.87);
@@ -31,7 +33,17 @@ $highlight-bg: lighten($primary, 25%);
 $error-text: darken($red, 25%);
 $error-bg: lighten($red, 25%);
 
-$past: #b300b3;
+$past: #41A046;
 $present: #000000;
-$future: #009900;
+$future: #039AE5;
 $risk-active: #ef5162;
+
+//$past: #382dff;
+//$present: #000000;
+//$future: #ff2155;
+//$risk-active: #ef5162;
+
+//$past: #b300b3;
+//$present: #000000;
+//$future: #009900;
+//$risk-active: #ef5162;
