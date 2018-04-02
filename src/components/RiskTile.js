@@ -8,26 +8,26 @@ import RiskVisualization from '../components/RiskVisualization';
 // Styles
 import './RiskTile.css';
 
-const CONTEXT_MAX = 10;
+// const CONTEXT_MAX = 10;
 
-const getLength = (context, contextMax) => ({
-  width: `${100 * context / (contextMax || CONTEXT_MAX)}%`,
-  height: `${(contextMax || CONTEXT_MAX) - context + 1}px`,
-  bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
-});
+// const getLength = (context, contextMax) => ({
+//   width: `${100 * context / (contextMax || CONTEXT_MAX)}%`,
+//   height: `${(contextMax || CONTEXT_MAX) - context + 1}px`,
+//   bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
+// });
 
 class RiskTile extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      pastScore: parseInt(this.props.pastScore),
+      pastScore: parseInt(this.props.pastScore, 10),
       pastBad: 0,
       pastGood: 0,
-      currScore: parseInt(this.props.score),
+      currScore: parseInt(this.props.score, 10),
       currBad: 0,
       currGood: 0,
-      futScore: parseInt(this.props.futureScore),
+      futScore: parseInt(this.props.futureScore, 10),
       futBad: 0,
       futGood: 0
     }
@@ -35,31 +35,31 @@ class RiskTile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      pastScore: parseInt(nextProps.pastScore),
-      currScore: parseInt(nextProps.score),
-      futScore: parseInt(nextProps.futureScore)
+      pastScore: parseInt(nextProps.pastScore, 10),
+      currScore: parseInt(nextProps.score, 10),
+      futScore: parseInt(nextProps.futureScore, 10)
     })
-    if(parseInt(nextProps.pastScore) > parseInt(nextProps.score)) {
+    if(parseInt(nextProps.pastScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
-        pastScore: parseInt(nextProps.score),
-        pastGood: parseInt(nextProps.pastScore) - parseInt(nextProps.score),
+        pastScore: parseInt(nextProps.score, 10),
+        pastGood: parseInt(nextProps.pastScore, 10) - parseInt(nextProps.score, 10),
         pastBad: 0
       })
     } else {
       this.setState({
-        pastBad: parseInt(nextProps.score)-parseInt(nextProps.pastScore),
+        pastBad: parseInt(nextProps.score, 10) - parseInt(nextProps.pastScore, 10),
         pastGood: 0
       })
     }
-    if(parseInt(nextProps.futureScore) > parseInt(nextProps.score)) {
+    if(parseInt(nextProps.futureScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
-        futScore: parseInt(nextProps.score),
-        futGood: parseInt(nextProps.futureScore)-parseInt(nextProps.score),
+        futScore: parseInt(nextProps.score, 10),
+        futGood: parseInt(nextProps.futureScore, 10) - parseInt(nextProps.score, 10),
         futBad: 0
       })
     } else {
       this.setState({
-        futBad: parseInt(nextProps.score)-parseInt(nextProps.futureScore),
+        futBad: parseInt(nextProps.score, 10) - parseInt(nextProps.futureScore, 10),
         futGood: 0
       })
     }

@@ -12,7 +12,7 @@ import './Measurement.css';
 
 //Reference Ranges
 import refRanges from '../texts/referenceRanges.js';
-import { getPatID } from '../services/smart_setup';
+// import { getPatID } from '../services/smart_setup';
 
 const getArrowDir = (past, present) => (past !== present
   ? 'arrow-top-right'
@@ -41,10 +41,6 @@ class Measurement extends React.Component {
     ) {
       this.props.addFutureMeasurement(this.props.code, this.props.present);
     }
-
-    var test = this.props.fetchMostRecentObsByCode(getPatID(), this.props.code);
-
-
   }
 
   showDetails() {
@@ -130,10 +126,10 @@ class Measurement extends React.Component {
       parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
 
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
-    const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
+    // const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
-    const presentDate = this.props.presentDate &&
-      moment(this.props.presentDate).format('MMM Do YYYY');
+    // const presentDate = this.props.presentDate &&
+    //   moment(this.props.presentDate).format('MMM Do YYYY');
 
     let currentMeasurement = "";
     if(
