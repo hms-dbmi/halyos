@@ -72,7 +72,6 @@ class RiskTile extends React.Component {
       displayviz = true
     }
 
-    let background = (this.props.activeMeasure ? '#EEB4B4' : '#EEEEEE')
     return (
       <div
         className="risk-tile"
@@ -124,7 +123,7 @@ class RiskTile extends React.Component {
         </div>
       </div>}
       {!displayviz &&
-        <div className="risk-tile-content" style={{background: background}}>
+        <div className={"risk-tile-content " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}>
           <h2 className="risk-tile-title">{this.props.name} Risk</h2>
           <div className="risk-tile-status">{this.props.status}</div>
           <div className="risk-tile-score flex-c flex-align-c">
@@ -134,7 +133,7 @@ class RiskTile extends React.Component {
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
             } &nbsp;&nbsp;&nbsp;
-            <div className="flex-c flex-align-c flex-v-bottom">
+            <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-present">
               <div className="risk-tile-score-value">{this.props.score}</div>
               <div className="risk-tile-score-unit">{this.props.unit}</div>
             </div> &nbsp;&nbsp;&nbsp;

@@ -16,6 +16,15 @@ import {airQualityLocal} from '../../data/fhirData';
 //   "co": ["ppm", "Carbon Monoxide"] //Carbon monoxide CO 
 // }
 
+const AQI_LEVELS = [
+  [50, 'Good', '#00FF00', 'Air quality is considered satisfactory,  and air pollution poses little or no risk.'],
+  [100, 'Moderate', '#FFFF00', 'Air quality is acceptable; however,  for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.'],
+  [150, 'Unhealthy for Sensitive Groups', '#FFA500', 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.'],
+  [200, 'Unhealthy', '#FF0000', 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.'],
+  [300, 'Very unhealthy', '#800080', 'Health alert: everyone may experience more serious health effects.'],
+  [500, 'Hazardous', '#800000', 'Health warnings of emergency conditions. The entire population is more likely to be affected.'],
+];
+
 const AirQuality = props => (
   <EnvironmentTile
     name="Air Quality"

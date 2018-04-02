@@ -67,12 +67,12 @@
 
 .past-point,
 .past-point-overview {
-  fill: #b300b3;
+  fill: $past;
 }
 
 .last-point,
 .last-point-overview {
-  fill: $black;
+  fill: $present;
 }
 
 .past-graph-node-overview {
@@ -88,7 +88,7 @@
 
 .past-graph-date-v-bar,
 .past-graph-date-v-bar-overview {
-  stroke: #b300b3;
+  stroke: $past;
   stroke-width: 2px;
   clip-path: url(#clip);
 }
@@ -124,7 +124,7 @@
 
 .graph-future-node {
   r: 5;
-  fill: #009900;
+  fill: $future;
   transform-origin: center center;
   transition: fill $fast $ease, r $fast $ease, transform $fast $ease;
 
