@@ -27,6 +27,7 @@ $secondary: $yellow;
 
 $highlight-text: darken($primary, 25%);
 $highlight-bg: lighten($primary, 25%);
+$highlight-bg-lighter: lighten($primary, 35%);
 
 $error-text: darken($red, 25%);
 $error-bg: lighten($red, 25%);

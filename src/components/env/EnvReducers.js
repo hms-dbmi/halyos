@@ -1,4 +1,4 @@
-import { FETCH_POLLEN_REQUEST, FETCH_POLLEN_SUCCESS, FETCH_POLLEN_FAILURE } from './EnvActions'
+import { FETCH_POLLEN_REQUEST, FETCH_POLLEN_SUCCESS } from './EnvActions'
 import { FETCH_AIQ_REQUEST, FETCH_AIQ_SUCCESS } from './EnvActions'
 import { FETCH_FLU_REQUEST, FETCH_FLU_SUCCESS } from './EnvActions'
 
