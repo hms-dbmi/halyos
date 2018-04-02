@@ -26,10 +26,9 @@ export function fetchPollenLevels(zipCode) {
   return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
     .then(
       response => response.json(),
-      error => console.error('An error occured.', error)
+      error => console.error('Could not load pollen levels.', error)
     )
     .then(function(json) {
-        console.log("pollen data" , json);
         dispatch(receivePollenLevels(zipCode, json));
       }
     );
@@ -58,7 +57,7 @@ export function fetchFluLevels(zipCode) {
   return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
     .then(
       response => response.json(),
-      error => console.error('An error occured.', error)
+      error => console.error('Could not load pollen levels', error)
     )
     .then(function(json) {
         dispatch(receivePollenLevels(zipCode, json));
@@ -92,10 +91,9 @@ export function fetchAirQualityLevels(zipCode) {
   return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + zipCode + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
     .then(
       response => response.json(),
-      error => console.error('An error occured.', error)
+      error => console.error('Could not load air qusality data.', error)
     )
     .then(function(json) {
-        console.log("aiq data" , json);
         dispatch(receiveAirQualityLevels(zipCode, json));
       }
     );
