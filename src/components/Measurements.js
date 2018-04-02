@@ -40,6 +40,7 @@ class Measurements extends React.Component {
   }
 
   filterList(query) {
+    this.props.expandAbout(false)
     this.setState({
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1

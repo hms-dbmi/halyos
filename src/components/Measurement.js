@@ -74,7 +74,6 @@ class Measurement extends React.Component {
       this.setState({
         isDetailsShown: false
       })
-      console.log(this.props, nextProps)
       if(nextProps.currMeasure) {
         this.props.expandAbout(false, nextProps.currMeasure)
       }

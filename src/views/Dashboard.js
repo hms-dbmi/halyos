@@ -77,7 +77,6 @@ class Dashboard extends React.Component {
   }
 
   expandMeaAbout(collapse, measure = null) {
-    console.log(this.state)
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
