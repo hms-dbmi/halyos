@@ -128,7 +128,6 @@ class Measurements extends React.Component {
             <div className="measurements-sublist-header">
               <div className="pure-u-24-24">
                 <div className="flex-c flex-v-center">
-                  <Icon id="arrow-right" rotate={90} />
                   <span>Data not available in EHR:</span>
                 </div>
               </div>
@@ -137,7 +136,6 @@ class Measurements extends React.Component {
             <div className="measurements-sublist-header">
               <div className="pure-u-24-24">
                 <div className="flex-c flex-v-center">
-                  <Icon id="arrow-right" rotate={90} />
                   <span>Data from EHR:</span>
                 </div>
               </div>
