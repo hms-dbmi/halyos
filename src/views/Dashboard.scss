@@ -86,16 +86,6 @@
   }
 }
 
-h3.dashboard-panel-headline:after,
-.dashboard-panel-headline h3:after {
-    content: ':';
-}
-
-h3.dashboard-panel-headline.dashboard-panel-headline-no-colon:after,
-.dashboard-panel-headline h3.dashboard-panel-headline-no-colon:after {
-    content: '';
-}
-
 .dashboard-panel-subtopbar {
   padding: 0.125rem 0;
   font-size: 0.85rem;
