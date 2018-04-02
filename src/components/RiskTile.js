@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //Components
+import Icon from './Icon';
 import RiskVisualization from '../components/RiskVisualization';
 
 // Styles
@@ -29,7 +30,7 @@ class RiskTile extends React.Component {
       futScore: parseInt(this.props.futureScore),
       futBad: 0,
       futGood: 0
-    }    
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,7 +64,7 @@ class RiskTile extends React.Component {
       })
     }
   }
-    
+
   render() {
     let displayviz = false;
 
@@ -80,17 +81,13 @@ class RiskTile extends React.Component {
       {displayviz && <div className="risk-tile-content">
         <div className='flex-c flex-align-sb flex-v-stretch'>
           <div className="flex-c flex-align-c flex-v-center back">
-            <div className="flex-c flex-align-c">
-              <svg width="60" className="arrow">
-                <polygon fill="grey" points="68,19.1 29.7,49.1 68,79.1 69.2,77.6 32.9,49.1 69.2,20.6 68,19.1 "/>
-              </svg>
-            </div>
+            <Icon id="arrow-right" mirrorV={true} />
           </div>
-          <div> 
+          <div>
             <h2 className="risk-tile-title">{this.props.name} Risk within {this.props.context} years</h2>
             <div className="risk-tile-score flex-c flex-align-sb">
               <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
-                <RiskVisualization 
+                <RiskVisualization
                 present={this.state.pastScore}
                 worse={this.state.pastBad}
                 better={this.state.pastGood}
@@ -100,7 +97,7 @@ class RiskTile extends React.Component {
                 />
               </div>
               <div className="flex-c flex-align-sb flex-v-center">
-                <RiskVisualization 
+                <RiskVisualization
                  present={Math.round(this.props.score)}
                  score={Math.round(this.props.score)}
                  emphasize={true}
@@ -109,7 +106,7 @@ class RiskTile extends React.Component {
                 />
               </div>
               <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
-                <RiskVisualization 
+                <RiskVisualization
                 present={this.state.futScore}
                 worse={this.state.futBad}
                 better={this.state.futGood}
@@ -157,7 +154,7 @@ class RiskTile extends React.Component {
       }
       </div>)
   }
-  
+
 };
 
 RiskTile.propTypes = {
