@@ -23,7 +23,7 @@ class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "measurements",
+      query: '',
       isDatePickerShown: false,
       measurements: this.props.measurements.sort((item) => {
         for (const key in measuresForRisks) {
@@ -41,6 +41,7 @@ class Measurements extends React.Component {
 
   filterList(query) {
     this.setState({
+      query,
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
@@ -68,26 +69,58 @@ class Measurements extends React.Component {
     this.props.setPastDate(date.unix() * 1000);
   }
 
-  onChange() {
+  blurSearch() {
+    if (!this.state.query.length) this.setState({ isSearchFocus: false });
+  }
+
+  focusSearch() {
     this.setState({
-      view: this.myInput.value
-    })
+      titleWidth: this.titleEl.getBoundingClientRect().width,
+      isSearchFocus: true
+    });
+  }
+
+  getPxLen(prop, len) {
+    return { [prop]: `${len}px` }
   }
 
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
+    const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';
+    let searchClass = 'search flex-c flex-v-center';
+    let titleStyle = null;
+    let searchStyle = null;
+    if(this.state.isSearchFocus) {
+      const titleWidth = this.titleEl.getBoundingClientRect().width;
+      const searchWidth = this.wurstEl.getBoundingClientRect().width;
+      titleStyle = this.getPxLen('marginLeft', -titleWidth);
+      searchStyle = this.getPxLen('width', searchWidth - 0.25);
+      searchClass += ' is-expanded';
+    }
     return (
       <div className="measurements full-wh flex-c flex-col">
-        <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
+        <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
-            <div className="flex-c flexc-v-center">
-              <h3>Measurements</h3>
-              <input
-                type="text"
-                placeholder="Click here to search!"
-                className="search flex-g-1"
-                onChange={e => this.filterList(e.target.value.toLowerCase())}
-              />
+            <div className="flex-c flexc-v-center title-bar" ref={r => this.wurstEl = r}>
+              <h3
+                className={titleClass}
+                ref={r => this.titleEl = r}
+                style={titleStyle}
+              >Measurements</h3>
+              <div
+                className={searchClass}
+                style={searchStyle}
+              >
+                <Icon id="magnifier" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="flex-g-1"
+                  onChange={e => this.filterList(e.target.value.toLowerCase())}
+                  onBlur={() => this.blurSearch()}
+                  onFocus={() => this.focusSearch()}
+                />
+              </div>
             </div>
           </div>
           <div

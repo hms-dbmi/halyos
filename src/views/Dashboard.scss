@@ -69,19 +69,50 @@
     font-size: 0.85em;
   }
 
-  .search {
-    margin: 0 0 2px 0;
-    padding: 0 0.25rem;
-    font-size: 1rem;
-    line-height: 1rem;
-    border: 0;
+  h3 {
+    transition: all $fast $ease;
+  }
 
-    &:active,
-    &:focus {
+  .search {
+    width: 5rem;
+    height: 1.5rem;
+    margin: 0.25rem;
+    padding: 0 0.25rem;
+    border-radius: 0.25rem;
+    background: $gray-lightest;
+    transition: all $fast $ease;
+
+    &.is-expanded {
+      height: 2rem;
+      margin: 0;
       color: $highlight-text;
-      outline: none;
-      box-shadow: inset 0 -3px 3px -3px $primary,
-                  0 2px 0 0 $primary;
+      border-radius: 0.25rem 0.25rem 0 0;
+      background: $highlight-bg-lighter;
+      box-shadow: inset 0 -2px 0 0 $highlight-text;
+
+      input {
+        display: block;
+      }
+    }
+
+    .icon {
+      font-size: 0.85rem;
+      width: 1rem;
+    }
+
+    input {
+      width: 3.5rem;
+      margin: 0 0 2px 0;
+      padding: 0 0.25rem;
+      font-size: 1rem;
+      line-height: 1rem;
+      border: 0;
+      background: transparent;
+
+      &:active,
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
