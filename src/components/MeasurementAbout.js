@@ -36,7 +36,7 @@ const MeasurementAbout = props => (
       </div>
     ) : (
       <div className="flex-g-1 r tile-like">
-        <div className="full-wh flex flex-v-center flex-align-c">
+        <div className="full-wh flex-c flex-v-center flex-align-c">
           <div className="notifier">Click on a measurement to learn more!</div>
         </div>
       </div>
