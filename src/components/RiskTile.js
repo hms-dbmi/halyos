@@ -66,59 +66,62 @@ class RiskTile extends React.Component {
   }
 
   render() {
-    let displayviz = false;
-
-    //if the expanded risk is this one, display the visualization
-    if(this.props.name === this.props.currRisk) {
-      displayviz = true
-    }
+    // if the expanded risk is this one, display the visualization
+    const displayviz = this.props.name === this.props.currRisk;
 
     return (
       <div
         className="risk-tile"
         onClick={() => { this.props.expand(this.props.name); }}
       >
-      {displayviz && <div className="risk-tile-content">
-        <div className='flex-c flex-align-sb flex-v-stretch'>
-          <div className="flex-c flex-align-c flex-v-center back">
-            <Icon id="arrow-right" mirrorV={true} />
-          </div>
-          <div>
-            <h2 className="risk-tile-title">{this.props.name} Risk within {this.props.context} years</h2>
-            <div className="risk-tile-score flex-c flex-align-sb">
-              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
-                <RiskVisualization
-                present={this.state.pastScore}
-                worse={this.state.pastBad}
-                better={this.state.pastGood}
-                score={Math.round(this.props.pastScore)}
-                context={this.props.context}
-                period={"Past"}
-                />
+      {displayviz && (
+        <div className="risk-tile-content risk-tile-large">
+          <div className='flex-c flex-align-sb flex-v-stretch'>
+            <div className="flex-c flex-align-c flex-v-center back">
+              <Icon id="arrow-right" mirrorV={true} />
+            </div>
+            <div>
+              <h2 className="risk-tile-title">
+                {this.props.name} Risk
+              </h2>
+              <div className="risk-tile-time">
+                within <span className="highlight">{this.props.context} years</span>
               </div>
-              <div className="flex-c flex-align-sb flex-v-center">
-                <RiskVisualization
-                 present={Math.round(this.props.score)}
-                 score={Math.round(this.props.score)}
-                 emphasize={true}
-                 context={this.props.context}
-                 period={"Today"}
-                />
-              </div>
-              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
-                <RiskVisualization
-                present={this.state.futScore}
-                worse={this.state.futBad}
-                better={this.state.futGood}
-                score={Math.round(this.props.futureScore)}
-                context={this.props.context}
-                period={"Future"}
-                />
+              <div className="risk-tile-score flex-c flex-align-sb">
+                <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
+                  <RiskVisualization
+                  present={this.state.pastScore}
+                  worse={this.state.pastBad}
+                  better={this.state.pastGood}
+                  score={Math.round(this.props.pastScore)}
+                  context={this.props.context}
+                  period={"Past"}
+                  />
+                </div>
+                <div className="flex-c flex-align-sb flex-v-center">
+                  <RiskVisualization
+                   present={Math.round(this.props.score)}
+                   score={Math.round(this.props.score)}
+                   emphasize={true}
+                   context={this.props.context}
+                   period={"Today"}
+                  />
+                </div>
+                <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
+                  <RiskVisualization
+                  present={this.state.futScore}
+                  worse={this.state.futBad}
+                  better={this.state.futGood}
+                  score={Math.round(this.props.futureScore)}
+                  context={this.props.context}
+                  period={"Future"}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
       {!displayviz &&
         <div className={"risk-tile-content " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}>
           <h2 className="risk-tile-title">{this.props.name} Risk</h2>

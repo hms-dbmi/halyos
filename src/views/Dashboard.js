@@ -206,8 +206,8 @@ class Dashboard extends React.Component {
       : riskDiabetesWidth;
 
     const riskAboutWidth = riskDetails
-      ? 'pure-u-6-24'
-      : 'pure-u-6-24 dashboard-risk-hidden';
+      ? 'pure-u-8-24'
+      : 'pure-u-8-24 dashboard-risk-hidden';
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
@@ -321,13 +321,15 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskAboutWidth}>
-            <p className='about-risk-header'>
-              <b>About {this.state.riskIsExpanded} Risk Score:</b>
-            </p>
-            <p>{this.state.riskIsExpanded === undefined
-              ? ""
-              : riskText[this.state.riskIsExpanded]['text']
-            }</p>
+            <div className="risk-score-about">
+              <p className='about-risk-header'>
+                <b>About {this.state.riskIsExpanded} Risk Score:</b>
+              </p>
+              <p>{this.state.riskIsExpanded === undefined
+                ? ""
+                : riskText[this.state.riskIsExpanded]['text']
+              }</p>
+            </div>
           </li>
         </ul>
         <div className="dashboard-bottom flex-g-1">

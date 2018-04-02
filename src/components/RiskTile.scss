@@ -25,6 +25,10 @@
   }
 }
 
+.risk-tile-large .risk-tile-content {
+  margin: 0 1.5rem 0 0;
+}
+
 .vertical-line {
     border-left: 2px solid grey;
     height: 300px;
@@ -36,6 +40,19 @@
   font-size: 1.25rem;
   text-align: center;
   text-transform: uppercase;
+}
+
+.risk-tile-large .risk-tile-title {
+  padding: 0.5rem 0 0 0;
+  color: black;
+  font-weight: bold;
+}
+
+.risk-tile-time {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  text-align: center;
 }
 
 .risk-tile-status {

@@ -112,6 +112,12 @@ h3.dashboard-panel-headline.dashboard-panel-headline-no-colon:after,
   }
 }
 
+.risk-score-about {
+  position: relative;
+  left: 1.5rem;
+  overflow: hidden;
+}
+
 .about-risk-header {
   border-bottom: 2px solid $gray-lighter
 }
