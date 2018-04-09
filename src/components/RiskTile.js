@@ -126,12 +126,16 @@ class RiskTile extends React.Component {
           <h2 className="risk-tile-title">{this.props.name} Risk</h2>
           <div className="risk-tile-status">{this.props.status}</div>
           <div className="risk-tile-score flex-c flex-align-c">
+
             {this.props.pastScore &&
               <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
-                <div className="risk-tile-score-value">{this.props.pastScore}</div>
+                <div className="risk-tile-score-value tooltip">{this.props.pastScore}
+                  <span className="tooltiptext">Tooltip text</span>
+                </div>
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
             } &nbsp;&nbsp;&nbsp;
+
             <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-present">
               <div className="risk-tile-score-value">{this.props.score}</div>
               <div className="risk-tile-score-unit">{this.props.unit}</div>
