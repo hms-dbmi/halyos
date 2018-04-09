@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components
 import PollenContainer from './env/PollenContainer';
-import AirQuality from './env/AirQuality';
+import AirQualityContainer from './env/AirQualityContainer';
 import Flu from './env/Flu';
 import Button from './Button';
 
@@ -32,7 +32,7 @@ const Environment = props => (
         />
       </div>
       <div className="environment-tile-wrapper flex-g-1 r">
-        <AirQuality
+        <AirQualityContainer
           expand={props.expand}
           isCollapsed={props.isCollapsed}
           isExpanded={props.isExpanded}

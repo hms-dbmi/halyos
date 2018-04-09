@@ -85,7 +85,6 @@ export function fetchAllPatientData(patientID) {
 
 function shouldFetchAllPatientData(state, patientID) {
   const data = state.fhirPatientData.ptData;
-  // console.log('from shouldFetchAllPatientData, ', data);
   if (!data) {
     return true;
   } else if (state.fhirPatientData.isFetchingAllPatientData) {
@@ -101,7 +100,6 @@ export function fetchAllPatientDataIfNeeded(patientID) {
       // Dispatch a thunk from thunk!
       return dispatch(fetchAllPatientData(patientID));
     }
-    // console.log('Didn\'t have to get the data twice');
     // Let the calling code know there's nothing to wait for.
     return Promise.resolve();
   };
@@ -182,12 +180,10 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-
           let data = {};
           if(json){
             if(json.entry) {
-              if(json.entry[0].resource.component){
-                
+              if(json.entry[0].resource.component) {
                 data = json.entry[0].resource.component[0].valueQuantity;
               }
               else
@@ -199,7 +195,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
             data = {};
           }
           dispatch(receiveMostRecentObsByCode(patientID, code, data));
-        } 
+        }
       );
   };
 }

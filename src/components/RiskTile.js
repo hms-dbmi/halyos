@@ -2,128 +2,127 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //Components
+import Icon from './Icon';
 import RiskVisualization from '../components/RiskVisualization';
 
 // Styles
 import './RiskTile.css';
 
-const CONTEXT_MAX = 10;
+// const CONTEXT_MAX = 10;
 
-const getLength = (context, contextMax) => ({
-  width: `${100 * context / (contextMax || CONTEXT_MAX)}%`,
-  height: `${(contextMax || CONTEXT_MAX) - context + 1}px`,
-  bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
-});
+// const getLength = (context, contextMax) => ({
+//   width: `${100 * context / (contextMax || CONTEXT_MAX)}%`,
+//   height: `${(contextMax || CONTEXT_MAX) - context + 1}px`,
+//   bottom: `-${(contextMax || CONTEXT_MAX) - context}px`
+// });
 
 class RiskTile extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      pastScore: parseInt(this.props.pastScore),
+      pastScore: parseInt(this.props.pastScore, 10),
       pastBad: 0,
       pastGood: 0,
-      currScore: parseInt(this.props.score),
+      currScore: parseInt(this.props.score, 10),
       currBad: 0,
       currGood: 0,
-      futScore: parseInt(this.props.futureScore),
+      futScore: parseInt(this.props.futureScore, 10),
       futBad: 0,
       futGood: 0
-    }    
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      pastScore: parseInt(nextProps.pastScore),
-      currScore: parseInt(nextProps.score),
-      futScore: parseInt(nextProps.futureScore)
+      pastScore: parseInt(nextProps.pastScore, 10),
+      currScore: parseInt(nextProps.score, 10),
+      futScore: parseInt(nextProps.futureScore, 10)
     })
-    if(parseInt(nextProps.pastScore) > parseInt(nextProps.score)) {
+    if(parseInt(nextProps.pastScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
-        pastScore: parseInt(nextProps.score),
-        pastGood: parseInt(nextProps.pastScore) - parseInt(nextProps.score),
+        pastScore: parseInt(nextProps.score, 10),
+        pastGood: parseInt(nextProps.pastScore, 10) - parseInt(nextProps.score, 10),
         pastBad: 0
       })
     } else {
       this.setState({
-        pastBad: parseInt(nextProps.score)-parseInt(nextProps.pastScore),
+        pastBad: parseInt(nextProps.score, 10) - parseInt(nextProps.pastScore, 10),
         pastGood: 0
       })
     }
-    if(parseInt(nextProps.futureScore) > parseInt(nextProps.score)) {
+    if(parseInt(nextProps.futureScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
-        futScore: parseInt(nextProps.score),
-        futGood: parseInt(nextProps.futureScore)-parseInt(nextProps.score),
+        futScore: parseInt(nextProps.score, 10),
+        futGood: parseInt(nextProps.futureScore, 10) - parseInt(nextProps.score, 10),
         futBad: 0
       })
     } else {
       this.setState({
-        futBad: parseInt(nextProps.score)-parseInt(nextProps.futureScore),
+        futBad: parseInt(nextProps.score, 10) - parseInt(nextProps.futureScore, 10),
         futGood: 0
       })
     }
   }
-    
-  render() {
-    let displayviz = false;
 
-    //if the expanded risk is this one, display the visualization
-    if(this.props.name === this.props.currRisk) {
-      displayviz = true
-    }
+  render() {
+    // if the expanded risk is this one, display the visualization
+    const displayviz = this.props.name === this.props.currRisk;
 
     return (
       <div
         className="risk-tile"
-        onClick={() => { this.props.expand(this.props.name); }}
       >
-      {displayviz && <div className="risk-tile-content">
-        <div className='flex-c flex-align-sb flex-v-stretch'>
-          <div className="flex-c flex-align-c flex-v-center back">
-            <div className="flex-c flex-align-c">
-              <svg width="60" className="arrow">
-                <polygon fill="grey" points="68,19.1 29.7,49.1 68,79.1 69.2,77.6 32.9,49.1 69.2,20.6 68,19.1 "/>
-              </svg>
+      {displayviz && (
+        <div className="risk-tile-content risk-tile-large">
+          <div className='flex-c flex-align-sb flex-v-stretch'>
+            <div
+              className="flex-c flex-align-c flex-v-center back"
+              onClick={() => { this.props.expand(this.props.name); }}
+            >
+              <Icon id="arrow-right" mirrorV={true} />
             </div>
-          </div>
-          <div> 
-            <h2 className="risk-tile-title">{this.props.name} Risk within {this.props.context} years</h2>
-            <div className="risk-tile-score flex-c flex-align-sb">
-              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-past">
-                <RiskVisualization 
-                present={this.state.pastScore}
-                worse={this.state.pastBad}
-                better={this.state.pastGood}
-                score={Math.round(this.props.pastScore)}
-                context={this.props.context}
-                period={"Past"}
-                />
+            <div className="flex-g-1">
+              <h2 className="risk-tile-title">
+                {this.props.name} Risk
+              </h2>
+              <div className="risk-tile-time">
+                within <span className="highlight">{this.props.context} years</span>
               </div>
-              <div className="flex-c flex-align-sb flex-v-center">
-                <RiskVisualization 
-                 present={Math.round(this.props.score)}
-                 score={Math.round(this.props.score)}
-                 emphasize={true}
-                 context={this.props.context}
-                 period={"Today"}
+              <div className="risk-tile-score flex-c flex-align-c">
+                <RiskVisualization
+                  present={this.state.pastScore}
+                  worse={this.state.pastBad}
+                  better={this.state.pastGood}
+                  score={Math.round(this.props.pastScore)}
+                  context={this.props.context}
+                  period={"Past"}
                 />
-              </div>
-              <div className="flex-c flex-align-sb flex-v-center risk-tile-score-future">
-                <RiskVisualization 
-                present={this.state.futScore}
-                worse={this.state.futBad}
-                better={this.state.futGood}
-                score={Math.round(this.props.futureScore)}
-                context={this.props.context}
-                period={"Future"}
+                <RiskVisualization
+                  present={Math.round(this.props.score)}
+                  score={Math.round(this.props.score)}
+                  emphasize={true}
+                  context={this.props.context}
+                  period={"Today"}
+                />
+                <RiskVisualization
+                  present={this.state.futScore}
+                  worse={this.state.futBad}
+                  better={this.state.futGood}
+                  score={Math.round(this.props.futureScore)}
+                  context={this.props.context}
+                  period={"Future"}
                 />
               </div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
       {!displayviz &&
-        <div className={"risk-tile-content " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}>
+        <div
+          className={"risk-tile-content risk-tile-clickable " + (this.props.activeMeasure ? 'risk-active' : 'risk-inactive')}
+          onClick={() => { this.props.expand(this.props.name); }}
+        >
           <h2 className="risk-tile-title">{this.props.name} Risk</h2>
           <div className="risk-tile-status">{this.props.status}</div>
           <div className="risk-tile-score flex-c flex-align-c">
@@ -161,7 +160,7 @@ class RiskTile extends React.Component {
       }
       </div>)
   }
-  
+
 };
 
 RiskTile.propTypes = {

@@ -31,7 +31,6 @@ const rootReducer = combineReducers({
   fhirObservationData,
   fhirEncounterData,
   envFactorsData,
-  fhirEncounterData,
   measurementState,
   pastDate,
   externalState

@@ -29,57 +29,77 @@
   font-size: 0.8em;
 }
 
+.measurement-future-help {
+  opacity: 0;
+  transition: all $fast $ease;
+}
+
+.measurement:hover .measurement-future-help,
+.measurement-future-help:active,
+.measurement-future-help:hover,
+.measurement-future-help:focus {
+  opacity: 1;
+}
+
 .tooltip {
-    position: relative;
-    display: block;
+  position: relative;
+  display: block;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 100px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -50px;
-    
-    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
-    opacity: 0;
-    transition: opacity 1s;
+  visibility: hidden;
+  width: 10rem;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5rem;
+  font-size: 0.9rem;
+
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
 }
 
 .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+  animation-name: show-tooltip;
+  animation-duration: $medium;
+  animation-timing-function: $ease;
+  animation-delay: $slow;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
+@keyframes show-tooltip {
+  0% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 
-/*
-
-slider styling
-
-*/
+/* slider styling */
 
 .slider-wrapper {
   display: inline-block;
-  // width: 20px;
-  // height: 60px;
   padding: 0;
 }
 
@@ -87,53 +107,51 @@ slider styling
   width: 60px;
   height: 20px;
   margin: 0;
-  // transform-origin: 30px 30px;
-  // transform: rotate(-90deg);
 }
 
 input[type=range]{
-    -webkit-appearance: none;
-    -webkit-transform:rotate(-90deg);
-    margin-top: 20px;
-    margin-bottom: 20px;
+  -webkit-appearance: none;
+  -webkit-transform:rotate(-90deg);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 input[type=range]:focus {
-    outline: none;
+  outline: none;
 }
 
-//Chrome
+// Chrome
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 20px;
-    height: 10px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
+  width: 20px;
+  height: 10px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
 
 input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: #666;
-    margin-top: -3px;
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #666;
+  margin-top: -3px;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
+  background: #ccc;
 }
 
-//Firefox
+// Firefox
 
 input[type=range]::-moz-range-track {
-    width: 58px;
-    height: 10px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
+  width: 58px;
+  height: 10px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
 
 input[type=range]::-moz-range-thumb {
@@ -142,8 +160,4 @@ input[type=range]::-moz-range-thumb {
   width: 16px;
   border-radius: 50%;
   background: #666;
-  // margin-top: -3px;
 }
-
-
-

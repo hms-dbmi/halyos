@@ -1,4 +1,5 @@
 @import '../styles/colors.scss';
+@import '../styles/ratio.scss';
 @import '../styles/transitions.scss';
 
 .dot {
@@ -17,15 +18,79 @@
     display: inline-flex;
     align-items: baseline;
 }
+
 .risk {
-    padding: 10px 25px 10px 25px;
+  padding: 1rem;
 }
 
 .present-risk {
-    padding: 10px 25px 10px 25px;
-    border: 2px solid #D4D4D4;
-} 
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border: 2px solid $gray-lightest;
+}
+
+.percentage {
+  font-weight: 600;
+}
+
+.percentage-sign {
+  font-size: 1rem;
+}
 
 .time {
     font-size: 18px;
+}
+
+.risk-viz {
+  @include ratio(1);
+
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.risk-viz-dot,
+.risk-viz-dot-normal {
+  r: 4;
+  stroke-width: 0;
+  fill: $gray-lighter;
+}
+
+.risk-viz-dot-normal {
+  r: r;
+  stroke-width: 0;
+  fill: $gray-dark;
+}
+
+.risk-viz-dot-better {
+  r: 3;
+  stroke-width: 0;
+  fill: black;
+}
+
+.risk-viz-dot-better-outline {
+  r: 5;
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
+}
+
+.risk-viz-dot-worse {
+  r: 2;
+  stroke-width: 0;
+  fill: $gray-lighter;
+}
+
+.risk-tile-score-past {
+  color: $past;
+}
+
+.risk-tile-score-present {
+  color: $present;
+}
+
+.risk-tile-score-future {
+  color: $future;
 }
