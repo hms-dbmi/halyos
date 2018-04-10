@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   getPatientDemographics: patientId => dispatch(fetchAllPatientDataIfNeeded(patientId)),
-  getMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code))
+  getMostRecentObsByCode: (patientID, code, subcode) => dispatch(fetchMostRecentObsByCode(patientID, code, subcode))
 });
 
 const DashboardContainer = connect(

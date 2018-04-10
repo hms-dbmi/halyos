@@ -181,22 +181,41 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-          console.log("gettign the call!", json);
 
           let data = {};
           if(json){
             if(json.entry) {
               if(json.entry[0].resource.component){
-                
-                console.log("in data", json);
-                data = json.entry[0].resource.component[0].valueQuantity;
+                let subdata = json.entry[0].resource.component;
+                for(let part of subdata){
+                  if(part.code.coding[0].code == subcode){
+                    console.log("gettign the call!", json);
+                    console.log("gettign the2 call!", subcode);
+
+                    data = part.valueQuantity;
+                    data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
+                    data['code'] = part.code.coding[0].code;
+                    
+
+                    //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
+                    data['text'] = part.code.text;
+                    console.log("data!", data);
+
+                  }
+                }
               }
-              else
+              else {
                 data = json.entry[0].resource.valueQuantity;
+                data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
+                data['code'] = json.entry[0].resource.code.coding[0].code;
+                data['text'] = json.entry[0].resource.code.text;
+              }
             }
-            else
-              data = {"unit": "N/A","value": 0};
-          } else {
+            else { 
+              data = {"unit": "N/A","value": 0, "effectiveDateTime":"N/A", "text":"N/A", "system":"N/A", "code":"N/A"};
+            }
+          } 
+          else {
             data = {};
           }
           dispatch(receiveMostRecentObsByCode(patientID, code, data));

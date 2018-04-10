@@ -20,7 +20,7 @@ import {getNearestFlat} from '../../services/general_utils';
 // const $ = window.$;
 // const _ = window._;
 
-// const BP = "55284-4";
+// const BP = "8480-6";
 // const HSCRP = "30522-7";
 // const CHOLESTEROL = "2093-3";
 // const HDL = "2085-9";
@@ -154,19 +154,20 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
 
 export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = false) {
 
+    console.log("obs", obs);
     if (pt && obs && date == null) {
       const codesObject = {
         '30522-7': {}, // hsCRP
         '2093-3': {}, // cholesterol
         '2085-9': {}, // HDL
-        '55284-4': {} // sysBP --- 55284-4 is the code for both BPs
+        '8480-6': {} // sysBP --- 8480-6 is the code for both BPs
       };
       // console.log("obs!", obs);
       // const sortedObs = searchByCode(obs, codesObject);
       codesObject['30522-7'] = obs['30522-7'];
       codesObject['2093-3'] = obs['2093-3'];
       codesObject['2085-9'] = obs['2085-9'];
-      codesObject['55284-4'] = obs['55284-4'];
+      codesObject['8480-6'] = obs['8480-6'];
 
       //console.log("reynolds", codesObject);
 
@@ -179,7 +180,7 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         }
       }
       return calculateReynolds(calculateAge(pt.birthDate),
-        codesObject['55284-4'].value,
+        codesObject['8480-6'].value,
         codesObject['30522-7'].value,
         codesObject['2093-3'].value,
         codesObject['2085-9'].value,

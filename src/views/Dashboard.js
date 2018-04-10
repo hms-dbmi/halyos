@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
     this.props.getMostRecentObsByCode(getPatID(), '30522-7');
     this.props.getMostRecentObsByCode(getPatID(), '2093-3');
     this.props.getMostRecentObsByCode(getPatID(), '2085-9');
-    this.props.getMostRecentObsByCode(getPatID(), '55284-4');
+    this.props.getMostRecentObsByCode(getPatID(), '55284-4', '8480-6');
 
 
   }
