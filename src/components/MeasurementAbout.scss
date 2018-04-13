@@ -2,6 +2,12 @@
 @import '../styles/transitions.scss';
 
 .measurement-about {
+  h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   h4 {
     margin: 1rem 0 0.25rem 0;
     font-size: 1.125rem;
@@ -9,12 +15,16 @@
     &:first-child {
       margin-top: 0.5rem;
     }
+  }
+}
 
-    +p {
-      margin-top: 0.25rem;
-    }
-  }
-  div {
-    overflow: scroll;
-  }
+.tile-like {
+  margin-top: 0.25rem;
+  background: $gray-lightest;
+}
+
+.notifier {
+  margin: 0 auto;
+  font-style: italic;
+  text-align: center;
 }

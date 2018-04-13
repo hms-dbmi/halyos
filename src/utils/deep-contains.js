@@ -10,7 +10,7 @@ const deepClone = (source, value) => {
   for(let item of source){
     if(Array.isArray(item)){
       if(item.includes(value)){
-        return true
+        return true;
       }
     }
     else {

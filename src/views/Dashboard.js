@@ -19,6 +19,7 @@ import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCal
 
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
+import { sortMeasurements } from '../services/general_utils';
 // Styles
 import './Dashboard.css';
 
@@ -41,14 +42,14 @@ class Dashboard extends React.Component {
   /* ************************** Life Cycle Methods ************************** */
 
   componentDidMount() {
-    this.props.getPatientDemographics(getPatID()); 
+    this.props.getPatientDemographics(getPatID());
 
     //for reynolds risk score
-    this.props.getMostRecentObsByCode(getPatID(), '30522-7');
-    this.props.getMostRecentObsByCode(getPatID(), '2093-3');
-    this.props.getMostRecentObsByCode(getPatID(), '2085-9');
-    this.props.getMostRecentObsByCode(getPatID(), '55284-4', '8480-6');
-
+    // this.props.getMostRecentObsByCode(getPatID(), '30522-7');
+    // this.props.getMostRecentObsByCode(getPatID(), '2093-3');
+    // this.props.getMostRecentObsByCode(getPatID(), '2085-9');
+    // this.props.getMostRecentObsByCode(getPatID(), '55284-4', '8480-6');
+    let codeList = [];
     for (const key in measuresForRisks) {
       if (!measuresForRisks.hasOwnProperty(key)) {
         continue;
@@ -57,10 +58,16 @@ class Dashboard extends React.Component {
       let riskScoreMeasures = measuresForRisks[key];
       for(let measurement of riskScoreMeasures){
         if(Array.isArray(measurement)){
-          this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
+          if(!(codeList.indexOf(measurement[1]) > -1)){
+            this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
+            codeList.push(measurement[1]);
+          }
         }
         else {
-          this.props.getAllObsByCode(getPatID(), measurement);
+          if(!(codeList.indexOf(measurement) > -1)){
+            this.props.getAllObsByCode(getPatID(), measurement);
+            codeList.push(measurement);
+          }
         }
         
       }
@@ -93,7 +100,6 @@ class Dashboard extends React.Component {
   }
 
   expandMeaAbout(collapse, measure = null) {
-    console.log(this.state)
     this.setState({
       envIsCollapsed: !collapse,
       envIsExpanded: false,
@@ -123,9 +129,8 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("In Dashboard", this.props.allObs);
-    // console.log("In dash pt", this.props.patient);
-
+    console.log("in dashboard", this.props.allObs);
+    
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -226,8 +231,8 @@ class Dashboard extends React.Component {
       : riskDiabetesWidth;
 
     const riskAboutWidth = riskDetails
-      ? 'pure-u-6-24'
-      : 'pure-u-6-24 dashboard-risk-hidden';
+      ? 'pure-u-8-24'
+      : 'pure-u-8-24 dashboard-risk-hidden';
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
@@ -244,7 +249,10 @@ class Dashboard extends React.Component {
               )}
               futureScore={futureReynolds}
               pastScore={reynoldsScorePast}
-              data={{"patient":this.props.patient, "observations":this.props.observations}}
+              data={{
+                patient: this.props.patient,
+                observations: this.props.observations
+              }}
               unit="%"
               context={10}
               url="General_Cardiac"
@@ -261,7 +269,10 @@ class Dashboard extends React.Component {
               )}
               futureScore={futureCHAD}
               pastScore={CHADPastScore}
-              data={{"patient":this.props.patient, "conditions":this.props.conditions}}
+              data={{
+                patient: this.props.patient,
+                conditions: this.props.conditions
+              }}
               unit="%"
               context={1}
               url="Stroke"
@@ -278,7 +289,10 @@ class Dashboard extends React.Component {
               )}
               futureScore={futureKFRRisk}
               pastScore={pastKFRRisk}
-              data={{"patient":this.props.patient, "observations":this.props.observations}}
+              data={{
+                patient: this.props.patient,
+                observations: this.props.observations
+              }}
               unit="%"
               context={5}
               url="Kidney_Failure"
@@ -296,7 +310,11 @@ class Dashboard extends React.Component {
               )}
               futureScore={futureCOPD}
               pastScore={pastCOPDScore}
-              data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions}}
+              data={{
+                patient: this.props.patient,
+                observations:this.props.observations,
+                conditions:this.props.conditions
+              }}
               unit="%"
               context={4}
               url="COPD_Mortality"
@@ -315,7 +333,12 @@ class Dashboard extends React.Component {
               )}
               futureScore={futureDiabetes}
               pastScore={diabetesPast}
-              data={{"patient":this.props.patient, "observations":this.props.observations, "conditions":this.props.conditions, "medications":this.props.medreq}}
+              data={{
+                patient: this.props.patient,
+                observations:this.props.observations,
+                conditions:this.props.conditions,
+                medications:this.props.medreq
+              }}
               unit="%"
               context={5}
               url="Diabetes"
@@ -323,8 +346,15 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskAboutWidth}>
-            <p className='about-risk-header'><b>About {this.state.riskIsExpanded} Risk Score:</b></p>
-            <p>{this.state.riskIsExpanded === undefined ? "" : riskText[this.state.riskIsExpanded]['text']}</p>
+            <div className="risk-score-about">
+              <p className='about-risk-header'>
+                <b>About {this.state.riskIsExpanded} Risk Score:</b>
+              </p>
+              <p>{this.state.riskIsExpanded === undefined
+                ? ""
+                : riskText[this.state.riskIsExpanded]['text']
+              }</p>
+            </div>
           </li>
         </ul>
         <div className="dashboard-bottom flex-g-1">
@@ -338,8 +368,13 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
+// <<<<<<< HEAD
                 measurements={this.props.allObs}
                 risk={this.state.riskIsExpanded} 
+// // =======
+//                 measurements={sortMeasurements(this.props.observations)}
+//                 risk={this.state.riskIsExpanded}
+// // >>>>>>> 6b89cfa78c36c9419052e2e13089a16cd7dea9b1
                 currMeasure={this.state.currMeasure}
                 />
             </div>

@@ -31,6 +31,7 @@ const parseGraphData = data => data.map(
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
+    console.log("present mea", this.props.present);
     this.state = {
       isDetailsShown: false,
     };
@@ -125,18 +126,11 @@ class Measurement extends React.Component {
       parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
 
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
+    const presentValue = parseFloat(this.props.present).toFixed(2);
     // const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
     // const presentDate = this.props.presentDate &&
     //   moment(this.props.presentDate).format('MMM Do YYYY');
-
-    let currentMeasurement = "";
-    if(
-      this.props.mostRecentMeasurements &&
-      this.props.mostRecentMeasurements.hasOwnProperty("" + this.props.code)
-    ) {
-      currentMeasurement = this.props.mostRecentMeasurements["" + this.props.code].value.toFixed(2);
-    }
 
     const msToYear = 1000 * 60 * 60 * 24 * 365;
 
@@ -199,7 +193,7 @@ class Measurement extends React.Component {
             className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip"
             style={{'justifyContent': 'center'}}
           >
-            {currentMeasurement}
+            {presentValue}
             <span className="tooltiptext">
               {yearsPres + ' years, ' + monthsPres + ' month(s) ago' || 'N/A'}
             </span>

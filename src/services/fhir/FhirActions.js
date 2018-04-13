@@ -173,14 +173,13 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
   return (dispatch) => {
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
+
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-          console.log("gettign the call!", json);
-
           let data = {};
           if(json){
             if(json.entry) {
@@ -211,7 +210,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
             data = {};
           }
           dispatch(receiveMostRecentObsByCode(patientID, code, data));
-        } 
+        }
       );
   };
 }
@@ -229,13 +228,32 @@ export const requestAllObsByCode = (patientID, code) => ({
 export const receiveAllObsByCode = (patientID, code, data) => ({
   type: FETCH_ALL_OBSERVATION_SUCCESS,
   patientID,
-  code,
+  code: code,
   all_obs: data,
   receivedAt: Date.now()
 });
 
+export function shouldFetchAllObsByCode(state, code, subcode = null) {
+  let allMeasures = state.fhirObservationData.codeList;
+  let fhirObsData = state.fhirObservationData;
+
+  if(allMeasures.length > 0 && !fhirObsData.isFetchingAllMeasurement) {
+    for(let measure of allMeasures) {
+      if(measure['code'] == code || measure['code'] == subcode){
+        return false;
+      }
+    }    
+  }
+  return true;
+}
+
 export function fetchAllObsByCode(patientID, code, subcode = null) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    //TODO figure out why this doens't work right now. believe it has to do with state updates not occuring immediately. 
+    //the solution right now has been to include checks in Dashboard.js before calling fetchAllObsByCode
+    if(!shouldFetchAllObsByCode(getState(), code, subcode)) {
+      return Promise.resolve();
+    }
     dispatch(requestMostRecentObsByCode(patientID));
     const baseUrl = getURL();
     //pulls oldest to newest
@@ -261,26 +279,29 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     if(part.code.coding[0].code == subcode){
                       data = part.valueQuantity;
                       data['effectiveDateTime'] = item.resource.effectiveDateTime;
-                      // data['code'] = part.code.coding[0].code;
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
-                      // data['text'] = part.code.text;
+                      //apparently, some have text and others have display exclusively, for some ungodly reason.
                       if(!dataDict['name'])
-                        dataDict['name'] = part.code.text;
-                      if(!dataDict['code'])
+                        dataDict['name'] = part.code.coding[0].display || part.code.text;
+                      if(!dataDict['code']){
                         dataDict['code'] = part.code.coding[0].code;
+                      }
                     }
                   }
                 }
                 else {
                   data = item.resource.valueQuantity;
                   data['effectiveDateTime'] = item.resource.effectiveDateTime;
-                  // data['code'] = item.resource.code.coding[0].code;
-                  // data['text'] = item.resource.code.text;
                   if(!dataDict['name'])
-                    dataDict['name'] = item.resource.code.text;
-                  if(!dataDict['code'])
+                    dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
+                  if(!dataDict['code']){
+                    // if(item.resource.code.coding[0].code == "9279-1"){
+                    //   console.log("name2", item);
+                    // }
                     dataDict['code'] = item.resource.code.coding[0].code;
+                  }
 
+                  
                 }
 
                 dataList.push(data);

@@ -5,6 +5,7 @@ import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } fr
 
 const initialFhirState = {
   "allMeasurements" : [],
+  "codeList" : []
 };
 export function fhirObservationData(state = initialFhirState, action){
 	switch (action.type){
@@ -36,6 +37,10 @@ export function fhirObservationData(state = initialFhirState, action){
         allMeasurements : [
           ...state.allMeasurements,
           action.all_obs
+        ],
+        codeList : [
+          ...state.codeList,
+          action.code
         ]
       }
     default:
