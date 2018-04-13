@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 // Styles
 import './PastGraph.css';
 
-const WIDTH = 610; // 560 + 40 + 50 === 650
+const WIDTH = 650; // 560 + 40 + 50 === 650
 const HEIGHT = 140;
 const HEIGHT2 = 20;
 const margin = {

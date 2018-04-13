@@ -43,6 +43,26 @@
   }
 }
 
+.title-bar {
+  margin-right: 0.25rem;
+}
+
 .measurements-list {
   overflow: auto;
+}
+
+.measurements-sublist-header {
+  padding: 0.25rem 0.125rem;
+  font-size: 0.9rem;
+  background: $gray-lightest;
+
+  .icon {
+    width: 0.85rem;
+    height: 0.85rem;
+    margin: 0;
+
+    svg {
+      padding: 0.125rem;
+    }
+  }
 }

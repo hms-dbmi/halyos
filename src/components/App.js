@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import Main from './Main';
-import Topbar from './Topbar';
+import TopbarContainer from './TopbarContainer';
 
 // Other stuff
 import { getPatID, getURL } from '../services/smart_setup';
@@ -21,7 +21,7 @@ const getClientContextApi = fhir => fhir.client({
 
 const App = props => (
   <div className="app full-dim">
-    <Topbar
+    <TopbarContainer
       api={getClientApi(props.fhir)}
       ptapi={getClientContextApi(props.fhir)}
     />

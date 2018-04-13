@@ -12,7 +12,7 @@ import './Measurement.css';
 
 //Reference Ranges
 import refRanges from '../texts/referenceRanges.js';
-import { getPatID } from '../services/smart_setup';
+// import { getPatID } from '../services/smart_setup';
 
 const getArrowDir = (past, present) => (past !== present
   ? 'arrow-top-right'
@@ -31,6 +31,8 @@ const parseGraphData = data => data.map(
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
+    console.log("measurements in M: ", this.props.presentMeasurements);
+    console.log("measurement code M: ", this.props.code);
     this.state = {
       isDetailsShown: false,
     };
@@ -41,10 +43,6 @@ class Measurement extends React.Component {
     ) {
       this.props.addFutureMeasurement(this.props.code, this.props.present);
     }
-
-    var test = this.props.fetchMostRecentObsByCode(getPatID(), this.props.code);
-    
-
   }
 
   showDetails() {
@@ -74,7 +72,6 @@ class Measurement extends React.Component {
       this.setState({
         isDetailsShown: false
       })
-      console.log(this.props, nextProps)
       if(nextProps.currMeasure) {
         this.props.expandAbout(false, nextProps.currMeasure)
       }
@@ -130,22 +127,35 @@ class Measurement extends React.Component {
       parseFloat(this.props.futureMeasurements[this.props.code]).toPrecision(3);
 
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
-    const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
+    // const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
-    const presentDate = this.props.presentDate &&
-      moment(this.props.presentDate).format('MMM Do YYYY');
+    // const presentDate = this.props.presentDate &&
+    //   moment(this.props.presentDate).format('MMM Do YYYY');
 
     let currentMeasurement = "";
-    if(this.props.mostRecentMeasurements && this.props.mostRecentMeasurements.hasOwnProperty("" + this.props.code)) {
+    if(
+      this.props.mostRecentMeasurements &&
+      this.props.mostRecentMeasurements.hasOwnProperty("" + this.props.code)
+    ) {
       currentMeasurement = this.props.mostRecentMeasurements["" + this.props.code].value.toFixed(2);
     }
 
-    var yearsPast = Math.floor((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365))
-    var monthsPast = Math.floor(((Date.now()-(new Date(this.props.pastMeasurementsDate)).getTime())/(1000*60*60*24*365)-yearsPast)*12)
-    // console.log("data" , this.props.mostRecentMeasurements);
+    const msToYear = 1000 * 60 * 60 * 24 * 365;
 
-    var yearsPres = Math.floor((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365))
-    var monthsPres = Math.floor(((Date.now()-(new Date(this.props.presentDate)).getTime())/(1000*60*60*24*365)-yearsPres)*12)
+    const yearsPast = Math.floor(
+      (Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) / msToYear
+    );
+    const monthsPast = Math.floor(
+      ((Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) / msToYear - yearsPast) * 12
+    );
+
+    const yearsPres = Math.floor(
+      (Date.now() - (new Date(this.props.presentDate)).getTime()) / msToYear
+    );
+    const monthsPres = Math.floor(
+      ((Date.now() - (new Date(this.props.presentDate)).getTime()) / msToYear - yearsPres) * 12
+    );
+
     return (
       <div className="measurement">
         <div className="measurement-info pure-g">
@@ -157,7 +167,7 @@ class Measurement extends React.Component {
               >
                 {this.props.name}
               </p>
-              <div className="measurement-unit">[{this.props.unit}]</div> &nbsp;
+              <div className="measurement-unit">({this.props.unit})</div> &nbsp;
               <Button
                 icon="help"
                 iconOnly={true}
@@ -171,10 +181,15 @@ class Measurement extends React.Component {
               <abbr title="Not available">N/A</abbr>
             }
             {pastValue &&
-              <span className="tooltiptext">{yearsPast + ' years, ' + monthsPast + ' month(s) ago'|| 'N/A'}</span>
+              <span className="tooltiptext">
+                {yearsPast + ' years, ' + monthsPast + ' month(s) ago'|| 'N/A'}
+              </span>
             }
           </div>
-          <div className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+          <div
+            className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
+            style={{'justifyContent': 'center'}}
+          >
             {this.props.past &&
               <Icon
                 id={getArrowDir(pastValue, this.props.present)}
@@ -182,11 +197,19 @@ class Measurement extends React.Component {
               />
             }
           </div>
-          <div className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip" style={{'justifyContent': 'center'}}>
+          <div
+            className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip"
+            style={{'justifyContent': 'center'}}
+          >
             {currentMeasurement}
-            <span className="tooltiptext">{yearsPres + ' years, ' + monthsPres + ' month(s) ago' || 'N/A'}</span>
+            <span className="tooltiptext">
+              {yearsPres + ' years, ' + monthsPres + ' month(s) ago' || 'N/A'}
+            </span>
           </div>
-          <div className="measurement-future pure-u-3-24 flex-c flex-v-center" style={{'justifyContent': 'center'}}>
+          <div
+            className="measurement-future pure-u-3-24 flex-c flex-v-center"
+            style={{'justifyContent': 'center'}}
+          >
             {futureScore && parseFloat(futureScore).toFixed(2)}
           </div>
         </div>
@@ -198,7 +221,11 @@ class Measurement extends React.Component {
               data={parseGraphData(this.props.graphData)}
               code={this.props.code}
               units="mmHg"
-              referenceRange={refRanges[this.props.code] && [refRanges[this.props.code].min, refRanges[this.props.code].max]}
+              referenceRange={
+                refRanges[this.props.code] && [
+                  refRanges[this.props.code].min, refRanges[this.props.code].max
+                ]
+              }
               present={parseFloat(this.props.present)}
               futureMin={this.props.present / 2}
               futureMax={this.props.present * 2}

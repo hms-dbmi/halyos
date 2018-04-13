@@ -23,7 +23,7 @@ class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "measurements",
+      query: '',
       isDatePickerShown: false,
       measurements: this.props.measurements.sort((item) => {
         for (const key in measuresForRisks) {
@@ -40,17 +40,15 @@ class Measurements extends React.Component {
   }
 
   filterList(query) {
+    this.props.expandAbout(false)
     this.setState({
+      query,
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
         for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (measuresForRisks[key].includes(item.code)) {
-            return -1;
-          }
+          if (!measuresForRisks.hasOwnProperty(key)) continue;
+          if (measuresForRisks[key].includes(item.code)) return -1;
         }
         return 1;
       })
@@ -58,9 +56,7 @@ class Measurements extends React.Component {
   }
 
   toggleDatePicker() {
-    this.setState({
-      isDatePickerShown: !this.state.isDatePickerShown
-    });
+    this.setState({ isDatePickerShown: !this.state.isDatePickerShown });
   }
 
   pastChangeHandler(date) {
@@ -68,25 +64,58 @@ class Measurements extends React.Component {
     this.props.setPastDate(date.unix() * 1000);
   }
 
-  onChange() {
+  blurSearch() {
+    if (!this.state.query.length) this.setState({ isSearchFocus: false });
+  }
+
+  focusSearch() {
     this.setState({
-      view: this.myInput.value
-    })
+      titleWidth: this.titleEl.getBoundingClientRect().width,
+      isSearchFocus: true
+    });
+  }
+
+  getPxLen(prop, len) {
+    return { [prop]: `${len}px` }
   }
 
   render() {
     const pastDate = moment(this.props.pastDate || undefined);
+    const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';
+    let searchClass = 'search flex-c flex-v-center';
+    let titleStyle = null;
+    let searchStyle = null;
+    if(this.state.isSearchFocus) {
+      const titleWidth = this.titleEl.getBoundingClientRect().width;
+      const searchWidth = this.wurstEl.getBoundingClientRect().width;
+      titleStyle = this.getPxLen('marginLeft', -titleWidth);
+      searchStyle = this.getPxLen('width', searchWidth - 0.25);
+      searchClass += ' is-expanded';
+    }
     return (
       <div className="measurements full-wh flex-c flex-col">
-        <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
+        <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
-            <div className="flex-c flexc-v-center">
-              <input
-                type="text"
-                placeholder="Click here to search!"
-                className="search flex-g-1"
-                onChange={e => this.filterList(e.target.value.toLowerCase())}
-              />
+            <div className="flex-c flexc-v-center title-bar" ref={r => this.wurstEl = r}>
+              <h3
+                className={titleClass}
+                ref={r => this.titleEl = r}
+                style={titleStyle}
+              >Measurements</h3>
+              <div
+                className={searchClass}
+                style={searchStyle}
+              >
+                <Icon id="magnifier" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="flex-g-1"
+                  onChange={e => this.filterList(e.target.value.toLowerCase())}
+                  onBlur={() => this.blurSearch()}
+                  onFocus={() => this.focusSearch()}
+                />
+              </div>
             </div>
           </div>
           <div
@@ -124,21 +153,20 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
-            <hr/>
-            <div className="dashboard-panel-subtopbar">
-                <div className="pure-u-24-24">
-                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
-                    <span>Data not available in EHR</span>
-                  </div>
+            <div className="measurements-sublist-header">
+              <div className="pure-u-24-24">
+                <div className="flex-c flex-v-center">
+                  <span>Data not available in EHR:</span>
                 </div>
+              </div>
             </div>
             <ExternalContainer risk={this.props.risk}/>
-            <div className="dashboard-panel-subtopbar">
-                <div className="pure-u-24-24">
-                  <div className="flex-c flex-v-center" style={{fontSize:20}}>
-                    <span>Data from EHR</span>
-                  </div>
+            <div className="measurements-sublist-header">
+              <div className="pure-u-24-24">
+                <div className="flex-c flex-v-center">
+                  <span>Data from EHR:</span>
                 </div>
+              </div>
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
