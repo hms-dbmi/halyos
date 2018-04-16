@@ -168,8 +168,6 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
       codesObject['2085-9'] = obs['2085-9'];
       codesObject['55284-4'] = obs['55284-4'];
 
-      // console.log("reynolds", codesObject);
-
       for (let key in codesObject) {
         if (codesObject.hasOwnProperty(key)) {
           if (!codesObject[key]) {
@@ -179,10 +177,10 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         }
       }
       return calculateReynolds(calculateAge(pt.birthDate),
-        codesObject['55284-4'].value,
-        codesObject['30522-7'].value,
-        codesObject['2093-3'].value,
-        codesObject['2085-9'].value,
+        codesObject['55284-4'].measurements[0].value,
+        codesObject['30522-7'].measurements[0].value,
+        codesObject['2093-3'].measurements[0].value,
+        codesObject['2085-9'].measurements[0].value,
         smoker, // smoker
         famhist, // famHist
         pt.gender

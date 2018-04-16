@@ -31,7 +31,6 @@ const parseGraphData = data => data.map(
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
-    console.log("present mea", this.props.present);
     this.state = {
       isDetailsShown: false,
     };
@@ -105,6 +104,10 @@ class Measurement extends React.Component {
   }
 
   render() {
+    console.log("this.props.past: ", this.props.graphData[1])
+    console.log("this.props.present: ", this.props.graphData[0])
+    console.log("graph: ", this.props.graphData)
+    console.log("data: ", this.props.code)
     let sliderValue;
 
     if (

@@ -2,46 +2,6 @@ import 'whatwg-fetch'
 import { getURL } from '../smart_setup';
 
 
-// get observations
-// export const FETCH_OBSERVATIONS_REQUEST = 'FETCH_OBSERVATIONS_REQUEST';
-// export const FETCH_OBSERVATIONS_SUCCESS = 'FETCH_OBSERVATIONS_SUCCESS';
-// export const FETCH_OBSERVATIONS_FAILURE = 'FETCH_OBSERVATIONS_FAILURE';
-
-// export const requestAllObservations = patientID => ({
-//   type: FETCH_OBSERVATIONS_REQUEST,
-//   patientID
-// });
-
-// export const receiveAllObservations = (patientID, json) => ({
-//   type: FETCH_OBSERVATIONS_SUCCESS,
-//   patientID,
-//   obs: json,
-//   receivedAt: Date.now()
-// });
-
-// export const failAllObservations = patientID => ({
-//   type: FETCH_OBSERVATIONS_FAILURE,
-//   patientID,
-//   error: 'oops'
-// });
-
-// // http://fhirtest.uhn.ca/baseDstu3/Observation?patient=140570
-// export function fetchAllObservations(patientID) {
-//   return (dispatch) => {
-//     dispatch(requestAllObservations(patientID));
-//     const baseUrl = getURL();
-
-//     return fetch(baseUrl + '/Observation?patient=' + patientID)
-//       .then(
-//         response => response.json(),
-//         error => console.error('An error occured.', error)
-//       )
-//       .then(json =>
-//         dispatch(receiveAllObservations(patientID, json))
-//       );
-//   };
-// }
-
 // get patient data
 
 export const FETCH_PATIENT_REQUEST = 'FETCH_PATIENT_REQUEST';
@@ -170,49 +130,64 @@ export const receiveMostRecentObsByCode = (patientID, code, data) => ({
 });
 
 export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
-  return (dispatch) => {
-    dispatch(requestMostRecentObsByCode(patientID));
+  return (dispatch, getState) => {
+    //TODO include a shouldFetchMostRecentObs after you figure out why it doens't work in the all measurement case
+    dispatch(requestMostRecentObsByCode(patientID, code));
     const baseUrl = getURL();
-
-    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=date')
+    //get the most recent data
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_count=1&_sort=-date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-          let data = {};
+          let dataDict = {};
           if(json){
-            if(json.entry) {
-              if(json.entry[0].resource.component){
-                let subdata = json.entry[0].resource.component;
+            if(json.total == 0){
+              return Promise.resolve();
+            }
+            else {
+              let data = {};
+              let item = json.entry[0];
+              if(item.resource.component){
+                let subdata = item.resource.component;
                 for(let part of subdata){
                   if(part.code.coding[0].code == subcode){
                     data = part.valueQuantity;
-                    data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
-                    data['code'] = part.code.coding[0].code;
+                    data['date'] = item.resource.effectiveDateTime;
                     //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
-                    data['text'] = part.code.text;
+                    //apparently, some have text and others have display exclusively, for some ungodly reason.
+                    if(!dataDict['name'])
+                      dataDict['name'] = part.code.coding[0].display || part.code.text;
+                    if(!dataDict['code']){
+                      dataDict['code'] = part.code.coding[0].code;
+                    }
                   }
                 }
               }
               else {
-                data = json.entry[0].resource.valueQuantity;
-                data['effectiveDateTime'] = json.entry[0].resource.effectiveDateTime;
-                data['code'] = json.entry[0].resource.code.coding[0].code;
-                data['text'] = json.entry[0].resource.code.text;
+                data = item.resource.valueQuantity;
+                data['date'] = item.resource.effectiveDateTime;
+                if(!dataDict['name'])
+                  dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
+                if(!dataDict['code']){
+                  dataDict['code'] = item.resource.code.coding[0].code;
+                }
               }
-            }
-            else { 
-              data = {"unit": "N/A","value": 0, "effectiveDateTime":"N/A", "text":"N/A", "system":"N/A", "code":"N/A"};
+              //add our only data element as a list to the return dictionary
+              dataDict['measurements'] = [data];
             }
           } 
           else {
-            data = {};
+            return Promise.resolve();
           }
-          dispatch(receiveMostRecentObsByCode(patientID, code, data));
-        }
+        console.log('what is the datadict223', dataDict);
+
+        dispatch(receiveMostRecentObsByCode(patientID, code, dataDict));
+        } 
       );
   };
+
 }
 
 export const FETCH_ALL_OBSERVATION_REQUEST = 'FETCH_ALL_OBSERVATION_REQUEST';
@@ -254,10 +229,10 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
     if(!shouldFetchAllObsByCode(getState(), code, subcode)) {
       return Promise.resolve();
     }
-    dispatch(requestMostRecentObsByCode(patientID));
+    dispatch(requestAllObsByCode(patientID, code));
     const baseUrl = getURL();
-    //pulls oldest to newest
-    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_sort=date')
+    //sorted newest to oldest
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_sort=-date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
@@ -266,7 +241,6 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
           let dataDict = {};
           if(json){
             if(json.total == 0){
-              // dispatch(receiveAllObsByCode(patientID, code, dataDict));
               return;
             }
             else {
@@ -278,7 +252,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                   for(let part of subdata){
                     if(part.code.coding[0].code == subcode){
                       data = part.valueQuantity;
-                      data['effectiveDateTime'] = item.resource.effectiveDateTime;
+                      data['date'] = item.resource.effectiveDateTime;
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
                       //apparently, some have text and others have display exclusively, for some ungodly reason.
                       if(!dataDict['name'])
@@ -291,17 +265,12 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                 }
                 else {
                   data = item.resource.valueQuantity;
-                  data['effectiveDateTime'] = item.resource.effectiveDateTime;
+                  data['date'] = item.resource.effectiveDateTime;
                   if(!dataDict['name'])
                     dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
                   if(!dataDict['code']){
-                    // if(item.resource.code.coding[0].code == "9279-1"){
-                    //   console.log("name2", item);
-                    // }
                     dataDict['code'] = item.resource.code.coding[0].code;
                   }
-
-                  
                 }
 
                 dataList.push(data);
@@ -309,6 +278,8 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
               dataDict['measurements'] = dataList;
             }
           }
+                  console.log('what is the datadict', dataDict);
+
         dispatch(receiveAllObsByCode(patientID, code, dataDict));
         } 
       );

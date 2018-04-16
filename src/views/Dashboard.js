@@ -44,12 +44,33 @@ class Dashboard extends React.Component {
   componentDidMount() {
     this.props.getPatientDemographics(getPatID());
 
-    //for reynolds risk score
-    // this.props.getMostRecentObsByCode(getPatID(), '30522-7');
-    // this.props.getMostRecentObsByCode(getPatID(), '2093-3');
-    // this.props.getMostRecentObsByCode(getPatID(), '2085-9');
-    // this.props.getMostRecentObsByCode(getPatID(), '55284-4', '8480-6');
     let codeList = [];
+    let mostRecentMeaCodeList = [];
+
+    // first we pull the data of the measurements necessary to calculate current risk scores
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        continue;
+      }
+      let riskScore = key;
+      let riskScoreMeasures = measuresForRisks[key];
+      for(let measurement of riskScoreMeasures){
+        if(Array.isArray(measurement)){
+          if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
+            this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
+            mostRecentMeaCodeList.push(measurement[1]);
+          }
+        }
+        else {
+          if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
+            this.props.getMostRecentObsByCode(getPatID(), measurement);
+            mostRecentMeaCodeList.push(measurement);
+          }
+        }  
+      }
+    }
+
+    // next we pull all measurements required for the risk scores, so we can calculate previous risk scores.
     for (const key in measuresForRisks) {
       if (!measuresForRisks.hasOwnProperty(key)) {
         continue;
@@ -69,9 +90,10 @@ class Dashboard extends React.Component {
             codeList.push(measurement);
           }
         }
-        
       }
     }
+
+
   }
 
   /* **************************** Custom Methods **************************** */
@@ -129,8 +151,9 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("in dashboard", this.props.allObs);
-    
+    // console.log("in dashboard", this.props.allObs);
+    // console.log("recent mea", this.props.mostRecentObs);
+
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }

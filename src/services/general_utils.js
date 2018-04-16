@@ -142,6 +142,7 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
 */
 
 export function getNearestFlat(obs, date) { //make this binary search
+  
   let currDate = new Date(obs[0].date)
   let goalDate = new Date(date)
   let minTime = Math.abs(currDate-goalDate);
