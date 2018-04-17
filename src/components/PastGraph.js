@@ -302,7 +302,7 @@ class PastGraph extends React.Component {
   }
 
   initFuture() {
-    this.future = this.svg.append('g')
+    this.future = this.svg.insert('g', ':first-child')
       .attr('class', 'past-graph-future')
       .attr('transform', `translate(${margin.left + WIDTH}, 0)`);
 
