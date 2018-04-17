@@ -207,6 +207,63 @@ figure {
   background-clip: padding-box;
 }
 
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -50px;
+
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transform: translate(0, 0);
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  animation-name: show-tooltip;
+  animation-duration: $medium;
+  animation-timing-function: $ease;
+  animation-delay: $slow;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show-tooltip {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, -5px);
+    visibility: visible;
+  }
+}
+
+
 /*
  * -----------------------------------------------------------------------------
  * Specific styles
