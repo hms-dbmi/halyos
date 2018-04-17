@@ -34,7 +34,10 @@ class Dashboard extends React.Component {
       meaDesIsExpanded: false,
       pcsIsCollapsed: false,
       pcsIsExpanded: false,
+      rnd: 0,
     };
+
+    this.forceRerenderBound = this.forceRerender.bind(this);
   }
 
   /* ************************** Life Cycle Methods ************************** */
@@ -47,9 +50,20 @@ class Dashboard extends React.Component {
     this.props.getMostRecentObsByCode(getPatID(), '2093-3');
     this.props.getMostRecentObsByCode(getPatID(), '2085-9');
     this.props.getMostRecentObsByCode(getPatID(), '55284-4');
+
+    window.addEventListener('resize', this.forceRerenderBound);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.forceRerenderBound);
   }
 
   /* **************************** Custom Methods **************************** */
+
+  forceRerender() {
+    // Force re-rendering...
+    this.setState({ rnd: Math.random() });
+  }
 
   expandEnv(collapse) {
     this.setState({
@@ -146,6 +160,13 @@ class Dashboard extends React.Component {
     }
 
     const mesWidth = this.state.meaIsExpanded ? 'pure-u-16-24' : 'pure-u-12-24';
+    const mesWidthRel = this.state.meaIsExpanded ? 16 / 26 : 12 / 24;
+    const mesWidthAbs = this.baseEl
+      ? Math.round(
+        (this.baseEl.getBoundingClientRect().width * mesWidthRel) -
+        (16 * (1.5 + 0.8))
+      )
+      : 0;
 
     let pcsWidth = this.state.pcsIsExpanded ? 'pure-u-12-24' : 'pure-u-8-24';
     pcsWidth = this.state.pcsIsCollapsed || this.state.meaDesIsExpanded
@@ -330,7 +351,7 @@ class Dashboard extends React.Component {
             </div>
           </li>
         </ul>
-        <div className="dashboard-bottom flex-g-1">
+        <div className="dashboard-bottom flex-g-1" ref={(el) => { this.baseEl = el; }}>
           <div className={`dashboard-bottom-panel pure-g full-h ${mesWidth}`}>
             <div
               className="wrapper"
@@ -344,6 +365,7 @@ class Dashboard extends React.Component {
                 measurements={sortMeasurements(this.props.observations)}
                 risk={this.state.riskIsExpanded}
                 currMeasure={this.state.currMeasure}
+                absWidth={mesWidthAbs}
               />
             </div>
           </div>

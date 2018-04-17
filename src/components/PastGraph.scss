@@ -39,11 +39,15 @@
   padding-right: 5%;
   height: 12.5rem;
 
-  .reset-btn {
+  .reset-btn-container {
     position: absolute;
     bottom: 2.25rem;
     right: 0;
     width: 12.5%;
+  }
+
+  .reset-btn {
+    width: 100px;
   }
 }
 

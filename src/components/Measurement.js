@@ -242,6 +242,7 @@ class Measurement extends React.Component {
               futureValue={parseFloat(sliderValue)}
               futureChangeHandler={this.futureChangeHandler.bind(this)}
               activeMeasureHandler={this.activeMeasureHandler.bind(this)}
+              absWidth={this.props.absWidth}
             />
           )}
         </div>
@@ -273,6 +274,7 @@ Measurement.propTypes = {
   userPastDate: PropTypes.instanceOf(moment),
   addPresentMeasurement: PropTypes.func,
   addFutureMeasurement: PropTypes.func,
+  absWidth: PropTypes.number,
 };
 
 export default Measurement;

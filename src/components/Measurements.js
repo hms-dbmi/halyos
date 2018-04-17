@@ -187,6 +187,7 @@ class Measurements extends React.Component {
                 graphData={item.measurements}
                 risk={this.props.risk}
                 currMeasure={this.props.currMeasure}
+                absWidth={this.props.absWidth}
               />
             ))}
           </main>
@@ -224,6 +225,7 @@ Measurements.propTypes = {
   setTimePeriod: PropTypes.func,
   currMeasure: PropTypes.string,
   risk: PropTypes.string,
+  absWidth: PropTypes.number,
 };
 
 const mapStateToProps = state => ({

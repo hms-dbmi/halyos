@@ -49,10 +49,12 @@ class PastGraph extends React.Component {
   }
 
   componentDidMount() {
+    this.width = this.props.absWidth - 150;
     this.init();
   }
 
   componentWillReceiveProps(nextProps) {
+    this.width = nextProps.absWidth - 150;
     this.update(nextProps);
   }
 
@@ -62,33 +64,34 @@ class PastGraph extends React.Component {
         <div
           ref={(elem) => { this.baseEl = elem; }}
         />
-        <button
-          className="reset-btn"
-          onClick={this.setPresent.bind(this)}>
-          Reset
-        </button>
+        <div className="reset-btn-container flex-c flex-align-c">
+          <button
+            className="reset-btn"
+            onClick={this.setPresent.bind(this)}>
+            Reset
+          </button>
+        </div>
       </div>
     );
   }
 
   /* ************************** Custom Methods ************************** */
 
-  init() {
+  init(absWidth = this.props.absWidth) {
     if (!this.baseEl) return;
+
+    while (this.baseEl.firstChild) {
+      this.baseEl.removeChild(this.baseEl.firstChild);
+    }
 
     this.svg = d3.select(this.baseEl).append('svg');
 
     this.svg
       .attr('class', 'past-graph-svg')
-      .attr('viewBox', '0 0 800 200');
+      .attr('viewBox', `0 0 ${absWidth} 200`);
 
-    // const HEIGHT2 = +this.svg.attr('height') - margin2.top - margin2.bottom;
-
-    // HEIGHT = +this.svg.attr('height') - margin.top - margin.bottom;
-    // WIDTH = +this.svg.attr('width') - margin.left - margin.right;
-
-    this.x = d3.scaleTime().range([0, WIDTH]);
-    this.x2 = d3.scaleTime().range([0, WIDTH]);
+    this.x = d3.scaleTime().range([0, this.width]);
+    this.x2 = d3.scaleTime().range([0, this.width]);
     this.y = d3.scaleLinear().range([HEIGHT, 0]);
     this.y2 = d3.scaleLinear().range([HEIGHT2, 0]);
     let yMin;
@@ -124,13 +127,13 @@ class PastGraph extends React.Component {
     const yAxis = d3.axisLeft(this.y).tickValues(tickArray).tickSizeOuter(0);
 
     this.brush = d3.brushX()
-      .extent([[0, 0], [WIDTH, HEIGHT2]])
+      .extent([[0, 0], [this.width, HEIGHT2]])
       .on('brush', this.brushed.bind(this));
 
     this.zoom = d3.zoom()
       .scaleExtent([1, 20])
-      .translateExtent([[0, 0], [WIDTH, HEIGHT]])
-      .extent([[0, 0], [WIDTH, HEIGHT]])
+      .translateExtent([[0, 0], [this.width, HEIGHT]])
+      .extent([[0, 0], [this.width, HEIGHT]])
       .on('zoom', this.zoomed.bind(this));
 
     this.line = d3.line()
@@ -144,7 +147,7 @@ class PastGraph extends React.Component {
     this.svg.append('defs').append('clipPath')
       .attr('id', 'clip')
       .append('rect')
-      .attr('width', WIDTH + 5)
+      .attr('width', this.width + 5)
       .attr('height', HEIGHT);
 
     this.focus = this.svg.append('g')
@@ -264,7 +267,7 @@ class PastGraph extends React.Component {
 
     this.svg.append('rect')
       .attr('class', 'past-graph-zoom')
-      .attr('width', WIDTH)
+      .attr('width', this.width)
       .attr('height', HEIGHT)
       .attr('transform', `translate(${margin.left},${margin.top})`)
       .call(this.zoom);
@@ -315,7 +318,7 @@ class PastGraph extends React.Component {
   initFuture() {
     this.future = this.svg.insert('g', ':first-child')
       .attr('class', 'past-graph-future')
-      .attr('transform', `translate(${margin.left + WIDTH}, 0)`);
+      .attr('transform', `translate(${margin.left + this.width}, 0)`);
 
     this.presentFutureLine = this.future.append('line')
       .attr('class', 'graph-present-future-line')
@@ -386,43 +389,47 @@ class PastGraph extends React.Component {
   wrangleData() {}
 
   update(nextProps) {
-    // update the vert. lines on new set Past date
-    const pastDateData = [{
-      x: nextProps.pastDate.toDate(),
-      y: HEIGHT
-    }, {
-      x: nextProps.pastDate.toDate(),
-      y: HEIGHT
-    }];
+    if (this.props.absWidth !== nextProps.absWidth) {
+      this.init(nextProps.absWidth);
+    } else {
+      // update the vert. lines on new set Past date
+      const pastDateData = [{
+        x: nextProps.pastDate.toDate(),
+        y: HEIGHT
+      }, {
+        x: nextProps.pastDate.toDate(),
+        y: HEIGHT
+      }];
 
-    const pastDateDataContext = [{
-      x: nextProps.pastDate.toDate(),
-      y: HEIGHT2
-    }, {
-      x: nextProps.pastDate.toDate(),
-      y: HEIGHT2
-    }];
+      const pastDateDataContext = [{
+        x: nextProps.pastDate.toDate(),
+        y: HEIGHT2
+      }, {
+        x: nextProps.pastDate.toDate(),
+        y: HEIGHT2
+      }];
 
-    this.focus.select('.past-graph-date-v-bar')
-      .datum(pastDateData)
-      .attr('d', this.pastDateArea)
-      .attr('class', 'past-graph-date-v-bar');
+      this.focus.select('.past-graph-date-v-bar')
+        .datum(pastDateData)
+        .attr('d', this.pastDateArea)
+        .attr('class', 'past-graph-date-v-bar');
 
-    this.svg.select('.context').select('.past-graph-date-v-bar-overview')
-      .datum(pastDateDataContext)
-      .attr('d', this.pastDateAreaOverview)
-      .attr('class', 'past-graph-date-v-bar-overview');
+      this.svg.select('.context').select('.past-graph-date-v-bar-overview')
+        .datum(pastDateDataContext)
+        .attr('d', this.pastDateAreaOverview)
+        .attr('class', 'past-graph-date-v-bar-overview');
 
-    const presentDate = this.props.data[0].x;
-    // update color of scatter points
-    const measurementPastDate = new Date(nextProps.pastDateMeasurement);
-    this.focusGraph.selectAll('.past-graph-node')
-      .data(this.props.data)
-      .enter().append('circle')
-      .attr('r', 5)
-      .attr('cx', d => this.x(d.x))
-      .attr('cy', d => this.y(d.y))
-      .each(augmentPastGraphNode(presentDate, measurementPastDate));
+      const presentDate = this.props.data[0].x;
+      // update color of scatter points
+      const measurementPastDate = new Date(nextProps.pastDateMeasurement);
+      this.focusGraph.selectAll('.past-graph-node')
+        .data(this.props.data)
+        .enter().append('circle')
+        .attr('r', 5)
+        .attr('cx', d => this.x(d.x))
+        .attr('cy', d => this.y(d.y))
+        .each(augmentPastGraphNode(presentDate, measurementPastDate));
+    }
   }
 
   brushed() {
@@ -450,7 +457,7 @@ class PastGraph extends React.Component {
     this.svg.select('.past-graph-zoom').call(
       this.zoom.transform,
       d3.zoomIdentity
-        .scale(WIDTH / (s[1] - s[0]))
+        .scale(this.width / (s[1] - s[0]))
         .translate(-s[0], 0)
     );
   }
@@ -508,6 +515,7 @@ PastGraph.propTypes = {
   code: PropTypes.string,
   pastDateMeasurement: PropTypes.string,
   referenceRange: PropTypes.array,
+  absWidth: PropTypes.number,
 };
 
 export default PastGraph;
