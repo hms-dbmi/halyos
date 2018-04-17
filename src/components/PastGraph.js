@@ -40,11 +40,8 @@ class PastGraph extends React.Component {
   }
 
   /* ************************** Life Cycle Methods ************************** */
-  shouldComponentUpdate(nextProps) {
-    if (
-      this.props.futureValue !== nextProps.futureValue &&
-      this.changedFutureValue
-    ) {
+  shouldComponentUpdate() {
+    if (this.changedFutureValue) {
       this.changedFutureValue = false;
       return false;
     }
@@ -356,9 +353,7 @@ class PastGraph extends React.Component {
     this.changedFutureValue = true;
     const newFutureValue = Math.min(
       this.y.domain()[1],
-      Math.max(
-        this.y.domain()[0], this.y.invert(d3.event.y)
-      )
+      Math.max(this.y.domain()[0], this.y.invert(d3.event.y))
     );
     const newCy = this.y(newFutureValue);
     this.props.futureChangeHandler(newFutureValue);
@@ -407,7 +402,7 @@ class PastGraph extends React.Component {
     const presentDate = this.props.data[0].x;
     // update color of scatter points
     const measurementPastDate = new Date(nextProps.pastDateMeasurement);
-    this.focusGraph.selectAll('past-graph-node')
+    this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
       .attr('r', 5)

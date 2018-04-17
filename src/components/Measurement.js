@@ -45,7 +45,7 @@ class Measurement extends React.Component {
 
   showDetails() {
     if (this.props.risk) {
-      this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name)
+      this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name);
       this.setState({
         isDetailsShown: !this.state.isDetailsShown
       });
