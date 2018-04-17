@@ -178,7 +178,13 @@ class PastGraph extends React.Component {
       .y0(0)
       .y1(HEIGHT2);
 
-    this.x.domain(d3.extent(this.props.data, d => d.x));
+    // Add three months padding to the left, i.e., the first measurement
+    const dateExtent = d3.extent(this.props.data, d => d.x);
+    const firstDate = new Date(dateExtent[0]);
+    firstDate.setMonth(firstDate.getMonth() - 3);
+    dateExtent[0] = firstDate;
+
+    this.x.domain(dateExtent);
     this.y.domain([+yMinPadded, +yMaxPadded]);
     this.x2.domain(this.x.domain());
     this.y2.domain(this.y.domain());
@@ -218,7 +224,6 @@ class PastGraph extends React.Component {
     const presentDate = this.props.data[0].x;
     // add scatter points
     const measurementPastDate = new Date(this.props.pastDateMeasurement);
-    console.log('GEIL', this.focusGraph.selectAll('.past-graph-node'));
     this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
@@ -433,9 +438,12 @@ class PastGraph extends React.Component {
     //   .attr('cy', d => this.y(d.y));
 
     this.focus.select('.axis--x').call(this.xAxis);
-    this.svg.select('.past-graph-zoom').call(this.zoom.transform, d3.zoomIdentity
-      .scale(WIDTH / (s[1] - s[0]))
-      .translate(-s[0], 0));
+    this.svg.select('.past-graph-zoom').call(
+      this.zoom.transform,
+      d3.zoomIdentity
+        .scale(WIDTH / (s[1] - s[0]))
+        .translate(-s[0], 0)
+    );
   }
 
   zoomed() {
