@@ -28,14 +28,17 @@ export function fetchPollenLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestPollenLevels(lat,long));
   if(lat && long){
-    fetch('https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&q=' + lat + '%2C' + long)
+    fetch('https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&q=' + lat + '%2C' + long)
       .then(
           response => response.json(),
           error => console.error('location not found', error)
       )
       .then(function(json) {
+        if(!json){
+          return Promise.resolve();
+        }
         let locationKey = json.Key;
-        return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + locationKey + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
+        return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + locationKey + '?apikey=Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA&details=true')
           .then(
             response => response.json(),
             error => console.error('Could not load pollen levels.', error)
@@ -128,7 +131,7 @@ export const receiveAirQualityLevels = (lat, long, json) => ({
   type: FETCH_AIQ_SUCCESS,
   lat: lat,
   long: long,
-  pollenLevels: json,
+  aiqLevels: json,
   receivedAt: Date.now()
 });
 
@@ -136,14 +139,13 @@ export function fetchAirQualityLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestAirQualityLevels(lat,long));
 
-  return fetch('https://api.airvisual.com/v2/nearest_station?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
+  return fetch('https://api.airvisual.com/v2/nearest_city?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
     .then(
       response => response.json(),
       error => console.error('Could not load air quality data.', error)
     )
     .then(function(json) {
-        console.log("aiq data", json);
-        dispatch(receiveAirQualityLevels(lat, long, json));
+        dispatch(receiveAirQualityLevels(lat, long, json.data));
       }
     );
   };

@@ -13,10 +13,9 @@ import './Environment.css';
 class Environment extends React.Component {
   constructor(props) {
     super(props);
-    
+
     //by the time that we create the Env tile, if the ptLoc data has already been pulled, then we don't do it again below
     if(this.props.ptLoc){
-      console.log("nextProps", this.props.ptLoc);
       this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
       this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
       this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
@@ -26,13 +25,16 @@ class Environment extends React.Component {
   componentWillReceiveProps(nextProps){
     // we make the call for the environmental factors here
     if(!this.props.ptLoc && this.props.ptLoc.latitude != nextProps.ptLoc.latitude && this.props.ptLoc.longitude != nextProps.ptLoc.longitiude){
+      this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+
     }
 
   }
 
 
   render(){
-
     return (
       <div className="environment full-wh flex-c flex-col">
         <header className="dashboard-panel-headline flex-c flex-align-sb">

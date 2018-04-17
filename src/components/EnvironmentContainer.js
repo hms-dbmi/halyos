@@ -4,8 +4,6 @@ import { fetchPollenLevels, fetchFluLevels, fetchAirQualityLevels } from './env/
 
 
 const mapStateToProps = state => {
-  return {
-  }
 }
 
 const mapDispatchToProps = dispatch => {
