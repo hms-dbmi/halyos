@@ -16,6 +16,19 @@ const margin2 = {
   top: 160, right: 0, bottom: 0, left: 40
 };
 
+const augmentPastGraphNode = (presentDate, measurementPastDate) => (
+  function augmentPastGraphNodeClb(d) {
+    const point = d3.select(this);
+    if (d.x === presentDate) {
+      point.attr('class', 'last-point past-graph-node');
+    } else if (d.x.getTime() === measurementPastDate.getTime()) {
+      point.attr('class', 'past-point past-graph-node');
+    } else {
+      point.attr('class', 'other-points past-graph-node');
+    }
+  }
+);
+
 class PastGraph extends React.Component {
   constructor(props) {
     super(props);
@@ -88,12 +101,12 @@ class PastGraph extends React.Component {
     this.x2 = d3.scaleTime().range([0, WIDTH]);
     this.y = d3.scaleLinear().range([HEIGHT, 0]);
     this.y2 = d3.scaleLinear().range([HEIGHT2, 0]);
-    let yMin, yMax;
-    if(this.props.referenceRange) {
+    let yMin;
+    let yMax;
+    if (this.props.referenceRange) {
       yMax = Math.max(d3.max(this.props.data, d => d.y), this.props.referenceRange[1]);
       yMin = Math.min(d3.min(this.props.data, d => d.y), this.props.referenceRange[0]);
-    }
-    else {
+    } else {
       yMax = d3.max(this.props.data, d => d.y);
       yMin = d3.min(this.props.data, d => d.y);
     }
@@ -107,8 +120,8 @@ class PastGraph extends React.Component {
       stepSize = yMax / 11;
     }
     let tick = 0;
-    while (tick < yMaxPadded*0.9) {
-      if(tick >= yMinPadded) {
+    while (tick < yMaxPadded * 0.9) {
+      if (tick >= yMinPadded) {
         tickArray.push(tick);
       }
       tick += stepSize;
@@ -205,22 +218,14 @@ class PastGraph extends React.Component {
     const presentDate = this.props.data[0].x;
     // add scatter points
     const measurementPastDate = new Date(this.props.pastDateMeasurement);
-    this.focusGraph.selectAll('past-graph-node')
+    console.log('GEIL', this.focusGraph.selectAll('.past-graph-node'));
+    this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
-      .each((d) => {
-        const point = d3.select(this);
-        if (d.x === presentDate) {
-          point.attr('class', 'last-point past-graph-node');
-        } else if (d.x.getTime() === measurementPastDate.getTime()) {
-          point.attr('class', 'past-point past-graph-node');
-        } else {
-          point.attr('class', 'other-points past-graph-node');
-        }
-      });
+      .each(augmentPastGraphNode(presentDate, measurementPastDate));
 
     if (this.props.referenceRange) {
       const minRef = [
@@ -403,16 +408,7 @@ class PastGraph extends React.Component {
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
-      .each((d) => {
-        const point = d3.select(this);
-        if (d.x === presentDate) {
-          point.attr('class', 'last-point past-graph-node');
-        } else if (d.x.getTime() === measurementPastDate.getTime()) {
-          point.attr('class', 'past-point past-graph-node');
-        } else {
-          point.attr('class', 'other-points past-graph-node');
-        }
-      });
+      .each(augmentPastGraphNode(presentDate, measurementPastDate));
   }
 
   brushed() {
@@ -474,12 +470,14 @@ PastGraph.propTypes = {
   data: PropTypes.instanceOf(Object),
   futureMin: PropTypes.number,
   futureMax: PropTypes.number,
+  present: PropTypes.number,
   futureValue: PropTypes.number,
   futureChangeHandler: PropTypes.func,
   pastDate: PropTypes.instanceOf(Object),
   activeMeasureHandler: PropTypes.func,
   code: PropTypes.string,
   pastDateMeasurement: PropTypes.string,
+  referenceRange: PropTypes.array,
 };
 
 export default PastGraph;
