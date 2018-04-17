@@ -57,23 +57,16 @@ class PastGraph extends React.Component {
   }
 
   render() {
-    function setPresent() {
-      const newFutureValue = this.props.present;
-      const newCy = this.y(newFutureValue);
-      this.props.futureChangeHandler(newFutureValue);
-      this.futureNode.attr('cy', newCy);
-      this.futureNode.attr('class', 'graph-future-node-unchanged');
-      this.futureNodeSelection.attr('cy', newCy);
-      this.presentFutureLine.attr('y2', newCy);
-    }
-
     return (
-      <div>
+      <div className="past-graph">
         <div
-          className="past-graph"
           ref={(elem) => { this.baseEl = elem; }}
         />
-        <button type="button" onClick={setPresent.bind(this)}> Reset to present value </button>
+        <button
+          className="reset-btn"
+          onClick={this.setPresent.bind(this)}>
+          Reset
+        </button>
       </div>
     );
   }
@@ -439,6 +432,16 @@ class PastGraph extends React.Component {
         .scale(WIDTH / (s[1] - s[0]))
         .translate(-s[0], 0)
     );
+  }
+
+  setPresent() {
+    const newFutureValue = this.props.present;
+    const newCy = this.y(newFutureValue);
+    this.props.futureChangeHandler(newFutureValue);
+    this.futureNode.attr('cy', newCy);
+    this.futureNode.attr('class', 'graph-future-node-unchanged');
+    this.futureNodeSelection.attr('cy', newCy);
+    this.presentFutureLine.attr('y2', newCy);
   }
 
   zoomed() {
