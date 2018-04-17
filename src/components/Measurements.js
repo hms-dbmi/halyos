@@ -99,7 +99,6 @@ class Measurements extends React.Component {
   }
 
   render() {
-    console.log("measurments in mea", this.props.measurements);
     const pastDate = moment(this.props.pastDate || undefined);
     const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';
     let searchClass = 'search flex-c flex-v-center';

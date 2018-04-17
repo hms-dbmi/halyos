@@ -10,46 +10,68 @@ import Button from './Button';
 // Styles
 import './Environment.css';
 
-const Environment = props => (
-  <div className="environment full-wh flex-c flex-col">
-    <header className="dashboard-panel-headline flex-c flex-align-sb">
-      <h3>Environment</h3>
-      {props.isExpanded && (
-        <Button
-          icon="cross"
-          iconOnly={true}
-          onClick={() => props.expand(true)}
-        />
-      )}
-    </header>
-    <main className="flex-c flex-col flex-g-1 r">
-      <div className="environment-tile-wrapper flex-g-1 r">
-        <PollenContainer
-          expand={props.expand}
-          isCollapsed={props.isCollapsed}
-          isExpanded={props.isExpanded}
-          location={props.ptLoc}
-        />
+class Environment extends React.Component {
+  constructor(props) {
+    super(props);
+    //by the time that we create the Env tile, if the ptLoc data has already been pulled, then we don't do it again below
+    if(this.props.ptLoc){
+      console.log("nextProps", this.props.ptLoc);
+      this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    // we make the call for the environmental factors here
+    if(!this.props.ptLoc && this.props.ptLoc.latitude != nextProps.ptLoc.latitude && this.props.ptLoc.longitude != nextProps.ptLoc.longitiude){
+    }
+
+  }
+
+
+  render(){
+
+    return (
+      <div className="environment full-wh flex-c flex-col">
+        <header className="dashboard-panel-headline flex-c flex-align-sb">
+          <h3>Environment</h3>
+          {this.props.isExpanded && (
+            <Button
+              icon="cross"
+              iconOnly={true}
+              onClick={() => this.props.expand(true)}
+            />
+          )}
+        </header>
+        <main className="flex-c flex-col flex-g-1 r">
+          <div className="environment-tile-wrapper flex-g-1 r">
+            <PollenContainer
+              expand={this.props.expand}
+              isCollapsed={this.props.isCollapsed}
+              isExpanded={this.props.isExpanded}
+              location={this.props.ptLoc}
+            />
+          </div>
+          <div className="environment-tile-wrapper flex-g-1 r">
+            <AirQualityContainer
+              expand={this.props.expand}
+              isCollapsed={this.props.isCollapsed}
+              isExpanded={this.props.isExpanded}
+              location={this.props.ptLoc}
+            />
+          </div>
+          <div className="environment-tile-wrapper flex-g-1 r">
+            <Flu
+              expand={this.props.expand}
+              isCollapsed={this.props.isCollapsed}
+              isExpanded={this.props.isExpanded}
+              location={this.props.ptLoc}
+            />
+          </div>
+        </main>
       </div>
-      <div className="environment-tile-wrapper flex-g-1 r">
-        <AirQualityContainer
-          expand={props.expand}
-          isCollapsed={props.isCollapsed}
-          isExpanded={props.isExpanded}
-          location={props.ptLoc}
-        />
-      </div>
-      <div className="environment-tile-wrapper flex-g-1 r">
-        <Flu
-          expand={props.expand}
-          isCollapsed={props.isCollapsed}
-          isExpanded={props.isExpanded}
-          location={props.ptLoc}
-        />
-      </div>
-    </main>
-  </div>
-);
+    );
+  }
+}
 
 Environment.propTypes = {
   expand: PropTypes.func,

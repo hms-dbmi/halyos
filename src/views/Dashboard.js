@@ -5,7 +5,7 @@ import React from 'react';
 import MeasurementsContainer from '../components/MeasurementsContainer';
 import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
-import Environment from '../components/Environment';
+import EnvironmentContainer from '../components/EnvironmentContainer';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
 
@@ -91,7 +91,7 @@ class Dashboard extends React.Component {
           }
         }
       }
-    }
+    }    
 
 
   }
@@ -421,7 +421,7 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.envEl = el; }}
             >
-              <Environment
+              <EnvironmentContainer
                 expand={this.expandEnv.bind(this)}
                 isCollapsed={this.state.envIsCollapsed}
                 isExpanded={this.state.envIsExpanded}

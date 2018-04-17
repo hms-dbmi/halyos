@@ -15,16 +15,16 @@ const CATEGORIES = {
 
 class PollenLevel extends React.Component {
   componentDidMount() {
-    this.props.getPollenLevels('60564');
   }
 
   render() {
+    console.log("pollen levels", this.props.pollen);
     let avgLevel;
     let listItems = [];
     let icon = 'pollen';
 
     if (!this.props.isFetchingPollenData && this.props.pollen) {
-      const allergyMeasures = this.props.pollen.DailyForecasts[0].AirAndPollen
+      const allergyMeasures = this.props.pollen
         .filter(item => (item.Name !== 'UVIndex' && item.Name !== 'AirQuality'));
 
       const counter = allergyMeasures
@@ -91,7 +91,7 @@ PollenLevel.propTypes = {
   isCollapsed: PropTypes.bool,
   isExpanded: PropTypes.bool,
   isFetchingPollenData: PropTypes.bool,
-  pollen: PropTypes.object,
+  pollen: PropTypes.array,
 };
 
 export default PollenLevel;

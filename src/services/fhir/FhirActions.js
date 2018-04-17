@@ -181,8 +181,6 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
           else {
             return Promise.resolve();
           }
-        console.log('what is the datadict223', dataDict);
-
         dispatch(receiveMostRecentObsByCode(patientID, code, dataDict));
         } 
       );
@@ -278,8 +276,6 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
               dataDict['measurements'] = dataList;
             }
           }
-                  console.log('what is the datadict', dataDict);
-
         dispatch(receiveAllObsByCode(patientID, code, dataDict));
         } 
       );

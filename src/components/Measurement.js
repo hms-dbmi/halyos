@@ -104,10 +104,6 @@ class Measurement extends React.Component {
   }
 
   render() {
-    console.log("this.props.past: ", this.props.graphData[1])
-    console.log("this.props.present: ", this.props.graphData[0])
-    console.log("graph: ", this.props.graphData)
-    console.log("data: ", this.props.code)
     let sliderValue;
 
     if (

@@ -1,3 +1,5 @@
+/**
+
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -90,4 +92,31 @@ class Flu extends Component {
 }
 
 export default Flu;
+
+**/
+
+import { connect } from 'react-redux';
+import Flu from './Flu';
+import { fetchFluLevels } from './EnvActions';
+
+const mapStateToProps = state => {
+  return {
+    fluLevels:state.envFactorsData.pollenLevels,
+    isFetchingPollenData:state.envFactorsData.isFetchingPollenData
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPollenLevels: (zip_code) => dispatch(fetchAirQualityLevels(zip_code))
+  };
+};
+
+const PollenContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PollenLevel);
+
+export default PollenContainer;
+
 
