@@ -34,13 +34,16 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
-    this.props.addPresentMeasurement(this.props.code, this.props.present);
-    if (
-      !this.props.futureMeasurements ||
-      !this.props.futureMeasurements[this.props.code]
-    ) {
-      this.props.addFutureMeasurement(this.props.code, this.props.present);
-    }
+    // This is bad practice and causes the lifecycle error in react. Since all
+    // of the following calls does not depend on this component it should be
+    // handles elsewhere, i.e., `Measurements.js` or even `Dashboard.js`.
+    // this.props.addPresentMeasurement(this.props.code, this.props.present);
+    // if (
+    //   !this.props.futureMeasurements ||
+    //   !this.props.futureMeasurements[this.props.code]
+    // ) {
+    //   this.props.addFutureMeasurement(this.props.code, this.props.present);
+    // }
   }
 
   showDetails() {
