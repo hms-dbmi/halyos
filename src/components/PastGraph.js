@@ -449,9 +449,11 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
-    // this.focus.selectAll('.last-point')
-    //   .attr('cx', d => this.x(d.x))
-    //   .attr('cy', d => this.y(d.y));
+    this.focus.select('.graph-past-bar-point-line')
+      .attr('x1', this.x(this.pastDateAreaPointLine.x1))
+      .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+      .attr('x2', this.x(this.pastDateAreaPointLine.x2))
+      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-zoom').call(
