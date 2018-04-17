@@ -18,11 +18,11 @@ class PollenLevel extends React.Component {
   }
 
   render() {
-    console.log("pollen levels", this.props.pollen);
     let avgLevel;
     let listItems = [];
     let icon = 'pollen';
 
+    // console.log("this.props.pollen", this.props.pollen);
     if (!this.props.isFetchingPollenData && this.props.pollen) {
       const allergyMeasures = this.props.pollen
         .filter(item => (item.Name !== 'UVIndex' && item.Name !== 'AirQuality'));

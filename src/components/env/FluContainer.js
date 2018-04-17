@@ -101,22 +101,15 @@ import { fetchFluLevels } from './EnvActions';
 
 const mapStateToProps = state => {
   return {
-    fluLevels:state.envFactorsData.pollenLevels,
-    isFetchingPollenData:state.envFactorsData.isFetchingPollenData
+    closestFluMarker:state.envFactorsData.closestFluMarker,
+    isFetchingFluData:state.envFactorsData.isFetchingFluData
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getPollenLevels: (zip_code) => dispatch(fetchAirQualityLevels(zip_code))
-  };
-};
-
-const PollenContainer = connect(
+const FluContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(PollenLevel);
+)(Flu);
 
-export default PollenContainer;
+export default FluContainer;
 
 

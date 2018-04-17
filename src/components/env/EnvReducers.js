@@ -17,7 +17,15 @@ export function envFactorsData(state = {}, action){
       case FETCH_AIQ_REQUEST:
       case FETCH_AIQ_SUCCESS:
       case FETCH_FLU_REQUEST:
+        return Object.assign({}, state, {
+        isFetchingFluData: true,
+        })
       case FETCH_FLU_SUCCESS:
+        return Object.assign({}, state, {
+            isFetchingFluData: false,
+            closestFluMarker: action.fluMarkers,
+            lastUpdated: action.receivedAt
+          })
 	    default:
 	      return state
 	}
