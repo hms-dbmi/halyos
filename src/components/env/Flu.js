@@ -14,40 +14,11 @@ const fluLevels = [
 ]
 
 class Flu extends React.Component {
-  componentDidMount() {
-
-    var leastDistanceAway = Number.POSITIVE_INFINITY;
-    var closestPoint;
-
-    if(this.props.fluMarkers){
-
-      // console.log("closestPoint2", closestPoint); 
-      // this.setState({fluOccurrences:closestPoint.flu});
-
-    }
-
-
-  }
-
-  componentWillReceiveProps(nextProps){
-  }
-
   render() {
 
-    var currentFluLevel = [0,
-      "N/A",
-      "N/A",
-      "Loading..."]
+    var currentFluLevel = [0, "...", "...", "Loading..."];
 
     if (this.props.closestFluMarker){
-      // const fluLevels = [
-      //   [3,"Low", "#006ba4","There are a few cases of flu in your area. You might not need the seasonal vaccine, but if it is flu season, check with your healthcare provider."],
-      //   [5,"Moderate","#FFFF00","There are a considerable number of cases of the flu in your area, gettting the seasonal vaccine is recommended."],
-      //   [10,"High","","There are many cases of flu in your area, get your seasonal flu vaccine ASAP!"],
-      // ]
-
-      console.log("flue markers", this.props.closestFluMarker);
-
       for (let val of fluLevels){
         if (this.props.closestFluMarker.flu < parseInt(val[0])){
           currentFluLevel = val;
@@ -62,8 +33,7 @@ class Flu extends React.Component {
         expand={this.props.expand}
         isCollapsed={this.props.isCollapsed}
         isExpanded={this.props.isExpanded}
-        level={"Low"}
-        /*level={props.level}*/
+        level={currentFluLevel[1]}
       >
         <div>
           <h5>Mentions of Flu Symptoms Near You</h5>
