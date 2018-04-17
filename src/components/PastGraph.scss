@@ -79,6 +79,14 @@
   fill: $past;
 }
 
+.focus .past-point {
+  r: 7;
+}
+
+.context .past-point {
+  r: 5;
+}
+
 .last-point,
 .last-point-overview {
   fill: $present;
@@ -123,7 +131,13 @@
 .graph-present-future-line {
   stroke: $gray;
   stroke-width: 1px;
-  stroke-dasharray: 10, 5;
+  stroke-dasharray: 5, 3;
+}
+
+.graph-past-bar-point-line {
+  stroke: $past;
+  stroke-width: 3px;
+  stroke-dasharray: 3, 2;
 }
 
 .graph-future-slider-bar {

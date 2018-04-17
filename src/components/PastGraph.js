@@ -161,7 +161,7 @@ class PastGraph extends React.Component {
     this.pastDateArea = d3.area()
       .x(d => this.x(d.x))
       .y0(0)
-      .y1(() => HEIGHT);
+      .y1(HEIGHT);
 
     this.pastDateAreaOverview = d3.area()
       .x(d => this.x2(d.x))
@@ -214,13 +214,19 @@ class PastGraph extends React.Component {
     const presentDate = this.props.data[0].x;
     // add scatter points
     const measurementPastDate = new Date(this.props.pastDateMeasurement);
+    const pastDateVal = this.props.data
+      .find(meas => meas.x.getTime() === measurementPastDate.getTime());
+    const graphFindPastNode = augmentPastGraphNode(
+      presentDate, measurementPastDate
+    );
+
     this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
-      .each(augmentPastGraphNode(presentDate, measurementPastDate));
+      .each(graphFindPastNode);
 
     if (this.props.referenceRange) {
       const minRef = [
@@ -248,7 +254,8 @@ class PastGraph extends React.Component {
       .attr('r', 3)
       .attr('cx', d => this.x2(d.x))
       .attr('cy', d => this.y2(d.y))
-      .attr('class', 'past-graph-node-overview');
+      .attr('class', 'past-graph-node-overview')
+      .each(graphFindPastNode);
 
     this.context.append('g')
       .attr('class', 'past-graph-brush')
@@ -278,10 +285,24 @@ class PastGraph extends React.Component {
       y: HEIGHT2
     }];
 
+    this.pastDateAreaPointLine = {
+      x1: pastDateData[0].x,
+      y1: pastDateVal.y,
+      x2: pastDateVal.x,
+      y2: pastDateVal.y,
+    };
+
     this.focus.append('path')
       .datum(pastDateData)
       .attr('d', this.pastDateArea)
       .attr('class', 'past-graph-date-v-bar');
+
+    this.focus.append('line')
+      .attr('class', 'graph-past-bar-point-line')
+      .attr('x1', this.x(pastDateData[0].x))
+      .attr('y1', this.y(pastDateVal.y))
+      .attr('x2', this.x(pastDateVal.x))
+      .attr('y2', this.y(pastDateVal.y));
 
     this.context.append('path')
       .datum(pastDateDataContext)
@@ -461,9 +482,12 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
-    // this.focus.selectAll('.last-point')
-    //   .attr('cx', d => this.x(d.x))
-    //   .attr('cy', d => this.y(d.y));
+
+    this.focus.select('.graph-past-bar-point-line')
+      .attr('x1', this.x(this.pastDateAreaPointLine.x1))
+      .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+      .attr('x2', this.x(this.pastDateAreaPointLine.x2))
+      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(
