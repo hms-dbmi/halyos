@@ -42,13 +42,11 @@ class Dashboard extends React.Component {
   componentDidMount() {
     this.props.getPatientDemographics(getPatID());
 
-    //for reynolds risk score
+    // for reynolds risk score
     this.props.getMostRecentObsByCode(getPatID(), '30522-7');
     this.props.getMostRecentObsByCode(getPatID(), '2093-3');
     this.props.getMostRecentObsByCode(getPatID(), '2085-9');
     this.props.getMostRecentObsByCode(getPatID(), '55284-4');
-
-
   }
 
   /* **************************** Custom Methods **************************** */
@@ -346,7 +344,7 @@ class Dashboard extends React.Component {
                 measurements={sortMeasurements(this.props.observations)}
                 risk={this.state.riskIsExpanded}
                 currMeasure={this.state.currMeasure}
-                />
+              />
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>

@@ -30,7 +30,7 @@ class RiskTile extends React.Component {
       futScore: parseInt(this.props.futureScore, 10),
       futBad: 0,
       futGood: 0
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,30 +38,30 @@ class RiskTile extends React.Component {
       pastScore: parseInt(nextProps.pastScore, 10),
       currScore: parseInt(nextProps.score, 10),
       futScore: parseInt(nextProps.futureScore, 10)
-    })
-    if(parseInt(nextProps.pastScore, 10) > parseInt(nextProps.score, 10)) {
+    });
+    if (parseInt(nextProps.pastScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
         pastScore: parseInt(nextProps.score, 10),
         pastGood: parseInt(nextProps.pastScore, 10) - parseInt(nextProps.score, 10),
         pastBad: 0
-      })
+      });
     } else {
       this.setState({
         pastBad: parseInt(nextProps.score, 10) - parseInt(nextProps.pastScore, 10),
         pastGood: 0
-      })
+      });
     }
-    if(parseInt(nextProps.futureScore, 10) > parseInt(nextProps.score, 10)) {
+    if (parseInt(nextProps.futureScore, 10) > parseInt(nextProps.score, 10)) {
       this.setState({
         futScore: parseInt(nextProps.score, 10),
         futGood: parseInt(nextProps.futureScore, 10) - parseInt(nextProps.score, 10),
         futBad: 0
-      })
+      });
     } else {
       this.setState({
         futBad: parseInt(nextProps.score, 10) - parseInt(nextProps.futureScore, 10),
         futGood: 0
-      })
+      });
     }
   }
 
@@ -158,10 +158,10 @@ class RiskTile extends React.Component {
          {/* <div className="risk-tile-context-bar" style={getLength(this.props.context, this.props.contextMax)}></div>*/}
         </div>
       }
-      </div>)
+      </div>
+    );
   }
-
-};
+}
 
 RiskTile.propTypes = {
   expand: PropTypes.func,
