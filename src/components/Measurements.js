@@ -182,7 +182,6 @@ class Measurements extends React.Component {
               </div>
             </div>
             {this.state.measurements.filter((item) => {
-              console.log(item)
                 if (this.props.risk) {
                   if (deepContains(measuresForRisks[this.props.risk],item.code)) {
                     return true;
