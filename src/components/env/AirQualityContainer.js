@@ -1,23 +1,15 @@
 import { connect } from 'react-redux';
-import PollenLevel from './PollenLevel';
-import { fetchAirQualityLevels } from './EnvActions';
+import AirQuality from './AirQuality';
 
 const mapStateToProps = state => {
   return {
-    pollen:state.envFactorsData.pollenLevels,
-    isFetchingPollenData:state.envFactorsData.isFetchingPollenData
+    aiq:state.envFactorsData.aiqLevels,
+    isFetchingAIQData:state.envFactorsData.isFetchingAIQData
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getPollenLevels: (zip_code) => dispatch(fetchAirQualityLevels(zip_code))
-  };
-};
-
-const PollenContainer = connect(
+const AirQualityContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(PollenLevel);
+)(AirQuality);
 
-export default PollenContainer;
+export default AirQualityContainer;

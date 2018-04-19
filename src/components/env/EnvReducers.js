@@ -6,19 +6,35 @@ export function envFactorsData(state = {}, action){
 	switch (action.type){
 		case FETCH_POLLEN_REQUEST:
 			return Object.assign({}, state, {
-		        isFetchingPollenData: true,
-		      })
-	    case FETCH_POLLEN_SUCCESS:
-	    	return Object.assign({}, state, {
-		        isFetchingPollenData: false,
-		        pollenLevels: action.pollenLevels,
-		        lastUpdated: action.receivedAt
-		      })
-      case FETCH_AIQ_REQUEST:
-      case FETCH_AIQ_SUCCESS:
-      case FETCH_FLU_REQUEST:
-      case FETCH_FLU_SUCCESS:
-	    default:
-	      return state
+        isFetchingPollenData: true,
+      })
+    case FETCH_POLLEN_SUCCESS:
+    	return Object.assign({}, state, {
+        isFetchingPollenData: false,
+        pollenLevels: action.pollenLevels,
+        lastUpdated: action.receivedAt
+      })
+    case FETCH_AIQ_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingAIQData: true,
+      })
+    case FETCH_AIQ_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingAIQData: false,
+        aiqLevels: action.aiqLevels,
+        lastUpdated: action.receivedAt
+      })
+    case FETCH_FLU_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingFluData: true,
+      })
+    case FETCH_FLU_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingFluData: false,
+        closestFluMarker: action.fluMarkers,
+        lastUpdated: action.receivedAt
+      })
+    default:
+      return state
 	}
 }

@@ -17,36 +17,59 @@ import {airQualityLocal} from '../../data/fhirData';
 // }
 
 const AQI_LEVELS = [
-  [50, 'Good', '#00FF00', 'Air quality is considered satisfactory,  and air pollution poses little or no risk.'],
-  [100, 'Moderate', '#FFFF00', 'Air quality is acceptable; however,  for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.'],
-  [150, 'Unhealthy for Sensitive Groups', '#FFA500', 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.'],
-  [200, 'Unhealthy', '#FF0000', 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.'],
-  [300, 'Very unhealthy', '#800080', 'Health alert: everyone may experience more serious health effects.'],
-  [500, 'Hazardous', '#800000', 'Health warnings of emergency conditions. The entire population is more likely to be affected.'],
+  [50, 'Good', '#00FF00', 'Air quality is satisfactory and poses little or no health risk. Ventilating your home is recommended.'],
+  [100, 'Moderate', '#FFFF00', 'Air quality is acceptable and poses little health risk. Sensitive groups may experience mild adverse effects and should limit prolonged outdoor exposure.'],
+  [150, 'Unhealthy for Sensitive Groups', '#FFA500', 'Air quality poses increased likelihood of respiratory symptoms in sensitive individuals while the general public might only feel slight irritation. Both groups should reduce their outdoor activity. '],
+  [200, 'Unhealthy', '#FF0000', 'Air quality is deemed unhealthy and may cause increased aggravation of the heart and lungs. Sensitive groups are at high risk to experience adverse health effects of air pollution.'],
+  [300, 'Very Unhealthy', '#800080', 'Air quality is deemed unhealthy and may cause increased aggravation of the heart and lungs. Sensitive groups are at high risk to experience adverse health effects of air pollution. '],
+  [500, 'Hazardous', '#800000', 'Air quality is deemed toxic and poses serious risk to the heart and lungs. Everyone should avoid all outdoor exertion.'],
 ];
 
-const AirQuality = props => (
-  <EnvironmentTile
-    name="Air Quality"
-    expand={props.expand}
-    icon="air"
-    isCollapsed={props.isCollapsed}
-    isExpanded={props.isExpanded}
-    level={"Good"}
-    /*level={props.airQuality}*/
-  >
-    <div>
-      <h5>Air Quality (AQI) Near You</h5>
-      <div>
-        Main Pollutant: {airQualityLocal.data.current.pollution.mainus}
-        <br/> <br/>
-        Air Quality Level: <br/>
-          {/*{props.airQualityExplanation}*/}
-          The air quality index is {airQualityLocal.data.current.pollution.aqius}. This means air quality is considered satisfactory, and air pollution poses little or no risk.
-      </div>
-    </div>
-  </EnvironmentTile>
-);
+class AirQuality extends React.Component {
+  render(){
+
+    var currentAIQLevel = [0, "...", "...", "Loading..."];
+
+    if (this.props.aiq){
+      for (let level of AQI_LEVELS){
+        if(this.props.aiq.current.pollution.aqius > 300){
+          currentAIQLevel = AQI_LEVELS[AQI_LEVELS.length - 1];
+          break;
+        }
+        if (this.props.aiq.current.pollution.aqius < parseInt(level[0])) {
+          currentAIQLevel = level;
+          break;
+        }
+      }
+    }
+    return (
+      <EnvironmentTile
+        name="Air Quality"
+        expand={this.props.expand}
+        icon="air"
+        isCollapsed={this.props.isCollapsed}
+        isExpanded={this.props.isExpanded}
+        level={currentAIQLevel[1]}
+      >
+        <div>
+          <h5>Air Quality (AQI) Near You</h5>
+          <div>
+            {this.props.aiq ? (
+              <p>Main Pollutant: {this.props.aiq.current.pollution.mainus}</p>
+            ) : "..." }
+            {this.props.aiq ? (
+              <p>Air Quality Level: {this.props.aiq.current.pollution.aqius} {'\u03BC'}g/m3.</p>
+            ) : "..." }
+            {this.props.aiq ? (
+              <p>{currentAIQLevel[3]}</p>
+            ) : "..." }
+          </div>
+        </div>
+      </EnvironmentTile>
+    );
+  }
+}
+
 
 AirQuality.propTypes = {
   airQuality: PropTypes.string,

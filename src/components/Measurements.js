@@ -19,19 +19,40 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
+//utils
+import deepContains from '../utils/deep-contains';
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements: this.props.measurements.sort((item) => {
-        if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
-          return -1;
+// <<<<<<< HEAD
+      measurements:[],
+    };
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+        measurements: nextProps.measurements.sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (deepContains(measuresForRisks[key],(item.code))) {
+            return -1;
+          }
+
+// =======
+      // measurements: this.props.measurements.sort((item) => {
+      //   if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+      //     return -1;
+// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
-    };
+    });
   }
 
   filterList(query) {
@@ -41,8 +62,18 @@ class Measurements extends React.Component {
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
-        if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
-          return -1;
+// <<<<<<< HEAD
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (deepContains(measuresForRisks[key],item.code)) {
+            return -1;
+          }
+// =======
+        // if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+        //   return -1;
+// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
@@ -164,7 +195,7 @@ class Measurements extends React.Component {
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
-                  if (measuresForRisks[this.props.risk].includes(item.code)) {
+                  if (deepContains(measuresForRisks[this.props.risk],item.code)) {
                     return true;
                   }
                   return false;
@@ -179,7 +210,7 @@ class Measurements extends React.Component {
                 key={index}
                 isExpanded={this.props.isExpanded}
                 expandAbout={this.props.expandAbout}
-                unit={item.measurements[0].units}
+                unit={item.measurements[0].unit}
                 past={item.measurements[1] && item.measurements[1].value}
                 present={item.measurements[0].value}
                 pastDate={item.measurements[1] && item.measurements[1].date}
