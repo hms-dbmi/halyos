@@ -8,12 +8,14 @@ const mapStateToProps = (state, ownProps) => ({
   //patient: state.fhirPatientData.ptData,
   patient: ownProps.patient[0].resource,
   mostRecentObs: state.fhirObservationData.mostRecentMeasurements,
-  external: state.externalState
+  external: state.externalState,
+  futureMeasurements: state.measurementState.futureMeasurements,
+  presentMeasurements: state.measurementState.presentMeasurements,
 });
 
 const mapDispatchToProps = dispatch => ({
   getPatientDemographics: patientId => dispatch(fetchAllPatientDataIfNeeded(patientId)),
-  getMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code))
+  getMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code)),
 });
 
 const DashboardContainer = connect(

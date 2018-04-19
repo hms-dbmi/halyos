@@ -171,8 +171,8 @@ class Measurements extends React.Component {
                 }
                 return true;
               }
-            ).map((item, index) => (
-              <MeasurementContainer
+            ).map((item, index) => {
+              return <MeasurementContainer
                 code={item.code}
                 userPastDate={pastDate}
                 name={item.name}
@@ -189,7 +189,7 @@ class Measurements extends React.Component {
                 currMeasure={this.props.currMeasure}
                 absWidth={this.props.absWidth}
               />
-            ))}
+            })}
           </main>
         {this.state.isDatePickerShown && (
           <DatePicker
