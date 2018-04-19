@@ -9,15 +9,8 @@ const mapStateToProps = state => {
 	}
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getPollenLevels: (zip_code) => dispatch(fetchPollenLevels(zip_code))
-  };
-};
-
 const PollenContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
 )(PollenLevel);
 
 export default PollenContainer;

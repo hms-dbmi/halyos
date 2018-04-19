@@ -3,6 +3,7 @@ import RiskTile from './RiskTile';
 
 //Measurements for Risk Tile
 import measuresForRisk from '../texts/measurementsForRiskScores';
+import deepContains from '../utils/deep-contains';
 
 const mapStateToProps = (state, ownProps) => ({
   futureMeasurements: state.measurementState.futureMeasurements,
@@ -28,7 +29,7 @@ const mapStateToProps = (state, ownProps) => ({
     state.externalState.smoking[0],
     state.externalState.heartfamhist
     ),
-  activeMeasure: measuresForRisk[ownProps.name].includes(state.measurementState.activeMeasure),
+  activeMeasure: deepContains(measuresForRisk[ownProps.name],state.measurementState.activeMeasure),
 });
 
 const RiskTileContainer = connect(

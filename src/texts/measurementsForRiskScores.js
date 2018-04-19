@@ -3,7 +3,7 @@ export default {
 		'30522-7', // hsCRP
      	'2093-3', // cholesterol
      	'2085-9', // HDL
-     	'8480-6' // sysBP
+     	['55284-4', '8480-6'] // BP & sysBP
      ],
 	'Stroke': [],
 	'Kidney Failure': [
@@ -11,7 +11,7 @@ export default {
 		"14958-3", "14959-1" //uac
 	],
 	'COPD Mortality': [
-        '8480-6', //sysBP
+        ['55284-4', '8480-6'], // BP & sysBP
         '8462-4', //diasBP
         '6299-2', //bun
         '9279-1' //rr

@@ -5,19 +5,21 @@ import React from 'react';
 import MeasurementsContainer from '../components/MeasurementsContainer';
 import MeasurementAbout from '../components/MeasurementAbout';
 import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
-import Environment from '../components/Environment';
+import EnvironmentContainer from '../components/EnvironmentContainer';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
 
 // Services
-import { getPatID } from '../services/smart_setup';
+import { getPatID, getInsecureURL } from '../services/smart_setup';
 import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
 import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
 import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
 import { COPDScore, futureCOPD, pastCOPDScore } from '../services/RiskCalculators/COPD';
 import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCalculators/get_diabetes';
-import { sortMeasurements } from '../services/general_utils';
 
+import measuresForRisks from '../texts/measurementsForRiskScores';
+
+import { sortMeasurements } from '../services/general_utils';
 // Styles
 import './Dashboard.css';
 
@@ -43,13 +45,98 @@ class Dashboard extends React.Component {
   /* ************************** Life Cycle Methods ************************** */
 
   componentDidMount() {
+    // var mkFhir = require('fhir.js');
+    
+    // var client = mkFhir({
+    //   baseUrl: getInsecureURL()
+    // });
+
+    // console.log("nextpage: ", client);
+
+    // var testExcludeList = ['30522-7', '20565-8', "6298-4"];
+    // // var queryDict = {'subject':getPatID().toString()}
+    // var excludeList = [];
+    // for(let code of testExcludeList) {
+    //   excludeList.push(code)
+    // }
+    // // var queryDictPiece = {'$and': [{'subject':getPatID().toString()},{code: {'$and': ['30522-7', '20565-8', "6298-4"]}}]}
+    // var queryDictPiece = {cofdde: {'$or': [JSON.stringify({'$not' :'30522-7'}), '20565-8', "6298-4"]}}
+
+    // console.log("queryDictPiece", JSON.stringify(queryDictPiece));
+
+    // client
+    //   .fetchAll({type: 'Observation', query: {'subdject':{$not: getPatID().toString()}}})
+    //   .then(function(res){
+    //     var bundle = res.data;
+    //     // var count = (bundle.entry && bundle.entry.length) || 0;
+    //     console.log("# Patients born in 1974: ", res);
+    //   })
+    //   .catch(function(res){
+    //     console.log("error res", res);
+    //     //Error responses
+    //     if (res.status){
+    //         console.log('Error1', res.status);
+    //     }
+
+    //     //Errors
+    //     if (res.message){
+    //         console.log('Error1', res.message);
+    //     }
+    //   });
+
+    this.props.getAllObs(getPatID());
+
+
     this.props.getPatientDemographics(getPatID());
 
-    // for reynolds risk score
-    this.props.getMostRecentObsByCode(getPatID(), '30522-7');
-    this.props.getMostRecentObsByCode(getPatID(), '2093-3');
-    this.props.getMostRecentObsByCode(getPatID(), '2085-9');
-    this.props.getMostRecentObsByCode(getPatID(), '55284-4');
+    let codeList = [];
+    let mostRecentMeaCodeList = [];
+
+    // first we pull the data of the measurements necessary to calculate current risk scores
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        continue;
+      }
+      let riskScore = key;
+      let riskScoreMeasures = measuresForRisks[key];
+      for(let measurement of riskScoreMeasures){
+        if(Array.isArray(measurement)){
+          if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
+            this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
+            mostRecentMeaCodeList.push(measurement[1]);
+          }
+        }
+        else {
+          if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
+            this.props.getMostRecentObsByCode(getPatID(), measurement);
+            mostRecentMeaCodeList.push(measurement);
+          }
+        }  
+      }
+    }
+
+    // next we pull all measurements required for the risk scores, so we can calculate previous risk scores.
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        continue;
+      }
+      let riskScore = key;
+      let riskScoreMeasures = measuresForRisks[key];
+      for(let measurement of riskScoreMeasures){
+        if(Array.isArray(measurement)){
+          if(!(codeList.indexOf(measurement[1]) > -1)){
+            this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
+            codeList.push(measurement[1]);
+          }
+        }
+        else {
+          if(!(codeList.indexOf(measurement) > -1)){
+            this.props.getAllObsByCode(getPatID(), measurement);
+            codeList.push(measurement);
+          }
+        }
+      }
+    }    
 
     window.addEventListener('resize', this.forceRerenderBound);
   }
@@ -118,6 +205,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
+    console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -362,8 +450,8 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-                measurements={sortMeasurements(this.props.observations)}
-                risk={this.state.riskIsExpanded}
+                measurements={this.props.allObs}
+                risk={this.state.riskIsExpanded} 
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}
               />
@@ -388,7 +476,7 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.envEl = el; }}
             >
-              <Environment
+              <EnvironmentContainer
                 expand={this.expandEnv.bind(this)}
                 isCollapsed={this.state.envIsCollapsed}
                 isExpanded={this.state.envIsExpanded}

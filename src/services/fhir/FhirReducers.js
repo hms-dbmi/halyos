@@ -1,24 +1,15 @@
-import { FETCH_OBSERVATIONS_REQUEST, FETCH_OBSERVATIONS_SUCCESS, FETCH_OBSERVATIONS_FAILURE  } from './FhirActions'
+import { FETCH_ALL_OBSERVATION_REQUEST, FETCH_ALL_OBSERVATION_SUCCESS} from './FhirActions'
 import { FETCH_PATIENT_REQUEST, FETCH_PATIENT_SUCCESS, FETCH_PATIENT_FAILURE } from './FhirActions'
 import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_RECENT_ENCOUNTER_FAILURE } from './FhirActions'
 import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } from './FhirActions'
+import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS } from './FhirActions';
 
-export function fhirObservationData(state = {}, action){
+const initialFhirState = {
+  "allMeasurements" : [],
+  "codeList" : []
+};
+export function fhirObservationData(state = initialFhirState, action){
 	switch (action.type){
-		case FETCH_OBSERVATIONS_REQUEST:
-			return Object.assign({}, state, {
-		        isFetchingAllObs: true,
-		  })
-    case FETCH_OBSERVATIONS_SUCCESS:
-    	return Object.assign({}, state, {
-	        isFetchingAllObs: false,
-	        obs: action.obs,
-	        lastUpdated: action.receivedAt
-      })
-    case FETCH_OBSERVATIONS_FAILURE:
-    	return Object.assign({}, state, {
-
-    	})
     case FETCH_RECENT_OBSERVATION_REQUEST:
       return {
         ...state,
@@ -33,6 +24,25 @@ export function fhirObservationData(state = {}, action){
           ...state.mostRecentMeasurements,
           [action.code]: action.recent_obs
         }
+      }
+    case FETCH_ALL_OBSERVATION_BY_CODE_REQUEST:
+      return {
+        ...state,
+        isFetchingAllMeasurement:true,
+      }
+    case FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS:
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        allMeasurements : [
+          ...state.allMeasurements,
+          action.all_obs_by_code
+        ],
+        codeList : [
+          ...state.codeList,
+          action.code
+        ]
       }
     default:
       return state
