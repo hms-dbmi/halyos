@@ -22,14 +22,14 @@ export default class RiskVisualization extends Component {
   }
 
   createViz() {
-    let code = '<svg width="100%" height="100%" viewBox="0 0 200 200"><g>';
+    var code = '<svg width="100%" height="100%" viewBox="0 0 200 200"><g>';
     let i = 0;
     for (; i < this.state.present; i++) {
       const cx = 10 + ((i % 10) * 20);
       const cy = 10 + (Math.floor(i / 10) * 20);
       code += `<circle cx="${cx}" cy="${cy}" r="7" stroke="black" stroke-width="0" fill="#656565" />`;
       if (i % 10 === 9) {
-        code = '</g>';
+        code += '</g>';
       }
     }
     for (; i < this.state.present + this.state.better; i++) {

@@ -21,11 +21,11 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  activeMeasure: (code) => dispatch(activeMeasure(code)),
+  fetchMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code)),
   addPresentMeasurement: (code, value) => dispatch(addPresentMeasurement(code, value)),
   addFutureMeasurement: (code, value) => dispatch(addFutureMeasurement(code, value)),
   addPastMeasurement: (code, value) => dispatch(addPastMeasurement(code, value)),
-  activeMeasure: (code) => dispatch(activeMeasure(code)),
-  fetchMostRecentObsByCode: (patientID, code) => dispatch(fetchMostRecentObsByCode(patientID, code))
 });
 
 const MeasurementContainer = connect(
