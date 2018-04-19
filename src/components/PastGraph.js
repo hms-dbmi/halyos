@@ -300,12 +300,12 @@ class PastGraph extends React.Component {
       .attr('d', this.pastDateArea)
       .attr('class', 'past-graph-date-v-bar');
 
-    this.focus.append('line')
-      .attr('class', 'graph-past-bar-point-line')
-      .attr('x1', this.x(pastDateData[0].x))
-      .attr('y1', this.y(pastDateVal.y))
-      .attr('x2', this.x(pastDateVal.x))
-      .attr('y2', this.y(pastDateVal.y));
+    // this.focus.append('line')
+    //   .attr('class', 'graph-past-bar-point-line')
+    //   .attr('x1', this.x(pastDateData[0].x))
+    //   .attr('y1', this.y(pastDateVal.y))
+    //   .attr('x2', this.x(pastDateVal.x))
+    //   .attr('y2', this.y(pastDateVal.y));
 
     this.context.append('path')
       .datum(pastDateDataContext)
@@ -492,11 +492,11 @@ class PastGraph extends React.Component {
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
 
-    this.focus.select('.graph-past-bar-point-line')
-      .attr('x1', this.x(this.pastDateAreaPointLine.x1))
-      .attr('y1', this.y(this.pastDateAreaPointLine.y1))
-      .attr('x2', this.x(this.pastDateAreaPointLine.x2))
-      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
+    // this.focus.select('.graph-past-bar-point-line')
+    //   .attr('x1', this.x(this.pastDateAreaPointLine.x1))
+    //   .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+    //   .attr('x2', this.x(this.pastDateAreaPointLine.x2))
+    //   .attr('y2', this.y(this.pastDateAreaPointLine.y2));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(
