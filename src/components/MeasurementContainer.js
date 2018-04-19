@@ -10,7 +10,7 @@ import {
   fetchMostRecentObsByCode,
 } from '../services/fhir/FhirActions';
 
-import {getNearestFlat} from '../services/general_utils';
+import { getNearestFlat } from '../services/general_utils';
 
 const mapStateToProps = (state, ownProps) => ({
   futureMeasurements: state.measurementState.futureMeasurements,

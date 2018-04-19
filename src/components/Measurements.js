@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 // Components
 import Icon from './Icon';
 import MeasurementContainer from './MeasurementContainer';
-import ExternalContainer from './ExternalContainer'
+import ExternalContainer from './ExternalContainer';
 // Actions
 import { setPastDate } from '../actions';
 
@@ -28,6 +28,7 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
+// <<<<<<< HEAD
       measurements:[],
     };
   }
@@ -43,19 +44,25 @@ class Measurements extends React.Component {
             return -1;
           }
 
+// =======
+      // measurements: this.props.measurements.sort((item) => {
+      //   if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+      //     return -1;
+// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
-    })
+    });
   }
 
   filterList(query) {
-    this.props.expandAbout(false)
+    this.props.expandAbout(false);
     this.setState({
       query,
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
+// <<<<<<< HEAD
         for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
@@ -63,6 +70,10 @@ class Measurements extends React.Component {
           if (deepContains(measuresForRisks[key],item.code)) {
             return -1;
           }
+// =======
+        // if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+        //   return -1;
+// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
@@ -99,7 +110,7 @@ class Measurements extends React.Component {
     let searchClass = 'search flex-c flex-v-center';
     let titleStyle = null;
     let searchStyle = null;
-    if(this.state.isSearchFocus) {
+    if (this.state.isSearchFocus) {
       const titleWidth = this.titleEl.getBoundingClientRect().width;
       const searchWidth = this.wurstEl.getBoundingClientRect().width;
       titleStyle = this.getPxLen('marginLeft', -titleWidth);
@@ -110,10 +121,10 @@ class Measurements extends React.Component {
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
-            <div className="flex-c flexc-v-center title-bar" ref={r => this.wurstEl = r}>
+            <div className="flex-c flexc-v-center title-bar" ref={(r) => { this.wurstEl = r; }}>
               <h3
                 className={titleClass}
-                ref={r => this.titleEl = r}
+                ref={(r) => { this.titleEl = r; }}
                 style={titleStyle}
               >Measurements</h3>
               <div
@@ -207,6 +218,7 @@ class Measurements extends React.Component {
                 graphData={item.measurements}
                 risk={this.props.risk}
                 currMeasure={this.props.currMeasure}
+                absWidth={this.props.absWidth}
               />
             ))}
           </main>
@@ -216,7 +228,7 @@ class Measurements extends React.Component {
             onChange={this.pastChangeHandler.bind(this)}
             onClickOutside={this.toggleDatePicker.bind(this)}
             monthsShown={1}
-            minDate={moment().subtract(80, "years")}
+            minDate={moment().subtract(80, 'years')}
             maxDate={moment()}
             fixedHeight
             withPortal
@@ -241,6 +253,10 @@ Measurements.propTypes = {
   measurements: PropTypes.array,
   pastDate: PropTypes.instanceOf(Date),
   setPastDate: PropTypes.func,
+  setTimePeriod: PropTypes.func,
+  currMeasure: PropTypes.string,
+  risk: PropTypes.string,
+  absWidth: PropTypes.number,
 };
 
 const mapStateToProps = state => ({

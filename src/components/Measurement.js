@@ -10,8 +10,8 @@ import PastGraph from './PastGraph';
 // Styles
 import './Measurement.css';
 
-//Reference Ranges
-import refRanges from '../texts/referenceRanges.js';
+// Reference Ranges
+import refRanges from '../texts/referenceRanges';
 // import { getPatID } from '../services/smart_setup';
 
 const getArrowDir = (past, present) => (past !== present
@@ -34,27 +34,30 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
-    this.props.addPresentMeasurement(this.props.code, this.props.present);
-    if (
-      !this.props.futureMeasurements ||
-      !this.props.futureMeasurements[this.props.code]
-    ) {
-      this.props.addFutureMeasurement(this.props.code, this.props.present);
-    }
+    // This is bad practice and causes the lifecycle error in react. Since all
+    // of the following calls does not depend on this component it should be
+    // handles elsewhere, i.e., `Measurements.js` or even `Dashboard.js`.
+    // this.props.addPresentMeasurement(this.props.code, this.props.present);
+    // if (
+    //   !this.props.futureMeasurements ||
+    //   !this.props.futureMeasurements[this.props.code]
+    // ) {
+    //   this.props.addFutureMeasurement(this.props.code, this.props.present);
+    // }
   }
 
   showDetails() {
-      if (this.props.risk) {
-        this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name)
-        this.setState({
-          isDetailsShown: !this.state.isDetailsShown
-        });
-      } else {
-        this.setState({
-          isDetailsShown: !this.state.isDetailsShown
-        });
-        this.props.expandAbout(this.state.isDetailsShown, this.props.name);
-      }
+    if (this.props.risk) {
+      this.props.expandAbout(false, !this.state.isDetailsShown && this.props.name);
+      this.setState({
+        isDetailsShown: !this.state.isDetailsShown
+      });
+    } else {
+      this.setState({
+        isDetailsShown: !this.state.isDetailsShown
+      });
+      this.props.expandAbout(this.state.isDetailsShown, this.props.name);
+    }
   }
 
   futureChangeHandler(newValue) {
@@ -66,12 +69,15 @@ class Measurement extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.currMeasure === this.props.name && nextProps.currMeasure !== this.props.name) {
+    if (
+      this.props.currMeasure === this.props.name &&
+      nextProps.currMeasure !== this.props.name
+    ) {
       this.setState({
         isDetailsShown: false
-      })
-      if(nextProps.currMeasure) {
-        this.props.expandAbout(false, nextProps.currMeasure)
+      });
+      if (nextProps.currMeasure) {
+        this.props.expandAbout(false, nextProps.currMeasure);
       }
     }
     if (nextProps.risk !== this.props.risk) {
@@ -88,18 +94,18 @@ class Measurement extends React.Component {
   }
 
   componentWillMount() {
-    if(this.props.currMeasure === this.props.name) {
+    if (this.props.currMeasure === this.props.name) {
       this.setState({
         isDetailsShown: true
-      })
-      if(this.props.currMeasure) {
-        this.props.expandAbout(true, this.props.currMeasure)
+      });
+
+      if (this.props.currMeasure) {
+        this.props.expandAbout(true, this.props.currMeasure);
       }
-    }
-    else {
+    } else {
       this.setState({
         isDetailsShown: false
-      })
+      });
     }
   }
 
@@ -131,20 +137,37 @@ class Measurement extends React.Component {
     // const presentDate = this.props.presentDate &&
     //   moment(this.props.presentDate).format('MMM Do YYYY');
 
+// <<<<<<< HEAD
+// =======
+//     let currentMeasurement = '';
+//     if (
+//       this.props.mostRecentMeasurements &&
+//       this.props.mostRecentMeasurements[this.props.code]
+//     ) {
+//       currentMeasurement = this.props.mostRecentMeasurements[this.props.code].value.toFixed(2);
+//     }
+
+// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
     const msToYear = 1000 * 60 * 60 * 24 * 365;
 
     const yearsPast = Math.floor(
       (Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) / msToYear
     );
     const monthsPast = Math.floor(
-      ((Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) / msToYear - yearsPast) * 12
+      (
+        (Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) /
+        (msToYear - yearsPast)
+      ) * 12
     );
 
     const yearsPres = Math.floor(
       (Date.now() - (new Date(this.props.presentDate)).getTime()) / msToYear
     );
     const monthsPres = Math.floor(
-      ((Date.now() - (new Date(this.props.presentDate)).getTime()) / msToYear - yearsPres) * 12
+      (
+        (Date.now() - (new Date(this.props.presentDate)).getTime()) /
+        (msToYear - yearsPres)
+      ) * 12
     );
 
     return (
@@ -173,13 +196,13 @@ class Measurement extends React.Component {
             }
             {pastValue &&
               <span className="tooltiptext">
-                {yearsPast + ' years, ' + monthsPast + ' month(s) ago'|| 'N/A'}
+                {`${yearsPast} years, ${monthsPast} month(s) ago` || 'N/A'}
               </span>
             }
           </div>
           <div
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
-            style={{'justifyContent': 'center'}}
+            style={{ justifyContent: 'center' }}
           >
             {this.props.past &&
               <Icon
@@ -190,16 +213,16 @@ class Measurement extends React.Component {
           </div>
           <div
             className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip"
-            style={{'justifyContent': 'center'}}
+            style={{ justifyContent: 'center' }}
           >
             {presentValue}
             <span className="tooltiptext">
-              {yearsPres + ' years, ' + monthsPres + ' month(s) ago' || 'N/A'}
+              {`${yearsPres} years, ${monthsPres} month(s) ago` || 'N/A'}
             </span>
           </div>
           <div
             className="measurement-future pure-u-3-24 flex-c flex-v-center"
-            style={{'justifyContent': 'center'}}
+            style={{ justifyContent: 'center' }}
           >
             {futureScore && parseFloat(futureScore).toFixed(2)}
           </div>
@@ -223,6 +246,7 @@ class Measurement extends React.Component {
               futureValue={parseFloat(sliderValue)}
               futureChangeHandler={this.futureChangeHandler.bind(this)}
               activeMeasureHandler={this.activeMeasureHandler.bind(this)}
+              absWidth={this.props.absWidth}
             />
           )}
         </div>
@@ -233,6 +257,7 @@ class Measurement extends React.Component {
 
 Measurement.propTypes = {
   expandAbout: PropTypes.func,
+  isExpanded: PropTypes.bool,
   name: PropTypes.string,
   unit: PropTypes.string,
   past: PropTypes.string,
@@ -243,11 +268,17 @@ Measurement.propTypes = {
   pastDate: PropTypes.string,
   presentDate: PropTypes.string,
   presentMeasurements: PropTypes.instanceOf(Object),
+  pastMeasurementsDate: PropTypes.string,
+  mostRecentMeasurements: PropTypes.object,
+  pastMeasurementsValue: PropTypes.string,
+  currMeasure: PropTypes.string,
+  activeMeasure: PropTypes.func,
   futureMeasurements: PropTypes.instanceOf(Object),
   graphData: PropTypes.array,
   userPastDate: PropTypes.instanceOf(moment),
   addPresentMeasurement: PropTypes.func,
   addFutureMeasurement: PropTypes.func,
+  absWidth: PropTypes.number,
 };
 
 export default Measurement;

@@ -7,18 +7,19 @@
   width: 100%;
 }
 
-.risk-active {
-  background: $risk-active;
-}
-
+.risk-active,
 .risk-inactive {
   background: $gray-lightest;
+}
+
+.risk-active {
+  box-shadow: inset 0 0 0 2px $black, 0 0 0 2px $black;
 }
 
 .risk-tile-content {
   position: relative;
   margin: 0 0.5rem;
-  transition: background $fast $ease;
+  transition: background $fast $ease, box-shadow $fast $ease;
 }
 
 .risk-tile-large .risk-tile-content {
@@ -28,46 +29,6 @@
 .risk-tile-clickable:hover,
 .back:hover {
   cursor: pointer;
-}
-
-.tooltip {
-    position: relative;
-    display: block;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 100px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -50px;
-    
-    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
 }
 
 .vertical-line {

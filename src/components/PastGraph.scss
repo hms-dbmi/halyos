@@ -34,8 +34,21 @@
 }
 
 .past-graph {
+  postion: relative;
   width: 100%;
+  padding-right: 5%;
   height: 12.5rem;
+
+  .reset-btn-container {
+    position: absolute;
+    bottom: 2.25rem;
+    right: 0;
+    width: 12.5%;
+  }
+
+  .reset-btn {
+    width: 100px;
+  }
 }
 
 .graph-past {
@@ -68,6 +81,14 @@
 .past-point,
 .past-point-overview {
   fill: $past;
+}
+
+.focus .past-point {
+  r: 7;
+}
+
+.context .past-point {
+  r: 5;
 }
 
 .last-point,
@@ -114,7 +135,13 @@
 .graph-present-future-line {
   stroke: $gray;
   stroke-width: 1px;
-  stroke-dasharray: 10, 5;
+  stroke-dasharray: 5, 3;
+}
+
+.graph-past-bar-point-line {
+  stroke: $past;
+  stroke-width: 3px;
+  stroke-dasharray: 3, 2;
 }
 
 .graph-future-slider-bar {
