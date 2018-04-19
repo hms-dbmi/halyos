@@ -5,6 +5,9 @@ import React from 'react';
 import EnvironmentTile from '../EnvironmentTile';
 import { coordDistance } from '../../services/general_utils';
 
+// Styles
+import './Flu.css';
+
 
 //currently arbitary rankings
 const FLU_LEVELS = [
@@ -43,7 +46,7 @@ class Flu extends React.Component {
               </p> )}
           <h5>Explanation</h5>
             {this.props.closestFluMarker && (
-              <p>
+              <p className="flu-explanation-text">
                 { currentFluLevel[3] }
               </p> )}        
         </div>
