@@ -28,7 +28,6 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-// <<<<<<< HEAD
       measurements:[],
     };
   }
@@ -43,12 +42,6 @@ class Measurements extends React.Component {
           if (deepContains(measuresForRisks[key],(item.code))) {
             return -1;
           }
-
-// =======
-      // measurements: this.props.measurements.sort((item) => {
-      //   if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
-      //     return -1;
-// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
@@ -62,7 +55,6 @@ class Measurements extends React.Component {
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
-// <<<<<<< HEAD
         for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
@@ -70,10 +62,6 @@ class Measurements extends React.Component {
           if (deepContains(measuresForRisks[key],item.code)) {
             return -1;
           }
-// =======
-        // if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
-        //   return -1;
-// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
         }
         return 1;
       })
