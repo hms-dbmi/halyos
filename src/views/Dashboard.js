@@ -10,7 +10,7 @@ import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
 
 // Services
-import { getPatID } from '../services/smart_setup';
+import { getPatID, getInsecureURL } from '../services/smart_setup';
 import { reynoldsScore, futureReynolds, reynoldsScorePast } from '../services/RiskCalculators/reynolds';
 import { CHADScore, futureCHAD, CHADPastScore } from '../services/RiskCalculators/CHAD';
 import { KFRScore, futureKFRRisk, pastKFRRisk } from '../services/RiskCalculators/get_KFRisk';
@@ -42,6 +42,48 @@ class Dashboard extends React.Component {
   /* ************************** Life Cycle Methods ************************** */
 
   componentDidMount() {
+    // var mkFhir = require('fhir.js');
+    
+    // var client = mkFhir({
+    //   baseUrl: getInsecureURL()
+    // });
+
+    // console.log("nextpage: ", client);
+
+    // var testExcludeList = ['30522-7', '20565-8', "6298-4"];
+    // // var queryDict = {'subject':getPatID().toString()}
+    // var excludeList = [];
+    // for(let code of testExcludeList) {
+    //   excludeList.push(code)
+    // }
+    // // var queryDictPiece = {'$and': [{'subject':getPatID().toString()},{code: {'$and': ['30522-7', '20565-8', "6298-4"]}}]}
+    // var queryDictPiece = {cofdde: {'$or': [JSON.stringify({'$not' :'30522-7'}), '20565-8', "6298-4"]}}
+
+    // console.log("queryDictPiece", JSON.stringify(queryDictPiece));
+
+    // client
+    //   .fetchAll({type: 'Observation', query: {'subdject':{$not: getPatID().toString()}}})
+    //   .then(function(res){
+    //     var bundle = res.data;
+    //     // var count = (bundle.entry && bundle.entry.length) || 0;
+    //     console.log("# Patients born in 1974: ", res);
+    //   })
+    //   .catch(function(res){
+    //     console.log("error res", res);
+    //     //Error responses
+    //     if (res.status){
+    //         console.log('Error1', res.status);
+    //     }
+
+    //     //Errors
+    //     if (res.message){
+    //         console.log('Error1', res.message);
+    //     }
+    //   });
+
+    this.props.getAllObs(getPatID());
+
+
     this.props.getPatientDemographics(getPatID());
 
     let codeList = [];
@@ -151,6 +193,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
+    console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -388,13 +431,8 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-// <<<<<<< HEAD
                 measurements={this.props.allObs}
                 risk={this.state.riskIsExpanded} 
-// // =======
-//                 measurements={sortMeasurements(this.props.observations)}
-//                 risk={this.state.riskIsExpanded}
-// // >>>>>>> 6b89cfa78c36c9419052e2e13089a16cd7dea9b1
                 currMeasure={this.state.currMeasure}
                 />
             </div>

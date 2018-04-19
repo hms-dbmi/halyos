@@ -57,17 +57,12 @@ class Measurements extends React.Component {
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
         for (const key in measuresForRisks) {
-// <<<<<<< HEAD
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
           if (deepContains(measuresForRisks[key],item.code)) {
             return -1;
           }
-// =======
-//           if (!measuresForRisks.hasOwnProperty(key)) continue;
-//           if (measuresForRisks[key].includes(item.code)) return -1;
-// >>>>>>> 6b89cfa78c36c9419052e2e13089a16cd7dea9b1
         }
         return 1;
       })
