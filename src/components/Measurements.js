@@ -28,7 +28,7 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements:[],
+      measurements: []   
     };
   }
 
@@ -52,14 +52,17 @@ class Measurements extends React.Component {
     this.props.expandAbout(false);
     this.setState({
       query,
-      measurements: this.props.measurements.filter(
-        item => item.name.toLowerCase().indexOf(query) !== -1
+      measurements: this.props.measurements.filter(function(item){
+        item.name.toLowerCase().indexOf(query) !== -1;
+      }
       ).sort((item) => {
         for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
+
           if (deepContains(measuresForRisks[key],item.code)) {
+            // console.log("returning -1!!");
             return -1;
           }
         }
@@ -93,6 +96,10 @@ class Measurements extends React.Component {
   }
 
   render() {
+    console.log("not measurements", this.props.measurements);
+
+    // console.log("state measurements", this.state.measurements);
+
     const pastDate = moment(this.props.pastDate || undefined);
     const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';
     let searchClass = 'search flex-c flex-v-center';

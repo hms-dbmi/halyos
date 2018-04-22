@@ -19,7 +19,7 @@ import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCal
 
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
-import { sortMeasurements } from '../services/general_utils';
+import { sortMeasurements, listToDictMeasurements } from '../services/general_utils';
 // Styles
 import './Dashboard.css';
 
@@ -85,8 +85,6 @@ class Dashboard extends React.Component {
     //   });
 
     this.props.getAllObs(getPatID());
-
-
     this.props.getPatientDemographics(getPatID());
 
     let codeList = [];
@@ -205,7 +203,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("this.props.allObs", this.props.allObs);
+    // console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -325,7 +323,7 @@ class Dashboard extends React.Component {
               score={reynoldsScore(
                 null,
                 this.props.patient,
-                this.props.mostRecentObs,
+                listToDictMeasurements(this.props.mostRecentObs),
                 this.props.external.smoking[1],
                 this.props.external.heartfamhist
               )}
@@ -450,7 +448,7 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.allObs}
+                measurements={this.props.allObsByCode}
                 risk={this.state.riskIsExpanded} 
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}

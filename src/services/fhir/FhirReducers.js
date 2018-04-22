@@ -6,6 +6,8 @@ import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SU
 
 const initialFhirState = {
   "allMeasurements" : [],
+  "mostRecentMeasurements" : [],
+  "allMeasurementsByCode" : [],
   "codeList" : []
 };
 export function fhirObservationData(state = initialFhirState, action){
@@ -20,29 +22,42 @@ export function fhirObservationData(state = initialFhirState, action){
         ...state,
         isFetchingMostRecentMeasurement:false,
         lastUpdated:action.receivedAt,
-        mostRecentMeasurements : {
+        mostRecentMeasurements : [
           ...state.mostRecentMeasurements,
-          [action.code]: action.recent_obs
-        }
+          action.recent_obs
+        ]
       }
     case FETCH_ALL_OBSERVATION_BY_CODE_REQUEST:
       return {
         ...state,
-        isFetchingAllMeasurement:true,
+        isFetchingAllMeasurementByCode:true,
       }
     case FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS:
       return {
         ...state,
-        isFetchingAllMeasurement:false,
+        isFetchingAllMeasurementByCode:false,
         lastUpdated:action.receivedAt,
-        allMeasurements : [
-          ...state.allMeasurements,
+        allMeasurementsByCode : [
+          ...state.allMeasurementsByCode,
           action.all_obs_by_code
         ],
         codeList : [
           ...state.codeList,
           action.code
         ]
+      }
+    case FETCH_ALL_OBSERVATION_REQUEST:
+      return {
+        ...state,
+        isFetchingAllMeasurement:true,
+      }
+    case FETCH_ALL_OBSERVATION_SUCCESS:
+      var newArr = state.allMeasurementsByCode.concat(action.all_other_obs);
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        allMeasurementsByCode : newArr,
       }
     default:
       return state
