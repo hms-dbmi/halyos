@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => ({
   mostRecentObs: state.fhirObservationData.mostRecentMeasurements,
   allObsByCode: state.fhirObservationData.allMeasurementsByCode,
   external: state.externalState,
-  codeList: state.fhirObservationData.codeList
+  codeList: state.fhirObservationData.codeList,
+  allObsState: state.fhirObservationData
 });
 
 const mapDispatchToProps = dispatch => ({

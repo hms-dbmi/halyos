@@ -84,34 +84,33 @@ class Dashboard extends React.Component {
     //     }
     //   });
 
-    this.props.getAllObs(getPatID());
     this.props.getPatientDemographics(getPatID());
 
-    let codeList = [];
+    // let codeList = [];
     let mostRecentMeaCodeList = [];
 
     // first we pull the data of the measurements necessary to calculate current risk scores
-    for (const key in measuresForRisks) {
-      if (!measuresForRisks.hasOwnProperty(key)) {
-        continue;
-      }
-      let riskScore = key;
-      let riskScoreMeasures = measuresForRisks[key];
-      for(let measurement of riskScoreMeasures){
-        if(Array.isArray(measurement)){
-          if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
-            this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
-            mostRecentMeaCodeList.push(measurement[1]);
-          }
-        }
-        else {
-          if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
-            this.props.getMostRecentObsByCode(getPatID(), measurement);
-            mostRecentMeaCodeList.push(measurement);
-          }
-        }  
-      }
-    }
+    // for (const key in measuresForRisks) {
+    //   if (!measuresForRisks.hasOwnProperty(key)) {
+    //     continue;
+    //   }
+    //   let riskScore = key;
+    //   let riskScoreMeasures = measuresForRisks[key];
+    //   for(let measurement of riskScoreMeasures){
+    //     if(Array.isArray(measurement)){
+    //       if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
+    //         this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
+    //         mostRecentMeaCodeList.push(measurement[1]);
+    //       }
+    //     }
+    //     else {
+    //       if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
+    //         this.props.getMostRecentObsByCode(getPatID(), measurement);
+    //         mostRecentMeaCodeList.push(measurement);
+    //       }
+    //     }  
+    //   }
+    // }
 
     // next we pull all measurements required for the risk scores, so we can calculate previous risk scores.
     for (const key in measuresForRisks) {
@@ -122,19 +121,21 @@ class Dashboard extends React.Component {
       let riskScoreMeasures = measuresForRisks[key];
       for(let measurement of riskScoreMeasures){
         if(Array.isArray(measurement)){
-          if(!(codeList.indexOf(measurement[1]) > -1)){
+          // if(!(codeList.indexOf(measurement[1]) > -1)){
             this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
-            codeList.push(measurement[1]);
-          }
+            // codeList.push(measurement[1]);
+          // }
         }
         else {
-          if(!(codeList.indexOf(measurement) > -1)){
+          // if(!(codeList.indexOf(measurement) > -1)){
             this.props.getAllObsByCode(getPatID(), measurement);
-            codeList.push(measurement);
-          }
+            // codeList.push(measurement);
+          // }
         }
       }
     }    
+
+    this.props.getAllObs(getPatID());
 
     window.addEventListener('resize', this.forceRerenderBound);
   }
@@ -203,6 +204,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
+    console.log("all the obs state", this.props.allObsState);
     // console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
@@ -323,7 +325,7 @@ class Dashboard extends React.Component {
               score={reynoldsScore(
                 null,
                 this.props.patient,
-                listToDictMeasurements(this.props.mostRecentObs),
+                listToDictMeasurements(this.props.allObsByCode),
                 this.props.external.smoking[1],
                 this.props.external.heartfamhist
               )}

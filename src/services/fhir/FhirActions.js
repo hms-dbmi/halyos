@@ -209,10 +209,9 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
 export function shouldFetchAllObsByCode(state, code, subcode = null) {
   let allMeasures = state.fhirObservationData.codeList;
   let fhirObsData = state.fhirObservationData;
-
-  if(allMeasures.length > 0 && !fhirObsData.isFetchingAllMeasurement) {
+  if(allMeasures.length > 0  && !fhirObsData.isFetchingAllMeasurementByCode) {
     for(let measure of allMeasures) {
-      if(measure['code'] == code || measure['code'] == subcode){
+      if(measure == code || measure == subcode){
         return false;
       }
     }    
@@ -252,13 +251,22 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     if(part.code.coding[0].code == subcode){
                       data = part.valueQuantity;
                       data['date'] = item.resource.effectiveDateTime;
+                      console.log("dataDict", dataDict);
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
                       //apparently, some have text and others have display exclusively, for some ungodly reason.
-                      if(!dataDict['name'])
+                      if(!(dataDict.hasOwnProperty('name'))) {
+                        console.log("name3", !('name' in dataDict));
+
                         dataDict['name'] = part.code.coding[0].display || part.code.text;
+                        console.log("name1", part.code.coding[0].display || part.code.text);
+                        console.log("name2", dataDict);
+                        console.log("name3", !('name' in dataDict));
+                      }
                       if(!dataDict['code']){
                         dataDict['code'] = part.code.coding[0].code;
                         outputCode = part.code.coding[0].code;
+                        console.log("outputCode", outputCode)
+                        console.log("part", subdata)
                       }
                     }
                   }
@@ -280,8 +288,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
             }
           }
         dispatch(receiveAllObsByCode(patientID, outputCode, dataDict));
-        } 
-      );
+      });
   };
 }
 
@@ -387,7 +394,6 @@ export function fetchAllObs(patientID) {
         // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
         // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}]
         allObsList = sortMeasurements(bundle)
-        // console.log("getstate1", allObsList);
         // TODO: is there a right way to do this?
         let currState = getState();
         let currCodesCollected = currState.fhirObservationData.codeList;
@@ -407,6 +413,7 @@ export function fetchAllObs(patientID) {
       .catch(function(res){
         console.log("error res", res);
         //Error responses
+        return Promise.resolve();
         if (res.status){
             console.log('Error1', res.status);
         }
