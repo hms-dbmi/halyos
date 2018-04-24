@@ -205,7 +205,7 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("this.props.allObs", this.props.allObs);
+    //console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -344,16 +344,18 @@ class Dashboard extends React.Component {
           <li className={riskStrokeWidth}>
             <RiskTileContainer
               expand={(args) => alert("No details available.")}
-              name="Stroke"
+              name="Liver Fibrosis"
               score={CHADScore(
                 this.props.patient,
-                this.props.conditions
+                this.props.conditions,
+                this.props.mostRecentObs
               )}
               futureScore={futureCHAD}
               pastScore={CHADPastScore}
               data={{
                 patient: this.props.patient,
-                conditions: this.props.conditions
+                conditions: this.props.conditions,
+                observations: this.props.observations
               }}
               unit="%"
               context={1}

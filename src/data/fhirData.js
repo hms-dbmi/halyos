@@ -1753,6 +1753,162 @@ export const observationsLocal = [
           "coding": [
             {
               "system": "http://loinc.org",
+              "code": "1916-6",
+              "display": "AST/ALT Ratio"
+            }
+          ],
+          "text": "AST/ALT Ratio"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/1825049"
+        },
+        "effectiveDateTime": "2016-04-24T20:18:16-04:00",
+        "issued": "2016-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 1.7,
+          "unit": "N/A",
+          "system": "http://unitsofmeasure.org/",
+          "code": "N/A"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+	{
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "777-3",
+              "display": "Platelets [#/volume] in Blood by Automated count"
+            }
+          ],
+          "text": "Platelets [#/volume] in Blood by Automated count"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/1243825049"
+        },
+        "effectiveDateTime": "2016-04-24T20:18:16-04:00",
+        "issued": "2016-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 189,
+          "unit": "10^9/L",
+          "system": "http://unitsofmeasure.org/",
+          "code": "10^9/L"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1751-7",
+              "display": "Albumin"
+            }
+          ],
+          "text": "Albumin"
+        },
+        "subject": {
+          "reference": "Patient/182296"
+        },
+        "context": {
+          "reference": "Encounter/123824549"
+        },
+        "effectiveDateTime": "2015-02-25T20:18:16-04:00",
+        "issued": "2016-09-24T20:18:16-04:00",
+        "valueQuantity": {
+          "value": 60,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org/",
+          "code": "mg/dL"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://fhirtest.uhn.ca/baseDstu3/Observation/182570",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "122574",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2017-07-12T14:02:41.628-04:00",
+          "profile": [
+            "http://standardhealthrecord.org/fhir/StructureDefinition/shr-observation-Observation"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
               "code": "30522-7",
               "display": "CRP SerPl HS-mCnc"
             }

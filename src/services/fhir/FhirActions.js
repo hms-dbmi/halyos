@@ -315,7 +315,7 @@ export function fetchAllObsExcluded(patientID, excludeCodeList) {
       excludedCodeURL += ('&code:not=' + code)
     }
 
-    console.log("excludedCodeURL", excludedCodeURL)
+    //console.log("excludedCodeURL", excludedCodeURL)
 
     // var mkFhir = require('fhir.js');
     
@@ -364,7 +364,7 @@ export function fetchAllObs(patientID) {
     const baseUrl = getURL();
 
     var mkFhir = require('fhir.js');
-    console.log("mkFhir", mkFhir);
+    // console.log("mkFhir", mkFhir);
     var client = mkFhir({
       baseUrl: getInsecureURL()
     });
@@ -374,12 +374,12 @@ export function fetchAllObs(patientID) {
       .fetchAll({type: 'Observation', query: {'subject':patientID, '$sort': [['code','asc']]}})
       .then(function(res){
         var bundle = res;
-        console.log("res", typeof res);
-        console.log("# Patients born in 1974: ", bundle);
+        // console.log("res", typeof res);
+        // console.log("# Patients born in 1974: ", bundle);
 
         let currObsIdx = 0;
         let currObs = bundle[currObsIdx].code.coding[0].code;
-        console.log("currObs", typeof currObs);
+        // console.log("currObs", typeof currObs);
 
         if(!bundle){
           return Promise.resolve();

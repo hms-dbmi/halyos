@@ -14,7 +14,7 @@ const deepClone = (source, value) => {
       }
     }
     else {
-      if (item == value) {
+      if (item === value) {
         return true;
       }   
     }
