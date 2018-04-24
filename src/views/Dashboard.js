@@ -284,12 +284,12 @@ class Dashboard extends React.Component {
       ? 'pure-u-16-24'
       : riskCardiacWidth;
 
-    let riskStrokeWidth = !riskDetails
+    let riskLiverWidth = !riskDetails
       ? 'pure-u-1-5'
       : 'pure-u-1-5 dashboard-risk-hidden';
-    riskStrokeWidth = this.state.riskIsExpanded === 'Stroke'
+    riskLiverWidth = this.state.riskIsExpanded === 'Liver Fibrosis'
       ? 'pure-u-16-24'
-      : riskStrokeWidth;
+      : riskLiverWidth;
 
     let riskKidneyWidth = !riskDetails
       ? 'pure-u-1-5'
@@ -341,9 +341,9 @@ class Dashboard extends React.Component {
               currRisk={this.state.riskIsExpanded}
             />
           </li>
-          <li className={riskStrokeWidth}>
+          <li className={riskLiverWidth}>
             <RiskTileContainer
-              expand={(args) => alert("No details available.")}
+              expand={this.expandRisk.bind(this)}
               name="Liver Fibrosis"
               score={CHADScore(
                 this.props.patient,
@@ -359,7 +359,7 @@ class Dashboard extends React.Component {
               }}
               unit="%"
               context={1}
-              url="Stroke"
+              url="Liver_Fibrosis"
               currRisk={this.state.riskIsExpanded}
             />
           </li>

@@ -68,7 +68,6 @@ class RiskTile extends React.Component {
   render() {
     // if the expanded risk is this one, display the visualization
     const displayviz = this.props.name === this.props.currRisk;
-
     return (
       <div
         className="risk-tile"

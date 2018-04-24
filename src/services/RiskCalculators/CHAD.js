@@ -36,9 +36,13 @@ export function calcCHADScore(age, BMI, diabetes, astalt, platelet, albumin) {
 }
 
 export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
- if(conds && pt && obs) {
-  console.log('liver', conds, pt, obs)
-  return CHADScore(pt, conds, obs);
+ if(presMeasures && pt && futureMeasures) {
+  return calcCHADScore(calculateAge(pt.birthDate),
+                      (futureMeasures['39156-5'] || presMeasures['39156-5']),
+                      pullCondition(conds, ["73211009", "44054006", "46635009"]).length !== 0,
+                      (futureMeasures['1916-6'] || presMeasures['1916-6']),
+                      (futureMeasures['777-3'] || presMeasures['777-3']),
+                      (futureMeasures['1751-7'] || presMeasures['1751-7']))
  }
  return "...";
 }
