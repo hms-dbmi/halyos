@@ -36,8 +36,9 @@ export function calcCHADScore(age, BMI, diabetes, astalt, platelet, albumin) {
 }
 
 export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
- if(conds && pt) {
-  return CHADScore(pt, conds);
+ if(conds && pt && obs) {
+  console.log('liver', conds, pt, obs)
+  return CHADScore(pt, conds, obs);
  }
  return "...";
 }
