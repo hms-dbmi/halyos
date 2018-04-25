@@ -13,7 +13,7 @@ deploy:
   provider: script
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
-  script: ~/.local/bin/aws s3 sync build s3://ignite.gehlenborglab.org --region=us-east-1 --delete
+  script: ~/.local/bin/aws s3 sync build s3://halyos.gehlenborglab.org --region=us-east-1 --delete
   skip_cleanup: true
   on:
     branch: master
