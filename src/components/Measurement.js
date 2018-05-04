@@ -201,7 +201,7 @@ class Measurement extends React.Component {
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
           >
-            {this.props.past &&
+            {(this.props.past && this.props.graphData.length > 1)&&
               <Icon
                 id={getArrowDir(pastValue, this.props.present)}
                 mirrorH={getMirrorH(pastValue, this.props.present)}
