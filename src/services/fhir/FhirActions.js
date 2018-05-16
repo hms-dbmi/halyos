@@ -194,8 +194,8 @@ export const FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS = 'FETCH_ALL_OBSERVATION_BY_C
 
 export const requestAllObsByCode = (patientID, code) => ({
   type: FETCH_ALL_OBSERVATION_BY_CODE_REQUEST,
-  patientID,
-  code
+  id: patientID,
+  code: code
 });
 
 export const receiveAllObsByCode = (patientID, code, data) => ({
@@ -207,22 +207,23 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
 });
 
 export function shouldFetchAllObsByCode(state, code, subcode = null) {
-  let allMeasures = state.fhirObservationData.codeList;
-  let fhirObsData = state.fhirObservationData;
-  if(allMeasures.length > 0  && !fhirObsData.isFetchingAllMeasurementByCode) {
-    for(let measure of allMeasures) {
-      if(measure == code || measure == subcode){
-        return false;
-      }
-    }    
+  let currFetchingList = state.fhirObservationData.isFetchingAllMeasurementByCodeList;
+  if( currFetchingList.hasOwnProperty(code) || currFetchingList.hasOwnProperty(subcode)) {
+    return false;
   }
+
+  let allMeasures = state.fhirObservationData.codeList;  
+  for(let measure of allMeasures) {
+    if(measure == code || measure == subcode){
+      return false;
+    }
+  }    
   return true;
 }
 
 export function fetchAllObsByCode(patientID, code, subcode = null) {
   return (dispatch, getState) => {
-    //TODO figure out why this doens't work right now. believe it has to do with state updates not occuring immediately. 
-    //the solution right now has been to include checks in Dashboard.js before calling fetchAllObsByCode
+    // checks if we need to fetch, only does so if there isn't already a request out or we don't have the measurement yet.
     if(!shouldFetchAllObsByCode(getState(), code, subcode)) {
       return Promise.resolve();
     }
@@ -251,23 +252,17 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     if(part.code.coding[0].code == subcode){
                       data = part.valueQuantity;
                       data['date'] = item.resource.effectiveDateTime;
-                      console.log("dataDict", dataDict);
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
                       //apparently, some have text and others have display exclusively, for some ungodly reason.
                       if(!(dataDict.hasOwnProperty('name'))) {
-                        console.log("name3", !('name' in dataDict));
 
                         dataDict['name'] = part.code.coding[0].display || part.code.text;
-                        console.log("name1", part.code.coding[0].display || part.code.text);
-                        console.log("name2", dataDict);
-                        console.log("name3", !('name' in dataDict));
                       }
-                      if(!dataDict['code']){
+                      if(!dataDict.hasOwnProperty('code')){
                         dataDict['code'] = part.code.coding[0].code;
                         outputCode = part.code.coding[0].code;
-                        console.log("outputCode", outputCode)
-                        console.log("part", subdata)
                       }
+                      break;
                     }
                   }
                 }
@@ -324,8 +319,6 @@ export function fetchAllObsExcluded(patientID, excludeCodeList) {
     for (let code of excludeCodeList){
       excludedCodeURL += ('&code:not=' + code)
     }
-
-    // console.log("excludedCodeURL", excludedCodeURL)
 
     // var mkFhir = require('fhir.js');
     
@@ -392,35 +385,29 @@ export function fetchAllObs(patientID) {
         var allObsList = [];
 
         // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
-        // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}]
+        // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}]
         allObsList = sortMeasurements(bundle)
+
         // TODO: is there a right way to do this?
         let currState = getState();
         let currCodesCollected = currState.fhirObservationData.codeList;
-        // console.log("getstate3", currState.fhirObservationData.allMeasurementsByCode);
         let allUncollectedMeasures = [];
+
         for(let measure of allObsList){
-          // console.log("getstate4 coe", measure.code);
           if(currCodesCollected.indexOf(measure.code) < 0){
             allUncollectedMeasures.push(measure);
           }
         }
-        // console.log("getstate2", allUncollectedMeasures);
-        // if(getState.)
-
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){
-        // console.log("error res", res);
         //Error responses
         return Promise.resolve();
         if (res.status){
-            console.log('Error1', res.status);
         }
 
         //Errors
         if (res.message){
-            console.log('Error1', res.message);
         }
       });
   }

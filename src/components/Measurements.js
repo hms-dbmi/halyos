@@ -38,8 +38,6 @@ class Measurements extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
-    
-    // console.log("triggered on move??");
       this.setState({
           measurements: nextProps.measurements.sort((item) => {
           for (const key in measuresForRisks) {
@@ -70,7 +68,6 @@ class Measurements extends React.Component {
           }
 
           if (deepContains(measuresForRisks[key],item.code)) {
-            // console.log("returning -1!!", item.code);
             return -1;
           }
         }
@@ -104,10 +101,6 @@ class Measurements extends React.Component {
   }
 
   render() {
-    // console.log("not measurements", this.props.measurements);
-
-    console.log("state measurements", this.state.measurements);
-
     const pastDate = moment(this.props.pastDate || undefined);
     const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';
     let searchClass = 'search flex-c flex-v-center';

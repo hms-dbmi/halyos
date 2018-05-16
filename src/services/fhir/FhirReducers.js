@@ -8,7 +8,8 @@ const initialFhirState = {
   "allMeasurements" : [],
   "mostRecentMeasurements" : [],
   "allMeasurementsByCode" : [],
-  "codeList" : []
+  "codeList" : [],
+  "isFetchingAllMeasurementByCodeList" : {},
 };
 export function fhirObservationData(state = initialFhirState, action){
 	switch (action.type){
@@ -30,12 +31,18 @@ export function fhirObservationData(state = initialFhirState, action){
     case FETCH_ALL_OBSERVATION_BY_CODE_REQUEST:
       return {
         ...state,
-        isFetchingAllMeasurementByCode:true,
+        isFetchingAllMeasurementByCodeList: {
+          ...state.isFetchingAllMeasurementByCodeList,
+          [action.code]:true
+        }
       }
     case FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS:
       return {
         ...state,
-        isFetchingAllMeasurementByCode:false,
+        isFetchingAllMeasurementByCodeList: {
+          ...state.isFetchingAllMeasurementByCodeList,
+          [action.code]:false
+        },
         lastUpdated:action.receivedAt,
         allMeasurementsByCode : [
           ...state.allMeasurementsByCode,

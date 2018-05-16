@@ -204,8 +204,6 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("all the obs state", this.props.allObsState);
-    // console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }

@@ -35,7 +35,6 @@ export function getValueQuantities(obs, callback){
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurements(obs){
-  // console.log("in sort Measurements", obs);
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
     if(obs[i].component) {
@@ -110,7 +109,6 @@ export function sortMeasurements(obs){
 }
 
 export function listToDictMeasurements(obs){
-  // console.log("measurements1", obs);
   
   var dictOfMeasures = {};
   for(let measurement of obs){
@@ -118,7 +116,6 @@ export function listToDictMeasurements(obs){
   }
 
   return dictOfMeasures;
-  // console.log("measurements2", listOfMeasures);
 }
 
 /**
