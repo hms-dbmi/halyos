@@ -19,33 +19,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 // Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
-//utils
-import deepContains from '../utils/deep-contains';
-
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements:[],
-    };
-  }
-
-  componentWillReceiveProps(nextProps){
-    this.setState({
-        measurements: nextProps.measurements.sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (deepContains(measuresForRisks[key],(item.code))) {
-            return -1;
-          }
+      measurements: this.props.measurements.sort((item) => {
+        if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+          return -1;
         }
         return 1;
       })
-    });
+    };
   }
 
   filterList(query) {
@@ -55,13 +41,8 @@ class Measurements extends React.Component {
       measurements: this.props.measurements.filter(
         item => item.name.toLowerCase().indexOf(query) !== -1
       ).sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (deepContains(measuresForRisks[key],item.code)) {
-            return -1;
-          }
+        if (Object.values(measuresForRisks).some(risk => risk.includes(item.code))) {
+          return -1;
         }
         return 1;
       })
@@ -183,22 +164,22 @@ class Measurements extends React.Component {
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {
-                  if (deepContains(measuresForRisks[this.props.risk],item.code)) {
+                  if (measuresForRisks[this.props.risk].includes(item.code)) {
                     return true;
                   }
                   return false;
                 }
                 return true;
               }
-            ).map((item, index) => {
-              return <MeasurementContainer
+            ).map((item, index) => (
+              <MeasurementContainer
                 code={item.code}
                 userPastDate={pastDate}
                 name={item.name}
                 key={index}
                 isExpanded={this.props.isExpanded}
                 expandAbout={this.props.expandAbout}
-                unit={item.measurements[0].unit}
+                unit={item.measurements[0].units}
                 past={item.measurements[1] && item.measurements[1].value}
                 present={item.measurements[0].value}
                 pastDate={item.measurements[1] && item.measurements[1].date}
@@ -208,7 +189,7 @@ class Measurements extends React.Component {
                 currMeasure={this.props.currMeasure}
                 absWidth={this.props.absWidth}
               />
-            })}
+            ))}
           </main>
         {this.state.isDatePickerShown && (
           <DatePicker

@@ -20,6 +20,7 @@ import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCal
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
 import { sortMeasurements } from '../services/general_utils';
+
 // Styles
 import './Dashboard.css';
 
@@ -205,7 +206,6 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -333,7 +333,7 @@ class Dashboard extends React.Component {
               pastScore={reynoldsScorePast}
               data={{
                 patient: this.props.patient,
-                observations: this.props.observations
+                observations: this.props.observationsLocal
               }}
               unit="%"
               context={10}
@@ -450,7 +450,7 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.allObs}
+                measurements={sortMeasurements(this.props.observationsLocal)}
                 risk={this.state.riskIsExpanded} 
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}

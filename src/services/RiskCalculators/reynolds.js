@@ -84,7 +84,10 @@ export function futureReynolds(presMeasures = null, futureMeasures = null, pt = 
 }
 
 export function reynoldsScorePast(date, pt = null, obs = null, conds = null, meds = null, smoker = false, famhist = false) {
+    console.log("obs", obs)
+    console.log("pt", pt)
     if (pt && obs) {
+      console.log("made it into reynodls score");
     const codesObject = {
       '30522-7': [], // hsCRP
       '2093-3': [], // cholesterol
@@ -176,6 +179,7 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
           }
         }
       }
+      console.log("reynolds: ", codesObject);
       return calculateReynolds(calculateAge(pt.birthDate),
         codesObject['55284-4'].measurements[0].value,
         codesObject['30522-7'].measurements[0].value,

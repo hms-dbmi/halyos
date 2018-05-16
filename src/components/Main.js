@@ -59,7 +59,7 @@ class Main extends React.Component {
                 meds={medStatementsLocal}
                 patient={patientLocal}
                 encounters={encountersLocal}
-                observations={observationsLocal}
+                observationsLocal={observationsLocal}
                 conditions={conditionsLocal}
                 medreq={medRequestsLocal}
               />
