@@ -201,11 +201,18 @@ class Measurement extends React.Component {
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
           >
-            {this.props.past &&
-              <Icon
-                id={getArrowDir(pastValue, this.props.present)}
-                mirrorH={getMirrorH(pastValue, this.props.present)}
-              />
+            {this.props.past ? (
+                <Icon
+                  id={getArrowDir(pastValue, this.props.present)}
+                  mirrorH={getMirrorH(pastValue, this.props.present)}
+                />
+              ) : (
+                // TODO: need to know what this mirrorH thing is to see if this is set as default properly
+                <Icon
+                  id='arrow-right'
+                  mirrorH=' is-mirror-h'
+                />
+              )
             }
           </div>
           <div

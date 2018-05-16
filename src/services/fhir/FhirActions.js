@@ -325,7 +325,7 @@ export function fetchAllObsExcluded(patientID, excludeCodeList) {
       excludedCodeURL += ('&code:not=' + code)
     }
 
-    console.log("excludedCodeURL", excludedCodeURL)
+    // console.log("excludedCodeURL", excludedCodeURL)
 
     // var mkFhir = require('fhir.js');
     
@@ -411,7 +411,7 @@ export function fetchAllObs(patientID) {
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){
-        console.log("error res", res);
+        // console.log("error res", res);
         //Error responses
         return Promise.resolve();
         if (res.status){

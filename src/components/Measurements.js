@@ -106,7 +106,7 @@ class Measurements extends React.Component {
   render() {
     // console.log("not measurements", this.props.measurements);
 
-    // console.log("state measurements", this.state.measurements);
+    console.log("state measurements", this.state.measurements);
 
     const pastDate = moment(this.props.pastDate || undefined);
     const titleClass = this.state.isSearchFocus ? 'is-collapsed' : '';

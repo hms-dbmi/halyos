@@ -35,7 +35,7 @@ export function getValueQuantities(obs, callback){
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurements(obs){
-  console.log("in sort Measurements", obs);
+  // console.log("in sort Measurements", obs);
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
     if(obs[i].component) {
@@ -52,7 +52,7 @@ export function sortMeasurements(obs){
             sortedMeasures[j].measurements.push(
               {"value": obs[i].component[k].valueQuantity.value.toFixed(2),
                "date": obs[i].effectiveDateTime,
-                "units": obs[i].component[k].valueQuantity.unit
+                "unit": obs[i].component[k].valueQuantity.unit
               }
             );
             found = true;
@@ -66,7 +66,7 @@ export function sortMeasurements(obs){
              "measurements": [
                 {"value": obs[i].component[k].valueQuantity.value.toFixed(2),
                  "date": obs[i].effectiveDateTime,
-                  "units": obs[i].component[k].valueQuantity.unit
+                  "unit": obs[i].component[k].valueQuantity.unit
                 }
               ]
             }
@@ -84,7 +84,7 @@ export function sortMeasurements(obs){
           sortedMeasures[j].measurements.push(
             {"value": obs[i].valueQuantity.value.toFixed(2),
              "date": obs[i].effectiveDateTime,
-              "units": obs[i].valueQuantity.unit
+              "unit": obs[i].valueQuantity.unit
             }
           );
           found = true;
@@ -98,7 +98,7 @@ export function sortMeasurements(obs){
            "measurements": [
               {"value": obs[i].valueQuantity.value.toFixed(2),
                "date": obs[i].effectiveDateTime,
-                "units": obs[i].valueQuantity.unit
+                "unit": obs[i].valueQuantity.unit
               }
             ]
           }
