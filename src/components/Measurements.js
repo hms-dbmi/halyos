@@ -32,20 +32,28 @@ class Measurements extends React.Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+   return true;
+  }
+
   componentWillReceiveProps(nextProps){
-    this.setState({
-        measurements: nextProps.measurements.sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
+    if(this.props.measurements.length !== nextProps.measurements.length){
+    
+    // console.log("triggered on move??");
+      this.setState({
+          measurements: nextProps.measurements.sort((item) => {
+          for (const key in measuresForRisks) {
+            if (!measuresForRisks.hasOwnProperty(key)) {
+              continue;
+            }
+            if (deepContains(measuresForRisks[key],(item.code))) {
+              return -1;
+            }
           }
-          if (deepContains(measuresForRisks[key],(item.code))) {
-            return -1;
-          }
-        }
-        return 1;
-      })
-    });
+          return 1;
+        })
+      });
+    }
   }
 
   filterList(query) {
@@ -62,7 +70,7 @@ class Measurements extends React.Component {
           }
 
           if (deepContains(measuresForRisks[key],item.code)) {
-            // console.log("returning -1!!");
+            // console.log("returning -1!!", item.code);
             return -1;
           }
         }
@@ -96,7 +104,7 @@ class Measurements extends React.Component {
   }
 
   render() {
-    console.log("not measurements", this.props.measurements);
+    // console.log("not measurements", this.props.measurements);
 
     // console.log("state measurements", this.state.measurements);
 
