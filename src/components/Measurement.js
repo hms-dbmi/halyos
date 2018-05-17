@@ -34,6 +34,7 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
+    //console.log('Constructor: ',props.name)
   }
 
   showDetails() {
@@ -97,18 +98,18 @@ class Measurement extends React.Component {
         isDetailsShown: false
       });
     }
-    this.props.addPresentMeasurement(this.props.code, this.props.present);
+    this.props.addPresentMeasurement(this.props.code, parseFloat(this.props.present));
     if (
       !this.props.futureMeasurements ||
       !this.props.futureMeasurements[this.props.code]
     ) {
-      this.props.addFutureMeasurement(this.props.code, this.props.present);
+      this.props.addFutureMeasurement(this.props.code, parseFloat(this.props.present));
     }
   }
 
   render() {
+    //console.log('Render: ',this.props.name)
     let sliderValue;
-
     if (
       this.props.futureMeasurements &&
       this.props.futureMeasurements[this.props.code]
@@ -129,22 +130,7 @@ class Measurement extends React.Component {
 
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
     const presentValue = parseFloat(this.props.present).toFixed(2);
-    // const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
-    // const presentDate = this.props.presentDate &&
-    //   moment(this.props.presentDate).format('MMM Do YYYY');
-
-// <<<<<<< HEAD
-// =======
-//     let currentMeasurement = '';
-//     if (
-//       this.props.mostRecentMeasurements &&
-//       this.props.mostRecentMeasurements[this.props.code]
-//     ) {
-//       currentMeasurement = this.props.mostRecentMeasurements[this.props.code].value.toFixed(2);
-//     }
-
-// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
     const msToYear = 1000 * 60 * 60 * 24 * 365;
 
     const yearsPast = Math.floor(
@@ -153,7 +139,7 @@ class Measurement extends React.Component {
     const monthsPast = Math.floor(
       (
         (Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) /
-        (msToYear - yearsPast)
+        (msToYear) - yearsPast
       ) * 12
     );
 
@@ -163,7 +149,7 @@ class Measurement extends React.Component {
     const monthsPres = Math.floor(
       (
         (Date.now() - (new Date(this.props.presentDate)).getTime()) /
-        (msToYear - yearsPres)
+        (msToYear) - yearsPres
       ) * 12
     );
 

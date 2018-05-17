@@ -295,14 +295,17 @@ class PastGraph extends React.Component {
       x: this.props.pastDate.toDate(),
       y: HEIGHT2
     }];
-
-    this.pastDateAreaPointLine = {
+    
+    if(pastDateVal) {
+      this.pastDateAreaPointLine = {
       x1: pastDateData[0].x,
       y1: pastDateVal.y,
       x2: pastDateVal.x,
       y2: pastDateVal.y,
     };
 
+
+    }
     this.focus.append('path')
       .datum(pastDateData)
       .attr('d', this.pastDateArea)
