@@ -34,6 +34,7 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
+    console.log(props.name)
   }
 
   showDetails() {
