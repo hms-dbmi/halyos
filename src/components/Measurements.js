@@ -55,11 +55,10 @@ class Measurements extends React.Component {
   }
 
   filterList(query) {
+    console.log(query)
     this.props.expandAbout(false);
-    this.setState({
-      query,
-      measurements: this.props.measurements.filter(function(item){
-        item.name.toLowerCase().indexOf(query) !== -1;
+    var temp = this.props.measurements.filter(function(item){
+        return item.name.toLowerCase().indexOf(query) !== -1;
       }
       ).sort((item) => {
         for (const key in measuresForRisks) {
@@ -73,6 +72,9 @@ class Measurements extends React.Component {
         }
         return 1;
       })
+    console.log(temp)
+    this.setState({
+      measurements: temp
     });
   }
 
