@@ -1,7 +1,9 @@
 import 'whatwg-fetch'
 import { getURL, getInsecureURL } from '../smart_setup';
-import { sortMeasurements } from '../general_utils'
+import { sortMeasurements } from '../general_utils';
 
+//utils
+import { sortByDate } from '../general_utils';
 // get patient data
 
 export const FETCH_PATIENT_REQUEST = 'FETCH_PATIENT_REQUEST';
@@ -276,9 +278,11 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     outputCode = item.resource.code.coding[0].code;
                   }
                 }
-
                 dataList.push(data);
+
               }
+
+              dataList = sortByDate(dataList);
               dataDict['measurements'] = dataList;
             }
           }
@@ -395,6 +399,7 @@ export function fetchAllObs(patientID) {
 
         for(let measure of allObsList){
           if(currCodesCollected.indexOf(measure.code) < 0){
+            measure['measurements'] = sortByDate(measure.measurements);
             allUncollectedMeasures.push(measure);
           }
         }

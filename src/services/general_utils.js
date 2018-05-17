@@ -31,7 +31,7 @@ export function getValueQuantities(obs, callback){
 
     @param obs: list of observations
 
-    @return [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}], 
+    @return [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}], 
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurements(obs){
@@ -108,6 +108,11 @@ export function sortMeasurements(obs){
   return sortedMeasures;
 }
 
+/** 
+    
+    This function converts a list of observations to a dictionary so it can be used for various searching functions. The list is more useful
+    when you need to iterate through the entire list of observations. 
+*/ 
 export function listToDictMeasurements(obs){
   
   var dictOfMeasures = {};
@@ -118,6 +123,20 @@ export function listToDictMeasurements(obs){
   return dictOfMeasures;
 }
 
+/** 
+  
+  This function takes in the final data, after the fetch and ETL operations. This means it must come DIRECTLY from the redux data store
+  for this method to work.
+
+*/
+export function sortByDate(obsList){
+
+  // even though we really don't need to (since we can assume ISO date format) we parse the date in case here.
+  obsList.sort((obs1,obs2) => {
+    return new Date(obs2.date) - new Date(obs1.date);
+  })
+  return obsList;
+}
 /**
   
     This function takes two latitude/longitude points and calculates the difference between them using the Haversine algorithm
