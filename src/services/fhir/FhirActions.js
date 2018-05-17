@@ -52,7 +52,6 @@ function shouldFetchAllPatientData(state, patientID) {
   } else if (state.fhirPatientData.isFetchingAllPatientData) {
     return false;
   } else {
-    // return posts.didInvalidate
   }
 }
 
@@ -66,6 +65,45 @@ export function fetchAllPatientDataIfNeeded(patientID) {
     return Promise.resolve();
   };
 }
+
+// we are getting the most recent visit of the patient
+export const FETCH_LAST_VISIT_DATE_REQUEST = 'FETCH_LAST_VISIT_DATE_REQUEST';
+export const FETCH_LAST_VISIT_DATE_SUCCESS = 'FETCH_LAST_VISIT_DATE_SUCCESS';
+
+export const requestLastVisitDate = patientID => ({
+  type: FETCH_LAST_VISIT_DATE_REQUEST,
+  patientID
+});
+
+export const receiveLastVisitDate = (patientID, data) => ({
+  type: FETCH_LAST_VISIT_DATE_SUCCESS,
+  patientID,
+  lastVisit: data,
+  receivedAt: Date.now()
+});
+
+
+export function fetchMostRecentVisitDate(patientID) {
+  return (dispatch) => {
+    dispatch(requestLastVisitDate(patientID));
+    const baseUrl = getURL();
+
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&_sort=-date&_count=1&date:missing=false')
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then((json) => {
+        let recentDate = json.entry[0].resource.effectiveDateTime;
+        dispatch(receiveLastVisitDate(patientID, recentDate));
+      }
+      );
+  };
+
+
+
+}
+
 
 // get most recent encounter information
 export const FETCH_RECENT_ENCOUNTER_REQUEST = 'FETCH_RECENT_ENCOUNTER_REQUEST';
@@ -96,7 +134,7 @@ export function fetchMostRecentEncounterData(patientID) {
     dispatch(requestMostRecentEcounterData(patientID));
     const baseUrl = getURL();
 
-    return fetch(baseUrl + '/Encounter?subject=' + patientID + '&_count=1&_sort=date')
+    return fetch(baseUrl + '/Encounter?subject=' + patientID + '&_count=1&_sort=-date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)

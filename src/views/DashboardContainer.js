@@ -5,8 +5,8 @@ import {
 } from '../services/fhir/FhirActions';
 
 const mapStateToProps = (state, ownProps) => ({
-  //patient: state.fhirPatientData.ptData,
-  patient: ownProps.patient[0].resource,
+  patient: state.fhirPatientData.ptData,
+  // patient: ownProps.patient[0].resource,
   mostRecentObs: state.fhirObservationData.mostRecentMeasurements,
   allObsByCode: state.fhirObservationData.allMeasurementsByCode,
   external: state.externalState,
