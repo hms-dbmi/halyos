@@ -13,64 +13,42 @@
     @return CHAD risk score
 
 */
-import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {getNearestFlat} from '../../services/general_utils';
 
-export function calcCHADScore(age, gender, chf, hypertension, vascDisease, diabetes, strTIAthrom) {
-  if (age < 65) {
-      age = 0;
-    }
-  else if (age < 75) {
-    age = 1;
+export function calcCHADScore(age, BMI, diabetes, astalt, platelet, albumin) {
+  var score = -1.675 + 
+              (0.037*age) + 
+              (0.094*BMI) + 
+              (1.13*(diabetes.length !== 0)) + 
+              (0.99*astalt) +
+              (-0.013*platelet) +
+              (-0.66*albumin);
+  if(score < -1.455) {
+    return (22.0/295.0*100).toPrecision(2);
+  }
+  else if(score > 0.676) {
+    return (64.0/71.0*100).toPrecision(2);
   }
   else {
-    age = 2;
+    return (39.0/114.0*100).toPrecision(2);
   }
-  var score = age + (gender === "female") + (!(chf.length === 0)) + (!(hypertension.length === 0)) + 
-  (!(vascDisease.length === 0)) + (!(diabetes.length === 0)) + 2*(!(strTIAthrom.length === 0));
-  var strkRisk;
-  switch (score) {
-    case 0:
-      strkRisk = 0.2;
-      break;
-    case 1:
-      strkRisk = 0.6;
-      break;
-    case 2:
-      strkRisk = 2.2;
-      break;
-    case 3:
-      strkRisk = 3.2;
-      break;
-    case 4:
-      strkRisk = 4.8;
-      break;
-    case 5:
-      strkRisk = 7.2;
-      break;
-    case 6:
-      strkRisk = 9.7;
-      break;
-    case 7:
-      strkRisk = 11.2;
-      break;
-    case 8:
-      strkRisk = 10.8;
-      break;
-    default:
-      strkRisk = "N/A";
-  }
-  return strkRisk;
 }
 
 export function futureCHAD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
- if(conds && pt) {
-  return CHADScore(pt, conds);
+ if(presMeasures && pt && futureMeasures) {
+  return calcCHADScore(calculateAge(pt.birthDate),
+                      (futureMeasures['39156-5'] || presMeasures['39156-5']),
+                      pullCondition(conds, ["73211009", "44054006", "46635009"]).length !== 0,
+                      (futureMeasures['1916-6'] || presMeasures['1916-6']),
+                      (futureMeasures['777-3'] || presMeasures['777-3']),
+                      (futureMeasures['1751-7'] || presMeasures['1751-7']))
  }
  return "...";
 }
 
 export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = null) {
-    if(conds && pt) {
+    if(conds && pt && obs) {
       let filteredConds = [];
       let goalDate = new Date(date);
       for(let i = 0; i < conds.length; i++){
@@ -79,20 +57,26 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
           filteredConds.push(conds[i]);
         }
       }
-      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
-      var hypertension = pullCondition(conds, ["38341003"]);
-      var vascDisease = pullCondition(conds, ["27550009"]);
-      var diabetes = pullCondition(conds, ["73211009"]);
-      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
-      let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
-      var CHADscore = calcCHADScore(calculateAge(pt.birthDate)-yearsYounger, //age
-        pt.gender, //gender
-        chf, //chf
-        hypertension, //hypertension
-        vascDisease, //vascDisease
-        diabetes, //diabetes
-        strTIAthrom); //strTIAthrom
-      return CHADscore;
+      const codesObject = {
+        '39156-5': [],
+        '1916-6': [],
+        '777-3': [],
+        '1751-7': [] 
+      };
+      const sortedObs = searchByCode(obs, codesObject);
+      if(sortedObs['39156-5'].length !== 0 && sortedObs['1916-6'].length !== 0 &&
+        sortedObs['777-3'].length !== 0 && sortedObs['1751-7'].length !== 0) {
+          var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
+          let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+          var CHADscore = calcCHADScore(calculateAge(pt.birthDate)-yearsYounger, //age
+                          getNearestFlat(sortedObs['39156-5'], date).value, //bmi, ~20
+                          diabetes, //diabetes
+                          getNearestFlat(sortedObs['1916-6'], date).value, //ast/alt ratio, normal ~2
+                          getNearestFlat(sortedObs['777-3'], date).value, //platelet, ~100
+                          getNearestFlat(sortedObs['1751-7'], date).value); //albumin, ~4
+          return CHADscore;
+      }
+      return '...'
     }
     return "..."
 }
@@ -103,21 +87,22 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
 @return CHAD score as a percent
 */
 
-export function CHADScore(pt, conds){
-  if(pt && conds) {
-      var chf = pullCondition(conds, ["42343007"]); //byCodes only works w LOINC
-      var hypertension = pullCondition(conds, ["38341003"]);
-      var vascDisease = pullCondition(conds, ["27550009"]);
-      var diabetes = pullCondition(conds, ["73211009"]);
-      var strTIAthrom = pullCondition(conds, ["230690007", "266257000", "13713005"]);
-      var CHADscore = calcCHADScore(calculateAge(pt.birthDate), //age
-        pt.gender, //gender
-        chf, //chf
-        hypertension, //hypertension
-        vascDisease, //vascDisease
-        diabetes, //diabetes
-        strTIAthrom); //strTIAthrom
-      return CHADscore;
+export function CHADScore(pt, conds, obs){
+  if(pt && conds && obs) {
+      var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
+      if(obs['39156-5'] && obs['1916-6'] &&
+        obs['777-3'] && obs['1751-7']) {
+          var CHADscore = calcCHADScore(calculateAge(pt.birthDate), //age
+                          obs['39156-5'].measurements[0].value, //bmi, ~20
+                          diabetes, //diabetes
+                          obs['1916-6'].measurements[0].value, //ast/alt ratio, normal ~2
+                          obs['777-3'].measurements[0].value, //platelet, ~100
+                          obs['1751-7'].measurements[0].value); //albumin, ~4
+          return CHADscore;
+      }
+      else {
+        return '...'
+      }
   }
   else {
     return '...'

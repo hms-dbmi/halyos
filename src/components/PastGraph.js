@@ -156,10 +156,11 @@ class PastGraph extends React.Component {
 
     this.focusGraph = this.focus.append('g')
       .attr('clip-path', 'url(#clip)');
-
-    this.context = this.svg.append('g')
-      .attr('class', 'context')
-      .attr('transform', `translate(${margin2.left},${margin2.top})`);
+    if(this.props.data.length > 1) {
+      this.context = this.svg.append('g')
+        .attr('class', 'context')
+        .attr('transform', `translate(${margin2.left},${margin2.top})`);
+    }
 
     this.pastDateArea = d3.area()
       .x(d => this.x(d.x))
@@ -196,15 +197,19 @@ class PastGraph extends React.Component {
       .attr('class', 'axis axis--y')
       .call(yAxis);
 
-    this.context.append('path')
-      .datum(this.props.data)
-      .attr('class', 'past-graph-connection-overview')
-      .attr('d', this.line2);
+    if(this.props.data.length > 1) {
+      this.context.append('path')
+        .datum(this.props.data)
+        .attr('class', 'past-graph-connection-overview')
+        .attr('d', this.line2);
 
-    this.context.append('g')
-      .attr('class', 'axis axis--x')
-      .attr('transform', `translate(0,${HEIGHT2})`)
-      .call(xAxis2);
+      this.context.append('g')
+        .attr('class', 'axis axis--x')
+        .attr('transform', `translate(0,${HEIGHT2})`)
+        .call(xAxis2);
+    }
+
+
 
     // we are setting the initial zoom to be between 5 and 95% of the total
     const rangeLength = this.x.range()[1] - this.x.range()[0];
@@ -251,19 +256,22 @@ class PastGraph extends React.Component {
         .attr('d', this.line);
     }
 
-    this.context.selectAll('past-graph-node-overview')
-      .data(this.props.data)
-      .enter().append('circle')
-      .attr('r', 3)
-      .attr('cx', d => this.x2(d.x))
-      .attr('cy', d => this.y2(d.y))
-      .attr('class', 'past-graph-node-overview')
-      .each(graphFindPastNode);
+    if(this.props.data.length > 1){
+      this.context.selectAll('past-graph-node-overview')
+        .data(this.props.data)
+        .enter().append('circle')
+        .attr('r', 3)
+        .attr('cx', d => this.x2(d.x))
+        .attr('cy', d => this.y2(d.y))
+        .attr('class', 'past-graph-node-overview')
+        .each(graphFindPastNode);
 
-    this.context.append('g')
-      .attr('class', 'past-graph-brush')
-      .call(this.brush)
-      .call(this.brush.move, initialBrushRange);
+      this.context.append('g')
+        .attr('class', 'past-graph-brush')
+        .call(this.brush)
+        .call(this.brush.move, initialBrushRange);
+    }
+
 
     this.svg.append('rect')
       .attr('class', 'past-graph-zoom')
@@ -300,17 +308,23 @@ class PastGraph extends React.Component {
       .attr('d', this.pastDateArea)
       .attr('class', 'past-graph-date-v-bar');
 
-    // this.focus.append('line')
-    //   .attr('class', 'graph-past-bar-point-line')
-    //   .attr('x1', this.x(pastDateData[0].x))
-    //   .attr('y1', this.y(pastDateVal.y))
-    //   .attr('x2', this.x(pastDateVal.x))
-    //   .attr('y2', this.y(pastDateVal.y));
+    //Dotted line to connect nearest measurement to verticle date line
+    //Only if the dotted line will remain in the graph!
+    if(pastDateData[0].x > dateExtent[0]) {
+      this.focus.append('line')
+        .attr('class', 'graph-past-bar-point-line')
+        .attr('x1', this.x(pastDateData[0].x))
+        .attr('y1', this.y(pastDateVal.y))
+        .attr('x2', this.x(pastDateVal.x))
+        .attr('y2', this.y(pastDateVal.y));
+    }
 
-    this.context.append('path')
-      .datum(pastDateDataContext)
-      .attr('d', this.pastDateAreaOverview)
-      .attr('class', 'past-graph-date-v-bar-overview');
+    if(this.props.data.length > 1){ 
+      this.context.append('path')
+        .datum(pastDateDataContext)
+        .attr('d', this.pastDateAreaOverview)
+        .attr('class', 'past-graph-date-v-bar-overview');
+    }
 
     this.initFuture();
   }
@@ -491,12 +505,12 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
-
-    // this.focus.select('.graph-past-bar-point-line')
-    //   .attr('x1', this.x(this.pastDateAreaPointLine.x1))
-    //   .attr('y1', this.y(this.pastDateAreaPointLine.y1))
-    //   .attr('x2', this.x(this.pastDateAreaPointLine.x2))
-    //   .attr('y2', this.y(this.pastDateAreaPointLine.y2));
+    //Dotted line to connect nearest measurement to verticle date line
+    this.focus.select('.graph-past-bar-point-line')
+      .attr('x1', this.x(this.pastDateAreaPointLine.x1))
+      .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+      .attr('x2', this.x(this.pastDateAreaPointLine.x2))
+      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(

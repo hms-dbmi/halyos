@@ -37,7 +37,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     }
     let finalScore = 100*(1-Math.pow(0.98756,Math.pow(Math.E,b-22.325)));
     finalScore = finalScore.toFixed(0);
-    return finalScore;
+    return Math.min(finalScore,80);
   }
   else {
     let b = 4.385*Math.log(age)+2.607*Math.log(sysBP)+0.963*Math.log(chol)
@@ -51,7 +51,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     }
     let finalScore = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
     finalScore = finalScore.toFixed(0);
-    return finalScore;
+    return Math.min(finalScore,80);
   }
 }
 
