@@ -116,7 +116,9 @@ export function searchByCode(obsBundle, object) {
 
 /**
   calculate age from date of birthday
-  @param dateString: date of birth @return age
+  
+  @param dateString: date of birth 
+  @return age
 */
 export function calculateAge(dateString) {
     var today = new Date();
