@@ -19,7 +19,7 @@ import { diabetesScore, futureDiabetes, diabetesPast } from '../services/RiskCal
 
 import measuresForRisks from '../texts/measurementsForRiskScores';
 
-import { sortMeasurements } from '../services/general_utils';
+import { sortMeasurements, listToDictMeasurements } from '../services/general_utils';
 // Styles
 import './Dashboard.css';
 
@@ -84,36 +84,33 @@ class Dashboard extends React.Component {
     //     }
     //   });
 
-    this.props.getAllObs(getPatID());
-
-
     this.props.getPatientDemographics(getPatID());
 
-    let codeList = [];
+    // let codeList = [];
     let mostRecentMeaCodeList = [];
 
     // first we pull the data of the measurements necessary to calculate current risk scores
-    for (const key in measuresForRisks) {
-      if (!measuresForRisks.hasOwnProperty(key)) {
-        continue;
-      }
-      let riskScore = key;
-      let riskScoreMeasures = measuresForRisks[key];
-      for(let measurement of riskScoreMeasures){
-        if(Array.isArray(measurement)){
-          if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
-            this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
-            mostRecentMeaCodeList.push(measurement[1]);
-          }
-        }
-        else {
-          if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
-            this.props.getMostRecentObsByCode(getPatID(), measurement);
-            mostRecentMeaCodeList.push(measurement);
-          }
-        }  
-      }
-    }
+    // for (const key in measuresForRisks) {
+    //   if (!measuresForRisks.hasOwnProperty(key)) {
+    //     continue;
+    //   }
+    //   let riskScore = key;
+    //   let riskScoreMeasures = measuresForRisks[key];
+    //   for(let measurement of riskScoreMeasures){
+    //     if(Array.isArray(measurement)){
+    //       if(!(mostRecentMeaCodeList.indexOf(measurement[1]) > -1)){
+    //         this.props.getMostRecentObsByCode(getPatID(), measurement[0], measurement[1]);
+    //         mostRecentMeaCodeList.push(measurement[1]);
+    //       }
+    //     }
+    //     else {
+    //       if(!(mostRecentMeaCodeList.indexOf(measurement) > -1)){
+    //         this.props.getMostRecentObsByCode(getPatID(), measurement);
+    //         mostRecentMeaCodeList.push(measurement);
+    //       }
+    //     }  
+    //   }
+    // }
 
     // next we pull all measurements required for the risk scores, so we can calculate previous risk scores.
     for (const key in measuresForRisks) {
@@ -124,19 +121,21 @@ class Dashboard extends React.Component {
       let riskScoreMeasures = measuresForRisks[key];
       for(let measurement of riskScoreMeasures){
         if(Array.isArray(measurement)){
-          if(!(codeList.indexOf(measurement[1]) > -1)){
+          // if(!(codeList.indexOf(measurement[1]) > -1)){
             this.props.getAllObsByCode(getPatID(), measurement[0], measurement[1]);
-            codeList.push(measurement[1]);
-          }
+            // codeList.push(measurement[1]);
+          // }
         }
         else {
-          if(!(codeList.indexOf(measurement) > -1)){
+          // if(!(codeList.indexOf(measurement) > -1)){
             this.props.getAllObsByCode(getPatID(), measurement);
-            codeList.push(measurement);
-          }
+            // codeList.push(measurement);
+          // }
         }
       }
     }    
+
+    this.props.getAllObs(getPatID());
 
     window.addEventListener('resize', this.forceRerenderBound);
   }
@@ -205,7 +204,6 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("this.props.allObs", this.props.allObs);
     if (this.props.isFetchingAllPatientData || !this.props.patient) {
       return <div>Loading...</div>;
     }
@@ -284,12 +282,12 @@ class Dashboard extends React.Component {
       ? 'pure-u-16-24'
       : riskCardiacWidth;
 
-    let riskStrokeWidth = !riskDetails
+    let riskLiverWidth = !riskDetails
       ? 'pure-u-1-5'
       : 'pure-u-1-5 dashboard-risk-hidden';
-    riskStrokeWidth = this.state.riskIsExpanded === 'Stroke'
+    riskLiverWidth = this.state.riskIsExpanded === 'Liver Fibrosis'
       ? 'pure-u-16-24'
-      : riskStrokeWidth;
+      : riskLiverWidth;
 
     let riskKidneyWidth = !riskDetails
       ? 'pure-u-1-5'
@@ -325,7 +323,7 @@ class Dashboard extends React.Component {
               score={reynoldsScore(
                 null,
                 this.props.patient,
-                this.props.mostRecentObs,
+                listToDictMeasurements(this.props.allObsByCode),
                 this.props.external.smoking[1],
                 this.props.external.heartfamhist
               )}
@@ -341,23 +339,26 @@ class Dashboard extends React.Component {
               currRisk={this.state.riskIsExpanded}
             />
           </li>
-          <li className={riskStrokeWidth}>
+          <li className={riskLiverWidth}>
+          
             <RiskTileContainer
-              expand={(args) => alert("No details available.")}
-              name="Stroke"
+              expand={this.expandRisk.bind(this)}
+              name="Liver Fibrosis"
               score={CHADScore(
                 this.props.patient,
-                this.props.conditions
+                this.props.conditions,
+                listToDictMeasurements(this.props.allObsByCode)
               )}
               futureScore={futureCHAD}
               pastScore={CHADPastScore}
               data={{
                 patient: this.props.patient,
-                conditions: this.props.conditions
+                conditions: this.props.conditions,
+                observations: this.props.observations
               }}
               unit="%"
               context={1}
-              url="Stroke"
+              url="Liver_Fibrosis"
               currRisk={this.state.riskIsExpanded}
             />
           </li>
@@ -450,7 +451,7 @@ class Dashboard extends React.Component {
                 expandAbout={this.expandMeaAbout.bind(this)}
                 isCollapsed={this.state.meaIsCollapsed}
                 isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.allObs}
+                measurements={this.props.allObsByCode}
                 risk={this.state.riskIsExpanded} 
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}

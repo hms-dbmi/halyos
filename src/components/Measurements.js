@@ -28,37 +28,45 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements:[],
+      measurements: []   
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+   return true;
+  }
+
   componentWillReceiveProps(nextProps){
-    this.setState({
-        measurements: nextProps.measurements.sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
+    if(this.props.measurements.length !== nextProps.measurements.length){
+      this.setState({
+          measurements: nextProps.measurements.sort((item) => {
+          for (const key in measuresForRisks) {
+            if (!measuresForRisks.hasOwnProperty(key)) {
+              continue;
+            }
+            if (deepContains(measuresForRisks[key],(item.code))) {
+              return -1;
+            }
           }
-          if (deepContains(measuresForRisks[key],(item.code))) {
-            return -1;
-          }
-        }
-        return 1;
-      })
-    });
+          return 1;
+        })
+      });
+    }
   }
 
   filterList(query) {
     this.props.expandAbout(false);
     this.setState({
       query,
-      measurements: this.props.measurements.filter(
-        item => item.name.toLowerCase().indexOf(query) !== -1
+      measurements: this.props.measurements.filter(function(item){
+        item.name.toLowerCase().indexOf(query) !== -1;
+      }
       ).sort((item) => {
         for (const key in measuresForRisks) {
           if (!measuresForRisks.hasOwnProperty(key)) {
             continue;
           }
+
           if (deepContains(measuresForRisks[key],item.code)) {
             return -1;
           }

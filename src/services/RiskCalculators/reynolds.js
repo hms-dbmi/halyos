@@ -37,7 +37,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     }
     let finalScore = 100*(1-Math.pow(0.98756,Math.pow(Math.E,b-22.325)));
     finalScore = finalScore.toFixed(0);
-    return finalScore;
+    return Math.min(finalScore,80);
   }
   else {
     let b = 4.385*Math.log(age)+2.607*Math.log(sysBP)+0.963*Math.log(chol)
@@ -51,7 +51,7 @@ export function calculateReynolds(age, sysBP, hsCRP, chol, hdl, smoker, famHist,
     }
     let finalScore = 100*(1-Math.pow(0.8990, Math.pow(Math.E,b-33.097)));
     finalScore = finalScore.toFixed(0);
-    return finalScore;
+    return Math.min(finalScore,80);
   }
 }
 
@@ -159,14 +159,17 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         '30522-7': {}, // hsCRP
         '2093-3': {}, // cholesterol
         '2085-9': {}, // HDL
-        '55284-4': {} // sysBP --- 55284-4 is the code for both BPs
+        '8480-6': {} // sysBP
       };
       // console.log("obs!", obs);
       // const sortedObs = searchByCode(obs, codesObject);
+
       codesObject['30522-7'] = obs['30522-7'];
       codesObject['2093-3'] = obs['2093-3'];
       codesObject['2085-9'] = obs['2085-9'];
-      codesObject['55284-4'] = obs['55284-4'];
+      codesObject['8480-6'] = obs['8480-6'];
+
+      // console.log("in reynolds", obs['30522-7']);
 
       for (let key in codesObject) {
         if (codesObject.hasOwnProperty(key)) {
@@ -176,8 +179,10 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
           }
         }
       }
+
+      // console.log("8480-6 num", codesObject['8480-6'].measurements[0].value);
       return calculateReynolds(calculateAge(pt.birthDate),
-        codesObject['55284-4'].measurements[0].value,
+        codesObject['8480-6'].measurements[0].value,
         codesObject['30522-7'].measurements[0].value,
         codesObject['2093-3'].measurements[0].value,
         codesObject['2085-9'].measurements[0].value,

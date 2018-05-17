@@ -22,5 +22,10 @@ export default {
 	'Diabetes': {
 		name: "Diabetes Risk Score",
 		text: "The diabetes risk score represents your risk of developing diabetes over the next 5 years."
-	},		
+	},	
+
+	'Liver Fibrosis': {
+		name: 'Liver Fibrosis Risk Score',
+		text: 'The liver fibrosis risk score combines the measurements listed on the left, as well as the presence of diabetes to generate a score. This risk reported is the percentage of patients with scores similar to yours who have liver fibrosis.'
+	}	
 };

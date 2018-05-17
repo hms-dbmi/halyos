@@ -1,7 +1,9 @@
 import 'whatwg-fetch'
 import { getURL, getInsecureURL } from '../smart_setup';
+import { sortMeasurements } from '../general_utils';
 
-
+//utils
+import { sortByDate } from '../general_utils';
 // get patient data
 
 export const FETCH_PATIENT_REQUEST = 'FETCH_PATIENT_REQUEST';
@@ -194,8 +196,8 @@ export const FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS = 'FETCH_ALL_OBSERVATION_BY_C
 
 export const requestAllObsByCode = (patientID, code) => ({
   type: FETCH_ALL_OBSERVATION_BY_CODE_REQUEST,
-  patientID,
-  code
+  id: patientID,
+  code: code
 });
 
 export const receiveAllObsByCode = (patientID, code, data) => ({
@@ -207,23 +209,23 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
 });
 
 export function shouldFetchAllObsByCode(state, code, subcode = null) {
-  let allMeasures = state.fhirObservationData.codeList;
-  let fhirObsData = state.fhirObservationData;
-
-  if(allMeasures.length > 0 && !fhirObsData.isFetchingAllMeasurement) {
-    for(let measure of allMeasures) {
-      if(measure['code'] == code || measure['code'] == subcode){
-        return false;
-      }
-    }    
+  let currFetchingList = state.fhirObservationData.isFetchingAllMeasurementByCodeList;
+  if( currFetchingList.hasOwnProperty(code) || currFetchingList.hasOwnProperty(subcode)) {
+    return false;
   }
+
+  let allMeasures = state.fhirObservationData.codeList;  
+  for(let measure of allMeasures) {
+    if(measure == code || measure == subcode){
+      return false;
+    }
+  }    
   return true;
 }
 
 export function fetchAllObsByCode(patientID, code, subcode = null) {
   return (dispatch, getState) => {
-    //TODO figure out why this doens't work right now. believe it has to do with state updates not occuring immediately. 
-    //the solution right now has been to include checks in Dashboard.js before calling fetchAllObsByCode
+    // checks if we need to fetch, only does so if there isn't already a request out or we don't have the measurement yet.
     if(!shouldFetchAllObsByCode(getState(), code, subcode)) {
       return Promise.resolve();
     }
@@ -237,6 +239,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
       )
       .then(function(json){
           let dataDict = {};
+          let outputCode = "";
           if(json){
             if(json.total == 0){
               return Promise.resolve();
@@ -253,11 +256,15 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                       data['date'] = item.resource.effectiveDateTime;
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
                       //apparently, some have text and others have display exclusively, for some ungodly reason.
-                      if(!dataDict['name'])
+                      if(!(dataDict.hasOwnProperty('name'))) {
+
                         dataDict['name'] = part.code.coding[0].display || part.code.text;
-                      if(!dataDict['code']){
-                        dataDict['code'] = part.code.coding[0].code;
                       }
+                      if(!dataDict.hasOwnProperty('code')){
+                        dataDict['code'] = part.code.coding[0].code;
+                        outputCode = part.code.coding[0].code;
+                      }
+                      break;
                     }
                   }
                 }
@@ -268,17 +275,19 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                     dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
                   if(!dataDict['code']){
                     dataDict['code'] = item.resource.code.coding[0].code;
+                    outputCode = item.resource.code.coding[0].code;
                   }
                 }
-
                 dataList.push(data);
+
               }
+
+              dataList = sortByDate(dataList);
               dataDict['measurements'] = dataList;
             }
           }
-        dispatch(receiveAllObsByCode(patientID, code, dataDict));
-        } 
-      );
+        dispatch(receiveAllObsByCode(patientID, outputCode, dataDict));
+      });
   };
 }
 
@@ -295,7 +304,7 @@ export const requestAllObs = (patientID) => ({
 export const receiveAllObs = (patientID, data) => ({
   type: FETCH_ALL_OBSERVATION_SUCCESS,
   patientID,
-  all_obs: data,
+  all_other_obs: data,
   receivedAt: Date.now()
 })
 
@@ -314,8 +323,6 @@ export function fetchAllObsExcluded(patientID, excludeCodeList) {
     for (let code of excludeCodeList){
       excludedCodeURL += ('&code:not=' + code)
     }
-
-    console.log("excludedCodeURL", excludedCodeURL)
 
     // var mkFhir = require('fhir.js');
     
@@ -364,7 +371,6 @@ export function fetchAllObs(patientID) {
     const baseUrl = getURL();
 
     var mkFhir = require('fhir.js');
-    console.log("mkFhir", mkFhir);
     var client = mkFhir({
       baseUrl: getInsecureURL()
     });
@@ -374,113 +380,41 @@ export function fetchAllObs(patientID) {
       .fetchAll({type: 'Observation', query: {'subject':patientID, '$sort': [['code','asc']]}})
       .then(function(res){
         var bundle = res;
-        console.log("res", typeof res);
-        console.log("# Patients born in 1974: ", bundle);
-
         let currObsIdx = 0;
         let currObs = bundle[currObsIdx].code.coding[0].code;
-        console.log("currObs", typeof currObs);
 
         if(!bundle){
           return Promise.resolve();
         }
-        var obsList = [];
-        // while(currObsIdx < bundle.length){
-        //   while(bundle[currObsIdx].code.coding[0].code == bundle[currObsIdx + 1].code.coding[0].code){
+        var allObsList = [];
 
-        //     let dataListByCode = [];
-        //       let dataElement = {};
-        //       if(item.resource.component){
-        //         let subdata = item.resource.component;
-        //         for(let part of subdata){
-        //           if(part.code.coding[0].code == subcode){
-        //             data = part.valueQuantity;
-        //             data['date'] = item.resource.effectiveDateTime;
-        //             //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
-        //             //apparently, some have text and others have display exclusively, for some ungodly reason.
-        //             if(!dataDict['name'])
-        //               dataDict['name'] = part.code.coding[0].display || part.code.text;
-        //             if(!dataDict['code']){
-        //               dataDict['code'] = part.code.coding[0].code;
-        //             }
-        //           }
-        //         }
-        //       }
-        //       else {
-        //         data = item.resource.valueQuantity;
-        //         data['date'] = item.resource.effectiveDateTime;
-        //         if(!dataDict['name'])
-        //           dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
-        //         if(!dataDict['code']){
-        //           dataDict['code'] = item.resource.code.coding[0].code;
-        //         }
-        //       }
+        // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
+        // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}]
+        allObsList = sortMeasurements(bundle)
 
-        //       dataList.push(data);
-        //     dataDict['measurements'] = dataList;
+        // TODO: is there a right way to do this?
+        let currState = getState();
+        let currCodesCollected = currState.fhirObservationData.codeList;
+        let allUncollectedMeasures = [];
 
-
-        //     currObsIdx++;
-
-
-        //   }          
-        // }
-
+        for(let measure of allObsList){
+          if(currCodesCollected.indexOf(measure.code) < 0){
+            measure['measurements'] = sortByDate(measure.measurements);
+            allUncollectedMeasures.push(measure);
+          }
+        }
+        dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){
-        console.log("error res", res);
         //Error responses
+        return Promise.resolve();
         if (res.status){
-            console.log('Error1', res.status);
         }
 
         //Errors
         if (res.message){
-            console.log('Error1', res.message);
         }
       });
-      //   let dataDict = {};
-      //   if(json){
-      //     if(json.total == 0){
-      //       return Promise.resolve();
-      //     }
-      //     else {
-      //       let dataList = [];
-      //       for(let item of json.entry){
-      //         let data = {};
-      //         if(item.resource.component){
-      //           let subdata = item.resource.component;
-      //           for(let part of subdata){
-      //             if(part.code.coding[0].code == subcode){
-      //               data = part.valueQuantity;
-      //               data['date'] = item.resource.effectiveDateTime;
-      //               //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
-      //               //apparently, some have text and others have display exclusively, for some ungodly reason.
-      //               if(!dataDict['name'])
-      //                 dataDict['name'] = part.code.coding[0].display || part.code.text;
-      //               if(!dataDict['code']){
-      //                 dataDict['code'] = part.code.coding[0].code;
-      //               }
-      //             }
-      //           }
-      //         }
-      //         else {
-      //           data = item.resource.valueQuantity;
-      //           data['date'] = item.resource.effectiveDateTime;
-      //           if(!dataDict['name'])
-      //             dataDict['name'] = item.resource.code.coding[0].display || item.resource.code.text;
-      //           if(!dataDict['code']){
-      //             dataDict['code'] = item.resource.code.coding[0].code;
-      //           }
-      //         }
-
-      //         dataList.push(data);
-      //       }
-      //       dataDict['measurements'] = dataList;
-      //     }
-      //   }
-      // dispatch(receiveAllObsByCode(patientID, code, dataDict));
-
   }
 }
 
