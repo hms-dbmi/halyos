@@ -340,13 +340,14 @@ class Dashboard extends React.Component {
             />
           </li>
           <li className={riskLiverWidth}>
+          
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Liver Fibrosis"
               score={CHADScore(
                 this.props.patient,
                 this.props.conditions,
-                this.props.mostRecentObs
+                listToDictMeasurements(this.props.allObsByCode)
               )}
               futureScore={futureCHAD}
               pastScore={CHADPastScore}

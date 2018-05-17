@@ -129,22 +129,7 @@ class Measurement extends React.Component {
 
     const pastValue = parseFloat(this.props.pastMeasurementsValue).toFixed(2);
     const presentValue = parseFloat(this.props.present).toFixed(2);
-    // const pastDate = moment(this.props.pastMeasurementsDate).format('MMM Do YYYY');
 
-    // const presentDate = this.props.presentDate &&
-    //   moment(this.props.presentDate).format('MMM Do YYYY');
-
-// <<<<<<< HEAD
-// =======
-//     let currentMeasurement = '';
-//     if (
-//       this.props.mostRecentMeasurements &&
-//       this.props.mostRecentMeasurements[this.props.code]
-//     ) {
-//       currentMeasurement = this.props.mostRecentMeasurements[this.props.code].value.toFixed(2);
-//     }
-
-// >>>>>>> 8a47f9a8e6da0b202076a85e6ef253e2fd54c362
     const msToYear = 1000 * 60 * 60 * 24 * 365;
 
     const yearsPast = Math.floor(
