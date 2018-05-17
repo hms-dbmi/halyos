@@ -30,6 +30,7 @@ const parseGraphData = data => data.map(
 
 class Measurement extends React.Component {
   constructor(props) {
+    console.log(props.name)
     super(props);
     this.state = {
       isDetailsShown: false,
@@ -98,10 +99,12 @@ class Measurement extends React.Component {
       });
     }
     this.props.addPresentMeasurement(this.props.code, this.props.present);
+    console.log(this.props)
     if (
       !this.props.futureMeasurements ||
       !this.props.futureMeasurements[this.props.code]
     ) {
+      console.log('added! ', this.props.name)
       this.props.addFutureMeasurement(this.props.code, this.props.present);
     }
   }
