@@ -57,9 +57,8 @@ class Measurements extends React.Component {
   filterList(query) {
     this.props.expandAbout(false);
     this.setState({
-      query,
       measurements: this.props.measurements.filter(function(item){
-        item.name.toLowerCase().indexOf(query) !== -1;
+        return item.name.toLowerCase().indexOf(query) !== -1;
       }
       ).sort((item) => {
         for (const key in measuresForRisks) {
