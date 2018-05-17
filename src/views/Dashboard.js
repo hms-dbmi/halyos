@@ -4,7 +4,7 @@ import React from 'react';
 // Components
 import MeasurementsContainer from '../components/MeasurementsContainer';
 import MeasurementAbout from '../components/MeasurementAbout';
-import PreventativeCareSuggestions from '../components/PreventativeCareSuggestions';
+import PreventativeCareSuggestionsContainer from '../components/PreventativeCareSuggestionsContainer';
 import EnvironmentContainer from '../components/EnvironmentContainer';
 import RiskTileContainer from '../components/RiskTileContainer';
 import riskText from '../texts/riskText';
@@ -463,7 +463,7 @@ class Dashboard extends React.Component {
               ref={(el) => { this.pcsEl = el; }}
               style={pcsStyle}
             >
-              <PreventativeCareSuggestions
+              <PreventativeCareSuggestionsContainer
                 birthDate={patient.birthDate}
                 gender={patient.gender}
                 isCollapsed={this.state.pcsIsCollapsed}
