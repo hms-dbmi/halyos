@@ -90,7 +90,6 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
 export function CHADScore(pt, conds, obs){
   if(pt && conds && obs) {
       var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
-      console.log(obs['39156-5'], obs['1916-6'], obs['777-3'], obs['1751-7'])
       if(obs['39156-5'] && obs['1916-6'] &&
         obs['777-3'] && obs['1751-7']) {
           var CHADscore = calcCHADScore(calculateAge(pt.birthDate), //age

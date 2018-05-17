@@ -34,7 +34,7 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
-    console.log(props.name)
+    //console.log('Constructor: ',props.name)
   }
 
   showDetails() {
@@ -108,6 +108,7 @@ class Measurement extends React.Component {
   }
 
   render() {
+    //console.log('Render: ',this.props.name)
     let sliderValue;
     if (
       this.props.futureMeasurements &&
