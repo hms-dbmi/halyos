@@ -14,7 +14,7 @@ const deepContains = (source, value) => {
       }
     }
     else {
-      if (item == value) {
+      if (item === value) {
         return true;
       }   
     }

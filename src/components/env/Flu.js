@@ -6,7 +6,7 @@ import EnvironmentTile from '../EnvironmentTile';
 import { coordDistance } from '../../services/general_utils';
 
 // Styles
-import './Flu.css';
+//import './Flu.css';
 
 
 //currently arbitary rankings

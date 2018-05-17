@@ -20,6 +20,12 @@ export default {
 		'56115-9', '56114-2', '56117-5', '8280-0', '8281-8', //waist circumference
 		'39156-5' //BMI
 	],
+	'Liver Fibrosis': [
+       	'39156-5', //BMI
+        '1916-6', //ast/alt ratio
+        '777-3', //platelet count
+        '1751-7' //albumin
+	],
 	'Important Measures': [
 		'2345-7' //glucose
 	]
