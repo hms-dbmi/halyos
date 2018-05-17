@@ -30,7 +30,6 @@ const parseGraphData = data => data.map(
 
 class Measurement extends React.Component {
   constructor(props) {
-    console.log(props.name)
     super(props);
     this.state = {
       isDetailsShown: false,
@@ -98,20 +97,17 @@ class Measurement extends React.Component {
         isDetailsShown: false
       });
     }
-    this.props.addPresentMeasurement(this.props.code, this.props.present);
-    console.log(this.props)
+    this.props.addPresentMeasurement(this.props.code, parseFloat(this.props.present));
     if (
       !this.props.futureMeasurements ||
       !this.props.futureMeasurements[this.props.code]
     ) {
-      console.log('added! ', this.props.name)
-      this.props.addFutureMeasurement(this.props.code, this.props.present);
+      this.props.addFutureMeasurement(this.props.code, parseFloat(this.props.present));
     }
   }
 
   render() {
     let sliderValue;
-
     if (
       this.props.futureMeasurements &&
       this.props.futureMeasurements[this.props.code]
@@ -156,7 +152,7 @@ class Measurement extends React.Component {
     const monthsPast = Math.floor(
       (
         (Date.now() - (new Date(this.props.pastMeasurementsDate)).getTime()) /
-        (msToYear - yearsPast)
+        (msToYear) - yearsPast
       ) * 12
     );
 
@@ -166,7 +162,7 @@ class Measurement extends React.Component {
     const monthsPres = Math.floor(
       (
         (Date.now() - (new Date(this.props.presentDate)).getTime()) /
-        (msToYear - yearsPres)
+        (msToYear) - yearsPres
       ) * 12
     );
 
