@@ -6,7 +6,10 @@ import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SU
 
 const initialFhirState = {
   "allMeasurements" : [],
-  "codeList" : []
+  "mostRecentMeasurements" : [],
+  "allMeasurementsByCode" : [],
+  "codeList" : [],
+  "isFetchingAllMeasurementByCodeList" : {},
 };
 export function fhirObservationData(state = initialFhirState, action){
 	switch (action.type){
@@ -20,29 +23,48 @@ export function fhirObservationData(state = initialFhirState, action){
         ...state,
         isFetchingMostRecentMeasurement:false,
         lastUpdated:action.receivedAt,
-        mostRecentMeasurements : {
+        mostRecentMeasurements : [
           ...state.mostRecentMeasurements,
-          [action.code]: action.recent_obs
-        }
+          action.recent_obs
+        ]
       }
     case FETCH_ALL_OBSERVATION_BY_CODE_REQUEST:
       return {
         ...state,
-        isFetchingAllMeasurement:true,
+        isFetchingAllMeasurementByCodeList: {
+          ...state.isFetchingAllMeasurementByCodeList,
+          [action.code]:true
+        }
       }
     case FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS:
       return {
         ...state,
-        isFetchingAllMeasurement:false,
+        isFetchingAllMeasurementByCodeList: {
+          ...state.isFetchingAllMeasurementByCodeList,
+          [action.code]:false
+        },
         lastUpdated:action.receivedAt,
-        allMeasurements : [
-          ...state.allMeasurements,
+        allMeasurementsByCode : [
+          ...state.allMeasurementsByCode,
           action.all_obs_by_code
         ],
         codeList : [
           ...state.codeList,
           action.code
         ]
+      }
+    case FETCH_ALL_OBSERVATION_REQUEST:
+      return {
+        ...state,
+        isFetchingAllMeasurement:true,
+      }
+    case FETCH_ALL_OBSERVATION_SUCCESS:
+      var newArr = state.allMeasurementsByCode.concat(action.all_other_obs);
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        allMeasurementsByCode : newArr,
       }
     default:
       return state

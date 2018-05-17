@@ -31,27 +31,27 @@ export function getValueQuantities(obs, callback){
 
     @param obs: list of observations
 
-    @return [{"name": "xxxx", "measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}], 
+    @return [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "units": mmHg}]}], 
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurements(obs){
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
-    if(obs[i].resource.component) {
-      for(var k = 0; k < obs[i].resource.component.length; k++) {
+    if(obs[i].component) {
+      for(var k = 0; k < obs[i].component.length; k++) {
         var found = false;
-        if(!obs[i].resource.component[k].code.text) {
-          obs[i].resource.component[k].code.text = obs[i].resource.code.coding[0].display
+        if(!obs[i].component[k].code.text) {
+          obs[i].component[k].code.text = obs[i].code.coding[0].display
         }
-        if(!obs[i].resource.effectiveDateTime) {
-          obs[i].resource.effectiveDateTime = obs[i].resource.issued
+        if(!obs[i].effectiveDateTime) {
+          obs[i].effectiveDateTime = obs[i].issued
         }
         for(var j = 0; j < sortedMeasures.length; j++) {
-          if(sortedMeasures[j].name === obs[i].resource.component[k].code.text) {
+          if(sortedMeasures[j].name === obs[i].component[k].code.text) {
             sortedMeasures[j].measurements.push(
-              {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
-               "date": obs[i].resource.effectiveDateTime,
-                "units": obs[i].resource.component[k].valueQuantity.unit
+              {"value": obs[i].component[k].valueQuantity.value.toFixed(2),
+               "date": obs[i].effectiveDateTime,
+                "unit": obs[i].component[k].valueQuantity.unit
               }
             );
             found = true;
@@ -60,12 +60,12 @@ export function sortMeasurements(obs){
         }
         if(!found) {
           sortedMeasures.push(
-            {"name": obs[i].resource.component[k].code.text,
-             "code": obs[i].resource.component[k].code.coding[0].code,
+            {"name": obs[i].component[k].code.text,
+             "code": obs[i].component[k].code.coding[0].code,
              "measurements": [
-                {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
-                 "date": obs[i].resource.effectiveDateTime,
-                  "units": obs[i].resource.component[k].valueQuantity.unit
+                {"value": obs[i].component[k].valueQuantity.value.toFixed(2),
+                 "date": obs[i].effectiveDateTime,
+                  "unit": obs[i].component[k].valueQuantity.unit
                 }
               ]
             }
@@ -74,16 +74,16 @@ export function sortMeasurements(obs){
       }
     }
     else {
-      if(!obs[i].resource.code.text) {
-        obs[i].resource.code.text = obs[i].resource.code.coding[0].display
+      if(!obs[i].code.text) {
+        obs[i].code.text = obs[i].code.coding[0].display
       }
       let found = false;
       for(let j = 0; j < sortedMeasures.length; j++) {
-        if(sortedMeasures[j].name === obs[i].resource.code.text) {
+        if(sortedMeasures[j].name === obs[i].code.text) {
           sortedMeasures[j].measurements.push(
-            {"value": obs[i].resource.valueQuantity.value.toFixed(2),
-             "date": obs[i].resource.effectiveDateTime,
-              "units": obs[i].resource.valueQuantity.unit
+            {"value": obs[i].valueQuantity.value.toFixed(2),
+             "date": obs[i].effectiveDateTime,
+              "unit": obs[i].valueQuantity.unit
             }
           );
           found = true;
@@ -92,12 +92,12 @@ export function sortMeasurements(obs){
       }
       if(!found) {
         sortedMeasures.push(
-          {"name": obs[i].resource.code.text,
-           "code": obs[i].resource.code.coding[0].code,
+          {"name": obs[i].code.text,
+           "code": obs[i].code.coding[0].code,
            "measurements": [
-              {"value": obs[i].resource.valueQuantity.value.toFixed(2),
-               "date": obs[i].resource.effectiveDateTime,
-                "units": obs[i].resource.valueQuantity.unit
+              {"value": obs[i].valueQuantity.value.toFixed(2),
+               "date": obs[i].effectiveDateTime,
+                "unit": obs[i].valueQuantity.unit
               }
             ]
           }
@@ -106,6 +106,16 @@ export function sortMeasurements(obs){
     }
   }
   return sortedMeasures;
+}
+
+export function listToDictMeasurements(obs){
+  
+  var dictOfMeasures = {};
+  for(let measurement of obs){
+    dictOfMeasures[measurement.code] = measurement;
+  }
+
+  return dictOfMeasures;
 }
 
 /**

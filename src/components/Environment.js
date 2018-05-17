@@ -16,18 +16,18 @@ class Environment extends React.Component {
 
     //by the time that we create the Env tile, if the ptLoc data has already been pulled, then we don't do it again below
     if(this.props.ptLoc){
-      this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
-      this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
-      this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      // this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      // this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      // this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
     }
   }
 
   componentWillReceiveProps(nextProps){
     // we make the call for the environmental factors here
-    if(!this.props.ptLoc && this.props.ptLoc.latitude !== nextProps.ptLoc.latitude && this.props.ptLoc.longitude !== nextProps.ptLoc.longitiude){
-      this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
-      this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
-      this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+    if(!this.props.ptLoc && this.props.ptLoc.latitude != nextProps.ptLoc.latitude && this.props.ptLoc.longitude != nextProps.ptLoc.longitiude){
+      // this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      // this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
+      // this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
 
     }
 

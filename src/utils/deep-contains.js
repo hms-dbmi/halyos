@@ -6,7 +6,7 @@
  * @param {primitive} value - value to be found in source
  * @return {object} Cloned `source` object.
  */
-const deepClone = (source, value) => {
+const deepContains = (source, value) => {
   for(let item of source){
     if(Array.isArray(item)){
       if(item.includes(value)){
@@ -22,4 +22,4 @@ const deepClone = (source, value) => {
   return false;
 };
 
-export default deepClone;
+export default deepContains;
