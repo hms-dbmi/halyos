@@ -167,7 +167,7 @@ class Measurement extends React.Component {
               >
                 {this.props.name}
               </p>
-              <div className="measurement-unit">({this.props.unit})</div> &nbsp;
+              <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
                 icon="help"
                 iconOnly={true}
@@ -189,7 +189,7 @@ class Measurement extends React.Component {
           <div
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
-          >{console.log(this.props, pastValue)}
+          >
             {this.props.past ? (
                 <Icon
                   id={getArrowDir(parseFloat(pastValue), parseFloat(this.props.present))}

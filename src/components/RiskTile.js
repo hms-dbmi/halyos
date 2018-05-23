@@ -86,7 +86,7 @@ class RiskTile extends React.Component {
                 {this.props.name} Risk
               </h2>
               <div className="risk-tile-time">
-                within <span className="highlight">{this.props.context} year(s)</span>
+                within <span className="highlight">{this.props.context} ({(this.props.context == 1) ? "year" : "years"})</span>
               </div>
               <div className="risk-tile-score flex-c flex-align-c">
                 <RiskVisualization
@@ -147,7 +147,7 @@ class RiskTile extends React.Component {
             }
           </div>
           <div className="flex-c flex-align-sb">
-            <div className="risk-tile-context">{`within ${this.props.context} year(s)`}</div>
+            <div className="risk-tile-context">{`within ${this.props.context} ${(this.props.context == 1) ? "year" : "years"}`}</div>
             {/* <Button
               icon="info"
               iconOnly={true}
