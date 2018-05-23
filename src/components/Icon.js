@@ -28,7 +28,7 @@ const getClass = (props) => {
   className += props.className ? ` ${props.className}` : '';
   className += props.mirrorH ? ' is-mirror-h' : '';
   className += props.mirrorV ? ' is-mirror-v' : '';
-
+  
   return className;
 };
 

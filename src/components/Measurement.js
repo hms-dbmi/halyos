@@ -60,6 +60,9 @@ class Measurement extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if(this.props.name != nextProps.name) {
+      console.log(this.props, nextProps)
+    }
     if (
       this.props.currMeasure === this.props.name &&
       nextProps.currMeasure !== this.props.name
@@ -186,17 +189,15 @@ class Measurement extends React.Component {
           <div
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
-          >
+          >{console.log(this.props, pastValue)}
             {this.props.past ? (
                 <Icon
-                  id={getArrowDir(pastValue, this.props.present)}
-                  mirrorH={getMirrorH(pastValue, this.props.present)}
-                />
+                  id={getArrowDir(parseFloat(pastValue), parseFloat(this.props.present))}
+                  mirrorH={getMirrorH(parseFloat(pastValue), parseFloat(this.props.present))}
+                /> 
               ) : (
-                // TODO: need to know what this mirrorH thing is to see if this is set as default properly
                 <Icon
                   id='arrow-right'
-                  mirrorH=' is-mirror-h'
                 />
               )
             }
