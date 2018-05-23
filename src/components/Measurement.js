@@ -177,20 +177,20 @@ class Measurement extends React.Component {
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
-            {pastValue ||
+            {(this.props.graphData.length > 1) && (pastValue ||
               <abbr title="Not available">N/A</abbr>
-            }
-            {pastValue &&
+            )}
+            {(this.props.graphData.length > 1) && (pastValue &&
               <span className="tooltiptext">
                 {`${yearsPast} years, ${monthsPast} month(s) ago` || 'N/A'}
               </span>
-            }
+            )}
           </div>
           <div
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
           >
-            {this.props.past ? (
+            {(this.props.graphData.length > 1) &&(this.props.past ? (
                 <Icon
                   id={getArrowDir(parseFloat(pastValue), parseFloat(this.props.present))}
                   mirrorH={getMirrorH(parseFloat(pastValue), parseFloat(this.props.present))}
@@ -200,7 +200,7 @@ class Measurement extends React.Component {
                   id='arrow-right'
                 />
               )
-            }
+            )}
           </div>
           <div
             className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip"
