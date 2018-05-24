@@ -329,6 +329,7 @@ class PastGraph extends React.Component {
 
     //Dotted line to connect nearest measurement to verticle date line
     //Only if the dotted line will remain in the graph!
+    console.log(dateExtent, pastDateVal)
     if(pastDateData[0].x > dateExtent[0]) {
       this.focus.append('line')
         .attr('class', 'graph-past-bar-point-line')
@@ -426,6 +427,15 @@ class PastGraph extends React.Component {
       this.init(nextProps.absWidth);
     } else {
       // update the vert. lines on new set Past date
+
+      const dateExtent = d3.extent(nextProps.data, d => d.x);
+      const firstDate = new Date(dateExtent[0]);
+      firstDate.setMonth(firstDate.getMonth() - 3);
+      dateExtent[0] = firstDate;
+      const measurementPastDate = new Date(nextProps.pastDateMeasurement);
+      const pastDateVal = nextProps.data
+        .find(meas => meas.x.getTime() === measurementPastDate.getTime());
+      console.log(measurementPastDate)
       const pastDateData = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT
@@ -452,16 +462,25 @@ class PastGraph extends React.Component {
         .attr('d', this.pastDateAreaOverview)
         .attr('class', 'past-graph-date-v-bar-overview');
 
-      const presentDate = this.props.data[0].x;
+      const presentDate = nextProps.data[0].x;
       // update color of scatter points
-      const measurementPastDate = new Date(nextProps.pastDateMeasurement);
       this.focusGraph.selectAll('.past-graph-node')
-        .data(this.props.data)
+        .data(nextProps.data)
         .enter().append('circle')
         .attr('r', 5)
         .attr('cx', d => this.x(d.x))
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
+      //update the horizontal line  
+      console.log("update", measurementPastDate, dateExtent[0])
+      if(pastDateData[0].x > dateExtent[0]) {
+        this.focus.append('line')
+          .attr('class', 'graph-past-bar-point-line')
+          .attr('x1', this.x(pastDateData[0].x))
+          .attr('y1', this.y(pastDateVal.y))
+          .attr('x2', this.x(pastDateVal.x))
+          .attr('y2', this.y(pastDateVal.y));
+      }
     }
   }
 
