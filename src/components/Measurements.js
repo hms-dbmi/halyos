@@ -18,6 +18,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 // Text
 import measuresForRisks from '../texts/measurementsForRiskScores';
+import requiresExternalData from '../texts/requiresExternalData';
 
 //utils
 import deepContains from '../utils/deep-contains';
@@ -112,6 +113,7 @@ class Measurements extends React.Component {
       searchStyle = this.getPxLen('width', searchWidth - 0.25);
       searchClass += ' is-expanded';
     }
+
     return (
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
@@ -173,13 +175,15 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
-            <div className="measurements-sublist-header">
+            {(this.props.risk == null || requiresExternalData.includes(this.props.risk)) &&
+            (<div className="measurements-sublist-header">
               <div className="pure-u-24-24">
-                <div className="flex-c flex-v-center">
+                <div className="flex-c flex-v-center">{console.log(this.props)}
                   <span>Data not available in EHR:</span>
                 </div>
               </div>
-            </div>
+            </div>)
+            }
             <ExternalContainer risk={this.props.risk}/>
             <div className="measurements-sublist-header">
               <div className="pure-u-24-24">

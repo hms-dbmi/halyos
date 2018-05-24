@@ -26,7 +26,4 @@ export default {
         '777-3', //platelet count
         '1751-7' //albumin
 	],
-	'Important Measures': [
-		'2345-7' //glucose
-	]
 }
