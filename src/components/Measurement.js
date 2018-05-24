@@ -60,9 +60,6 @@ class Measurement extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.name != nextProps.name) {
-      console.log(this.props, nextProps)
-    }
     if (
       this.props.currMeasure === this.props.name &&
       nextProps.currMeasure !== this.props.name
@@ -162,14 +159,17 @@ class Measurement extends React.Component {
           <div className="pure-u-15-24">
             <div className="full-wh flex-c flex-v-center flex-wrap">
               <p
-                className="measurement-title p"
+                className="measurement-title p tooltip"
                 onClick={() => this.showDetails()}
               >
+              <span className="tooltiptext">
+                Click to Expand!
+              </span>
                 {this.props.name}
               </p>
               <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
-                icon="help"
+                icon="info"
                 iconOnly={true}
                 className="measurement-future-help"
                 onClick={this.showDetails.bind(this)}
@@ -182,7 +182,7 @@ class Measurement extends React.Component {
             )}
             {(this.props.graphData.length > 1) && (pastValue &&
               <span className="tooltiptext">
-                {`${yearsPast} years, ${monthsPast} month(s) ago` || 'N/A'}
+                {`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}
               </span>
             )}
           </div>

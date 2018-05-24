@@ -26,6 +26,7 @@ const augmentPastGraphNode = (presentDate, measurementPastDate) => (
     } else {
       point.attr('class', 'other-points past-graph-node');
     }
+    //point.append('svg:title').text(function(d){return d.x;});
   }
 );
 
@@ -78,6 +79,7 @@ class PastGraph extends React.Component {
   /* ************************** Custom Methods ************************** */
 
   init(absWidth = this.props.absWidth) {
+
     if (!this.baseEl) return;
 
     while (this.baseEl.firstChild) {
@@ -156,6 +158,7 @@ class PastGraph extends React.Component {
 
     this.focusGraph = this.focus.append('g')
       .attr('clip-path', 'url(#clip)');
+
     if(this.props.data.length > 1) {
       this.context = this.svg.append('g')
         .attr('class', 'context')
@@ -228,13 +231,26 @@ class PastGraph extends React.Component {
       presentDate, measurementPastDate
     );
 
+    var tooltip = d3.select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip");
+
     this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
+      .on("mouseover", function(d){
+        tooltip.text(d.x)
+        tooltip.style("visibility", "visible");})
+      .on("mouseout", function(d){
+        tooltip.style("visibility", "hidden");})
       .each(graphFindPastNode);
+
 
     if (this.props.referenceRange) {
       const minRef = [

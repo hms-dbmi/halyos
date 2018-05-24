@@ -65,7 +65,20 @@ class RiskTile extends React.Component {
     }
   }
 
+
   render() {
+    const msToYear = 1000 * 60 * 60 * 24 * 365;
+
+    const yearsPast = Math.floor(
+      (Date.now() - (new Date(this.props.pastDate)).getTime()) / msToYear
+    );
+    const monthsPast = Math.floor(
+      (
+        (Date.now() - (new Date(this.props.pastDate)).getTime()) /
+        (msToYear) - yearsPast
+      ) * 12
+    );
+
     // if the expanded risk is this one, display the visualization
     const displayviz = this.props.name === this.props.currRisk;
     return (
@@ -129,7 +142,7 @@ class RiskTile extends React.Component {
             {this.props.pastScore &&
               <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
                 <div className="risk-tile-score-value tooltip">{this.props.pastScore}
-                  <span className="tooltiptext">Tooltip text</span>
+                  <span className="tooltiptext">{`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}</span>
                 </div>
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
