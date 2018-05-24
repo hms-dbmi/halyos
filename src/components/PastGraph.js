@@ -330,13 +330,14 @@ class PastGraph extends React.Component {
     //Dotted line to connect nearest measurement to verticle date line
     //Only if the dotted line will remain in the graph!
     console.log(dateExtent, pastDateVal)
-    if(pastDateData[0].x > dateExtent[0]) {
+    if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
       this.focus.append('line')
         .attr('class', 'graph-past-bar-point-line')
         .attr('x1', this.x(pastDateData[0].x))
         .attr('y1', this.y(pastDateVal.y))
         .attr('x2', this.x(pastDateVal.x))
-        .attr('y2', this.y(pastDateVal.y));
+        .attr('y2', this.y(pastDateVal.y))
+        .attr('id', 'past-line');
     }
 
     if(this.props.data.length > 1){ 
@@ -472,14 +473,25 @@ class PastGraph extends React.Component {
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
       //update the horizontal line  
-      console.log("update", measurementPastDate, dateExtent[0])
-      if(pastDateData[0].x > dateExtent[0]) {
-        this.focus.append('line')
-          .attr('class', 'graph-past-bar-point-line')
-          .attr('x1', this.x(pastDateData[0].x))
-          .attr('y1', this.y(pastDateVal.y))
-          .attr('x2', this.x(pastDateVal.x))
-          .attr('y2', this.y(pastDateVal.y));
+      if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
+        if(!this.focus.select('#past-line').empty()) {
+          this.focus.select('#past-line')
+            .attr('class', 'graph-past-bar-point-line')
+            .attr('x1', this.x(pastDateData[0].x))
+            .attr('y1', this.y(pastDateVal.y))
+            .attr('x2', this.x(pastDateVal.x))
+            .attr('y2', this.y(pastDateVal.y));
+          } else {
+            this.focus.append('line')
+              .attr('class', 'graph-past-bar-point-line')
+              .attr('x1', this.x(pastDateData[0].x))
+              .attr('y1', this.y(pastDateVal.y))
+              .attr('x2', this.x(pastDateVal.x))
+              .attr('y2', this.y(pastDateVal.y))
+              .attr('id', 'past-line');
+          }
+      } else {
+        this.focus.select('#past-line').remove()
       }
     }
   }
