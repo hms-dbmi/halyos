@@ -95,8 +95,8 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
     for (let key in sortedObs) {
       if (sortedObs.hasOwnProperty(key)) {
         if (sortedObs[key].length === 0) {
-          alert('Patient does not have adequate measurements for Reynolds Risk Score.');
-          return;
+          //alert('Patient does not have adequate measurements for Reynolds Risk Score.');
+          return '...';
         }
       }
     }
@@ -175,7 +175,7 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         if (codesObject.hasOwnProperty(key)) {
           if (!codesObject[key]) {
             // alert('Patient does not have adequate measurements for Reynolds Risk Score.');
-            return;
+            return '...';
           }
         }
       }

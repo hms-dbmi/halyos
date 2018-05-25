@@ -155,20 +155,23 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
 */
 export function diabetesScore(pt, obs, conds, medreq) {
   if(pt && obs && conds && medreq) {
-    var waist = pullCondition(obs, ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
-    var bmi = pullCondition(obs, ['39156-5']);
+    console.log(obs)
+    var waist = obs['56115-9'] //['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
+    var bmi = obs['39156-5']
     var hyperglycemia = pullCondition(conds, ['80394007']);
-    if (waist.length === 0 || bmi.length === 0) {
-      alert("Patient does not have sufficient measurements for Diabetes Risk Score.");
+    if (!(waist && bmi)) {
       ////console.log(bmi, waist);
-      return;
+      return '...';
+    }
+    if (!(waist.measurements && bmi.measurements && waist.measurements[0] && bmi.measurements[0])) {
+      return '...';
     }
     var score = calcDiabetesRisk(calculateAge(pt.birthDate),
       pt.gender,
-      bmi[0].resource.valueQuantity.value,
+      bmi.measurements[0].value,
       (hyperglycemia.length !== 0),
       false, //NEEDS TO BE FIXED
-      waist[0].resource.valueQuantity.value);
+      waist.measurements[0].value);
     return score;
   }
   else {

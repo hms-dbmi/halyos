@@ -106,13 +106,13 @@ class RiskTile extends React.Component {
                   present={this.state.pastScore}
                   worse={this.state.pastBad}
                   better={this.state.pastGood}
-                  score={Math.round(this.props.pastScore)}
+                  score={this.props.pastScore}
                   context={this.props.context}
                   period={"Past"}
                 />
                 <RiskVisualization
                   present={Math.round(this.props.score)}
-                  score={Math.round(this.props.score)}
+                  score={this.props.score}
                   emphasize={true}
                   context={this.props.context}
                   period={"Today"}
@@ -121,7 +121,7 @@ class RiskTile extends React.Component {
                   present={this.state.futScore}
                   worse={this.state.futBad}
                   better={this.state.futGood}
-                  score={Math.round(this.props.futureScore)}
+                  score={this.props.futureScore}
                   context={this.props.context}
                   period={"Future"}
                 />

@@ -559,7 +559,7 @@ class PastGraph extends React.Component {
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
       .attr('x2', this.x(this.pastDateAreaPointLine.x2))
       .attr('y2', this.y(this.pastDateAreaPointLine.y2));
-
+    
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(
       this.brush.move, this.x.range().map(t.invertX, t)

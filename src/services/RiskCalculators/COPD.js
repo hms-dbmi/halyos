@@ -121,29 +121,36 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
 export function COPDScore(pt, obs, conds) {
     if(pt && obs && conds) {
         var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
-        var measurementObject = {
-            '8480-6': [], //sysBP
-            '8462-4': [], //diasBP
-            '6299-2': [], //bun
-            '9279-1': [] //rr
+        var sortedObs = {
+            '8480-6': obs['8480-6'], //sysBP
+            '8462-4': obs['8462-4'], //diasBP
+            '6299-2': obs['6299-2'], //bun
+            '9279-1': obs['9279-1'] //rr
         };
-        var sortedObs = searchByCode(obs, measurementObject);
+        //var sortedObs = searchByCode(obs, measurementObject);
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
-                if(sortedObs[key].length === 0) {
-                    alert("Patient does not have adequate measurements for COPD Risk Score.");
+                if(!sortedObs[key]) {
                     ////console.log(sortedObs);
-                    return;
+                    return '...';
                 }
             }
         }
-        var COPDScore = calcCOPD(calculateAge(pt.birthDate),
-            confusion,
-            sortedObs['6299-2'][0].value,
-            sortedObs['9279-1'][0].value,
-            sortedObs['8480-6'][0].value,
-            sortedObs['8462-4'][0].value);
-        return COPDScore;
+        console.log(sortedObs)
+        if(sortedObs['8480-6'].measurements && sortedObs['8462-4'].measurements
+             && sortedObs['6299-2'].measurements && sortedObs['9279-1'].measurements &&
+             sortedObs['8480-6'].measurements[0] && sortedObs['8462-4'].measurements[0]
+             && sortedObs['6299-2'].measurements[0] && sortedObs['9279-1'].measurements[0]) {
+            var COPDScore = calcCOPD(calculateAge(pt.birthDate),
+                confusion,
+                sortedObs['6299-2'].measurements[0].value,
+                sortedObs['9279-1'].measurements[0].value,
+                sortedObs['8480-6'].measurements[0].value,
+                sortedObs['8462-4'].measurements[0].value);
+            return COPDScore;
+        } else {
+            return '...';
+        }
     }
     else {
         return '...'

@@ -368,7 +368,7 @@ class Dashboard extends React.Component {
               name="Kidney Failure"
               score={KFRScore(
                 this.props.patient,
-                this.props.observations
+                listToDictMeasurements(this.props.allObsByCode)
               )}
               futureScore={futureKFRRisk}
               pastScore={pastKFRRisk}
@@ -388,7 +388,7 @@ class Dashboard extends React.Component {
               name="COPD Mortality"
               score={COPDScore(
                 this.props.patient,
-                this.props.observations,
+                listToDictMeasurements(this.props.allObsByCode),
                 this.props.conditions
               )}
               futureScore={futureCOPD}
@@ -410,7 +410,7 @@ class Dashboard extends React.Component {
               name="Diabetes"
               score={diabetesScore(
                 this.props.patient,
-                this.props.observations,
+                listToDictMeasurements(this.props.allObsByCode),
                 this.props.conditions,
                 this.props.medreq
               )}
