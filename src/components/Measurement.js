@@ -28,6 +28,10 @@ const parseGraphData = data => data.map(
   })
 );
 
+const filterGraphData = data => data.filter(
+    item => !(isNaN(item.x.getTime()))
+  );
+
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
@@ -109,6 +113,7 @@ class Measurement extends React.Component {
 
   render() {
     //console.log('Render: ',this.props.name)
+    console.log(filterGraphData(parseGraphData(this.props.graphData)))
     let sliderValue;
     if (
       this.props.futureMeasurements &&
@@ -223,7 +228,7 @@ class Measurement extends React.Component {
             <PastGraph
               pastDate={this.props.userPastDate}
               pastDateMeasurement={this.props.pastMeasurementsDate}
-              data={parseGraphData(this.props.graphData)}
+              data={filterGraphData(parseGraphData(this.props.graphData))}
               code={this.props.code}
               units="mmHg"
               referenceRange={

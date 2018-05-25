@@ -155,7 +155,6 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
 */
 export function diabetesScore(pt, obs, conds, medreq) {
   if(pt && obs && conds && medreq) {
-    console.log(obs)
     var waist = obs['56115-9'] //['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
     var bmi = obs['39156-5']
     var hyperglycemia = pullCondition(conds, ['80394007']);

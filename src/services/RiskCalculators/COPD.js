@@ -136,7 +136,6 @@ export function COPDScore(pt, obs, conds) {
                 }
             }
         }
-        console.log(sortedObs)
         if(sortedObs['8480-6'].measurements && sortedObs['8462-4'].measurements
              && sortedObs['6299-2'].measurements && sortedObs['9279-1'].measurements &&
              sortedObs['8480-6'].measurements[0] && sortedObs['8462-4'].measurements[0]
