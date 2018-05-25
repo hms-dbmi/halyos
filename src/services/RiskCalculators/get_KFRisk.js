@@ -56,8 +56,8 @@ export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = nu
     codesObject["48643-1"] = codesObject["48643-1"].concat(codesObject["33914-3"]);
     codesObject["14958-3"] = codesObject["14958-3"].concat(codesObject["14959-1"]);
     if(codesObject["48643-1"].length === 0 || codesObject["14958-3"].length === 0) {
-        alert("Patient does not have enough measurements for Kidney Risk Score");
-        return;
+        //alert("Patient does not have enough measurements for Kidney Risk Score");
+        return '...';
     }
     else {
       let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
@@ -78,23 +78,26 @@ export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = nu
 */
 export function KFRScore(pt, obs) {
   if(pt && obs) {
-    var gfr = pullCondition(obs, ["48643-1", "48642-3", "33914-3"]); //could be reprogrammed for O(n) instead of O(n*m) if time
-    var uac = pullCondition(obs, ["14958-3", "14959-1"]);
-    if(gfr.length === 0 || uac.length === 0) {
+    var gfr = obs['33914-3'] //could be reprogrammed for O(n) instead of O(n*m) if time
+    var uac = obs['14959-1']
+    if(gfr && uac) {
       //console.log("KF score", gfr, uac);
-      alert("Patient does not have enough measurements for Kidney Risk Score");
-      return;
+            // if(grf && gfr[0].resource.component) {
+      //   gfr[0] = gfr[0].resource.component[0];
+      // }
+      if(gfr.measurements && uac.measurements && gfr.measurements[0] && uac.measurements[0]) {
+        var KFRisk = calcKFRisk(pt.gender, 
+        calculateAge(pt.birthDate), 
+        gfr.measurements[0].value, //gfr
+        uac.measurements[0].value); //uac
+        return KFRisk;
+      } else {
+        return '...'
+      }
     }
     else {
-      if(gfr[0].resource.component) {
-        gfr[0] = gfr[0].resource.component[0];
-      }
-      var KFRisk = calcKFRisk(pt.gender, 
-      calculateAge(pt.birthDate), 
-      gfr[0].resource.valueQuantity.value, //gfr
-      uac[0].resource.valueQuantity.value); //uac
+        return '...';
     }
-    return KFRisk;
   }
   else {
     return '...'

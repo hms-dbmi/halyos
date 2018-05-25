@@ -26,6 +26,7 @@ const augmentPastGraphNode = (presentDate, measurementPastDate) => (
     } else {
       point.attr('class', 'other-points past-graph-node');
     }
+    //point.append('svg:title').text(function(d){return d.x;});
   }
 );
 
@@ -78,6 +79,7 @@ class PastGraph extends React.Component {
   /* ************************** Custom Methods ************************** */
 
   init(absWidth = this.props.absWidth) {
+
     if (!this.baseEl) return;
 
     while (this.baseEl.firstChild) {
@@ -156,6 +158,7 @@ class PastGraph extends React.Component {
 
     this.focusGraph = this.focus.append('g')
       .attr('clip-path', 'url(#clip)');
+
     if(this.props.data.length > 1) {
       this.context = this.svg.append('g')
         .attr('class', 'context')
@@ -228,13 +231,26 @@ class PastGraph extends React.Component {
       presentDate, measurementPastDate
     );
 
+    var tooltip = d3.select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .text("a simple tooltip");
+
     this.focusGraph.selectAll('.past-graph-node')
       .data(this.props.data)
       .enter().append('circle')
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y))
+      .on("mouseover", function(d){
+        tooltip.text(d.x)
+        tooltip.style("visibility", "visible");})
+      .on("mouseout", function(d){
+        tooltip.style("visibility", "hidden");})
       .each(graphFindPastNode);
+
 
     if (this.props.referenceRange) {
       const minRef = [
@@ -313,13 +329,14 @@ class PastGraph extends React.Component {
 
     //Dotted line to connect nearest measurement to verticle date line
     //Only if the dotted line will remain in the graph!
-    if(pastDateData[0].x > dateExtent[0]) {
+    if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
       this.focus.append('line')
         .attr('class', 'graph-past-bar-point-line')
         .attr('x1', this.x(pastDateData[0].x))
         .attr('y1', this.y(pastDateVal.y))
         .attr('x2', this.x(pastDateVal.x))
-        .attr('y2', this.y(pastDateVal.y));
+        .attr('y2', this.y(pastDateVal.y))
+        .attr('id', 'past-line');
     }
 
     if(this.props.data.length > 1){ 
@@ -410,6 +427,15 @@ class PastGraph extends React.Component {
       this.init(nextProps.absWidth);
     } else {
       // update the vert. lines on new set Past date
+
+      const dateExtent = d3.extent(nextProps.data, d => d.x);
+      const firstDate = new Date(dateExtent[0]);
+      firstDate.setMonth(firstDate.getMonth() - 3);
+      dateExtent[0] = firstDate;
+      const measurementPastDate = new Date(nextProps.pastDateMeasurement);
+      const pastDateVal = nextProps.data
+        .find(meas => meas.x.getTime() === measurementPastDate.getTime());
+
       const pastDateData = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT
@@ -436,16 +462,35 @@ class PastGraph extends React.Component {
         .attr('d', this.pastDateAreaOverview)
         .attr('class', 'past-graph-date-v-bar-overview');
 
-      const presentDate = this.props.data[0].x;
-      // update color of scatter points
-      const measurementPastDate = new Date(nextProps.pastDateMeasurement);
+      const presentDate = nextProps.data[0].x;
+      // TO DO:  update color of scatter points
       this.focusGraph.selectAll('.past-graph-node')
-        .data(this.props.data)
-        .enter().append('circle')
         .attr('r', 5)
         .attr('cx', d => this.x(d.x))
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
+
+      //update the horizontal line  
+      if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
+        if(!this.focus.select('#past-line').empty()) {
+          this.focus.select('#past-line')
+            .attr('class', 'graph-past-bar-point-line')
+            .attr('x1', this.x(pastDateData[0].x))
+            .attr('y1', this.y(pastDateVal.y))
+            .attr('x2', this.x(pastDateVal.x))
+            .attr('y2', this.y(pastDateVal.y));
+          } else {
+            this.focus.append('line')
+              .attr('class', 'graph-past-bar-point-line')
+              .attr('x1', this.x(pastDateData[0].x))
+              .attr('y1', this.y(pastDateVal.y))
+              .attr('x2', this.x(pastDateVal.x))
+              .attr('y2', this.y(pastDateVal.y))
+              .attr('id', 'past-line');
+          }
+      } else {
+        this.focus.select('#past-line').remove()
+      }
     }
   }
 
@@ -470,7 +515,10 @@ class PastGraph extends React.Component {
       .attr('x1', this.x(this.pastDateAreaPointLine.x1))
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
       .attr('x2', this.x(this.pastDateAreaPointLine.x2))
-      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
+      .attr('y2', this.y(this.pastDateAreaPointLine.y2))
+    
+    //set opacity of line to 0 if outside of range
+
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-zoom').call(
@@ -514,7 +562,7 @@ class PastGraph extends React.Component {
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
       .attr('x2', this.x(this.pastDateAreaPointLine.x2))
       .attr('y2', this.y(this.pastDateAreaPointLine.y2));
-
+    
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-brush').call(
       this.brush.move, this.x.range().map(t.invertX, t)

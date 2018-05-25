@@ -28,13 +28,17 @@ const parseGraphData = data => data.map(
   })
 );
 
+const filterGraphData = data => data.filter(
+    item => !(isNaN(item.x.getTime()))
+  );
+
 class Measurement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isDetailsShown: false,
     };
-    //console.log('Constructor: ',props.name)
+    
   }
 
   showDetails() {
@@ -60,9 +64,6 @@ class Measurement extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.name != nextProps.name) {
-      console.log(this.props, nextProps)
-    }
     if (
       this.props.currMeasure === this.props.name &&
       nextProps.currMeasure !== this.props.name
@@ -111,7 +112,6 @@ class Measurement extends React.Component {
   }
 
   render() {
-    //console.log('Render: ',this.props.name)
     let sliderValue;
     if (
       this.props.futureMeasurements &&
@@ -162,14 +162,17 @@ class Measurement extends React.Component {
           <div className="pure-u-15-24">
             <div className="full-wh flex-c flex-v-center flex-wrap">
               <p
-                className="measurement-title p"
+                className="measurement-title p tooltip"
                 onClick={() => this.showDetails()}
               >
+              <span className="tooltiptext">
+                Click to Expand!
+              </span>
                 {this.props.name}
               </p>
-              <div className="measurement-unit">({this.props.unit})</div> &nbsp;
+              <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
-                icon="help"
+                icon="info"
                 iconOnly={true}
                 className="measurement-future-help"
                 onClick={this.showDetails.bind(this)}
@@ -177,20 +180,20 @@ class Measurement extends React.Component {
             </div>
           </div>
           <div className="measurement-past pure-u-2-24 flex-c flex-v-center tooltip">
-            {pastValue ||
+            {(this.props.graphData.length > 1) && (pastValue ||
               <abbr title="Not available">N/A</abbr>
-            }
-            {pastValue &&
+            )}
+            {(this.props.graphData.length > 1) && (pastValue &&
               <span className="tooltiptext">
-                {`${yearsPast} years, ${monthsPast} month(s) ago` || 'N/A'}
+                {`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}
               </span>
-            }
+            )}
           </div>
           <div
             className="measurement-past-to-future pure-u-1-24 flex-c flex-v-center"
             style={{ justifyContent: 'center' }}
-          >{console.log(this.props, pastValue)}
-            {this.props.past ? (
+          >
+            {(this.props.graphData.length > 1) && (this.props.past ? (
                 <Icon
                   id={getArrowDir(parseFloat(pastValue), parseFloat(this.props.present))}
                   mirrorH={getMirrorH(parseFloat(pastValue), parseFloat(this.props.present))}
@@ -200,7 +203,7 @@ class Measurement extends React.Component {
                   id='arrow-right'
                 />
               )
-            }
+            )}
           </div>
           <div
             className="measurement-present pure-u-3-24 flex-c flex-v-center tooltip"
@@ -223,7 +226,7 @@ class Measurement extends React.Component {
             <PastGraph
               pastDate={this.props.userPastDate}
               pastDateMeasurement={this.props.pastMeasurementsDate}
-              data={parseGraphData(this.props.graphData)}
+              data={filterGraphData(parseGraphData(this.props.graphData))}
               code={this.props.code}
               units="mmHg"
               referenceRange={

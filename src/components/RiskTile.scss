@@ -1,7 +1,7 @@
-@import '../styles/colors.scss';
 @import '../styles/ratio.scss';
 @import '../styles/transitions.scss';
 @import '../styles/flexbox.scss';
+@import '../styles/colors.scss';
 
 .risk-tile {
   width: 100%;
@@ -109,6 +109,10 @@
   .risk-tile-score-unit {
     font-size: 0.85rem;
   }
+}
+
+.tooltiptext {
+  font-size: 0.8rem;
 }
 
 .back {
