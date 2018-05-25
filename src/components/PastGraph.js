@@ -329,7 +329,6 @@ class PastGraph extends React.Component {
 
     //Dotted line to connect nearest measurement to verticle date line
     //Only if the dotted line will remain in the graph!
-    console.log(dateExtent, pastDateVal)
     if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
       this.focus.append('line')
         .attr('class', 'graph-past-bar-point-line')
@@ -436,7 +435,7 @@ class PastGraph extends React.Component {
       const measurementPastDate = new Date(nextProps.pastDateMeasurement);
       const pastDateVal = nextProps.data
         .find(meas => meas.x.getTime() === measurementPastDate.getTime());
-      console.log(measurementPastDate)
+
       const pastDateData = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT
@@ -464,14 +463,13 @@ class PastGraph extends React.Component {
         .attr('class', 'past-graph-date-v-bar-overview');
 
       const presentDate = nextProps.data[0].x;
-      // update color of scatter points
+      // TO DO:  update color of scatter points
       this.focusGraph.selectAll('.past-graph-node')
-        .data(nextProps.data)
-        .enter().append('circle')
         .attr('r', 5)
         .attr('cx', d => this.x(d.x))
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
+
       //update the horizontal line  
       if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
         if(!this.focus.select('#past-line').empty()) {
