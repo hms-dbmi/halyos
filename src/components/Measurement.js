@@ -38,7 +38,7 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
-    //console.log('Constructor: ',props.name)
+    
   }
 
   showDetails() {
@@ -112,8 +112,6 @@ class Measurement extends React.Component {
   }
 
   render() {
-    //console.log('Render: ',this.props.name)
-    console.log(filterGraphData(parseGraphData(this.props.graphData)))
     let sliderValue;
     if (
       this.props.futureMeasurements &&

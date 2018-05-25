@@ -515,7 +515,10 @@ class PastGraph extends React.Component {
       .attr('x1', this.x(this.pastDateAreaPointLine.x1))
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
       .attr('x2', this.x(this.pastDateAreaPointLine.x2))
-      .attr('y2', this.y(this.pastDateAreaPointLine.y2));
+      .attr('y2', this.y(this.pastDateAreaPointLine.y2))
+    
+    //set opacity of line to 0 if outside of range
+
 
     this.focus.select('.axis--x').call(this.xAxis);
     this.svg.select('.past-graph-zoom').call(
