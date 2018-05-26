@@ -21,8 +21,9 @@ class PreventativeCareSuggestions extends React.Component {
     let suggestions;
     if(this.props.prevCareSuggestions){
       suggestions = this.props.prevCareSuggestions.Result.Resources.All.Resource;
+    } else {
+      // suggestions = 
     }
-     console.log("data", this.props.prevCareSuggestions);
     return (
       <div className="pcs full-wh flex-c flex-col">
         <h3 className="dashboard-panel-headline">Suggested Preventative Care</h3>
