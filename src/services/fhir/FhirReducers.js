@@ -85,6 +85,13 @@ export function fhirPatientData(state = {}, action) {
 				ptData: action.ptData,
 				lastUpdated:action.receivedAt
 			})
+    case FETCH_PATIENT_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingAllPatientData: false,
+        failedFetchPatientData: true,
+        lastUpdated: action.receivedAt,
+      })
+
     case FETCH_LAST_VISIT_DATE_REQUEST:
       return Object.assign({}, state, {
         isFetchingLastVisitDate: true,

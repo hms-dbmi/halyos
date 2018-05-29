@@ -25,7 +25,9 @@ export const receiveAllPatientData = (patientID, json) => ({
 export const failAllPatientData = patientID => ({
   type: FETCH_PATIENT_FAILURE,
   patientID,
-  error: 'oops'
+  error: 'oops',
+  receivedAt: Date.now()
+
 });
 
 // http://fhirtest.uhn.ca/baseDstu3/Patient
@@ -37,10 +39,16 @@ export function fetchAllPatientData(patientID) {
     return fetch(baseUrl + '/Patient?_id=' + patientID)
       .then(
         response => response.json(),
-        error => console.error('An error occured.', error)
+        error => {
+          console.warn('An error occured fetching the patient info :(', error)
+          dispatch(failAllPatientData(patientID));
+          return Promise.resolve();
+
+        }
       )
       .then(json => {
         if(!json){
+          dispatch(failAllPatientData(patientID));
           return Promise.resolve();
         }
         dispatch(receiveAllPatientData(patientID, json))

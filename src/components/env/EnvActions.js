@@ -119,6 +119,7 @@ export function fetchFluLevels(lat,long) {
 
 export const FETCH_AIQ_REQUEST = "FETCH_AIQ_REQUEST";
 export const FETCH_AIQ_SUCCESS = "FETCH_AIQ_SUCCESS";
+export const FETCH_AIQ_FAILURE = "FETCH_AIQ_FAILURE";
 
 
 export const requestAirQualityLevels = (lat, long) => ({
@@ -135,6 +136,12 @@ export const receiveAirQualityLevels = (lat, long, json) => ({
   receivedAt: Date.now()
 });
 
+export const failureAirQualityLevels = () => ({
+  type: FETCH_AIQ_FAILURE,
+  receivedAt: Date.now()
+
+});
+
 export function fetchAirQualityLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestAirQualityLevels(lat,long));
@@ -142,7 +149,12 @@ export function fetchAirQualityLevels(lat,long) {
   return fetch('https://api.airvisual.com/v2/nearest_city?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
     .then(
       response => response.json(),
-      error => console.error('Could not load air quality data.', error)
+      error => {
+        console.warn('Could not load air quality data.', error);
+        dispatch(failureAirQualityLevels());
+        return Promise.resolve();
+
+      }
     )
     .then(function(json) {
         dispatch(receiveAirQualityLevels(lat, long, json.data));

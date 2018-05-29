@@ -1,4 +1,4 @@
-import { FETCH_PREV_CARE_SUGGESTIONS_REQUEST, FETCH_PREV_CARE_SUGGESTIONS_SUCCESS } from './PreventativeCareActions';
+import { FETCH_PREV_CARE_SUGGESTIONS_REQUEST, FETCH_PREV_CARE_SUGGESTIONS_SUCCESS, FETCH_PREV_CARE_SUGGESTIONS_FAILURE } from './PreventativeCareActions';
 
 export function preventativeCare(state = {}, action) {
   switch(action.type){
@@ -12,6 +12,12 @@ export function preventativeCare(state = {}, action) {
         suggestions: action.prevCare,
         lastUpdated:action.receivedAt
       })
+    case FETCH_PREV_CARE_SUGGESTIONS_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingPrevCareData: false,
+        failedFetchingPrevCareData: true,
+        lastUpdated:action.receivedAt
+    })
      default:
         return state
   }
