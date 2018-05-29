@@ -27,17 +27,19 @@ export function getValueQuantities(obs, callback){
 }
 
 /**
-    This method categorizes measurements so that 
+    This method categorizes measurements so a list of observations can be placed in the format in the return tag.
+    Importantly however, this is only if the data is pulled from the fhir.js JAVASCRIPT CLIENT. It's a different format than from a fetch call. 
 
     @param obs: list of observations
 
     @return [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}], 
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
-export function sortMeasurements(obs){
+export function sortMeasurementsFromClient(obs){
+  console.log("obs", obs);
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
-    if(obs[i].resource.component) {
+    if(obs[i].component) {
       for(var k = 0; k < obs[i].component.length; k++) {
         var found = false;
         if(!obs[i].component[k].code.text) {
@@ -74,7 +76,7 @@ export function sortMeasurements(obs){
       }
     }
     else {
-      if(!obs[i].resource.code.text) {
+      if(!obs[i].code.text) {
         obs[i].code.text = obs[i].code.coding[0].display
       }
       let found = false;
@@ -107,6 +109,82 @@ export function sortMeasurements(obs){
   }
   return sortedMeasures;
 }
+
+export function sortMeasurements(obs){
+  var sortedMeasures = []
+  for(var i = 0; i < obs.length; i++) {
+    if(obs[i].resource.component) {
+      for(var k = 0; k < obs[i].resource.component.length; k++) {
+        var found = false;
+        if(!obs[i].resource.component[k].code.text) {
+          obs[i].resource.component[k].code.text = obs[i].resource.code.coding[0].display
+        }
+        if(!obs[i].resource.effectiveDateTime) {
+          obs[i].resource.effectiveDateTime = obs[i].resource.issued
+        }
+        for(var j = 0; j < sortedMeasures.length; j++) {
+          if(sortedMeasures[j].name === obs[i].resource.component[k].code.text) {
+            sortedMeasures[j].measurements.push(
+              {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.component[k].valueQuantity.unit
+              }
+            );
+            found = true;
+            break;
+          }
+        }
+        if(!found) {
+          sortedMeasures.push(
+            {"name": obs[i].resource.component[k].code.text,
+             "code": obs[i].resource.component[k].code.coding[0].code,
+             "measurements": [
+                {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
+                 "date": obs[i].resource.effectiveDateTime,
+                  "units": obs[i].resource.component[k].valueQuantity.unit
+                }
+              ]
+            }
+          );
+        }
+      }
+    }
+    else {
+      if(!obs[i].resource.code.text) {
+        obs[i].resource.code.text = obs[i].resource.code.coding[0].display
+      }
+      let found = false;
+      for(let j = 0; j < sortedMeasures.length; j++) {
+        if(sortedMeasures[j].name === obs[i].resource.code.text) {
+          sortedMeasures[j].measurements.push(
+            {"value": obs[i].resource.valueQuantity.value.toFixed(2),
+             "date": obs[i].resource.effectiveDateTime,
+              "units": obs[i].resource.valueQuantity.unit
+            }
+          );
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        sortedMeasures.push(
+          {"name": obs[i].resource.code.text,
+           "code": obs[i].resource.code.coding[0].code,
+           "measurements": [
+              {"value": obs[i].resource.valueQuantity.value.toFixed(2),
+               "date": obs[i].resource.effectiveDateTime,
+                "units": obs[i].resource.valueQuantity.unit
+              }
+            ]
+          }
+        );
+      }
+    }
+  }
+  return sortedMeasures;
+}
+
+
 
 /** 
     

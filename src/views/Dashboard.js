@@ -362,7 +362,7 @@ class Dashboard extends React.Component {
                   this.props.external.heartfamhist
                 )}
                 futureScore={futureReynolds}
-                pastScore={reynoldsScorePast}
+                pastScore={reynoldsScore}
                 data={{
                   patient: this.props.patientLocal,
                   observations: sortMeasurements(this.props.observationsLocal)

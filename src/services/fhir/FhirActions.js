@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import { getURL, getInsecureURL } from '../smart_setup';
-import { sortMeasurements } from '../general_utils';
+import { sortMeasurementsFromClient } from '../general_utils';
 
 //utils
 import { sortByDate } from '../general_utils';
@@ -244,6 +244,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
 
 export const FETCH_ALL_OBSERVATION_BY_CODE_REQUEST = 'FETCH_ALL_OBSERVATION_BY_CODE_REQUEST';
 export const FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS = 'FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS';
+export const FETCH_ALL_OBSERVATION_BY_CODE_FAILURE = 'FETCH_ALL_OBSERVATION_BY_CODE_FAILURE';
 
 
 export const requestAllObsByCode = (patientID, code) => ({
@@ -259,6 +260,12 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
   all_obs_by_code: data,
   receivedAt: Date.now()
 });
+
+export const failureAllObsByCode = () => ({
+  type: FETCH_ALL_OBSERVATION_BY_CODE_FAILURE,
+  receivedAt: Date.now()
+});
+
 
 export function shouldFetchAllObsByCode(state, code, subcode = null) {
   let currFetchingList = state.fhirObservationData.isFetchingAllMeasurementByCodeList;
@@ -287,7 +294,11 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_sort=-date')
       .then(
         response => response.json(),
-        error => console.error('An error occured.', error)
+        error => {
+          console.warn('An error occured when pulling observations by code :(', error)
+          dispatch(failureAllObsByCode());
+          return Promise.resolve();
+        }
       )
       .then(function(json){
           let dataDict = {};
@@ -449,8 +460,7 @@ export function fetchAllObs(patientID) {
 
         // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
         // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}]
-        allObsList = sortMeasurements(bundle)
-
+        allObsList = sortMeasurementsFromClient(bundle)
         // TODO: is there a right way to do this?
         let currState = getState();
         let currCodesCollected = currState.fhirObservationData.codeList;
@@ -465,6 +475,7 @@ export function fetchAllObs(patientID) {
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){
+        console.log("123error", res);
         //Error responses
         dispatch(failureAllObs());
         return Promise.resolve();
