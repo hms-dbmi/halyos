@@ -61,8 +61,7 @@ class PreventativeCareSuggestions extends React.Component {
   render() {
 
     let suggestions;
-    console.log("Made it2", this.props.prevCareSuggestions);
-
+    
     if(this.props.failedFetchingPrevCareData){
       suggestions = this.state.interventionsList;
     } else if (this.props.prevCareSuggestions) {

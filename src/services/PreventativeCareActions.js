@@ -41,8 +41,6 @@ export function fetchPreventativeCareSuggestions(birthDate, gender) {
         }
       )
       .then((json) => {
-            console.log("test here", json);
-
         if(json.Result.Error === "True"){
           dispatch(failurePreventativeCareData());
           return Promise.resolve();

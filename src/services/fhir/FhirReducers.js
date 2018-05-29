@@ -68,6 +68,14 @@ export function fhirObservationData(state = initialFhirState, action){
         lastUpdated:action.receivedAt,
         allMeasurementsByCode : newArr,
       }
+    case FETCH_ALL_OBSERVATION_FAILURE:
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        failedFetchAllMeasurement: true,
+      }
+
     default:
       return state
 	}
