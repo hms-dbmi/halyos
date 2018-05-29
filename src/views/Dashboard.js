@@ -219,7 +219,7 @@ class Dashboard extends React.Component {
     let lat;
     let long;
 
-    var ptInfo = this.props.patient || this.props.patientLocal[0].resource;
+    var ptInfo = this.props.patient || this.props.patientLocal;
 
     if (ptInfo.address[0].extension[0].url.endsWith('geolocation')) {
       if (ptInfo.address[0].extension[0].extension[0].url === 'latitude') {
@@ -329,21 +329,21 @@ class Dashboard extends React.Component {
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
           <li className={riskCardiacWidth}>
-            { this.state.serverDown ? 
+            { !this.state.serverDown ? 
               <RiskTileContainer
                 expand={this.expandRisk.bind(this)}
                 name="Cardiac"
                 score={reynoldsScore(
                   null,
-                  this.props.patientLocal,
+                  this.props.patient,
                   listToDictMeasurements(this.props.allObsByCode),
                   this.props.external.smoking[1],
                   this.props.external.heartfamhist
                 )}
                 futureScore={futureReynolds}
-                pastScore={reynoldsScorePast}
+                pastScore={reynoldsScore}
                 data={{
-                  patient: this.props.patientLocal,
+                  patient: this.props.patient,
                   observations: listToDictMeasurements(this.props.allObsByCode),
                 }}
                 unit="%"
@@ -356,16 +356,16 @@ class Dashboard extends React.Component {
                 name="Cardiac"
                 score={reynoldsScore(
                   null,
-                  this.props.patient,
-                  listToDictMeasurements(this.props.allObsByCode),
+                  this.props.patientLocal,
+                  sortMeasurements(this.props.observationsLocal),
                   this.props.external.smoking[1],
                   this.props.external.heartfamhist
                 )}
                 futureScore={futureReynolds}
                 pastScore={reynoldsScorePast}
                 data={{
-                  patient: this.props.patient,
-                  observations: this.props.observationsLocal
+                  patient: this.props.patientLocal,
+                  observations: sortMeasurements(this.props.observationsLocal)
                 }}
                 unit="%"
                 context={10}

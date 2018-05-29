@@ -37,7 +37,7 @@ export function getValueQuantities(obs, callback){
 export function sortMeasurements(obs){
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
-    if(obs[i].component) {
+    if(obs[i].resource.component) {
       for(var k = 0; k < obs[i].component.length; k++) {
         var found = false;
         if(!obs[i].component[k].code.text) {
@@ -74,7 +74,7 @@ export function sortMeasurements(obs){
       }
     }
     else {
-      if(!obs[i].code.text) {
+      if(!obs[i].resource.code.text) {
         obs[i].code.text = obs[i].code.coding[0].display
       }
       let found = false;
@@ -171,7 +171,6 @@ export function coordDistance(lat1, lon1, lat2, lon2) {
 */
 
 export function getNearestFlat(obs, date) { //make this binary search
-  
   let currDate = new Date(obs[0].date)
   let goalDate = new Date(date)
   let minTime = Math.abs(currDate-goalDate);

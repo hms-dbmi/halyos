@@ -345,6 +345,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
 
 export const FETCH_ALL_OBSERVATION_REQUEST = 'FETCH_ALL_OBSERVATION_REQUEST';
 export const FETCH_ALL_OBSERVATION_SUCCESS = 'FETCH_ALL_OBSERVATION_SUCCESS';
+export const FETCH_ALL_OBSERVATION_FAILURE = 'FETCH_ALL_OBSERVATION_FAILURE';
 
 
 // we will get all the observations, regardless of code
@@ -358,6 +359,12 @@ export const receiveAllObs = (patientID, data) => ({
   patientID,
   all_other_obs: data,
   receivedAt: Date.now()
+})
+
+export const failureAllObs = () => ({
+  type: FETCH_ALL_OBSERVATION_FAILURE,
+  receivedAt: Date.now()
+
 })
 
 // TODO: complete this after figuring out how to do an excluded list fetchAll from fhir.js or otherwise.
@@ -459,6 +466,7 @@ export function fetchAllObs(patientID) {
       })
       .catch(function(res){
         //Error responses
+        dispatch(failureAllObs());
         return Promise.resolve();
         if (res.status){
         }

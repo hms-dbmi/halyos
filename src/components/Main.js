@@ -57,7 +57,7 @@ class Main extends React.Component {
               <DashboardContainer
                 {...props}
                 meds={medStatementsLocal}
-                patientLocal={patientLocal}
+                patientLocal={patientLocal[0].resource}
                 encounters={encountersLocal}
                 observationsLocal={observationsLocal}
                 conditions={conditionsLocal}
