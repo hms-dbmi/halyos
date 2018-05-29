@@ -65,7 +65,20 @@ class RiskTile extends React.Component {
     }
   }
 
+
   render() {
+    const msToYear = 1000 * 60 * 60 * 24 * 365;
+
+    const yearsPast = Math.floor(
+      (Date.now() - (new Date(this.props.pastDate)).getTime()) / msToYear
+    );
+    const monthsPast = Math.floor(
+      (
+        (Date.now() - (new Date(this.props.pastDate)).getTime()) /
+        (msToYear) - yearsPast
+      ) * 12
+    );
+
     // if the expanded risk is this one, display the visualization
     const displayviz = this.props.name === this.props.currRisk;
     return (
@@ -86,20 +99,20 @@ class RiskTile extends React.Component {
                 {this.props.name} Risk
               </h2>
               <div className="risk-tile-time">
-                within <span className="highlight">{this.props.context} year(s)</span>
+                within <span className="highlight">{this.props.context} {(this.props.context == 1) ? "year" : "years"}</span>
               </div>
               <div className="risk-tile-score flex-c flex-align-c">
                 <RiskVisualization
                   present={this.state.pastScore}
                   worse={this.state.pastBad}
                   better={this.state.pastGood}
-                  score={Math.round(this.props.pastScore)}
+                  score={this.props.pastScore}
                   context={this.props.context}
                   period={"Past"}
                 />
                 <RiskVisualization
                   present={Math.round(this.props.score)}
-                  score={Math.round(this.props.score)}
+                  score={this.props.score}
                   emphasize={true}
                   context={this.props.context}
                   period={"Today"}
@@ -108,7 +121,7 @@ class RiskTile extends React.Component {
                   present={this.state.futScore}
                   worse={this.state.futBad}
                   better={this.state.futGood}
-                  score={Math.round(this.props.futureScore)}
+                  score={this.props.futureScore}
                   context={this.props.context}
                   period={"Future"}
                 />
@@ -129,7 +142,7 @@ class RiskTile extends React.Component {
             {this.props.pastScore &&
               <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
                 <div className="risk-tile-score-value tooltip">{this.props.pastScore}
-                  <span className="tooltiptext">Tooltip text</span>
+                  <div className="tooltiptext">{`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}</div>
                 </div>
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
@@ -147,7 +160,7 @@ class RiskTile extends React.Component {
             }
           </div>
           <div className="flex-c flex-align-sb">
-            <div className="risk-tile-context">{`within ${this.props.context} year(s)`}</div>
+            <div className="risk-tile-context">{`within ${this.props.context} ${(this.props.context == 1) ? "year" : "years"}`}</div>
             {/* <Button
               icon="info"
               iconOnly={true}

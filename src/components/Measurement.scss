@@ -19,6 +19,10 @@
   margin: 0 0.5rem 0 0;
 }
 
+.measurement-title:hover {
+    background:$gray-lightest;
+  }
+
 .measurement-info {
   min-height: 1.5rem;
 }
