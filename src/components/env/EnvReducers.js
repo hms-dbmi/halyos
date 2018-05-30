@@ -1,5 +1,5 @@
 import { FETCH_POLLEN_REQUEST, FETCH_POLLEN_SUCCESS } from './EnvActions'
-import { FETCH_AIQ_REQUEST, FETCH_AIQ_SUCCESS } from './EnvActions'
+import { FETCH_AIQ_REQUEST, FETCH_AIQ_SUCCESS, FETCH_AIQ_FAILURE } from './EnvActions'
 import { FETCH_FLU_REQUEST, FETCH_FLU_SUCCESS } from './EnvActions'
 
 export function envFactorsData(state = {}, action){
@@ -24,6 +24,12 @@ export function envFactorsData(state = {}, action){
         aiqLevels: action.aiqLevels,
         lastUpdated: action.receivedAt
       })
+    case FETCH_AIQ_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingAIQData: false,
+        failureFEtchAIQData: true,
+        lastUpdated: action.receivedAt
+      })      
     case FETCH_FLU_REQUEST:
       return Object.assign({}, state, {
         isFetchingFluData: true,

@@ -11,18 +11,66 @@ import './PreventativeCareSuggestions.css';
 const staticURL = (birthDate, gender) => './data/preventativeCareSuggestions.json';
 
 class PreventativeCareSuggestions extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      interventionsList: [],
+      mounted: false
+    };
+
+  }
 
   componentDidMount() {
+    this.setState({mounted:true,
+      interventionsList:[]});
     this.props.getPreventativeCareSuggestions(this.props.birthDate, this.props.gender);
+    this.loadData();
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    })
+  }
+
+  loadData() {
+    fetch(staticURL(this.props.birthDate, this.props.gender))
+      .then(response => response.json())
+      .then((data) => {
+        this.wrangleData(data);
+      })
+      .catch((error) => {
+        console.error('Could not retrieve or parse preventative care suggestions.', error);
+      });
+  }
+
+  wrangleData(data) {
+    const interventions = [];
+
+    for (let i = 0; i < data.Result.Resources.All.Resource.length; i++) {
+      interventions.push(data.Result.Resources.All.Resource[i].MyHFDescription);
+    }
+    if(this.state.mounted) {
+      this.setState({
+        interventionsList: interventions
+      });
+    }
   }
 
   render() {
 
     let suggestions;
-    if(this.props.prevCareSuggestions){
+    
+    if(this.props.failedFetchingPrevCareData){
+      suggestions = this.state.interventionsList;
+    } else if (this.props.prevCareSuggestions) {
       suggestions = this.props.prevCareSuggestions.Result.Resources.All.Resource;
+      // this.loadData();
+      // suggestions = this.state.interventionsList
+    } else {
+      suggestions = this.state.interventionsList;
     }
-     console.log("data", this.props.prevCareSuggestions);
     return (
       <div className="pcs full-wh flex-c flex-col">
         <h3 className="dashboard-panel-headline">Suggested Preventative Care</h3>

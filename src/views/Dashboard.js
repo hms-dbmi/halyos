@@ -37,6 +37,7 @@ class Dashboard extends React.Component {
       pcsIsCollapsed: false,
       pcsIsExpanded: false,
       rnd: 0,
+      serverDown: false,
     };
 
     this.forceRerenderBound = this.forceRerender.bind(this);
@@ -144,6 +145,13 @@ class Dashboard extends React.Component {
     window.removeEventListener('resize', this.forceRerenderBound);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.failedFetchPatientData){
+      this.setState({serverDown:true});
+    }
+
+  }
+
   /* **************************** Custom Methods **************************** */
 
   forceRerender() {
@@ -189,6 +197,7 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
+
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
@@ -204,19 +213,22 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    if (this.props.isFetchingAllPatientData || !this.props.patient) {
+    if (this.props.isFetchingAllPatientData) {
       return <div>Loading...</div>;
     }
 
     let lat;
     let long;
-    if (this.props.patient.address[0].extension[0].url.endsWith('geolocation')) {
-      if (this.props.patient.address[0].extension[0].extension[0].url === 'latitude') {
-        lat = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
-        long = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+
+    var ptInfo = this.props.patient || this.props.patientLocal;
+
+    if (ptInfo.address[0].extension[0].url.endsWith('geolocation')) {
+      if (ptInfo.address[0].extension[0].extension[0].url === 'latitude') {
+        lat = ptInfo.address[0].extension[0].extension[0].valueDecimal;
+        long = ptInfo.address[0].extension[0].extension[1].valueDecimal;
       } else {
-        long = this.props.patient.address[0].extension[0].extension[0].valueDecimal;
-        lat = this.props.patient.address[0].extension[0].extension[1].valueDecimal;
+        long = ptInfo.address[0].extension[0].extension[0].valueDecimal;
+        lat = ptInfo.address[0].extension[0].extension[1].valueDecimal;
       }
     } else {
       // TODO: we gotta add a function here that goes and gets it if we don't have it
@@ -224,17 +236,17 @@ class Dashboard extends React.Component {
     }
 
     const ptLoc = {
-      country_code: this.props.patient.address[0].country,
-      region_code: this.props.patient.address[0].state,
-      city: this.props.patient.address[0].city,
-      zip_code: this.props.patient.address[0].postalCode,
+      country_code: ptInfo.address[0].country,
+      region_code: ptInfo.address[0].state,
+      city: ptInfo.address[0].city,
+      zip_code: ptInfo.address[0].postalCode,
       latitude: lat,
       longitude: long,
     };
 
     const patient = {
-      gender: this.props.patient.gender,
-      birthDate: this.props.patient.birthDate
+      gender: ptInfo.gender,
+      birthDate: ptInfo.birthDate
     };
 
     const pcsStyle = {
@@ -313,34 +325,57 @@ class Dashboard extends React.Component {
     const riskAboutWidth = riskDetails
       ? 'pure-u-8-24'
       : 'pure-u-8-24 dashboard-risk-hidden';
+
     return (
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
           <li className={riskCardiacWidth}>
-            <RiskTileContainer
-              expand={this.expandRisk.bind(this)}
-              name="Cardiac"
-              score={reynoldsScore(
-                null,
-                this.props.patient,
-                listToDictMeasurements(this.props.allObsByCode),
-                this.props.external.smoking[1],
-                this.props.external.heartfamhist
-              )}
-              futureScore={futureReynolds}
-              pastScore={reynoldsScorePast}
-              data={{
-                patient: this.props.patient,
-                observations: this.props.observations
-              }}
-              unit="%"
-              context={10}
-              url="General_Cardiac"
-              currRisk={this.state.riskIsExpanded}
-            />
+            { !this.state.serverDown ? 
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Cardiac"
+                score={reynoldsScore(
+                  null,
+                  this.props.patient,
+                  listToDictMeasurements(this.props.allObsByCode),
+                  this.props.external.smoking[1],
+                  this.props.external.heartfamhist
+                )}
+                futureScore={futureReynolds}
+                pastScore={reynoldsScore}
+                data={{
+                  patient: this.props.patient,
+                  observations: listToDictMeasurements(this.props.allObsByCode),
+                }}
+                unit="%"
+                context={10}
+                url="General_Cardiac"
+                currRisk={this.state.riskIsExpanded}
+              /> :
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Cardiac"
+                score={reynoldsScore(
+                  null,
+                  this.props.patientLocal,
+                  sortMeasurements(this.props.observationsLocal),
+                  this.props.external.smoking[1],
+                  this.props.external.heartfamhist
+                )}
+                futureScore={futureReynolds}
+                pastScore={reynoldsScorePast}
+                data={{
+                  patient: this.props.patientLocal,
+                  observations: sortMeasurements(this.props.observationsLocal)
+                }}
+                unit="%"
+                context={10}
+                url="General_Cardiac"
+                currRisk={this.state.riskIsExpanded}
+              /> 
+            }
           </li>
           <li className={riskLiverWidth}>
-          
             <RiskTileContainer
               expand={this.expandRisk.bind(this)}
               name="Liver Fibrosis"
@@ -354,7 +389,7 @@ class Dashboard extends React.Component {
               data={{
                 patient: this.props.patient,
                 conditions: this.props.conditions,
-                observations: this.props.observations
+                observations: this.props.observationsLocal
               }}
               unit="%"
               context={1}

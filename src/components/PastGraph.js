@@ -253,23 +253,32 @@ class PastGraph extends React.Component {
 
 
     if (this.props.referenceRange) {
-      const minRef = [
-        { x: this.x.domain()[0], y: this.props.referenceRange[0] },
-        { x: this.x.domain()[1], y: this.props.referenceRange[0] },
-      ];
-      const maxRef = [
-        { x: this.x.domain()[0], y: this.props.referenceRange[1] },
-        { x: this.x.domain()[1], y: this.props.referenceRange[1] },
-      ];
-      this.focusGraph.append('path')
-        .datum(minRef)
-        .attr('class', 'past-graph-connection')
-        .attr('d', this.line);
+      // const minRef = [
+      //   { x: this.x.domain()[0], y: this.props.referenceRange[0] },
+      //   { x: this.x.domain()[1], y: this.props.referenceRange[0] },
+      // ];
+      // const maxRef = [
+      //   { x: this.x.domain()[0], y: this.props.referenceRange[1] },
+      //   { x: this.x.domain()[1], y: this.props.referenceRange[1] },
+      // ];
+      // this.focusGraph.append('path')
+      //   .datum(minRef)
+      //   .attr('class', 'past-graph-connection')
+      //   .attr('d', this.line);
 
-      this.focusGraph.append('path')
-        .datum(maxRef)
-        .attr('class', 'past-graph-connection')
-        .attr('d', this.line);
+      // this.focusGraph.append('path')
+      //   .datum(maxRef)
+      //   .attr('class', 'past-graph-connection')
+      //   .attr('d', this.line);
+
+      this.focusGraph.append('rect')
+        .attr('x', this.x.domain()[0])
+        .attr('y', this.y.range()[0]/(yMaxPadded-yMinPadded)*(yMaxPadded-this.props.referenceRange[1]))
+        .attr('height', this.y.range()[0]/(yMaxPadded-yMinPadded)*(this.props.referenceRange[1]-this.props.referenceRange[0]))
+        .attr('width', this.x.domain()[1]-this.x.domain()[0])
+        .attr('fill', '#98FB98')
+        .attr('opacity', 0.2)
+        .attr('id', 'test')
     }
 
     if(this.props.data.length > 1){
@@ -347,6 +356,7 @@ class PastGraph extends React.Component {
     }
 
     this.initFuture();
+    console.log(this.focusGraph.select('#test'))
   }
 
   initFuture() {
@@ -444,6 +454,15 @@ class PastGraph extends React.Component {
         y: HEIGHT
       }];
 
+      if(pastDateVal) {
+        this.pastDateAreaPointLine = {
+          x1: pastDateData[0].x,
+          y1: pastDateVal.y,
+          x2: pastDateVal.x,
+          y2: pastDateVal.y,
+        };
+      }
+
       const pastDateDataContext = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT2
@@ -500,7 +519,6 @@ class PastGraph extends React.Component {
       !d3.event.sourceEvent ||
       (d3.event.sourceEvent && d3.event.sourceEvent.type === 'zoom')
     ) return;
-
     const s = d3.event.selection || this.x2.range();
     this.x.domain(s.map(this.x2.invert, this.x2));
 
@@ -511,10 +529,15 @@ class PastGraph extends React.Component {
     this.focus.selectAll('.past-graph-node')
       .attr('cx', d => this.x(d.x))
       .attr('cy', d => this.y(d.y));
+
+    var myScale = d3.scaleLinear()
+      .domain([this.x.domain()[0],this.x.domain()[1]])
+      .range([this.x.range()[0], this.x.range()[1]]);
+
     this.focus.select('.graph-past-bar-point-line')
-      .attr('x1', this.x(this.pastDateAreaPointLine.x1))
+      .attr('x1', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x1), myScale(this.x.domain()[1]))))
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
-      .attr('x2', this.x(this.pastDateAreaPointLine.x2))
+      .attr('x2', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x2), myScale(this.x.domain()[1]))))
       .attr('y2', this.y(this.pastDateAreaPointLine.y2))
     
     //set opacity of line to 0 if outside of range

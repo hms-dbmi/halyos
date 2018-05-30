@@ -131,7 +131,6 @@ export function COPDScore(pt, obs, conds) {
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
                 if(!sortedObs[key]) {
-                    ////console.log(sortedObs);
                     return '...';
                 }
             }

@@ -5,6 +5,8 @@ import { fetchPreventativeCareSuggestions } from '../services/PreventativeCareAc
 
 const mapStateToProps = (state, ownProps) => ({
   prevCareSuggestions:state.preventativeCare.suggestions,
+  isFetchingPrevCareData:state.preventativeCare.isFetchingPrevCareData,
+  failedFetchingPrevCareData:state.preventativeCare.failedFetchingPrevCareData
 });
 
 const mapDispatchToProps = dispatch => ({

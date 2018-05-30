@@ -11,7 +11,9 @@ const mapStateToProps = (state, ownProps) => ({
   allObsByCode: state.fhirObservationData.allMeasurementsByCode,
   external: state.externalState,
   codeList: state.fhirObservationData.codeList,
-  allObsState: state.fhirObservationData
+  allObsState: state.fhirObservationData,
+  isFetchingAllPatientData: state.fhirPatientData.isFetchingAllPatientData,
+  failedFetchPatientData: state.fhirPatientData.failedFetchPatientData,
 });
 
 const mapDispatchToProps = dispatch => ({

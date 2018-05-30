@@ -25,7 +25,9 @@ export const receiveAllPatientData = (patientID, json) => ({
 export const failAllPatientData = patientID => ({
   type: FETCH_PATIENT_FAILURE,
   patientID,
-  error: 'oops'
+  error: 'oops',
+  receivedAt: Date.now()
+
 });
 
 // http://fhirtest.uhn.ca/baseDstu3/Patient
@@ -37,11 +39,20 @@ export function fetchAllPatientData(patientID) {
     return fetch(baseUrl + '/Patient?_id=' + patientID)
       .then(
         response => response.json(),
-        error => console.error('An error occured.', error)
+        error => {
+          console.warn('An error occured fetching the patient info :(', error)
+          dispatch(failAllPatientData(patientID));
+          return Promise.resolve();
+
+        }
       )
-      .then(json =>
+      .then(json => {
+        if(!json){
+          dispatch(failAllPatientData(patientID));
+          return Promise.resolve();
+        }
         dispatch(receiveAllPatientData(patientID, json))
-      );
+      });
   };
 }
 
@@ -94,6 +105,9 @@ export function fetchMostRecentVisitDate(patientID) {
         error => console.error('An error occured.', error)
       )
       .then((json) => {
+        if(!json){
+          return Promise.resolve();
+        }
         let recentDate = json.entry[0].resource.effectiveDateTime;
         dispatch(receiveLastVisitDate(patientID, recentDate));
       }
@@ -331,6 +345,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
 
 export const FETCH_ALL_OBSERVATION_REQUEST = 'FETCH_ALL_OBSERVATION_REQUEST';
 export const FETCH_ALL_OBSERVATION_SUCCESS = 'FETCH_ALL_OBSERVATION_SUCCESS';
+export const FETCH_ALL_OBSERVATION_FAILURE = 'FETCH_ALL_OBSERVATION_FAILURE';
 
 
 // we will get all the observations, regardless of code
@@ -344,6 +359,12 @@ export const receiveAllObs = (patientID, data) => ({
   patientID,
   all_other_obs: data,
   receivedAt: Date.now()
+})
+
+export const failureAllObs = () => ({
+  type: FETCH_ALL_OBSERVATION_FAILURE,
+  receivedAt: Date.now()
+
 })
 
 // TODO: complete this after figuring out how to do an excluded list fetchAll from fhir.js or otherwise.
@@ -445,6 +466,7 @@ export function fetchAllObs(patientID) {
       })
       .catch(function(res){
         //Error responses
+        dispatch(failureAllObs());
         return Promise.resolve();
         if (res.status){
         }
