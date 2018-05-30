@@ -472,6 +472,12 @@ class Dashboard extends React.Component {
                 ? ""
                 : riskText[this.state.riskIsExpanded]['text']
               }</p>
+              <br/>
+              <p>{this.state.riskIsExpanded === undefined
+                ? ""
+                : riskText['Context']
+              }
+              </p>
             </div>
           </li>
         </ul>

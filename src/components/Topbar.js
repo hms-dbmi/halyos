@@ -29,7 +29,7 @@ class Header extends React.Component {
             className="topbar-element flex-c flex-v-center"
             activeClassName="is-active"
           >
-            <Icon id="logo"/>
+            <div style={{fontWeight: 'bold', fontSize: 26}}>Halyos</div>
           </NavLink>
           <NavLink
             to="/about"
