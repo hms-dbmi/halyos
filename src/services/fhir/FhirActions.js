@@ -25,7 +25,9 @@ export const receiveAllPatientData = (patientID, json) => ({
 export const failAllPatientData = patientID => ({
   type: FETCH_PATIENT_FAILURE,
   patientID,
-  error: 'oops'
+  error: 'oops',
+  receivedAt: Date.now()
+
 });
 
 // http://fhirtest.uhn.ca/baseDstu3/Patient
@@ -37,11 +39,20 @@ export function fetchAllPatientData(patientID) {
     return fetch(baseUrl + '/Patient?_id=' + patientID)
       .then(
         response => response.json(),
-        error => console.error('An error occured.', error)
+        error => {
+          console.warn('An error occured fetching the patient info :(', error)
+          dispatch(failAllPatientData(patientID));
+          return Promise.resolve();
+
+        }
       )
-      .then(json =>
+      .then(json => {
+        if(!json){
+          dispatch(failAllPatientData(patientID));
+          return Promise.resolve();
+        }
         dispatch(receiveAllPatientData(patientID, json))
-      );
+      });
   };
 }
 
@@ -52,7 +63,6 @@ function shouldFetchAllPatientData(state, patientID) {
   } else if (state.fhirPatientData.isFetchingAllPatientData) {
     return false;
   } else {
-    // return posts.didInvalidate
   }
 }
 
@@ -66,6 +76,48 @@ export function fetchAllPatientDataIfNeeded(patientID) {
     return Promise.resolve();
   };
 }
+
+// we are getting the most recent visit of the patient
+export const FETCH_LAST_VISIT_DATE_REQUEST = 'FETCH_LAST_VISIT_DATE_REQUEST';
+export const FETCH_LAST_VISIT_DATE_SUCCESS = 'FETCH_LAST_VISIT_DATE_SUCCESS';
+
+export const requestLastVisitDate = patientID => ({
+  type: FETCH_LAST_VISIT_DATE_REQUEST,
+  patientID
+});
+
+export const receiveLastVisitDate = (patientID, data) => ({
+  type: FETCH_LAST_VISIT_DATE_SUCCESS,
+  patientID,
+  lastVisit: data,
+  receivedAt: Date.now()
+});
+
+
+export function fetchMostRecentVisitDate(patientID) {
+  return (dispatch) => {
+    dispatch(requestLastVisitDate(patientID));
+    const baseUrl = getURL();
+
+    return fetch(baseUrl + '/Observation?subject=' + patientID + '&_sort=-date&_count=1&date:missing=false')
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then((json) => {
+        if(!json){
+          return Promise.resolve();
+        }
+        let recentDate = json.entry[0].resource.effectiveDateTime;
+        dispatch(receiveLastVisitDate(patientID, recentDate));
+      }
+      );
+  };
+
+
+
+}
+
 
 // get most recent encounter information
 export const FETCH_RECENT_ENCOUNTER_REQUEST = 'FETCH_RECENT_ENCOUNTER_REQUEST';
@@ -96,7 +148,7 @@ export function fetchMostRecentEncounterData(patientID) {
     dispatch(requestMostRecentEcounterData(patientID));
     const baseUrl = getURL();
 
-    return fetch(baseUrl + '/Encounter?subject=' + patientID + '&_count=1&_sort=date')
+    return fetch(baseUrl + '/Encounter?subject=' + patientID + '&_count=1&_sort=-date')
       .then(
         response => response.json(),
         error => console.error('An error occured.', error)
@@ -293,6 +345,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
 
 export const FETCH_ALL_OBSERVATION_REQUEST = 'FETCH_ALL_OBSERVATION_REQUEST';
 export const FETCH_ALL_OBSERVATION_SUCCESS = 'FETCH_ALL_OBSERVATION_SUCCESS';
+export const FETCH_ALL_OBSERVATION_FAILURE = 'FETCH_ALL_OBSERVATION_FAILURE';
 
 
 // we will get all the observations, regardless of code
@@ -306,6 +359,12 @@ export const receiveAllObs = (patientID, data) => ({
   patientID,
   all_other_obs: data,
   receivedAt: Date.now()
+})
+
+export const failureAllObs = () => ({
+  type: FETCH_ALL_OBSERVATION_FAILURE,
+  receivedAt: Date.now()
+
 })
 
 // TODO: complete this after figuring out how to do an excluded list fetchAll from fhir.js or otherwise.
@@ -407,6 +466,7 @@ export function fetchAllObs(patientID) {
       })
       .catch(function(res){
         //Error responses
+        dispatch(failureAllObs());
         return Promise.resolve();
         if (res.status){
         }

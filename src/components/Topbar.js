@@ -8,50 +8,19 @@ import Icon from './Icon';
 import './Topbar.css';
 import {patientLocal} from '../data/fhirData.js';
 
+// utils
+import { getPatID } from '../services/smart_setup'
+
 class Header extends React.Component {
   
   componentWillMount() {
-    // a Set is used below for unique observation codes, could be {} probably.
-    this.observationList = [];
-    this.props.ptapi.fetchAll({
-      type: 'Observation',
-      query: {
-        $sort: [['code', 'asc']],
-        _elements: ['code'],
-      },
-    })
-      .done((data) => {
-        const observationList = new Set();
-        const updatedList = [];
-        for (let i = 0; i < data.length; i++) {
-          // Adding stringified text so they can be compared for equality and we
-          // keep all the info, just JSON parse it
-          if (data[i].component) {
-            for (let comp of data[i].component) {
-              const name = JSON.stringify(comp.code.coding[0]);
-              observationList.add(name);
-            }
-          } else {
-            //TODO: there's an error here where an obs can exist in the data, but without a code, if statement is a bandaid, figure out how/why 
-            let name = "";
-            if(data[i].code){
-              name = JSON.stringify(data[i].code.coding[0]);
-              observationList.add(name);
-            }
-          }
-        }
-
-        for (let item of observationList) {
-          const parsedItem = JSON.parse(item);
-          if (!(parsedItem.code === '48643-1' || parsedItem.code === '48642-3')) {
-            updatedList.push(parsedItem);
-          }
-        }
-
-      });
+    this.props.getPatientDemographics(getPatID());
+    this.props.getMostRecentVisit(getPatID());
   }
 
   render() {
+    const recentVisit = new Date(this.props.mostRecentVisit);
+    
     return (
       <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">
@@ -73,16 +42,31 @@ class Header extends React.Component {
         <nav className="flex-c">
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
             <div className="topbar-element-subtle">Location&nbsp;</div>
-            <div>{patientLocal[0].resource.address[0].city}, {patientLocal[0].resource.address[0].state}</div>
+            {this.props.patient ? (
+                <div>{this.props.patient.address[0].city}, {this.props.patient.address[0].state}</div>
+              ) : (
+                <div>{patientLocal[0].resource.address[0].city}, {patientLocal[0].resource.address[0].state}</div>
+              )
+            }            
             <Icon id="map"/>
           </div>
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
             <div className="topbar-element-subtle">Last Visit&nbsp;</div>
-            <date>8/18/16</date>
+            {this.props.mostRecentVisit ? (
+              <date>{recentVisit.getMonth() + 1}/{recentVisit.getDate()}/{recentVisit.getFullYear().toString().substring(2,4)}</date>
+              ) : (
+              <date>8/18/16</date>
+              )
+            }            
             <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
-            <div>Jane Doe&nbsp;</div>
+            {this.props.patient ? (
+              <div>{this.props.patient.name[0].given[0]} {this.props.patient.name[0].family}&nbsp;</div>
+              ) : (
+              <div>{patientLocal[0].resource.name[0].given[0]} {patientLocal[0].resource.name[0].family}&nbsp;</div>
+              )
+            }            
             <Icon id="person"/>
           </div>
         </nav>

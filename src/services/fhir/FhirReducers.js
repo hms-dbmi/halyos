@@ -1,8 +1,10 @@
-import { FETCH_ALL_OBSERVATION_REQUEST, FETCH_ALL_OBSERVATION_SUCCESS} from './FhirActions'
+import { FETCH_ALL_OBSERVATION_REQUEST, FETCH_ALL_OBSERVATION_SUCCESS, FETCH_ALL_OBSERVATION_FAILURE} from './FhirActions'
 import { FETCH_PATIENT_REQUEST, FETCH_PATIENT_SUCCESS, FETCH_PATIENT_FAILURE } from './FhirActions'
 import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_RECENT_ENCOUNTER_FAILURE } from './FhirActions'
 import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } from './FhirActions'
 import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS } from './FhirActions';
+import { FETCH_LAST_VISIT_DATE_REQUEST, FETCH_LAST_VISIT_DATE_SUCCESS } from './FhirActions';
+
 
 const initialFhirState = {
   "allMeasurements" : [],
@@ -66,6 +68,14 @@ export function fhirObservationData(state = initialFhirState, action){
         lastUpdated:action.receivedAt,
         allMeasurementsByCode : newArr,
       }
+    case FETCH_ALL_OBSERVATION_FAILURE:
+      return {
+        ...state,
+        isFetchingAllMeasurement:false,
+        lastUpdated:action.receivedAt,
+        failedFetchAllMeasurement: true,
+      }
+
     default:
       return state
 	}
@@ -83,10 +93,22 @@ export function fhirPatientData(state = {}, action) {
 				ptData: action.ptData,
 				lastUpdated:action.receivedAt
 			})
-		case FETCH_PATIENT_FAILURE:
-			return Object.assign({}, state, {
+    case FETCH_PATIENT_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingAllPatientData: false,
+        failedFetchPatientData: true,
+        lastUpdated: action.receivedAt,
+      })
 
-	    	})
+    case FETCH_LAST_VISIT_DATE_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingLastVisitDate: true,
+      })
+    case FETCH_LAST_VISIT_DATE_SUCCESS:
+      return Object.assign({}, state, {
+          isFetchingLastVisitDate: false,
+          lastVisit:action.lastVisit,
+        })
 	    default:
 	    	return state
 	}

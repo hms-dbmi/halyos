@@ -153,23 +153,19 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
 
 
 export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = false) {
-
+    const codesObject = {
+      '30522-7': {}, // hsCRP
+      '2093-3': {}, // cholesterol
+      '2085-9': {}, // HDL
+      '8480-6': {} // sysBP
+    };
     if (pt && obs && date == null) {
-      const codesObject = {
-        '30522-7': {}, // hsCRP
-        '2093-3': {}, // cholesterol
-        '2085-9': {}, // HDL
-        '8480-6': {} // sysBP
-      };
-      // console.log("obs!", obs);
       // const sortedObs = searchByCode(obs, codesObject);
 
       codesObject['30522-7'] = obs['30522-7'];
       codesObject['2093-3'] = obs['2093-3'];
       codesObject['2085-9'] = obs['2085-9'];
       codesObject['8480-6'] = obs['8480-6'];
-
-      // console.log("in reynolds", obs['30522-7']);
 
       for (let key in codesObject) {
         if (codesObject.hasOwnProperty(key)) {
@@ -180,7 +176,6 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         }
       }
 
-      // console.log("8480-6 num", codesObject['8480-6'].measurements[0].value);
       return calculateReynolds(calculateAge(pt.birthDate),
         codesObject['8480-6'].measurements[0].value,
         codesObject['30522-7'].measurements[0].value,
@@ -191,7 +186,30 @@ export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = fa
         pt.gender
       );
     } else if (pt && obs){
+      codesObject['30522-7'] = obs['30522-7'];
+      codesObject['2093-3'] = obs['2093-3'];
+      codesObject['2085-9'] = obs['2085-9'];
+      codesObject['8480-6'] = obs['8480-6'];
 
+
+      for (let key in codesObject) {
+        if (codesObject.hasOwnProperty(key)) {   
+          if (!codesObject[key]) {
+            //alert('Patient does not have adequate measurements for Reynolds Risk Score.');
+            return '...';
+          }
+        }
+      }
+      let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
+      return calculateReynolds(calculateAge(pt.birthDate)-yearsYounger,
+        getNearestFlat(codesObject['8480-6'].measurements, date).value,
+        getNearestFlat(codesObject['30522-7'].measurements, date).value,
+        getNearestFlat(codesObject['2093-3'].measurements, date).value,
+        getNearestFlat(codesObject['2085-9'].measurements, date).value,
+        smoker, // smoker
+        famhist, // famHist
+        pt.gender
+      );
     }
   return '...';
 }

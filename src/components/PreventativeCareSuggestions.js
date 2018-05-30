@@ -21,19 +21,10 @@ class PreventativeCareSuggestions extends React.Component {
 
   }
 
-  // componentWillUpdate(nextProps) {
-  //   if (
-  //     nextProps.birthDate !== this.props.birthDate ||
-  //     nextProps.gender !== this.props.gender
-  //   ) {
-  //     this.loadData();
-  //   }
-  // }
-
   componentDidMount() {
-    this.setState({
-      mounted: true
-    })
+    this.setState({mounted:true,
+      interventionsList:[]});
+    this.props.getPreventativeCareSuggestions(this.props.birthDate, this.props.gender);
     this.loadData();
   }
 
@@ -68,13 +59,25 @@ class PreventativeCareSuggestions extends React.Component {
   }
 
   render() {
+
+    let suggestions;
+    
+    if(this.props.failedFetchingPrevCareData){
+      suggestions = this.state.interventionsList;
+    } else if (this.props.prevCareSuggestions) {
+      suggestions = this.props.prevCareSuggestions.Result.Resources.All.Resource;
+      // this.loadData();
+      // suggestions = this.state.interventionsList
+    } else {
+      suggestions = this.state.interventionsList;
+    }
     return (
       <div className="pcs full-wh flex-c flex-col">
         <h3 className="dashboard-panel-headline">Suggested Preventative Care</h3>
         <div className="flex-g-1 r">
           <ul className="pcs-list no-list-style full-dim scrollbar">
-            {this.state.interventionsList.map((text, index) => (
-              <li key={index}>{text}</li>
+            {suggestions && suggestions.map((dataItem, index) => (
+              <li key={index}>{dataItem.MyHFDescription}</li>
             ))}
           </ul>
         </div>
