@@ -119,7 +119,6 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
 */
 
 export function COPDScore(pt, obs, conds) {
-    console.log(pt, obs, conds)
     if(pt && obs && conds) {
         var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
         var sortedObs = {
@@ -132,7 +131,6 @@ export function COPDScore(pt, obs, conds) {
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
                 if(!sortedObs[key]) {
-                    ////console.log(sortedObs);
                     return '...';
                 }
             }

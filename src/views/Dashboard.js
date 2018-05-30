@@ -197,6 +197,7 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
+
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
