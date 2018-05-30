@@ -33,6 +33,8 @@ const MeasurementAbout = props => (
         <p>{(props.name && text[props.name] && text[props.name].important) || 'Not available...'}</p>
         <h4>How can I make it better?</h4>
         <p>{(props.name && text[props.name] && text[props.name].improve) || 'Not available...'}</p>
+        <br/>
+        <p> {(props.name && text[props.name] && ('Source: ' + text[props.name].source)) || ''}</p>
       </div>
     ) : (
       <div className="flex-g-1 r tile-like">
