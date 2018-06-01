@@ -568,6 +568,17 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
             >
+            { !this.state.serverDown ?
+              <MeasurementsContainer
+                expand={this.expandMea.bind(this)}
+                expandAbout={this.expandMeaAbout.bind(this)}
+                isCollapsed={this.state.meaIsCollapsed}
+                isExpanded={this.state.meaIsExpanded}
+                measurements={this.props.observationsLocal}
+                risk={this.state.riskIsExpanded} 
+                currMeasure={this.state.currMeasure}
+                absWidth={mesWidthAbs}
+              /> :
               <MeasurementsContainer
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}
@@ -578,6 +589,7 @@ class Dashboard extends React.Component {
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}
               />
+            }              
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
