@@ -197,6 +197,7 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
+
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
@@ -559,6 +560,12 @@ class Dashboard extends React.Component {
                 ? ""
                 : riskText[this.state.riskIsExpanded]['text']
               }</p>
+              <br/>
+              <p>{this.state.riskIsExpanded === undefined
+                ? ""
+                : riskText['Context']
+              }
+              </p>
             </div>
           </li>
         </ul>

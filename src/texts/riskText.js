@@ -27,5 +27,7 @@ export default {
 	'Liver Fibrosis': {
 		name: 'Liver Fibrosis Risk Score',
 		text: 'The liver fibrosis risk score combines the measurements listed on the left, as well as the presence of diabetes to generate a score. This risk reported is the percentage of patients with scores similar to yours who have liver fibrosis.'
-	}	
+	},
+
+	'Context': 'The visualization on the left shows the percent risk at your selected past date, the present, and the future (based on hypothetical future values you have set). The small dots represent a decrease in risk from the present. The black dots with a border represent an increase in risk from the present.'
 };
