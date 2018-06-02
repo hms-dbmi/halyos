@@ -160,8 +160,6 @@ export function fetchMostRecentEncounterData(patientID) {
 }
 
 // get condition data
-
-// get most recent encounter information
 export const FETCH_ALL_CONDITION_REQUEST = 'FETCH_ALL_CONDITION_REQUEST';
 export const FETCH_ALL_CONDITION_SUCCESS = 'FETCH_ALL_CONDITION_SUCCESS';
 export const FETCH_ALL_CONDITION_FAILURE = 'FETCH_ALL_CONDITION_FAILURE';
@@ -178,9 +176,8 @@ export const receiveAllConditionData = (patientID, json) => ({
   receivedAt: Date.now()
 });
 
-export const failAllConditionData = patientID => ({
+export const failAllConditionData = () => ({
   type: FETCH_ALL_CONDITION_FAILURE,
-  patientID,
   error: 'oops'
 });
 
@@ -211,6 +208,54 @@ export function fetchAllConditionData(patientID) {
         if (res.message){
         }
       });
+
+
+  };
+}
+
+// get medication request data
+export const FETCH_ALL_MEDREQ_REQUEST = 'FETCH_ALL_MEDREQ_REQUEST';
+export const FETCH_ALL_MEDREQ_SUCCESS = 'FETCH_ALL_MEDREQ_SUCCESS';
+export const FETCH_ALL_MEDREQ_FAILURE = 'FETCH_ALL_MEDREQ_FAILURE';
+
+export const requestAllMedReqData = patientID => ({
+  type: FETCH_ALL_MEDREQ_REQUEST,
+  patientID
+});
+
+export const receiveAllMedReqData = (patientID, data) => ({
+  type: FETCH_ALL_MEDREQ_SUCCESS,
+  patientID,
+  allMedReqData: data,
+  receivedAt: Date.now()
+});
+
+export const failAllMedReqData = () => ({
+  type: FETCH_ALL_MEDREQ_FAILURE,
+  error: 'oops'
+});
+
+// https://fhirtest.uhn.ca/baseDstu3/Encounter?subject=182296&_count=1&_sort=date
+export function fetchAllMedReqData(patientID) {
+  return (dispatch) => {
+    dispatch(requestAllMedReqData(patientID));
+   const baseUrl = getURL();
+    //get the most recent data
+    return fetch(baseUrl + '/MedicationRequest?subject=' + patientID)
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then(function(json){
+          if(!json){
+            dispatch(failAllMedReqData());
+            return Promise.resolve();
+          }
+          else {
+          }
+        dispatch(receiveAllMedReqData(patientID, json.entry));
+        } 
+      );
 
 
   };

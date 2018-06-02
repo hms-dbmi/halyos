@@ -154,6 +154,7 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
     @return the diabetes score as a percent
 */
 export function diabetesScore(pt, obs, conds, medreq) {
+  console.log('medreq', medreq);
   if(pt && obs && conds && medreq) {
     var waist = obs['56115-9'] //['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'])
     var bmi = obs['39156-5']

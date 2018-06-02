@@ -1530,8 +1530,7 @@
 ---------------------
 
 {
-  "resourceType": "Bundle",
-  "type": "transaction",
+  "resourceType": "MedicationRequest",
   "entry": [
     {
       "resource": {
@@ -1552,11 +1551,66 @@
           ]
         }
       },
-      "request": {
-        "method": "POST"
+       "subject": {
+        "reference": "Patient/240225"
       }
     }
   ]
+}
+
+------- ^above doesn't work :(
+
+{
+  "resourceType": "MedicationRequest",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2017-06-26T19:24:03.366-04:00"
+  },
+  "contained": [
+    {
+      "resourceType": "Medication",
+      "id": "1",
+      "code": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "1020137",
+            "display": "Dextromethorphan Hydrobromide 1 MG/ML"
+          }
+        ]
+      }
+    }
+  ],
+  "status": "active",
+  "medicationReference": {
+    "reference": "#1"
+  },
+  "subject": {
+    "reference": "Patient/240225"
+  },
+  "dosageInstruction": [
+    {
+      "text": "Take one tablet 500 mg as needed for pain",
+      "timing": {
+        "repeat": {
+          "durationUnit": "d",
+          "frequency": 4
+        }
+      },
+      "asNeededBoolean": true,
+      "doseQuantity": {
+        "value": 5,
+        "unit": "mg"
+      }
+    }
+  ],
+  "dispenseRequest": {
+    "numberOfRepeatsAllowed": 2,
+    "expectedSupplyDuration": {
+      "value": 5,
+      "unit": "d"
+    }
+  }
 }
 
 ---------------------

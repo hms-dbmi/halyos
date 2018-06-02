@@ -87,6 +87,7 @@ class Dashboard extends React.Component {
 
     this.props.getPatientDemographics(getPatID());
     this.props.getAllConditionData(getPatID());
+    this.props.getAllMedReqData(getPatID());
     // let codeList = [];
     let mostRecentMeaCodeList = [];
 
@@ -511,7 +512,7 @@ class Dashboard extends React.Component {
                   this.props.patient,
                   listToDictMeasurements(this.props.allObsByCode),
                   this.props.conditions,
-                  this.props.medreq
+                  this.props.medreqData
                 )}
                 futureScore={futureDiabetes}
                 pastScore={diabetesPast}
@@ -519,7 +520,7 @@ class Dashboard extends React.Component {
                   patient: this.props.patient,
                   observations:this.props.observations,
                   conditions:this.props.conditions,
-                  medications:this.props.medreq
+                  medications:this.props.medreqData
                 }}
                 unit="%"
                 context={5}
@@ -627,10 +628,10 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-  conditions: PropTypes.array,
+  allConditionData: PropTypes.array,
   getPatientDemographics: PropTypes.func,
   isFetchingAllPatientData: PropTypes.bool,
-  medreq: PropTypes.array,
+  medreqData: PropTypes.array,
   observations: PropTypes.array,
   patient: PropTypes.object,
 };
