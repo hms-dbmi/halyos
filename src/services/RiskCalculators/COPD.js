@@ -88,7 +88,7 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
 }
 
 export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
-  if(presMeasures && pt && futureMeasures) {
+  if(presMeasures && pt && futureMeasures && conds) {
       return calcCOPD(
         calculateAge(pt.birthDate),
         conds && pullCondition(conds, ["40917007"]).length !== 0,
@@ -98,7 +98,7 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
         (futureMeasures['8462-4'] || presMeasures['8462-4']),
       );
   }
-  else if (presMeasures && pt) {
+  else if (presMeasures && pt && conds) {
       return calcCOPD(
         calculateAge(pt.birthDate),
         conds && pullCondition(conds, ["40917007"]).length !== 0,

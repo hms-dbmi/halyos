@@ -29,14 +29,21 @@ export function getValueQuantities(obs, callback){
 /**
     This method categorizes measurements so a list of observations can be placed in the format in the return tag.
     Importantly however, this is only if the data is pulled from the fhir.js JAVASCRIPT CLIENT. It's a different format than from a fetch call. 
+    
+    TODO: really, the right way to do this is to convert the local data, since it is the incorrect format and pull it out properly, so that it matches
+      the data pulled from the server. 
 
+      local data: 
+      [{fullUrl:..., resource:..., search:...}{...}]
+      server data:
+      [{resourceType:..., code:..., (other resource fields)}{...}]
+  
     @param obs: list of observations
 
     @return [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}], 
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurementsFromClient(obs){
-  console.log("obs", obs);
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
     if(obs[i].component) {

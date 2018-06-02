@@ -56,12 +56,10 @@ class Main extends React.Component {
           <Route exact path='/' render={props => (
               <DashboardContainer
                 {...props}
-                medsLocal={medStatementsLocal}
                 patientLocal={patientLocal[0].resource}
-                encountersLocal={encountersLocal}
                 observationsLocal={observationsLocal}
                 conditionsLocal={conditionsLocal}
-                medreqLocal={medRequestsLocal}
+                medreq={medRequestsLocal}
               />
             )}
           />

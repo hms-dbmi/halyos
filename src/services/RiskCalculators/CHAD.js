@@ -52,7 +52,13 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
       let filteredConds = [];
       let goalDate = new Date(date);
       for(let i = 0; i < conds.length; i++){
-        let currDate = new Date(conds[i].resource.onsetDateTime)
+        let currDate;
+
+        if(conds[i].resource == null){
+          currDate = new Date(conds[i].onsetDateTime)
+        } else {
+          currDate = new Date(conds[i].resource.onsetDateTime)
+        }
         if(currDate < goalDate) {
           filteredConds.push(conds[i]);
         }
@@ -89,6 +95,7 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
 
 export function CHADScore(pt, conds, obs){
   if(pt && conds && obs) {
+      // we have to make this check since the server and local data are slightly different formats, done with the wrapper method below
       var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
       if(obs['39156-5'] && obs['1916-6'] &&
         obs['777-3'] && obs['1751-7']) {

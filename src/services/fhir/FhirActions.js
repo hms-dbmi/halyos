@@ -159,6 +159,63 @@ export function fetchMostRecentEncounterData(patientID) {
   };
 }
 
+// get condition data
+
+// get most recent encounter information
+export const FETCH_ALL_CONDITION_REQUEST = 'FETCH_ALL_CONDITION_REQUEST';
+export const FETCH_ALL_CONDITION_SUCCESS = 'FETCH_ALL_CONDITION_SUCCESS';
+export const FETCH_ALL_CONDITION_FAILURE = 'FETCH_ALL_CONDITION_FAILURE';
+
+export const requestAllConditionData = patientID => ({
+  type: FETCH_ALL_CONDITION_REQUEST,
+  patientID
+});
+
+export const receiveAllConditionData = (patientID, json) => ({
+  type: FETCH_ALL_CONDITION_SUCCESS,
+  patientID,
+  allCondData: json,
+  receivedAt: Date.now()
+});
+
+export const failAllConditionData = patientID => ({
+  type: FETCH_ALL_CONDITION_FAILURE,
+  patientID,
+  error: 'oops'
+});
+
+// https://fhirtest.uhn.ca/baseDstu3/Encounter?subject=182296&_count=1&_sort=date
+export function fetchAllConditionData(patientID) {
+  return (dispatch) => {
+    dispatch(requestAllConditionData(patientID));
+
+    var mkFhir = require('fhir.js');
+    var client = mkFhir({
+      baseUrl: getInsecureURL()
+    });
+
+    //sort by code
+    client
+      .fetchAll({type: 'Condition', query: {'subject':patientID}})
+      .then(function(res){
+        var bundle = res;
+        dispatch(receiveAllConditionData(patientID, bundle));
+      })
+      .catch(function(res){
+        dispatch(failAllConditionData());
+        return Promise.resolve();
+        if (res.status){
+        }
+
+        //Errors
+        if (res.message){
+        }
+      });
+
+
+  };
+}
+
 
 //get observations data
 

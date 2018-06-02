@@ -4,6 +4,7 @@ import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_R
 import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } from './FhirActions'
 import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS, FETCH_ALL_OBSERVATION_BY_CODE_FAILURE } from './FhirActions';
 import { FETCH_LAST_VISIT_DATE_REQUEST, FETCH_LAST_VISIT_DATE_SUCCESS } from './FhirActions';
+import { FETCH_ALL_CONDITION_REQUEST, FETCH_ALL_CONDITION_SUCCESS, FETCH_ALL_CONDITION_FAILURE } from './FhirActions';
 
 
 const initialFhirState = {
@@ -143,4 +144,24 @@ export function fhirEncounterData(state={}, action){
 		default:
 			return state
 	}
+}
+
+export function fhirConditionData(state={allCondData:[]}, action){
+  switch(action.type){
+    case FETCH_ALL_CONDITION_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingRecentConditionData: true,
+      })
+    case FETCH_ALL_CONDITION_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingRecentConditionData:false,
+        allCondData: action.allCondData,
+        lastUpdated:action.receivedAt,
+      })
+    case FETCH_ALL_CONDITION_FAILURE:
+      return Object.assign({}, state, {
+      })
+    default:
+      return state
+}
 }

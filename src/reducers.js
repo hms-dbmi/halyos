@@ -3,7 +3,7 @@ import { routerReducer as routing } from 'react-router-redux';
 
 import defaultSetReducer from './utils/default-set-reducer';
 
-import { fhirPatientData, fhirObservationData, fhirEncounterData } from './services/fhir/FhirReducers';
+import { fhirPatientData, fhirObservationData, fhirEncounterData, fhirConditionData } from './services/fhir/FhirReducers';
 import { preventativeCare } from './services/PreventativeCareReducers';
 import { envFactorsData } from './components/env/EnvReducers';
 
@@ -31,6 +31,7 @@ const rootReducer = combineReducers({
   fhirPatientData,
   fhirObservationData,
   fhirEncounterData,
+  fhirConditionData,
   envFactorsData,
   measurementState,
   pastDate,

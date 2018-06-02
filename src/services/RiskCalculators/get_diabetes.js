@@ -80,7 +80,7 @@ export function calcDiabetesRisk(age, gender, bmi, hyperglycemia, historyOfAntih
 }
 
 export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
-  if(presMeasures && pt && futureMeasures) {
+  if(presMeasures && pt && futureMeasures && conds && meds && obs) {
       return calcDiabetesRisk(
         calculateAge(pt.birthDate),
         pt.gender,
@@ -91,7 +91,7 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
         presMeasures['56115-9'] || presMeasures['56114-2'] || presMeasures['56117-5'] || presMeasures['8280-0'] || presMeasures['8281-8']
       );
   }
-  else if (presMeasures && pt) {
+  else if (presMeasures && pt && conds && meds && obs) {
       return calcDiabetesRisk(
         calculateAge(pt.birthDate),
         pt.gender,
@@ -105,7 +105,7 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
 }
 
 export function diabetesPast(date, pt = null, obs = null, conds = null, meds = null) {
-    if(pt && obs) {
+    if(pt && obs && conds && meds) {
       const codesObject = {
         '56115-9': [],
         '56114-2': [],

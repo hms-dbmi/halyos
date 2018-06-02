@@ -86,7 +86,7 @@ class Dashboard extends React.Component {
     //   });
 
     this.props.getPatientDemographics(getPatID());
-
+    this.props.getAllConditionData(getPatID());
     // let codeList = [];
     let mostRecentMeaCodeList = [];
 
@@ -197,7 +197,6 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
-
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
@@ -381,16 +380,16 @@ class Dashboard extends React.Component {
                 expand={this.expandRisk.bind(this)}
                 name="Liver Fibrosis"
                 score={CHADScore(
-                  this.props.patientLocal,
-                  this.props.conditionsLocal,
+                  this.props.patient,
+                  this.props.allConditionData,
                   listToDictMeasurements(this.props.allObsByCode)
                 )}
                 futureScore={futureCHAD}
                 pastScore={CHADPastScore}
                 data={{
                   patient: this.props.patient,
-                  conditions: this.props.conditions,
-                  observations: this.props.observationsLocal
+                  conditions: this.props.allConditionData,
+                  observations: listToDictMeasurements(this.props.allObsByCode),
                 }}
                 unit="%"
                 context={1}
@@ -560,12 +559,6 @@ class Dashboard extends React.Component {
                 ? ""
                 : riskText[this.state.riskIsExpanded]['text']
               }</p>
-              <br/>
-              <p>{this.state.riskIsExpanded === undefined
-                ? ""
-                : riskText['Context']
-              }
-              </p>
             </div>
           </li>
         </ul>
@@ -575,17 +568,6 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
             >
-            { !this.state.serverDown ?
-              <MeasurementsContainer
-                expand={this.expandMea.bind(this)}
-                expandAbout={this.expandMeaAbout.bind(this)}
-                isCollapsed={this.state.meaIsCollapsed}
-                isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.observationsLocal}
-                risk={this.state.riskIsExpanded} 
-                currMeasure={this.state.currMeasure}
-                absWidth={mesWidthAbs}
-              /> :
               <MeasurementsContainer
                 expand={this.expandMea.bind(this)}
                 expandAbout={this.expandMeaAbout.bind(this)}
@@ -596,7 +578,6 @@ class Dashboard extends React.Component {
                 currMeasure={this.state.currMeasure}
                 absWidth={mesWidthAbs}
               />
-            }              
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>

@@ -140,11 +140,32 @@ export function calculateTimeDiffHours(date1, date2) {
 }
 
 /**
+  
+  This function is a wrapper for the pullConditionLocal and pullConditionFromClient methods
+  depending on if it is local or server data, since the formats are different. Really needs to be fixed
+
   @param fetchResult: set of all conditions from a fetchAll call
   @param condID: array with SNOMED ID of conditions
   @return array of condition resources that match IDs in condID array
 */
 export function pullCondition(fetchResult, condID) {
+  var resultSet= [];
+  // we have to make this check since the server and local data are slightly different formats,
+  if(fetchResult.length !== 0 && fetchResult[0].resource == null){
+    resultSet = pullConditionFromClient(fetchResult, condID);
+  } else {
+    resultSet = pullConditionLocal(fetchResult, condID);
+  }
+  return resultSet;
+}
+
+
+/**
+  @param fetchResult: set of all conditions from a fetchAll call
+  @param condID: array with SNOMED ID of conditions
+  @return array of condition resources that match IDs in condID array
+*/
+export function pullConditionLocal(fetchResult, condID) {
   var resultSet = [];
   for (var i = 0; i<fetchResult.length; i++) {
     if (condID.includes(fetchResult[i].resource.code.coding[0].code)) {
@@ -154,3 +175,17 @@ export function pullCondition(fetchResult, condID) {
   return resultSet;
 }
 
+/**
+  @param fetchResult: set of all conditions from a fetchAll call from the FHIR.JS CLIENT!!
+  @param condID: array with SNOMED ID of conditions
+  @return array of condition resources that match IDs in condID array
+*/
+export function pullConditionFromClient(fetchResult, condID) {
+  var resultSet = [];
+  for (var i = 0; i<fetchResult.length; i++) {
+    if (condID.includes(fetchResult[i].code.coding[0].code)) {
+      resultSet.push(fetchResult[i]);
+    }
+  }
+  return resultSet;
+}
