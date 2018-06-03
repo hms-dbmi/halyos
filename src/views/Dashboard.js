@@ -568,17 +568,28 @@ class Dashboard extends React.Component {
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            >
-              <MeasurementsContainer
-                expand={this.expandMea.bind(this)}
-                expandAbout={this.expandMeaAbout.bind(this)}
-                isCollapsed={this.state.meaIsCollapsed}
-                isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.allObsByCode}
-                risk={this.state.riskIsExpanded} 
-                currMeasure={this.state.currMeasure}
-                absWidth={mesWidthAbs}
-              />
+            > { !this.state.serverDown ?
+                <MeasurementsContainer
+                  expand={this.expandMea.bind(this)}
+                  expandAbout={this.expandMeaAbout.bind(this)}
+                  isCollapsed={this.state.meaIsCollapsed}
+                  isExpanded={this.state.meaIsExpanded}
+                  measurements={this.props.allObsByCode}
+                  risk={this.state.riskIsExpanded} 
+                  currMeasure={this.state.currMeasure}
+                  absWidth={mesWidthAbs}
+                /> :
+                <MeasurementsContainer
+                  expand={this.expandMea.bind(this)}
+                  expandAbout={this.expandMeaAbout.bind(this)}
+                  isCollapsed={this.state.meaIsCollapsed}
+                  isExpanded={this.state.meaIsExpanded}
+                  measurements={sortMeasurements(this.props.observationsLocal)}
+                  risk={this.state.riskIsExpanded} 
+                  currMeasure={this.state.currMeasure}
+                  absWidth={mesWidthAbs}
+                /> 
+              }              
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
@@ -586,7 +597,7 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.pcsEl = el; }}
               style={pcsStyle}
-            >
+            > {/* preventative care and env tiles have their local data backup built into the components themselves, check there. */}
               <PreventativeCareSuggestionsContainer
                 birthDate={patient.birthDate}
                 gender={patient.gender}

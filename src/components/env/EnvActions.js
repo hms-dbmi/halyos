@@ -148,11 +148,17 @@ export function fetchAirQualityLevels(lat,long) {
 
   return fetch('https://api.airvisual.com/v2/nearest_city?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
     .then(
-      response => response.json(),
+      response => {
+        if(!response.ok){
+          dispatch(failureAirQualityLevels());
+          console.log('response is not okay!!!');
+          return Promise.resolve();
+
+        }
+        return response.json();
+      },
       error => {
         console.warn('Could not load air quality data.', error);
-        dispatch(failureAirQualityLevels());
-        return Promise.resolve();
 
       }
     )

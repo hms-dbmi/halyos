@@ -59,15 +59,13 @@ class PreventativeCareSuggestions extends React.Component {
   }
 
   render() {
-
+    // this right here is real messy. find a better system if there is one. especially the render, data formats are different yet again.
     let suggestions;
     
-    if(this.props.failedFetchingPrevCareData){
+    if(this.props.failedFetchingPrevCareData || this.props.prevCareSuggestions == null){
       suggestions = this.state.interventionsList;
     } else if (this.props.prevCareSuggestions) {
       suggestions = this.props.prevCareSuggestions.Result.Resources.All.Resource;
-      // this.loadData();
-      // suggestions = this.state.interventionsList
     } else {
       suggestions = this.state.interventionsList;
     }
@@ -77,7 +75,7 @@ class PreventativeCareSuggestions extends React.Component {
         <div className="flex-g-1 r">
           <ul className="pcs-list no-list-style full-dim scrollbar">
             {suggestions && suggestions.map((dataItem, index) => (
-              <li key={index}>{dataItem.MyHFDescription}</li>
+              <li key={index}>{dataItem.MyHFDescription || dataItem}</li>
             ))}
           </ul>
         </div>

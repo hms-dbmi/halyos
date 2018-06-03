@@ -27,7 +27,7 @@ export function envFactorsData(state = {}, action){
     case FETCH_AIQ_FAILURE:
       return Object.assign({}, state, {
         isFetchingAIQData: false,
-        failureFEtchAIQData: true,
+        failureFetchAIQData: true,
         lastUpdated: action.receivedAt
       })      
     case FETCH_FLU_REQUEST:

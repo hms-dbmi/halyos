@@ -4,7 +4,8 @@ import AirQuality from './AirQuality';
 const mapStateToProps = state => {
   return {
     aiq:state.envFactorsData.aiqLevels,
-    isFetchingAIQData:state.envFactorsData.isFetchingAIQData
+    isFetchingAIQData:state.envFactorsData.isFetchingAIQData,
+    failedFetchingAIQData: state.envFactorsData.failureFetchAIQData,
   }
 }
 
