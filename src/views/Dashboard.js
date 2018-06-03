@@ -467,14 +467,14 @@ class Dashboard extends React.Component {
                 score={COPDScore(
                   this.props.patient,
                   listToDictMeasurements(this.props.allObsByCode),
-                  this.props.conditions
+                  this.props.allConditionData
                 )}
                 futureScore={futureCOPD}
                 pastScore={pastCOPDScore}
                 data={{
                   patient: this.props.patient,
-                  observations:this.props.observations,
-                  conditions:this.props.conditions
+                  observations:listToDictMeasurements(this.props.allObsByCode),
+                  conditions:this.props.allConditionData
                 }}
                 unit="%"
                 context={4}
@@ -511,7 +511,7 @@ class Dashboard extends React.Component {
                 score={diabetesScore(
                   this.props.patient,
                   listToDictMeasurements(this.props.allObsByCode),
-                  this.props.conditions,
+                  this.props.allConditionData,
                   this.props.medreqData
                 )}
                 futureScore={futureDiabetes}
@@ -519,7 +519,7 @@ class Dashboard extends React.Component {
                 data={{
                   patient: this.props.patient,
                   observations:this.props.observations,
-                  conditions:this.props.conditions,
+                  conditions:this.props.allConditionData,
                   medications:this.props.medreqData
                 }}
                 unit="%"

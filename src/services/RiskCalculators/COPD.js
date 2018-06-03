@@ -58,7 +58,7 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
         for (var key in sortedObs) {
             if(sortedObs.hasOwnProperty(key)) {
                 if(sortedObs[key].length === 0) {
-                    alert("Patient does not have adequate measurements for COPD Risk Score.");
+                    // alert("Patient does not have adequate measurements for COPD Risk Score.");
                     ////console.log(sortedObs);
                     return;
                 }
