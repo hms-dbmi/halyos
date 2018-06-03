@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.data.patient,
     ownProps.data.observations,
     ownProps.data.conditions,
-    null,
+    ownProps.data.medications,
     state.externalState.smoking[0],
     state.externalState.heartfamhist
     ),

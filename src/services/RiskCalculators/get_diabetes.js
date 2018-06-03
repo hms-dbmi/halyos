@@ -13,7 +13,7 @@
 
 */
 import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
-import {getNearestFlat} from '../../services/general_utils';
+import { getNearestFlat, sortMeasurements } from '../../services/general_utils';
 
 // const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
 // const BMI = '39156-5';
@@ -114,32 +114,70 @@ export function diabetesPast(date, pt = null, obs = null, conds = null, meds = n
         '8281-8': [],
         '39156-5': []
       };
-      searchByCode(obs, codesObject);
-      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56114-2'])
-      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['56117-5'])
-      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8280-0'])
-      codesObject['56115-9'] = codesObject['56115-9'].concat(codesObject['8281-8']);
+
+      // due to the differences in where the data comes from, we have to check if we got the original data bundle
+      // or if it is preprocessed from remote server by redux.
+      let sortedObs;
+      if(Array.isArray(obs)){
+        sortedObs = sortMeasurements(obs);
+      } else if (Object.keys(obs).length !== 0) {
+        sortedObs = obs;
+
+        // we want to make sure we have all of the necessary obs before we proceed.
+        if (!(sortedObs.hasOwnProperty('56115-9') || sortedObs.hasOwnProperty('56114-2') || sortedObs.hasOwnProperty('56117-5') || sortedObs.hasOwnProperty('8280-0') || sortedObs.hasOwnProperty('8281-8')) || 
+            !(sortedObs.hasOwnProperty('39156-5'))
+            ) {
+          return "...";
+        }
+
+      } else {
+        return "...";
+      }      
+
+      let waistCirMeasurements = [];
+      let bmiMeasurements = sortedObs['39156-5'].measurements;
+
+      if(sortedObs.hasOwnProperty('56115-9'))
+        waistCirMeasurements = waistCirMeasurements.concat(sortedObs['56115-9'].measurements);
+      if(sortedObs.hasOwnProperty('56114-2'))
+        waistCirMeasurements = waistCirMeasurements.concat(sortedObs['56114-2'].measurements);
+      if(sortedObs.hasOwnProperty('56117-5')) {
+        waistCirMeasurements = waistCirMeasurements.concat(sortedObs['56117-5'].measurements);
+      }
+      if(sortedObs.hasOwnProperty('8280-0'))
+        waistCirMeasurements = waistCirMeasurements.concat(sortedObs['8280-0'].measurements)
+      if(sortedObs.hasOwnProperty('8281-8'))
+        waistCirMeasurements = waistCirMeasurements.concat(sortedObs['8281-8'].measurements)
+
+
       var hyperglycemia = pullCondition(conds, ['80394007']);
       let hyperglycemiaBool = false;
       let goalDate = new Date(date);
       for(let i = 0; i < hyperglycemia.length; i++){
-        let currDate = new Date(hyperglycemia[i].resource.onsetDateTime)
+        let currDate;
+        // like in other risk calcs, we have to incluce both because of where the data comes from. 
+        if(hyperglycemia[i].resource){
+         currDate = new Date(hyperglycemia[i].resource.onsetDateTime)
+        } else {
+          currDate = new Date(hyperglycemia[i].onsetDateTime)
+        }
         if(currDate < goalDate) {
           hyperglycemiaBool = true;
         }
       }
-      if(codesObject['56115-9'].length === 0 || codesObject['39156-5'].length === 0) {
+      if(waistCirMeasurements.length === 0 || bmiMeasurements.length === 0) {
           alert("Patient does not have enough measurements for Diabetes Risk Score");
           return;
       }
       else {
+        // console.log
         let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
         return calcDiabetesRisk(calculateAge(pt.birthDate)-yearsYounger,
           pt.gender,
-          getNearestFlat(codesObject['39156-5'], date).value,
+          getNearestFlat(bmiMeasurements, date).value,
           hyperglycemiaBool,
           false, //NEEDS TO BE FIXED
-          getNearestFlat(codesObject['56115-9'], date).value
+          getNearestFlat(waistCirMeasurements, date).value
           )
       }
   }
