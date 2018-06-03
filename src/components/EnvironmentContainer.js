@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Environment from './Environment';
-import { fetchPollenLevels, fetchFluLevels, fetchAirQualityLevels } from './env/EnvActions'
+import { fetchPollenLevels, fetchFluLevels, fetchAirQualityLevels } from '../services/Environment/EnvActions'
 
 
 const mapStateToProps = state => {

@@ -86,7 +86,8 @@ class Dashboard extends React.Component {
     //   });
 
     this.props.getPatientDemographics(getPatID());
-
+    this.props.getAllConditionData(getPatID());
+    this.props.getAllMedReqData(getPatID());
     // let codeList = [];
     let mostRecentMeaCodeList = [];
 
@@ -197,7 +198,6 @@ class Dashboard extends React.Component {
 
   expandRisk(risk) {
     const newRisk = this.state.riskIsExpanded === risk ? undefined : risk;
-
     this.setState({
       envIsCollapsed: !!newRisk,
       envIsExpanded: false,
@@ -363,7 +363,7 @@ class Dashboard extends React.Component {
                   this.props.external.heartfamhist
                 )}
                 futureScore={futureReynolds}
-                pastScore={reynoldsScorePast}
+                pastScore={reynoldsScore}
                 data={{
                   patient: this.props.patientLocal,
                   observations: sortMeasurements(this.props.observationsLocal)
@@ -376,92 +376,180 @@ class Dashboard extends React.Component {
             }
           </li>
           <li className={riskLiverWidth}>
-            <RiskTileContainer
-              expand={this.expandRisk.bind(this)}
-              name="Liver Fibrosis"
-              score={CHADScore(
-                this.props.patient,
-                this.props.conditions,
-                listToDictMeasurements(this.props.allObsByCode)
-              )}
-              futureScore={futureCHAD}
-              pastScore={CHADPastScore}
-              data={{
-                patient: this.props.patient,
-                conditions: this.props.conditions,
-                observations: this.props.observationsLocal
-              }}
-              unit="%"
-              context={1}
-              url="Liver_Fibrosis"
-              currRisk={this.state.riskIsExpanded}
-            />
+            { !this.state.serverDown ? 
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Liver Fibrosis"
+                score={CHADScore(
+                  this.props.patient,
+                  this.props.allConditionData,
+                  listToDictMeasurements(this.props.allObsByCode)
+                )}
+                futureScore={futureCHAD}
+                pastScore={CHADPastScore}
+                data={{
+                  patient: this.props.patient,
+                  conditions: this.props.allConditionData,
+                  observations: listToDictMeasurements(this.props.allObsByCode),
+                }}
+                unit="%"
+                context={1}
+                url="Liver_Fibrosis"
+                currRisk={this.state.riskIsExpanded}
+              /> :
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Liver Fibrosis"
+                score={CHADScore(
+                  this.props.patientLocal,
+                  this.props.conditionsLocal,
+                  sortMeasurements(this.props.observationsLocal),
+                )}
+                futureScore={futureCHAD}
+                pastScore={CHADPastScore}
+                data={{
+                  patient: this.props.patientLocal,
+                  conditions: this.props.conditionsLocal,
+                  observations: sortMeasurements(this.props.observationsLocal)
+                }}
+                unit="%"
+                context={1}
+                url="Liver_Fibrosis"
+                currRisk={this.state.riskIsExpanded}
+              />
+            }
           </li>
           <li className={riskKidneyWidth}>
-            <RiskTileContainer
-              expand={this.expandRisk.bind(this)}
-              name="Kidney Failure"
-              score={KFRScore(
-                this.props.patient,
-                listToDictMeasurements(this.props.allObsByCode)
-              )}
-              futureScore={futureKFRRisk}
-              pastScore={pastKFRRisk}
-              data={{
-                patient: this.props.patient,
-                observations: this.props.observations
-              }}
-              unit="%"
-              context={5}
-              url="Kidney_Failure"
-              currRisk={this.state.riskIsExpanded}
-            />
+            { !this.state.serverDown ? 
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Kidney Failure"
+                score={KFRScore(
+                  this.props.patient,
+                  listToDictMeasurements(this.props.allObsByCode)
+                )}
+                futureScore={futureKFRRisk}
+                pastScore={pastKFRRisk}
+                data={{
+                  patient: this.props.patient,
+                  observations: listToDictMeasurements(this.props.allObsByCode)
+                }}
+                unit="%"
+                context={5}
+                url="Kidney_Failure"
+                currRisk={this.state.riskIsExpanded}
+              /> :
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Kidney Failure"
+                score={KFRScore(
+                  this.props.patientLocal,
+                  sortMeasurements(this.props.observationsLocal)
+                )}
+                futureScore={futureKFRRisk}
+                pastScore={pastKFRRisk}
+                data={{
+                  patient: this.props.patientLocal,
+                  observations: sortMeasurements(this.props.observationsLocal)
+                }}
+                unit="%"
+                context={5}
+                url="Kidney_Failure"
+                currRisk={this.state.riskIsExpanded}           
+              />
+            } 
           </li>
           <li className={riskCopdWidth}>
-            <RiskTileContainer
-              expand={this.expandRisk.bind(this)}
-              name="COPD Mortality"
-              score={COPDScore(
-                this.props.patient,
-                listToDictMeasurements(this.props.allObsByCode),
-                this.props.conditions
-              )}
-              futureScore={futureCOPD}
-              pastScore={pastCOPDScore}
-              data={{
-                patient: this.props.patient,
-                observations:this.props.observations,
-                conditions:this.props.conditions
-              }}
-              unit="%"
-              context={4}
-              url="COPD_Mortality"
-              currRisk={this.state.riskIsExpanded}
-            />
+            { !this.state.serverDown ?
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="COPD Mortality"
+                score={COPDScore(
+                  this.props.patient,
+                  listToDictMeasurements(this.props.allObsByCode),
+                  this.props.allConditionData
+                )}
+                futureScore={futureCOPD}
+                pastScore={pastCOPDScore}
+                data={{
+                  patient: this.props.patient,
+                  observations:listToDictMeasurements(this.props.allObsByCode),
+                  conditions:this.props.allConditionData
+                }}
+                unit="%"
+                context={4}
+                url="COPD_Mortality"
+                currRisk={this.state.riskIsExpanded}
+              /> :
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="COPD Mortality"
+                score={COPDScore(
+                  this.props.patientLocal,
+                  sortMeasurements(this.props.observationsLocal),
+                  this.props.conditionsLocal
+                )}
+                futureScore={futureCOPD}
+                pastScore={pastCOPDScore}
+                data={{
+                  patient: this.props.patientLocal,
+                  observations: sortMeasurements(this.props.observationsLocal),
+                  conditions:this.props.conditionsLocal
+                }}
+                unit="%"
+                context={4}
+                url="COPD_Mortality"
+                currRisk={this.state.riskIsExpanded}
+              />
+            }
           </li>
           <li className={riskDiabetesWidth}>
-            <RiskTileContainer
-              expand={this.expandRisk.bind(this)}
-              name="Diabetes"
-              score={diabetesScore(
-                this.props.patient,
-                listToDictMeasurements(this.props.allObsByCode),
-                this.props.conditions,
-                this.props.medreq
-              )}
-              futureScore={futureDiabetes}
-              pastScore={diabetesPast}
-              data={{
-                patient: this.props.patient,
-                observations:this.props.observations,
-                conditions:this.props.conditions,
-                medications:this.props.medreq
-              }}
-              unit="%"
-              context={5}
-              url="Diabetes"
-              currRisk={this.state.riskIsExpanded}
-            />
+            { !this.state.serverDown ?
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Diabetes"
+                score={diabetesScore(
+                  this.props.patient,
+                  listToDictMeasurements(this.props.allObsByCode),
+                  this.props.allConditionData,
+                  this.props.medreqData
+                )}
+                futureScore={futureDiabetes}
+                pastScore={diabetesPast}
+                data={{
+                  patient: this.props.patient,
+                  observations:listToDictMeasurements(this.props.allObsByCode),
+                  conditions:this.props.allConditionData,
+                  medications:this.props.medreqData
+                }}
+                unit="%"
+                context={5}
+                url="Diabetes"
+                currRisk={this.state.riskIsExpanded}
+              /> :
+              <RiskTileContainer
+                expand={this.expandRisk.bind(this)}
+                name="Diabetes"
+                score={diabetesScore(
+                  this.props.patientLocal,
+                  sortMeasurements(this.props.observationsLocal),
+                  this.props.conditionsLocal,
+                  this.props.medreqLocal
+                )}
+                futureScore={futureDiabetes}
+                pastScore={diabetesPast}
+                data={{
+                  patient: this.props.patientLocal,
+                  observations: sortMeasurements(this.props.observationsLocal),
+                  conditions:this.props.conditionsLocal,
+                  medications:this.props.medreqLocal
+                }}
+                unit="%"
+                context={5}
+                url="Diabetes"
+                currRisk={this.state.riskIsExpanded}
+              />
+            }
           </li>
           <li className={riskAboutWidth}>
             <div className="risk-score-about">
@@ -472,12 +560,6 @@ class Dashboard extends React.Component {
                 ? ""
                 : riskText[this.state.riskIsExpanded]['text']
               }</p>
-              <br/>
-              <p>{this.state.riskIsExpanded === undefined
-                ? ""
-                : riskText['Context']
-              }
-              </p>
             </div>
           </li>
         </ul>
@@ -486,17 +568,28 @@ class Dashboard extends React.Component {
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            >
-              <MeasurementsContainer
-                expand={this.expandMea.bind(this)}
-                expandAbout={this.expandMeaAbout.bind(this)}
-                isCollapsed={this.state.meaIsCollapsed}
-                isExpanded={this.state.meaIsExpanded}
-                measurements={this.props.allObsByCode}
-                risk={this.state.riskIsExpanded} 
-                currMeasure={this.state.currMeasure}
-                absWidth={mesWidthAbs}
-              />
+            > { !this.state.serverDown ?
+                <MeasurementsContainer
+                  expand={this.expandMea.bind(this)}
+                  expandAbout={this.expandMeaAbout.bind(this)}
+                  isCollapsed={this.state.meaIsCollapsed}
+                  isExpanded={this.state.meaIsExpanded}
+                  measurements={this.props.allObsByCode}
+                  risk={this.state.riskIsExpanded} 
+                  currMeasure={this.state.currMeasure}
+                  absWidth={mesWidthAbs}
+                /> :
+                <MeasurementsContainer
+                  expand={this.expandMea.bind(this)}
+                  expandAbout={this.expandMeaAbout.bind(this)}
+                  isCollapsed={this.state.meaIsCollapsed}
+                  isExpanded={this.state.meaIsExpanded}
+                  measurements={sortMeasurements(this.props.observationsLocal)}
+                  risk={this.state.riskIsExpanded} 
+                  currMeasure={this.state.currMeasure}
+                  absWidth={mesWidthAbs}
+                /> 
+              }              
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
@@ -504,7 +597,7 @@ class Dashboard extends React.Component {
               className="wrapper"
               ref={(el) => { this.pcsEl = el; }}
               style={pcsStyle}
-            >
+            > {/* preventative care and env tiles have their local data backup built into the components themselves, check there. */}
               <PreventativeCareSuggestionsContainer
                 birthDate={patient.birthDate}
                 gender={patient.gender}
@@ -546,10 +639,10 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-  conditions: PropTypes.array,
+  allConditionData: PropTypes.array,
   getPatientDemographics: PropTypes.func,
   isFetchingAllPatientData: PropTypes.bool,
-  medreq: PropTypes.array,
+  medreqData: PropTypes.array,
   observations: PropTypes.array,
   patient: PropTypes.object,
 };

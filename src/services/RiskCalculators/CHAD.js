@@ -14,7 +14,7 @@
 
 */
 import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
-import {getNearestFlat} from '../../services/general_utils';
+import {getNearestFlat, sortMeasurements} from '../../services/general_utils';
 
 export function calcCHADScore(age, BMI, diabetes, astalt, platelet, albumin) {
   var score = -1.675 + 
@@ -52,7 +52,13 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
       let filteredConds = [];
       let goalDate = new Date(date);
       for(let i = 0; i < conds.length; i++){
-        let currDate = new Date(conds[i].resource.onsetDateTime)
+        let currDate;
+
+        if(conds[i].resource == null){
+          currDate = new Date(conds[i].onsetDateTime)
+        } else {
+          currDate = new Date(conds[i].resource.onsetDateTime)
+        }
         if(currDate < goalDate) {
           filteredConds.push(conds[i]);
         }
@@ -63,17 +69,35 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
         '777-3': [],
         '1751-7': [] 
       };
-      const sortedObs = searchByCode(obs, codesObject);
+
+      // due to the differences in where the data comes from, we have to check if we got the original data bundle
+      // or if it is preprocessed from remote server by redux.
+      let sortedObs;
+      if(Array.isArray(obs)){
+        sortedObs = sortMeasurements(obs);
+      } else if (Object.keys(obs).length !== 0) {
+        sortedObs = obs;
+        // we want to make sure we have all of the necessary obs before we proceed.
+        if (!sortedObs.hasOwnProperty('39156-5') || !sortedObs.hasOwnProperty('1916-6') || 
+            !sortedObs.hasOwnProperty('777-3') || !sortedObs.hasOwnProperty('1751-7')) {
+          return "...";
+        }
+
+      } else {
+        return "...";
+      }
+
+
       if(sortedObs['39156-5'].length !== 0 && sortedObs['1916-6'].length !== 0 &&
         sortedObs['777-3'].length !== 0 && sortedObs['1751-7'].length !== 0) {
           var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
           let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
           var CHADscore = calcCHADScore(calculateAge(pt.birthDate)-yearsYounger, //age
-                          getNearestFlat(sortedObs['39156-5'], date).value, //bmi, ~20
+                          getNearestFlat(sortedObs['39156-5'].measurements, date).value, //bmi, ~20
                           diabetes, //diabetes
-                          getNearestFlat(sortedObs['1916-6'], date).value, //ast/alt ratio, normal ~2
-                          getNearestFlat(sortedObs['777-3'], date).value, //platelet, ~100
-                          getNearestFlat(sortedObs['1751-7'], date).value); //albumin, ~4
+                          getNearestFlat(sortedObs['1916-6'].measurements, date).value, //ast/alt ratio, normal ~2
+                          getNearestFlat(sortedObs['777-3'].measurements, date).value, //platelet, ~100
+                          getNearestFlat(sortedObs['1751-7'].measurements, date).value); //albumin, ~4
           return CHADscore;
       }
       return '...'
@@ -89,6 +113,7 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
 
 export function CHADScore(pt, conds, obs){
   if(pt && conds && obs) {
+      // we have to make this check since the server and local data are slightly different formats, done with the wrapper method below
       var diabetes = pullCondition(conds, ["73211009", "44054006", "46635009"]);
       if(obs['39156-5'] && obs['1916-6'] &&
         obs['777-3'] && obs['1751-7']) {

@@ -1,4 +1,5 @@
 import $ from 'jquery'; 
+import { coordDistance } from '../general_utils';
 
 export function getPtLoc(patient) {
 	console.log(patient);
@@ -26,4 +27,30 @@ export function getPtLoc(patient) {
 		return ptAddress;
 	}
 	return null;
+}
+
+export function findClosestMarker(data, lat, long) {
+  var leastDistanceAway = Number.POSITIVE_INFINITY;
+  var closestPoint;
+  var dist;
+
+  for (let destination of data){
+    if (destination.latitude && destination.longitude){
+       dist = coordDistance(parseInt(lat), parseInt(long), parseInt(destination.latitude), parseInt(destination.longitude));
+    }
+    else {
+      continue;
+    }
+
+    //This corresponds to 5 miles (I'm pretty sure)
+    if (leastDistanceAway < 0.07){
+      break;
+    }
+    if (leastDistanceAway > dist){
+      closestPoint = destination;
+      leastDistanceAway = dist;
+    }
+  }
+
+  return closestPoint;  
 }

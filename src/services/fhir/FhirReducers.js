@@ -2,8 +2,10 @@ import { FETCH_ALL_OBSERVATION_REQUEST, FETCH_ALL_OBSERVATION_SUCCESS, FETCH_ALL
 import { FETCH_PATIENT_REQUEST, FETCH_PATIENT_SUCCESS, FETCH_PATIENT_FAILURE } from './FhirActions'
 import { FETCH_RECENT_ENCOUNTER_REQUEST, FETCH_RECENT_ENCOUNTER_SUCCESS, FETCH_RECENT_ENCOUNTER_FAILURE } from './FhirActions'
 import { FETCH_RECENT_OBSERVATION_REQUEST, FETCH_RECENT_OBSERVATION_SUCCESS } from './FhirActions'
-import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS } from './FhirActions';
+import { FETCH_ALL_OBSERVATION_BY_CODE_REQUEST, FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS, FETCH_ALL_OBSERVATION_BY_CODE_FAILURE } from './FhirActions';
 import { FETCH_LAST_VISIT_DATE_REQUEST, FETCH_LAST_VISIT_DATE_SUCCESS } from './FhirActions';
+import { FETCH_ALL_CONDITION_REQUEST, FETCH_ALL_CONDITION_SUCCESS, FETCH_ALL_CONDITION_FAILURE } from './FhirActions';
+import { FETCH_ALL_MEDREQ_REQUEST, FETCH_ALL_MEDREQ_SUCCESS, FETCH_ALL_MEDREQ_FAILURE } from './FhirActions';
 
 
 const initialFhirState = {
@@ -55,6 +57,17 @@ export function fhirObservationData(state = initialFhirState, action){
           action.code
         ]
       }
+    case FETCH_ALL_OBSERVATION_BY_CODE_FAILURE:
+      return {
+        ...state,
+        isFetchingAllMeasurementByCodeList: {
+          ...state.isFetchingAllMeasurementByCodeList,
+          [action.code]:false
+        },
+        failedFetchingAllMeasurementByCode:true,
+        lastUpdated:action.receivedAt,        
+      }
+
     case FETCH_ALL_OBSERVATION_REQUEST:
       return {
         ...state,
@@ -132,4 +145,44 @@ export function fhirEncounterData(state={}, action){
 		default:
 			return state
 	}
+}
+
+export function fhirConditionData(state={allCondData:[]}, action){
+  switch(action.type){
+    case FETCH_ALL_CONDITION_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingAllConditionData: true,
+      })
+    case FETCH_ALL_CONDITION_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingAllConditionData:false,
+        allCondData: action.allCondData,
+        lastUpdated:action.receivedAt,
+      })
+    case FETCH_ALL_CONDITION_FAILURE:
+      return Object.assign({}, state, {
+      })
+    default:
+      return state
+  }
+}
+
+export function fhirMedReqData(state={allMedReqData:[]}, action){
+  switch(action.type){
+    case FETCH_ALL_MEDREQ_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingMedReqData: true,
+      })
+    case FETCH_ALL_MEDREQ_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchingMedReqData:false,
+        allMedReqData: action.allMedReqData,
+        lastUpdated:action.receivedAt,
+      })
+    case FETCH_ALL_MEDREQ_FAILURE:
+      return Object.assign({}, state, {
+      })
+    default:
+      return state
+  }
 }

@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 import { getURL, getInsecureURL } from '../smart_setup';
-import { sortMeasurements } from '../general_utils';
+import { sortMeasurementsFromClient } from '../general_utils';
 
 //utils
 import { sortByDate } from '../general_utils';
@@ -159,6 +159,108 @@ export function fetchMostRecentEncounterData(patientID) {
   };
 }
 
+// get condition data
+export const FETCH_ALL_CONDITION_REQUEST = 'FETCH_ALL_CONDITION_REQUEST';
+export const FETCH_ALL_CONDITION_SUCCESS = 'FETCH_ALL_CONDITION_SUCCESS';
+export const FETCH_ALL_CONDITION_FAILURE = 'FETCH_ALL_CONDITION_FAILURE';
+
+export const requestAllConditionData = patientID => ({
+  type: FETCH_ALL_CONDITION_REQUEST,
+  patientID
+});
+
+export const receiveAllConditionData = (patientID, json) => ({
+  type: FETCH_ALL_CONDITION_SUCCESS,
+  patientID,
+  allCondData: json,
+  receivedAt: Date.now()
+});
+
+export const failAllConditionData = () => ({
+  type: FETCH_ALL_CONDITION_FAILURE,
+  error: 'oops'
+});
+
+// https://fhirtest.uhn.ca/baseDstu3/Encounter?subject=182296&_count=1&_sort=date
+export function fetchAllConditionData(patientID) {
+  return (dispatch) => {
+    dispatch(requestAllConditionData(patientID));
+
+    var mkFhir = require('fhir.js');
+    var client = mkFhir({
+      baseUrl: getInsecureURL()
+    });
+
+    //sort by code
+    client
+      .fetchAll({type: 'Condition', query: {'subject':patientID}})
+      .then(function(res){
+        var bundle = res;
+        dispatch(receiveAllConditionData(patientID, bundle));
+      })
+      .catch(function(res){
+        dispatch(failAllConditionData());
+        return Promise.resolve();
+        if (res.status){
+        }
+
+        //Errors
+        if (res.message){
+        }
+      });
+
+
+  };
+}
+
+// get medication request data
+export const FETCH_ALL_MEDREQ_REQUEST = 'FETCH_ALL_MEDREQ_REQUEST';
+export const FETCH_ALL_MEDREQ_SUCCESS = 'FETCH_ALL_MEDREQ_SUCCESS';
+export const FETCH_ALL_MEDREQ_FAILURE = 'FETCH_ALL_MEDREQ_FAILURE';
+
+export const requestAllMedReqData = patientID => ({
+  type: FETCH_ALL_MEDREQ_REQUEST,
+  patientID
+});
+
+export const receiveAllMedReqData = (patientID, data) => ({
+  type: FETCH_ALL_MEDREQ_SUCCESS,
+  patientID,
+  allMedReqData: data,
+  receivedAt: Date.now()
+});
+
+export const failAllMedReqData = () => ({
+  type: FETCH_ALL_MEDREQ_FAILURE,
+  error: 'oops'
+});
+
+// https://fhirtest.uhn.ca/baseDstu3/Encounter?subject=182296&_count=1&_sort=date
+export function fetchAllMedReqData(patientID) {
+  return (dispatch) => {
+    dispatch(requestAllMedReqData(patientID));
+   const baseUrl = getURL();
+    //get the most recent data
+    return fetch(baseUrl + '/MedicationRequest?subject=' + patientID)
+      .then(
+        response => response.json(),
+        error => console.error('An error occured.', error)
+      )
+      .then(function(json){
+          if(!json){
+            dispatch(failAllMedReqData());
+            return Promise.resolve();
+          }
+          else {
+          }
+        dispatch(receiveAllMedReqData(patientID, json.entry));
+        } 
+      );
+
+
+  };
+}
+
 
 //get observations data
 
@@ -244,6 +346,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
 
 export const FETCH_ALL_OBSERVATION_BY_CODE_REQUEST = 'FETCH_ALL_OBSERVATION_BY_CODE_REQUEST';
 export const FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS = 'FETCH_ALL_OBSERVATION_BY_CODE_SUCCESS';
+export const FETCH_ALL_OBSERVATION_BY_CODE_FAILURE = 'FETCH_ALL_OBSERVATION_BY_CODE_FAILURE';
 
 
 export const requestAllObsByCode = (patientID, code) => ({
@@ -259,6 +362,12 @@ export const receiveAllObsByCode = (patientID, code, data) => ({
   all_obs_by_code: data,
   receivedAt: Date.now()
 });
+
+export const failureAllObsByCode = () => ({
+  type: FETCH_ALL_OBSERVATION_BY_CODE_FAILURE,
+  receivedAt: Date.now()
+});
+
 
 export function shouldFetchAllObsByCode(state, code, subcode = null) {
   let currFetchingList = state.fhirObservationData.isFetchingAllMeasurementByCodeList;
@@ -287,7 +396,11 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
     return fetch(baseUrl + '/Observation?subject=' + patientID + '&code=' + code + '&_sort=-date')
       .then(
         response => response.json(),
-        error => console.error('An error occured.', error)
+        error => {
+          console.warn('An error occured when pulling observations by code :(', error)
+          dispatch(failureAllObsByCode());
+          return Promise.resolve();
+        }
       )
       .then(function(json){
           let dataDict = {};
@@ -449,8 +562,7 @@ export function fetchAllObs(patientID) {
 
         // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
         // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}]
-        allObsList = sortMeasurements(bundle)
-
+        allObsList = sortMeasurementsFromClient(bundle)
         // TODO: is there a right way to do this?
         let currState = getState();
         let currCodesCollected = currState.fhirObservationData.codeList;

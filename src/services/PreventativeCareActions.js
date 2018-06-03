@@ -33,7 +33,17 @@ export function fetchPreventativeCareSuggestions(birthDate, gender) {
     const getUrl = (birthDate, gender) => `${URL}${calculateAge(birthDate) || 40}&sex=${gender}`;
     return fetch(getUrl(birthDate, gender))
       .then(
-        response => response.json(),
+        response => {
+          // you can do this>, which is dope. do it elsewhere!
+          if(!response.ok){
+            dispatch(failurePreventativeCareData());
+            return Promise.resolve();
+
+          } else {
+            return response.json();
+
+          }
+        },
         error => {
           console.warn('An error occured fetching the preventative care suggestions :(', error);
           dispatch(failurePreventativeCareData());
@@ -41,7 +51,7 @@ export function fetchPreventativeCareSuggestions(birthDate, gender) {
         }
       )
       .then((json) => {
-        if(json.Result.Error === "True"){
+        if(json == null || json.Result.Error === "True"){
           dispatch(failurePreventativeCareData());
           return Promise.resolve();
         }

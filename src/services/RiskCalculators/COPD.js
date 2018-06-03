@@ -14,7 +14,7 @@
 */
 
 import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
-import {getNearestFlat} from '../../services/general_utils';
+import {getNearestFlat, sortMeasurements } from '../../services/general_utils';
 
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 	var score = Number((age >= 65)) + Number((!(confusion.size == null))) + Number((bun > 19)) +
@@ -54,20 +54,44 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
             '6299-2': [], //bun
             '9279-1': [] //rr
         };
-        var sortedObs = searchByCode(obs, measurementObject);
-        for (var key in sortedObs) {
-            if(sortedObs.hasOwnProperty(key)) {
-                if(sortedObs[key].length === 0) {
-                    alert("Patient does not have adequate measurements for COPD Risk Score.");
-                    ////console.log(sortedObs);
-                    return;
-                }
-            }
+        // var sortedObs = searchByCode(obs, measurementObject);
+        // for (var key in sortedObs) {
+        //     if(sortedObs.hasOwnProperty(key)) {
+        //         if(sortedObs[key].length === 0) {
+        //             // alert("Patient does not have adequate measurements for COPD Risk Score.");
+        //             ////console.log(sortedObs);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        // due to the differences in where the data comes from, we have to check if we got the original data bundle
+        // or if it is preprocessed from remote server by redux.
+        let sortedObs;
+        if(Array.isArray(obs)){
+          sortedObs = sortMeasurements(obs);
+        } else if (Object.keys(obs).length !== 0) {
+          sortedObs = obs;
+          // we want to make sure we have all of the necessary obs before we proceed.
+          if (!sortedObs.hasOwnProperty('8480-6') || !sortedObs.hasOwnProperty('8462-4') || 
+              !sortedObs.hasOwnProperty('6299-2') || !sortedObs.hasOwnProperty('9279-1')) {
+            // alert("Patient does not have adequate measurements for COPD Risk Score.");
+            return "...";
+          }
+
+        } else {
+          return "...";
         }
+
         let filteredConfusion = false;
         let goalDate = new Date(date);
         for(let i = 0; i < confusion.length; i++){
-            let currDate = new Date(confusion[i].resource.onsetDateTime)
+            let currDate; 
+            if(confusion[i].resource){
+              currDate  = new Date(confusion[i].resource.onsetDateTime)
+            } else {
+              currDate  = new Date(confusion[i].onsetDateTime)
+            }
             if(currDate < goalDate) {
                 filteredConfusion = true;
             }
@@ -75,10 +99,10 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
         let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
         let COPDScore = calcCOPD(calculateAge(pt.birthDate)-yearsYounger,
             filteredConfusion,
-            getNearestFlat(sortedObs['6299-2'], date).value,
-            getNearestFlat(sortedObs['9279-1'], date).value,
-            getNearestFlat(sortedObs['8480-6'], date).value,
-            getNearestFlat(sortedObs['8462-4'], date).value
+            getNearestFlat(sortedObs['6299-2'].measurements, date).value,
+            getNearestFlat(sortedObs['9279-1'].measurements, date).value,
+            getNearestFlat(sortedObs['8480-6'].measurements, date).value,
+            getNearestFlat(sortedObs['8462-4'].measurements, date).value
             )
         return COPDScore;
     }
@@ -88,7 +112,7 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
 }
 
 export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null, conds = null, meds = null, obs = null) {
-  if(presMeasures && pt && futureMeasures) {
+  if(presMeasures && pt && futureMeasures && conds) {
       return calcCOPD(
         calculateAge(pt.birthDate),
         conds && pullCondition(conds, ["40917007"]).length !== 0,
@@ -98,7 +122,7 @@ export function futureCOPD(presMeasures = null, futureMeasures = null, pt = null
         (futureMeasures['8462-4'] || presMeasures['8462-4']),
       );
   }
-  else if (presMeasures && pt) {
+  else if (presMeasures && pt && conds) {
       return calcCOPD(
         calculateAge(pt.birthDate),
         conds && pullCondition(conds, ["40917007"]).length !== 0,

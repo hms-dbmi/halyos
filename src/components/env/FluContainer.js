@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Flu from './Flu';
-import { fetchFluLevels } from './EnvActions';
 
 const mapStateToProps = state => {
   return {
     closestFluMarker:state.envFactorsData.closestFluMarker,
-    isFetchingFluData:state.envFactorsData.isFetchingFluData
+    isFetchingFluData:state.envFactorsData.isFetchingFluData,
+    failedFetchFluData:state.envFactorsData.failureFetchFluData,
   }
 }
 
