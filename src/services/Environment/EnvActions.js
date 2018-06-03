@@ -117,9 +117,7 @@ export function fetchFluLevels(lat,long) {
         dispatch(failureFluLevels());
         return Promise.resolve();
       }
-
-      console.log("flu: ", json);
-
+      
       // we are not going to store all the flu markers in the data store because we don't need them. We will find the one we need and only store that here.
       let closestPoint = findClosestMarker(json, lat, long);
       dispatch(receiveFluLevels(lat,long, closestPoint));
