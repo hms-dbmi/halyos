@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import Flu from './Flu';
-import { fetchFluLevels } from './EnvActions';
 
 const mapStateToProps = state => {
   return {

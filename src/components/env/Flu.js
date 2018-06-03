@@ -26,14 +26,13 @@ class Flu extends React.Component {
   render() {
 
     var currentFluLevel = [0, "...", "...", "Loading..."];
-
     let closestFluMarkerLocalOrRemote;
     if(this.props.failedFetchFluData || this.props.closestFluMarker == null){
-      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.ptLoc.latitude, this.props.ptLoc.longitude);
+      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.location.latitude, this.props.location.longitude);
     } else if(this.props.closestFluMarker){
       closestFluMarkerLocalOrRemote = this.props.closestFluMarker;
     } else {
-      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.ptLoc.latitude, this.props.ptLoc.longitude);
+      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.location.latitude, this.props.location.longitude);
     }
 
     if (this.props.closestFluMarker){

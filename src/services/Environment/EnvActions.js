@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { findClosestMarker } from './Environment/environmental_utils';
+import { findClosestMarker } from './environmental_utils';
 
 export const FETCH_POLLEN_REQUEST = "FETCH_POLLEN_REQUEST";
 export const FETCH_POLLEN_SUCCESS = "FETCH_POLLEN_SUCCESS";

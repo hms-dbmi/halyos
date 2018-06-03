@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import PollenLevel from './PollenLevel';
-import { fetchPollenLevels } from './EnvActions';
 
 const mapStateToProps = state => {
 	return {

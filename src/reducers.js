@@ -5,7 +5,7 @@ import defaultSetReducer from './utils/default-set-reducer';
 
 import { fhirPatientData, fhirObservationData, fhirEncounterData, fhirConditionData, fhirMedReqData } from './services/fhir/FhirReducers';
 import { preventativeCare } from './services/PreventativeCareReducers';
-import { envFactorsData } from './components/env/EnvReducers';
+import { envFactorsData } from './services/Environment/EnvReducers';
 
 import { measurementState } from './services/MeasurementReducers';
 
