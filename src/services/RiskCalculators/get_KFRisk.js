@@ -11,7 +11,7 @@
 
 */
 import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
-import {getNearestFlat} from '../../services/general_utils';
+import {getNearestFlat, sortMeasurements} from '../../services/general_utils';
 
 export function calcKFRisk(gender, age, gfr, uac) {
   if (gender === "male") {gender = 1;}
@@ -47,15 +47,46 @@ export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = nu
     const codesObject = {
       "48643-1": [],
       "48642-3": [],
-      "33914-3": [],
+      "33914-3": [],//
       "14958-3": [],
-      "14959-1": []
+      "14959-1": []//
     };
-    searchByCode(obs, codesObject);
-    codesObject["48643-1"] = codesObject["48643-1"].concat(codesObject["48642-3"])
-    codesObject["48643-1"] = codesObject["48643-1"].concat(codesObject["33914-3"]);
-    codesObject["14958-3"] = codesObject["14958-3"].concat(codesObject["14959-1"]);
-    if(codesObject["48643-1"].length === 0 || codesObject["14958-3"].length === 0) {
+
+    // due to the differences in where the data comes from, we have to check if we got the original data bundle
+    // or if it is preprocessed from remote server by redux.
+    let sortedObs;
+    if(Array.isArray(obs)){
+      sortedObs = sortMeasurements(obs);
+    } else if (Object.keys(obs).length !== 0) {
+      sortedObs = obs;
+
+      // we want to make sure we have all of the necessary obs before we proceed.
+      if (!(sortedObs.hasOwnProperty("48643-1") || sortedObs.hasOwnProperty("48642-3") || sortedObs.hasOwnProperty("33914-3")) || 
+          !(sortedObs.hasOwnProperty("14959-1") || !sortedObs.hasOwnProperty("14958-3")) 
+          ) {
+        return "...";
+      }
+
+    } else {
+      return "...";
+    }
+    let gfrMeasurements = [];
+    let uacMeasurements = [];
+
+    if(sortedObs.hasOwnProperty("48643-1"))
+      gfrMeasurements = gfrMeasurements.concat(sortedObs["48643-1"].measurements);
+    if(sortedObs.hasOwnProperty("48642-3"))
+      gfrMeasurements = gfrMeasurements.concat(sortedObs["48642-3"].measurements);
+    if(sortedObs.hasOwnProperty("33914-3")) {
+      gfrMeasurements = gfrMeasurements.concat(sortedObs["33914-3"].measurements);
+    }
+
+    if(sortedObs.hasOwnProperty("14959-1"))
+      uacMeasurements = uacMeasurements.concat(sortedObs["14959-1"].measurements)
+    if(sortedObs.hasOwnProperty("14958-3"))
+      uacMeasurements = uacMeasurements.concat(sortedObs["14958-3"].measurements)
+
+    if(gfrMeasurements.length === 0 || uacMeasurements.length === 0) {
         //alert("Patient does not have enough measurements for Kidney Risk Score");
         return '...';
     }
@@ -63,8 +94,8 @@ export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = nu
       let yearsYounger = (Date.now()-(new Date(date)))/1000/60/60/24/365
       return calcKFRisk(pt.gender,
         calculateAge(pt.birthDate)-yearsYounger,
-        getNearestFlat(codesObject["48643-1"], date).value,
-        getNearestFlat(codesObject['14958-3'], date).value
+        getNearestFlat(gfrMeasurements, date).value,
+        getNearestFlat(uacMeasurements, date).value
         )
     }
   }

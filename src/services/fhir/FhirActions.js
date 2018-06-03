@@ -563,7 +563,6 @@ export function fetchAllObs(patientID) {
         // here we use another method to pull data elements out of the obs bundle and place them in the form of: 
         // [{"name": "xxxx", "code": "xxxx-xx", measurements": [{"value": 100, "date": 2017-08-12, "unit": mmHg}]}]
         allObsList = sortMeasurementsFromClient(bundle)
-        console.log("allObsRemote", allObsList);
         // TODO: is there a right way to do this?
         let currState = getState();
         let currCodesCollected = currState.fhirObservationData.codeList;
@@ -578,7 +577,6 @@ export function fetchAllObs(patientID) {
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){
-        console.log("123error", res);
         //Error responses
         dispatch(failureAllObs());
         return Promise.resolve();

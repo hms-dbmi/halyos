@@ -432,7 +432,7 @@ class Dashboard extends React.Component {
                 pastScore={pastKFRRisk}
                 data={{
                   patient: this.props.patient,
-                  observations: this.props.observations
+                  observations: listToDictMeasurements(this.props.allObsByCode)
                 }}
                 unit="%"
                 context={5}
