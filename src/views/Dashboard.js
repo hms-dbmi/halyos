@@ -518,7 +518,7 @@ class Dashboard extends React.Component {
                 pastScore={diabetesPast}
                 data={{
                   patient: this.props.patient,
-                  observations:this.props.observations,
+                  observations:listToDictMeasurements(this.props.allObsByCode),
                   conditions:this.props.allConditionData,
                   medications:this.props.medreqData
                 }}
