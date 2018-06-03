@@ -1,6 +1,6 @@
-import { FETCH_POLLEN_REQUEST, FETCH_POLLEN_SUCCESS } from './EnvActions'
+import { FETCH_POLLEN_REQUEST, FETCH_POLLEN_SUCCESS, FETCH_POLLEN_FAILURE } from './EnvActions'
 import { FETCH_AIQ_REQUEST, FETCH_AIQ_SUCCESS, FETCH_AIQ_FAILURE } from './EnvActions'
-import { FETCH_FLU_REQUEST, FETCH_FLU_SUCCESS } from './EnvActions'
+import { FETCH_FLU_REQUEST, FETCH_FLU_SUCCESS, FETCH_FLU_FAILURE } from './EnvActions'
 
 export function envFactorsData(state = {}, action){
 	switch (action.type){
@@ -14,6 +14,12 @@ export function envFactorsData(state = {}, action){
         pollenLevels: action.pollenLevels,
         lastUpdated: action.receivedAt
       })
+    case FETCH_POLLEN_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingPollenData: false,
+        failureFetchPollenData: true,
+        lastUpdated: action.receivedAt
+      })  
     case FETCH_AIQ_REQUEST:
       return Object.assign({}, state, {
         isFetchingAIQData: true,
@@ -40,6 +46,12 @@ export function envFactorsData(state = {}, action){
         closestFluMarker: action.fluMarkers,
         lastUpdated: action.receivedAt
       })
+    case FETCH_FLU_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingFluData: false,
+        failureFetchFluData: true,
+        lastUpdated: action.receivedAt
+      }) 
     default:
       return state
 	}

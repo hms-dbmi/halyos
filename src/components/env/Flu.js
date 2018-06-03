@@ -8,6 +8,12 @@ import { coordDistance } from '../../services/general_utils';
 // Styles
 //import './Flu.css';
 
+//Static Data
+import {fluLocal} from '../../data/fhirData';
+
+// utils
+import { findClosestMarker } from '../../services/Environment/environmental_utils'
+
 
 //currently arbitary rankings
 const FLU_LEVELS = [
@@ -20,6 +26,15 @@ class Flu extends React.Component {
   render() {
 
     var currentFluLevel = [0, "...", "...", "Loading..."];
+
+    let closestFluMarkerLocalOrRemote;
+    if(this.props.failedFetchFluData || this.props.closestFluMarker == null){
+      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.ptLoc.latitude, this.props.ptLoc.longitude);
+    } else if(this.props.closestFluMarker){
+      closestFluMarkerLocalOrRemote = this.props.closestFluMarker;
+    } else {
+      closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.ptLoc.latitude, this.props.ptLoc.longitude);
+    }
 
     if (this.props.closestFluMarker){
       for (let val of FLU_LEVELS){

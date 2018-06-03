@@ -29,13 +29,14 @@ class AirQuality extends React.Component {
   render(){
     var aiqData;
     var currentAIQLevel = [0, "...", "...", "Loading..."];
-    if (this.props.failedFetchingAIQData || !this.props.aiq){
+    if (this.props.failedFetchingAIQData || this.props.aiq == null){
       aiqData = airQualityLocal.data;
     }
     else if (this.props.aiq){
       aiqData = this.props.aiq;
+    } else {
+      aiqData = airQualityLocal.data;
     }
-    console.log("aiq: data: ", aiqData);
     for (let level of AQI_LEVELS){
       if(aiqData.current.pollution.aqius > 300){
         currentAIQLevel = AQI_LEVELS[AQI_LEVELS.length - 1];

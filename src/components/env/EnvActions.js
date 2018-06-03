@@ -1,10 +1,9 @@
 import 'whatwg-fetch';
-import { coordDistance } from '../../services/general_utils';
+import { findClosestMarker } from './Environment/environmental_utils';
 
 export const FETCH_POLLEN_REQUEST = "FETCH_POLLEN_REQUEST";
 export const FETCH_POLLEN_SUCCESS = "FETCH_POLLEN_SUCCESS";
 export const FETCH_POLLEN_FAILURE = "FETCH_POLLEN_FAILURE";
-
 
 export const requestPollenLevels = (lat,long) => ({
   type: FETCH_POLLEN_REQUEST,
@@ -20,6 +19,11 @@ export const receivePollenLevels = (lat,long, data) => ({
   receivedAt: Date.now()
 });
 
+export const failurePollenLevels = () => ({
+  type: FETCH_POLLEN_FAILURE,
+});
+
+
 export function fetchPollenLevels(lat,long) {
   // Vimig's API Key: Dkvl9QArEY7A7Kzofew70OEHTNDYBjEA
   // Samson's API Key: jfytctksruIxkfUdyQxo8JdG9QAB7jgi
@@ -30,11 +34,18 @@ export function fetchPollenLevels(lat,long) {
   if(lat && long){
     fetch('https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&q=' + lat + '%2C' + long)
       .then(
-          response => response.json(),
+          response => {
+            if(!response.ok){
+              dispatch(failurePollenLevels());
+              return Promise.resolve();
+            }
+            return response.json();
+          },
           error => console.error('location not found', error)
       )
       .then(function(json) {
         if(!json){
+          dispatch(failurePollenLevels());
           return Promise.resolve();
         }
         let locationKey = json.Key;
@@ -64,6 +75,7 @@ export function fetchPollenLevels(lat,long) {
 
 export const FETCH_FLU_REQUEST = "FETCH_FLU_REQUEST";
 export const FETCH_FLU_SUCCESS = "FETCH_FLU_SUCCESS";
+export const FETCH_FLU_FAILURE = "FETCH_FLU_FAILURE";
 
 export const requestFluLevels = (lat,long) => ({
   type: FETCH_FLU_REQUEST,
@@ -79,39 +91,37 @@ export const receiveFluLevels = (lat,long, markers) => ({
   receivedAt: Date.now()
 });
 
+export const failureFluLevels = () => ({
+  type: FETCH_FLU_FAILURE,
+});
+
+
 export function fetchFluLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestFluLevels(lat,long));
 
   return fetch('https://api.v2.flunearyou.org/map/markers')
     .then(
-      response => response.json(),
+      response => {
+        if(!response.ok){
+          dispatch(failureFluLevels());
+          return Promise.resolve();
+        }
+        return response.json()
+
+      },
       error => console.error('Could not load flu levels', error)
     )
     .then(function(json) {
+      if(!json){
+        dispatch(failureFluLevels());
+        return Promise.resolve();
+      }
+
+      console.log("flu: ", json);
 
       // we are not going to store all the flu markers in the data store because we don't need them. We will find the one we need and only store that here.
-      var leastDistanceAway = Number.POSITIVE_INFINITY;
-      var closestPoint;
-      var dist;
-
-      for (let destination of json){
-        if (destination.latitude && destination.longitude){
-           dist = coordDistance(parseInt(lat), parseInt(long), parseInt(destination.latitude), parseInt(destination.longitude));
-        }
-        else {
-          continue;
-        }
-
-        //This corresponds to 5 miles (I'm pretty sure)
-        if (leastDistanceAway < 0.07){
-          break;
-        }
-        if (leastDistanceAway > dist){
-          closestPoint = destination;
-          leastDistanceAway = dist;
-        }
-      }
+      let closestPoint = findClosestMarker(json, lat, long);
       dispatch(receiveFluLevels(lat,long, closestPoint));
     });
   };
