@@ -59,13 +59,13 @@ class AirQuality extends React.Component {
         <div>
           <h5>Air Quality (AQI) Near You</h5>
           <div>
-            {this.props.aiq ? (
-              <p>Main Pollutant: {this.props.aiq.current.pollution.mainus}</p>
+            {aiqData ? (
+              <p>Main Pollutant: {aiqData.current.pollution.mainus}</p>
             ) : "..." }
-            {this.props.aiq ? (
-              <p>Air Quality Level: {this.props.aiq.current.pollution.aqius} {'\u03BC'}g/m3.</p>
+            {aiqData ? (
+              <p>Air Quality Level: {aiqData.current.pollution.aqius} {'\u03BC'}g/m3.</p>
             ) : "..." }
-            {this.props.aiq ? (
+            {aiqData ? (
               <p>{currentAIQLevel[3]}</p>
             ) : "..." }
           </div>

@@ -4,7 +4,9 @@ import PollenLevel from './PollenLevel';
 const mapStateToProps = state => {
 	return {
 		pollen:state.envFactorsData.pollenLevels,
-		isFetchingPollenData:state.envFactorsData.isFetchingPollenData
+		isFetchingPollenData:state.envFactorsData.isFetchingPollenData,
+    failedFetchPollenData:state.envFactorsData.failureFetchPollenData,
+
 	}
 }
 
