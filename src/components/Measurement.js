@@ -172,7 +172,7 @@ class Measurement extends React.Component {
               </p>
               <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
-                icon="info"
+                icon="plot"
                 iconOnly={true}
                 className="measurement-future-help"
                 onClick={this.showDetails.bind(this)}

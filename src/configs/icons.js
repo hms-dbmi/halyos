@@ -91,6 +91,11 @@ export const GRAPH = {
   svg: '<polygon points="177.169 43.534 177.169 58.534 204.845 58.534 135.896 127.479 92.36 83.947 0 176.312 10.606 186.918 92.361 105.16 135.896 148.691 215.453 69.14 215.453 96.784 230.453 96.784 230.453 43.534" fill="currentColor"/>'
 };
 
+export const PLOT = {
+  viewBox: '0 0 50 62.5',
+  svg: '<g><polygon fill="currentColor" points="4,46 49,46 49,49 1,49 1,1 4,1  "/><g><polygon fill="currentColor" points="14.715,26.672 3.547,36.445 1.078,33.626 14.608,21.788 29.734,33.889 43.783,14.502 46.816,16.699 30.461,39.27 14.715,26.672"/></g>'
+}
+
 export default {
   AIR,
   ARROW_RIGHT,
@@ -110,4 +115,5 @@ export default {
   POLLEN_2,
   POLLEN_3,
   WARNING,
+  PLOT
 };
