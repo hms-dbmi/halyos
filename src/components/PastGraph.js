@@ -356,7 +356,7 @@ class PastGraph extends React.Component {
     }
 
     this.initFuture();
-    console.log(this.focusGraph.select('#test'))
+    // console.log(this.focusGraph.select('#test'))
   }
 
   initFuture() {

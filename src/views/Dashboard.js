@@ -214,7 +214,6 @@ class Dashboard extends React.Component {
   /* ****************************** Rendering ******************************* */
 
   render() {
-    console.log("serverDown??", this.state.serverDown);
     if (this.props.isFetchingAllPatientData) {
       return <div>Loading...</div>;
     }
@@ -587,7 +586,7 @@ class Dashboard extends React.Component {
                   expandAbout={this.expandMeaAbout.bind(this)}
                   isCollapsed={this.state.meaIsCollapsed}
                   isExpanded={this.state.meaIsExpanded}
-                  measurements={listToDictMeasurements(sortMeasurements(this.props.observationsLocal))}
+                  measurements={sortMeasurements(this.props.observationsLocal)}
                   risk={this.state.riskIsExpanded} 
                   currMeasure={this.state.currMeasure}
                   absWidth={mesWidthAbs}

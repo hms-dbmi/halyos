@@ -1,11 +1,11 @@
 //@return returns the URL of the FHIR server; allows a programmer to easily test on different server
 export function getURL() {
-  return 'https://fhirtest.uhn.ca/baseDstu3';
+  return 'https://fhirtest.uhn.ca/baseDdstu3';
   // return 'http://hapi.fhir.org/baseDstu3';
 }
 
 export function getInsecureURL() {
-  return 'http://fhirtest.uhn.ca/baseDstu3';
+  return 'http://fhirtest.uhn.ca/baseDsstu3';
 }
 //@param patient ID
 //@ return returns the FHIR client with the patient ID

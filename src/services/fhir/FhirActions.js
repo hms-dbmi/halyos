@@ -199,14 +199,18 @@ export function fetchAllConditionData(patientID) {
         dispatch(receiveAllConditionData(patientID, bundle));
       })
       .catch(function(res){
-        dispatch(failAllConditionData());
-        return Promise.resolve();
+        console.log("????", res);
         if (res.status){
+          console.log("error1", res.status)
         }
 
         //Errors
         if (res.message){
+          console.log("error2", res.message)
         }
+        dispatch(failAllConditionData());
+        return Promise.resolve();
+
       });
 
 
