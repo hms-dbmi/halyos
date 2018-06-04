@@ -149,6 +149,7 @@ class Dashboard extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.failedFetchPatientData){
       this.setState({serverDown:true});
+      this.forceRerender();
     }
 
   }
@@ -358,7 +359,7 @@ class Dashboard extends React.Component {
                 score={reynoldsScore(
                   null,
                   this.props.patientLocal,
-                  sortMeasurements(this.props.observationsLocal),
+                  listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                   this.props.external.smoking[1],
                   this.props.external.heartfamhist
                 )}
@@ -366,7 +367,7 @@ class Dashboard extends React.Component {
                 pastScore={reynoldsScore}
                 data={{
                   patient: this.props.patientLocal,
-                  observations: sortMeasurements(this.props.observationsLocal)
+                  observations: listToDictMeasurements(sortMeasurements(this.props.observationsLocal))
                 }}
                 unit="%"
                 context={10}
@@ -403,14 +404,14 @@ class Dashboard extends React.Component {
                 score={CHADScore(
                   this.props.patientLocal,
                   this.props.conditionsLocal,
-                  sortMeasurements(this.props.observationsLocal),
+                  listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                 )}
                 futureScore={futureCHAD}
                 pastScore={CHADPastScore}
                 data={{
                   patient: this.props.patientLocal,
                   conditions: this.props.conditionsLocal,
-                  observations: sortMeasurements(this.props.observationsLocal)
+                  observations: listToDictMeasurements(sortMeasurements(this.props.observationsLocal))
                 }}
                 unit="%"
                 context={1}
@@ -444,13 +445,13 @@ class Dashboard extends React.Component {
                 name="Kidney Failure"
                 score={KFRScore(
                   this.props.patientLocal,
-                  sortMeasurements(this.props.observationsLocal)
+                  listToDictMeasurements(sortMeasurements(this.props.observationsLocal))
                 )}
                 futureScore={futureKFRRisk}
                 pastScore={pastKFRRisk}
                 data={{
                   patient: this.props.patientLocal,
-                  observations: sortMeasurements(this.props.observationsLocal)
+                  observations: listToDictMeasurements(sortMeasurements(this.props.observationsLocal))
                 }}
                 unit="%"
                 context={5}
@@ -486,14 +487,14 @@ class Dashboard extends React.Component {
                 name="COPD Mortality"
                 score={COPDScore(
                   this.props.patientLocal,
-                  sortMeasurements(this.props.observationsLocal),
+                  listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                   this.props.conditionsLocal
                 )}
                 futureScore={futureCOPD}
                 pastScore={pastCOPDScore}
                 data={{
                   patient: this.props.patientLocal,
-                  observations: sortMeasurements(this.props.observationsLocal),
+                  observations: listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                   conditions:this.props.conditionsLocal
                 }}
                 unit="%"
@@ -532,7 +533,7 @@ class Dashboard extends React.Component {
                 name="Diabetes"
                 score={diabetesScore(
                   this.props.patientLocal,
-                  sortMeasurements(this.props.observationsLocal),
+                  listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                   this.props.conditionsLocal,
                   this.props.medreqLocal
                 )}
@@ -540,7 +541,7 @@ class Dashboard extends React.Component {
                 pastScore={diabetesPast}
                 data={{
                   patient: this.props.patientLocal,
-                  observations: sortMeasurements(this.props.observationsLocal),
+                  observations: listToDictMeasurements(sortMeasurements(this.props.observationsLocal)),
                   conditions:this.props.conditionsLocal,
                   medications:this.props.medreqLocal
                 }}
@@ -568,7 +569,8 @@ class Dashboard extends React.Component {
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            > { !this.state.serverDown ?
+            > 
+              { !this.state.serverDown ?
                 <MeasurementsContainer
                   expand={this.expandMea.bind(this)}
                   expandAbout={this.expandMeaAbout.bind(this)}

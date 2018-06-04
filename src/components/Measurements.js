@@ -37,6 +37,22 @@ class Measurements extends React.Component {
    return true;
   }
 
+  componentDidMount(){
+    this.setState({
+        measurements: this.props.measurements.sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (deepContains(measuresForRisks[key],(item.code))) {
+            return -1;
+          }
+        }
+        return 1;
+      })
+    });
+  }
+
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({

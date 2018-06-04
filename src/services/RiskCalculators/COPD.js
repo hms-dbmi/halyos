@@ -68,7 +68,7 @@ export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = 
         // due to the differences in where the data comes from, we have to check if we got the original data bundle
         // or if it is preprocessed from remote server by redux.
         let sortedObs;
-        if(Array.isArray(obs)){
+        if(Array.isArray(obs[0])){
           sortedObs = sortMeasurements(obs);
         } else if (Object.keys(obs).length !== 0) {
           sortedObs = obs;

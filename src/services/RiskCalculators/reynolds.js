@@ -153,7 +153,6 @@ export function reynoldsScorePast(date, pt = null, obs = null, conds = null, med
 
 
 export function reynoldsScore(date = null, pt, obs, smoker = false, famhist = false) {
-  // console.log("ibs", obs);
     const codesObject = {
       '30522-7': {}, // hsCRP
       '2093-3': {}, // cholesterol

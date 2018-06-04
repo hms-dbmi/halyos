@@ -159,7 +159,6 @@ export function fetchAirQualityLevels(lat,long) {
       response => {
         if(!response.ok){
           dispatch(failureAirQualityLevels());
-          console.log('response is not okay!!!');
           return Promise.resolve();
 
         }
@@ -171,8 +170,12 @@ export function fetchAirQualityLevels(lat,long) {
       }
     )
     .then(function(json) {
+      if(json){
         dispatch(receiveAirQualityLevels(lat, long, json.data));
+      } else {
+        dispatch(failureAirQualityLevels());
+        return Promise.resolve();
       }
-    );
+    });
   };
 }

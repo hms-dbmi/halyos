@@ -4,6 +4,9 @@ import React from 'react';
 // Components
 import EnvironmentTile from '../EnvironmentTile';
 
+// static data
+import { pollenLocal } from '../../data/fhirData';
+
 const CATEGORIES = {
   1: 'Low',
   2: 'High',
@@ -22,35 +25,42 @@ class PollenLevel extends React.Component {
     let listItems = [];
     let icon = 'pollen';
 
-    // console.log("this.props.pollen", this.props.pollen);
-    if (!this.props.isFetchingPollenData && this.props.pollen) {
-      const allergyMeasures = this.props.pollen
-        .filter(item => (item.Name !== 'UVIndex' && item.Name !== 'AirQuality'));
+    let pollenDataRemoteOrLocal;
 
-      const counter = allergyMeasures
-        .reduce((sum, item) => sum + item.CategoryValue, 0);
+    if(this.props.failedFetchPollenData || this.props.isFetchingPollenData == null){
+      pollenDataRemoteOrLocal = pollenLocal.DailyForecasts[0].AirAndPollen;
+    } else if (this.props.pollen) {
+      pollenDataRemoteOrLocal = this.props.pollen;
+    } else {
+      pollenDataRemoteOrLocal = pollenLocal.DailyForecasts[0].AirAndPollen;
+    }
 
-      avgLevel = Math.round(counter / Object.keys(allergyMeasures).length);
+    const allergyMeasures = pollenDataRemoteOrLocal 
+      .filter(item => (item.Name !== 'UVIndex' && item.Name !== 'AirQuality'));
 
-      listItems = allergyMeasures.map((item, index) =>
-        <tr key={index}>
-          <td>{item.Name}</td>
-          <td>{item.Category}</td>
-        </tr>
-      );
-      
-      switch (avgLevel) {
-        case 1:
-        case 2:
-          icon = 'pollen-1';
-          break;
-        case 3:
-        case 4:
-          icon = 'pollen-2';
-          break;
-        default:
-          icon = 'pollen-3';
-      }
+    const counter = allergyMeasures
+      .reduce((sum, item) => sum + item.CategoryValue, 0);
+
+    avgLevel = Math.round(counter / Object.keys(allergyMeasures).length);
+
+    listItems = allergyMeasures.map((item, index) =>
+      <tr key={index}>
+        <td>{item.Name}</td>
+        <td>{item.Category}</td>
+      </tr>
+    );
+    
+    switch (avgLevel) {
+      case 1:
+      case 2:
+        icon = 'pollen-1';
+        break;
+      case 3:
+      case 4:
+        icon = 'pollen-2';
+        break;
+      default:
+        icon = 'pollen-3';
     }
 
     return (

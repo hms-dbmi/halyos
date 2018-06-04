@@ -35,9 +35,9 @@ class Flu extends React.Component {
       closestFluMarkerLocalOrRemote = findClosestMarker(fluLocal, this.props.location.latitude, this.props.location.longitude);
     }
 
-    if (this.props.closestFluMarker){
+    if (closestFluMarkerLocalOrRemote){
       for (let val of FLU_LEVELS){
-        if (this.props.closestFluMarker.flu < parseInt(val[0])){
+        if (closestFluMarkerLocalOrRemote.flu < parseInt(val[0])){
           currentFluLevel = val;
           break;
         }
@@ -54,12 +54,12 @@ class Flu extends React.Component {
       >
         <div>
           <h5>Mentions of Flu Symptoms Near You</h5>
-            {this.props.closestFluMarker && (
+            {closestFluMarkerLocalOrRemote && (
               <p>
-                { this.props.closestFluMarker.flu } Mentions of Flu Symptoms
+                { closestFluMarkerLocalOrRemote.flu } Mentions of Flu Symptoms
               </p> )}
           <h5>Explanation</h5>
-            {this.props.closestFluMarker && (
+            {closestFluMarkerLocalOrRemote && (
               <p className="flu-explanation-text">
                 { currentFluLevel[3] }
               </p> )}        

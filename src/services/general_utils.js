@@ -134,7 +134,7 @@ export function sortMeasurements(obs){
             sortedMeasures[j].measurements.push(
               {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
                "date": obs[i].resource.effectiveDateTime,
-                "units": obs[i].resource.component[k].valueQuantity.unit
+                "unit": obs[i].resource.component[k].valueQuantity.unit
               }
             );
             found = true;
@@ -148,7 +148,7 @@ export function sortMeasurements(obs){
              "measurements": [
                 {"value": obs[i].resource.component[k].valueQuantity.value.toFixed(2),
                  "date": obs[i].resource.effectiveDateTime,
-                  "units": obs[i].resource.component[k].valueQuantity.unit
+                  "unit": obs[i].resource.component[k].valueQuantity.unit
                 }
               ]
             }
@@ -166,7 +166,7 @@ export function sortMeasurements(obs){
           sortedMeasures[j].measurements.push(
             {"value": obs[i].resource.valueQuantity.value.toFixed(2),
              "date": obs[i].resource.effectiveDateTime,
-              "units": obs[i].resource.valueQuantity.unit
+              "unit": obs[i].resource.valueQuantity.unit
             }
           );
           found = true;
@@ -180,7 +180,7 @@ export function sortMeasurements(obs){
            "measurements": [
               {"value": obs[i].resource.valueQuantity.value.toFixed(2),
                "date": obs[i].resource.effectiveDateTime,
-                "units": obs[i].resource.valueQuantity.unit
+                "unit": obs[i].resource.valueQuantity.unit
               }
             ]
           }
