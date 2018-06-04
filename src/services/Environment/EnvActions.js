@@ -32,7 +32,7 @@ export function fetchPollenLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestPollenLevels(lat,long));
   if(lat && long){
-    fetch('https://dataservifce.accuweather.com/locations/v1/cities/geoposition/search?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&q=' + lat + '%2C' + long)
+    fetch('https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&q=' + lat + '%2C' + long)
       .then(
           response => {
             if(!response.ok){
@@ -49,7 +49,7 @@ export function fetchPollenLevels(lat,long) {
           return Promise.resolve();
         }
         let locationKey = json.Key;
-        return fetch('http://dataservfice.accuweather.com/forecasts/v1/daily/1day/' + locationKey + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
+        return fetch('http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + locationKey + '?apikey=jfytctksruIxkfUdyQxo8JdG9QAB7jgi&details=true')
           .then(
             response => response.json(),
             error => console.error('Could not load pollen levels.', error)
@@ -100,7 +100,7 @@ export function fetchFluLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestFluLevels(lat,long));
 
-  return fetch('https://apfi.v2.flunearyou.org/map/markers')
+  return fetch('https://api.v2.flunearyou.org/map/markers')
     .then(
       response => {
         if(!response.ok){
@@ -154,7 +154,7 @@ export function fetchAirQualityLevels(lat,long) {
   return (dispatch) => {
   dispatch(requestAirQualityLevels(lat,long));
 
-  return fetch('https://apfi.airvfisual.com/v2/nearest_city?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
+  return fetch('https://api.airvisual.com/v2/nearest_city?lat=' + lat +  '&lon=' + long +  '&key=RaaZECPFvpEBgetio')
     .then(
       response => {
         if(!response.ok){

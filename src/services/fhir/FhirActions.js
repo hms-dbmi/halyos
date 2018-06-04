@@ -38,7 +38,13 @@ export function fetchAllPatientData(patientID) {
 
     return fetch(baseUrl + '/Patient?_id=' + patientID)
       .then(
-        response => response.json(),
+        response => {
+          if(!response.ok){
+            dispatch(failAllPatientData(patientID));
+            return Promise.resolve();            
+          }
+          return response.json();
+        },
         error => {
           console.warn('An error occured fetching the patient info :(', error)
           dispatch(failAllPatientData(patientID));

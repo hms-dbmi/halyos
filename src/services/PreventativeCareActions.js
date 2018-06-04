@@ -29,7 +29,7 @@ export const failurePreventativeCareData = () => ({
 export function fetchPreventativeCareSuggestions(birthDate, gender) {
   return (dispatch) => {
     dispatch(requestPreventativeCareData());
-    const URL = 'https://healthffinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
+    const URL = 'https://healthfinder.gov/api/v2/myhealthfinder.json?api_key=fwafjtozprnxlbbb&age=';
     const getUrl = (birthDate, gender) => `${URL}${calculateAge(birthDate) || 40}&sex=${gender}`;
     return fetch(getUrl(birthDate, gender))
       .then(
