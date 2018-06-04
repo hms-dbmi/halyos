@@ -44,6 +44,8 @@ export function getValueQuantities(obs, callback){
     not guaranteed to be sorted by date but server response is sorted by date, so for all intents and purposes can assume this is true
 **/
 export function sortMeasurementsFromClient(obs){
+  console.log("sortMeasurementsClient", obs);
+
   var sortedMeasures = []
   for(var i = 0; i < obs.length; i++) {
     if(obs[i].component) {
