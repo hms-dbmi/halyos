@@ -23,6 +23,18 @@ import requiresExternalData from '../texts/requiresExternalData';
 //utils
 import deepContains from '../utils/deep-contains';
 
+const sortMeasurements = (item) => {
+  for (const key in measuresForRisks) {
+    if (!measuresForRisks.hasOwnProperty(key)) {
+      continue;
+    }
+    if (deepContains(measuresForRisks[key],(item.code))) {
+      return -1;
+    }
+  }
+  return 1;
+};
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
@@ -39,34 +51,14 @@ class Measurements extends React.Component {
 
   componentDidMount(){
     this.setState({
-        measurements: this.props.measurements.sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (deepContains(measuresForRisks[key],(item.code))) {
-            return -1;
-          }
-        }
-        return 1;
-      })
+      measurements: this.props.measurements.sort(sortMeasurements)
     });
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({
-          measurements: nextProps.measurements.sort((item) => {
-          for (const key in measuresForRisks) {
-            if (!measuresForRisks.hasOwnProperty(key)) {
-              continue;
-            }
-            if (deepContains(measuresForRisks[key],(item.code))) {
-              return -1;
-            }
-          }
-          return 1;
-        })
+        measurements: nextProps.measurements.sort(sortMeasurements)
       });
     }
   }
