@@ -12,7 +12,7 @@ import {patientLocal} from '../data/fhirData.js';
 import { getPatID } from '../services/smart_setup'
 
 class Header extends React.Component {
-  
+
   componentWillMount() {
     this.props.getPatientDemographics(getPatID());
     this.props.getMostRecentVisit(getPatID());
@@ -20,7 +20,7 @@ class Header extends React.Component {
 
   render() {
     const recentVisit = new Date(this.props.mostRecentVisit);
-    
+
     return (
       <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">
@@ -47,7 +47,7 @@ class Header extends React.Component {
               ) : (
                 <div>{patientLocal[0].resource.address[0].city}, {patientLocal[0].resource.address[0].state}</div>
               )
-            }            
+            }
             <Icon id="map"/>
           </div>
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
@@ -57,7 +57,7 @@ class Header extends React.Component {
               ) : (
               <date>8/18/16</date>
               )
-            }            
+            }
             <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
@@ -66,7 +66,7 @@ class Header extends React.Component {
               ) : (
               <div>{patientLocal[0].resource.name[0].given[0]} {patientLocal[0].resource.name[0].family}&nbsp;</div>
               )
-            }            
+            }
             <Icon id="person"/>
           </div>
         </nav>
