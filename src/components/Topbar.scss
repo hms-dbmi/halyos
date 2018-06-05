@@ -22,6 +22,14 @@
     height: 3rem;
     margin-right: 0.5rem;
   }
+
+  .icon {
+    margin-right: 0.2rem;
+  }
+}
+
+.topbar-padded-element .topbar-element {
+  margin-left: 0.6rem;
 }
 
 .topbar-element-subtle {
@@ -29,10 +37,6 @@
   font-size: 0.85em;
   line-height: 3rem;
   text-transform: uppercase;
-}
-
-.topbar-last-visit {
-
 }
 
 .topbar-last-visit,

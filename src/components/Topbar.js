@@ -39,35 +39,33 @@ class Header extends React.Component {
             About
           </NavLink>
         </nav>
-        <nav className="flex-c">
+        <nav className="flex-c topbar-padded-element">
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
-            <div className="topbar-element-subtle">Location&nbsp;</div>
+            <Icon id="map" title="Location"/>
             {this.props.patient ? (
                 <div>{this.props.patient.address[0].city}, {this.props.patient.address[0].state}</div>
               ) : (
                 <div>{patientLocal[0].resource.address[0].city}, {patientLocal[0].resource.address[0].state}</div>
               )
             }
-            <Icon id="map"/>
           </div>
           <div className="topbar-element topbar-last-visit flex-c flex-v-center">
-            <div className="topbar-element-subtle">Last Visit&nbsp;</div>
+            <Icon id="calendar" title="Last Visit"/>
             {this.props.mostRecentVisit ? (
               <date>{recentVisit.getMonth() + 1}/{recentVisit.getDate()}/{recentVisit.getFullYear().toString().substring(2,4)}</date>
               ) : (
               <date>8/18/16</date>
               )
             }
-            <Icon id="calendar"/>
           </div>
           <div className="topbar-element topbar-user flex-c flex-v-center">
+            <Icon id="person" title="Patient"/>
             {this.props.patient ? (
               <div>{this.props.patient.name[0].given[0]} {this.props.patient.name[0].family}&nbsp;</div>
               ) : (
               <div>{patientLocal[0].resource.name[0].given[0]} {patientLocal[0].resource.name[0].family}&nbsp;</div>
               )
             }
-            <Icon id="person"/>
           </div>
         </nav>
       </header>
