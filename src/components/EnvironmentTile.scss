@@ -29,10 +29,22 @@
   width: auto;
   height: auto;
   color: $gray-lighter;
+  transition: color $fast $ease;
 }
 
 .environment-tile-overview {
   position: relative;
+  margin: -0.25rem;
+  padding: 0.25rem;
+  transition: background $fast $ease;
+
+  &:hover {
+    background: $gray-lighter;
+
+    .environment-tile-icon {
+      color: $gray-light;
+    }
+  }
 }
 
 .environment-tile-details.is-shown {
