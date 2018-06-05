@@ -156,8 +156,10 @@ class Measurement extends React.Component {
       ) * 12
     );
 
+    const isShownClass = this.state.isDetailsShown ? 'is-active' : '';
+
     return (
-      <div className="measurement">
+      <div className={`measurement ${isShownClass}`}>
         <div className="measurement-info pure-g">
           <div className="pure-u-15-24">
             <div className="full-wh flex-c flex-v-center flex-wrap">

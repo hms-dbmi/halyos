@@ -17,6 +17,7 @@
 
 .measurement-title {
   margin: 0 0.5rem 0 0;
+  transition: all $fast $ease;
 
   &.tooltip .tooltiptext {
     width: 130px;
@@ -25,8 +26,12 @@
 }
 
 .measurement-title:hover {
-    background:$gray-lightest;
-  }
+  color: $primary;
+}
+
+.measurement.is-active .measurement-title {
+  font-weight: bold;
+}
 
 .measurement-info {
   min-height: 1.5rem;
