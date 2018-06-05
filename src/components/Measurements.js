@@ -29,7 +29,7 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements: []   
+      measurements: []
     };
   }
 
@@ -132,7 +132,7 @@ class Measurements extends React.Component {
 
     return (
       <div className="measurements full-wh flex-c flex-col">
-        <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
+        <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
             <div className="flex-c flexc-v-center title-bar" ref={(r) => { this.wurstEl = r; }}>
               <h3

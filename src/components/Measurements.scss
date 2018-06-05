@@ -2,6 +2,10 @@
 @import 'styles/colors.scss';
 
 .measurements {
+  .dashboard-panel-headline {
+    padding-right: 1rem;
+  }
+
   .react-datepicker {
     font-family: 'Overpass', sans-serif;
     font-size: 1rem;
@@ -24,6 +28,13 @@
 
   .react-datepicker__day--selected {
     font-weight: 700;
+  }
+
+  .past-label,
+  .present-label,
+  .future-label {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    text-align: center;
   }
 
   .past-label {

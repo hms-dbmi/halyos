@@ -4,7 +4,7 @@
 .dashboard {}
 
 .dashboard-risk-scores.no-list-style {
-  margin: 0.125rem -0.5rem 3rem;
+  margin: 0.125rem -0.5rem 1rem;
 
   > li {
     position: relative;
@@ -138,5 +138,6 @@
 }
 
 .about-risk-header {
+  font-family: 'Roboto Condensed', sans-serif;
   border-bottom: 2px solid $gray-lighter
 }

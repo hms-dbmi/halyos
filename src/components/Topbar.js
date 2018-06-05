@@ -26,10 +26,10 @@ class Header extends React.Component {
         <nav className="flex-c flex-v-center">
           <NavLink
             to="/"
-            className="topbar-element flex-c flex-v-center"
+            className="topbar-element topbar-logo flex-c flex-v-center"
             activeClassName="is-active"
           >
-            <div style={{fontWeight: 'bold', fontSize: 26}}>Halyos</div>
+            Halyos
           </NavLink>
           <NavLink
             to="/about"
