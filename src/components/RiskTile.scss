@@ -81,11 +81,36 @@
   margin: 1rem 0 1.25rem;
   padding-bottom: 2rem;
   color: $black;
-  font-family: 'Roboto Condensed', sans-serif;
 
   > div {
     width: 30%;
   }
+}
+
+.risk-tile-score-past,
+.risk-tile-score-future {
+  letter-spacing: -0.15rem;
+}
+
+.risk-tile-score-present {
+  letter-spacing: -0.3rem;
+}
+
+.risk-tile-score-past {
+  margin-right: 0.25rem;
+}
+
+.risk-tile-score-future {
+  margin-left: 0.25rem;
+}
+
+.risk-tile-large .risk-tile-score-past,
+.risk-tile-large .risk-tile-score-future,
+.risk-tile-large .risk-tile-score-present,
+.risk-tile-score-past .time,
+.risk-tile-score-future .time,
+.risk-tile-score-present .time {
+  letter-spacing: normal;
 }
 
 .risk-tile-score-value {
@@ -95,9 +120,9 @@
 }
 
 .risk-tile-score-unit {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: normal;
-  line-height: 2.75rem;
+  line-height: 2.5rem;
 }
 
 .risk-tile-context {
@@ -125,7 +150,8 @@
   }
 
   .risk-tile-score-unit {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 3.125rem;
   }
 }
 
