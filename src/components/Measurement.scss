@@ -17,6 +17,11 @@
 
 .measurement-title {
   margin: 0 0.5rem 0 0;
+
+  &.tooltip .tooltiptext {
+    width: 130px;
+    margin-left: -65px;
+  }
 }
 
 .measurement-title:hover {
