@@ -1,6 +1,10 @@
 @import '../styles/colors.scss';
 
-.pcs {}
+.pcs {
+  .dashboard-panel-headline {
+    margin-right: 0.75rem;
+  }
+}
 
 .pcs-list {
   overflow: auto;
