@@ -38,7 +38,7 @@ class Measurement extends React.Component {
     this.state = {
       isDetailsShown: false,
     };
-    
+
   }
 
   showDetails() {
@@ -165,9 +165,7 @@ class Measurement extends React.Component {
                 className="measurement-title p tooltip"
                 onClick={() => this.showDetails()}
               >
-              <span className="tooltiptext">
-                Click to Expand!
-              </span>
+                <span className="tooltiptext">Click to Expand!</span>
                 {this.props.name}
               </p>
               <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
@@ -197,7 +195,7 @@ class Measurement extends React.Component {
                 <Icon
                   id={getArrowDir(parseFloat(pastValue), parseFloat(this.props.present))}
                   mirrorH={getMirrorH(parseFloat(pastValue), parseFloat(this.props.present))}
-                /> 
+                />
               ) : (
                 <Icon
                   id='arrow-right'
