@@ -254,17 +254,29 @@ Measurement.propTypes = {
   isExpanded: PropTypes.bool,
   name: PropTypes.string,
   unit: PropTypes.string,
-  past: PropTypes.string,
-  present: PropTypes.string,
-  future: PropTypes.string,
+  past: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  present: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  future: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   code: PropTypes.string,
   risk: PropTypes.string,
   pastDate: PropTypes.string,
   presentDate: PropTypes.string,
   presentMeasurements: PropTypes.instanceOf(Object),
   pastMeasurementsDate: PropTypes.string,
-  mostRecentMeasurements: PropTypes.object,
-  pastMeasurementsValue: PropTypes.string,
+  mostRecentMeasurements: PropTypes.array,
+  pastMeasurementsValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   currMeasure: PropTypes.string,
   activeMeasure: PropTypes.func,
   futureMeasurements: PropTypes.instanceOf(Object),
