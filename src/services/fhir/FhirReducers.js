@@ -65,7 +65,7 @@ export function fhirObservationData(state = initialFhirState, action){
           [action.code]:false
         },
         failedFetchingAllMeasurementByCode:true,
-        lastUpdated:action.receivedAt,        
+        lastUpdated:action.receivedAt,
       }
 
     case FETCH_ALL_OBSERVATION_REQUEST:
@@ -74,11 +74,22 @@ export function fhirObservationData(state = initialFhirState, action){
         isFetchingAllMeasurement:true,
       }
     case FETCH_ALL_OBSERVATION_SUCCESS:
-      var newArr = state.allMeasurementsByCode.concat(action.all_other_obs);
+      let newArr = state.allMeasurementsByCode.slice();
+      action.all_other_obs.forEach((newMeas) => {
+        if (
+          state.allMeasurementsByCode
+            .every(extMeas => extMeas.code !== newMeas.code)
+        ) {
+          newArr.push(newMeas);
+        }
+      });
+      if (newArr.length === state.allMeasurementsByCode.length) {
+        newArr = state.allMeasurementsByCode;
+      }
       return {
         ...state,
-        isFetchingAllMeasurement:false,
-        lastUpdated:action.receivedAt,
+        isFetchingAllMeasurement: false,
+        lastUpdated: action.receivedAt,
         allMeasurementsByCode : newArr,
       }
     case FETCH_ALL_OBSERVATION_FAILURE:
