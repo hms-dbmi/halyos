@@ -22,6 +22,10 @@
   transition: background $fast $ease, box-shadow $fast $ease;
 }
 
+.back {
+  transition: background $fast $ease, color $fast $ease;
+}
+
 .risk-tile-large .risk-tile-content {
   margin: 0 1.5rem 0 0;
 }
@@ -29,6 +33,16 @@
 .risk-tile-clickable:hover,
 .back:hover {
   cursor: pointer;
+  color: black;
+  background: $gray-lighter;
+
+  .risk-tile-title {
+    color: black;
+  }
+
+  .risk-tile-context {
+    color: $gray-dark;
+  }
 }
 
 .vertical-line {
@@ -42,6 +56,7 @@
   font-size: 1.25rem;
   text-align: center;
   text-transform: uppercase;
+  transition: color $fast $ease;
 }
 
 .risk-tile-large .risk-tile-title {
@@ -64,6 +79,7 @@
 
 .risk-tile-score {
   margin: 1rem 0 1.25rem;
+  padding-bottom: 2rem;
   color: $black;
 
   > div {
@@ -84,8 +100,9 @@
 }
 
 .risk-tile-context {
-  margin-left: 0.125rem;
+  margin-top: -0.5rem;
   color: $gray;
+  transition: color $fast $ease;
 }
 
 .risk-tile-context-bar {
