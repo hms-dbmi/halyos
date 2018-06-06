@@ -47,7 +47,7 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     // var mkFhir = require('fhir.js');
-    
+
     // var client = mkFhir({
     //   baseUrl: getInsecureURL()
     // });
@@ -110,7 +110,7 @@ class Dashboard extends React.Component {
     //         this.props.getMostRecentObsByCode(getPatID(), measurement);
     //         mostRecentMeaCodeList.push(measurement);
     //       }
-    //     }  
+    //     }
     //   }
     // }
 
@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
           // }
         }
       }
-    }    
+    }
 
     this.props.getAllObs(getPatID());
 
@@ -331,7 +331,7 @@ class Dashboard extends React.Component {
       <div className="dashboard full-dim flex-c flex-col">
         <ul className="dashboard-risk-scores pure-g no-list-style">
           <li className={riskCardiacWidth}>
-            { !this.state.serverDown ? 
+            { !this.state.serverDown ?
               <RiskTileContainer
                 expand={this.expandRisk.bind(this)}
                 name="Cardiac"
@@ -373,11 +373,11 @@ class Dashboard extends React.Component {
                 context={10}
                 url="General_Cardiac"
                 currRisk={this.state.riskIsExpanded}
-              /> 
+              />
             }
           </li>
           <li className={riskLiverWidth}>
-            { !this.state.serverDown ? 
+            { !this.state.serverDown ?
               <RiskTileContainer
                 expand={this.expandRisk.bind(this)}
                 name="Liver Fibrosis"
@@ -421,7 +421,7 @@ class Dashboard extends React.Component {
             }
           </li>
           <li className={riskKidneyWidth}>
-            { !this.state.serverDown ? 
+            { !this.state.serverDown ?
               <RiskTileContainer
                 expand={this.expandRisk.bind(this)}
                 name="Kidney Failure"
@@ -456,9 +456,9 @@ class Dashboard extends React.Component {
                 unit="%"
                 context={5}
                 url="Kidney_Failure"
-                currRisk={this.state.riskIsExpanded}           
+                currRisk={this.state.riskIsExpanded}
               />
-            } 
+            }
           </li>
           <li className={riskCopdWidth}>
             { !this.state.serverDown ?
@@ -569,7 +569,7 @@ class Dashboard extends React.Component {
             <div
               className="wrapper"
               ref={(el) => { this.mesEl = el; }}
-            > 
+            >
               { !this.state.serverDown ?
                 <MeasurementsContainer
                   expand={this.expandMea.bind(this)}
@@ -577,7 +577,7 @@ class Dashboard extends React.Component {
                   isCollapsed={this.state.meaIsCollapsed}
                   isExpanded={this.state.meaIsExpanded}
                   measurements={this.props.allObsByCode}
-                  risk={this.state.riskIsExpanded} 
+                  risk={this.state.riskIsExpanded}
                   currMeasure={this.state.currMeasure}
                   absWidth={mesWidthAbs}
                 /> :
@@ -587,11 +587,11 @@ class Dashboard extends React.Component {
                   isCollapsed={this.state.meaIsCollapsed}
                   isExpanded={this.state.meaIsExpanded}
                   measurements={sortMeasurements(this.props.observationsLocal)}
-                  risk={this.state.riskIsExpanded} 
+                  risk={this.state.riskIsExpanded}
                   currMeasure={this.state.currMeasure}
                   absWidth={mesWidthAbs}
-                /> 
-              }              
+                />
+              }
             </div>
           </div>
           <div className={`dashboard-bottom-panel full-h ${pcsWidth}`}>
