@@ -12,6 +12,12 @@
   }
 }
 
+.dashboard-risk-scores,
+.dashboard-bottom {
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
 .dashboard-bottom-panel {
   position: relative;
   transition: opacity $fast $ease, width $fast $ease;
