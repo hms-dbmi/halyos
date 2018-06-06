@@ -553,7 +553,7 @@ class Dashboard extends React.Component {
             }
           </li>
           <li className={riskAboutWidth}>
-            <div className="risk-score-about">
+            <div className="risk-score-about full-dim">
               <p className='about-risk-header'>
                 <b>About {this.state.riskIsExpanded} Risk Score:</b>
               </p>

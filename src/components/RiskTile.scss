@@ -57,6 +57,8 @@
   text-align: center;
   text-transform: uppercase;
   transition: color $fast $ease;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .risk-tile-large .risk-tile-title {
@@ -81,6 +83,8 @@
   margin: 1rem 0 1.25rem;
   padding-bottom: 2rem;
   color: $black;
+  white-space: nowrap;
+  overflow: hidden;
 
   > div {
     width: 30%;
@@ -129,6 +133,8 @@
   margin-top: -0.5rem;
   color: $gray;
   transition: color $fast $ease;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .risk-tile-context-bar {
