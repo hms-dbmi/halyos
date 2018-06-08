@@ -168,7 +168,7 @@ class Measurement extends React.Component {
                 onClick={() => this.showDetails()}
               >
                 <span className="tooltiptext">Click to Expand!</span>
-                {this.props.name}
+                {(sliderValue != this.props.presentMeasurements[this.props.code]) ? "*" : ""}{this.props.name}
               </p>
               <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
