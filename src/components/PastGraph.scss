@@ -118,13 +118,13 @@
   fill: transparent;
 
   .selection {
-    fill: $primary;
+    fill: $gray-light;
     fill-opacity: 0.25;
     stroke: none;
   }
 
   .handle {
-    fill: $primary;
+    fill: $gray-light;
   }
 }
 
