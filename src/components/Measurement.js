@@ -157,7 +157,7 @@ class Measurement extends React.Component {
     );
 
     const isShownClass = this.state.isDetailsShown ? 'is-active' : '';
-
+    //{(sliderValue != this.props.presentMeasurements[this.props.code]) ? "*" : ""}
     return (
       <div className={`measurement ${isShownClass}`}>
         <div className="measurement-info pure-g">
@@ -168,7 +168,7 @@ class Measurement extends React.Component {
                 onClick={() => this.showDetails()}
               >
                 <span className="tooltiptext">Click to Expand!</span>
-                {(sliderValue != this.props.presentMeasurements[this.props.code]) ? "*" : ""}{this.props.name}
+                {this.props.name}
               </p>
               <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
