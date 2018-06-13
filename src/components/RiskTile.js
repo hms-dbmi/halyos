@@ -142,7 +142,8 @@ class RiskTile extends React.Component {
           <div className="risk-tile-score flex-c flex-align-c">
             {this.props.pastScore &&
               <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
-                <div className="risk-tile-score-value">{this.props.pastScore}
+                <div className="risk-tile-score-value tooltip">{this.props.pastScore}
+                  <div className="tooltiptext">{`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}</div>
                 </div>
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>
