@@ -584,6 +584,8 @@ export function fetchAllObs(patientID) {
             allUncollectedMeasures.push(measure);
           }
         }
+        console.log("res", allUncollectedMeasures);
+
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){

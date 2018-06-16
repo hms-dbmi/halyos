@@ -23,25 +23,13 @@ import requiresExternalData from '../texts/requiresExternalData';
 //utils
 import deepContains from '../utils/deep-contains';
 
-const sortMeasurements = (item) => {
-  for (const key in measuresForRisks) {
-    if (!measuresForRisks.hasOwnProperty(key)) {
-      continue;
-    }
-    if (deepContains(measuresForRisks[key],(item.code))) {
-      return -1;
-    }
-  }
-  return 1;
-};
-
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements: []
+      measurements: []   
     };
   }
 
@@ -51,21 +39,40 @@ class Measurements extends React.Component {
 
   componentDidMount(){
     this.setState({
-      measurements: this.props.measurements.sort(sortMeasurements)
+        measurements: this.props.measurements.sort((item) => {
+        for (const key in measuresForRisks) {
+          if (!measuresForRisks.hasOwnProperty(key)) {
+            continue;
+          }
+          if (deepContains(measuresForRisks[key],(item.code))) {
+            return -1;
+          }
+        }
+        return 1;
+      })
     });
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({
-        measurements: nextProps.measurements.sort(sortMeasurements)
+          measurements: nextProps.measurements.sort((item) => {
+          for (const key in measuresForRisks) {
+            if (!measuresForRisks.hasOwnProperty(key)) {
+              continue;
+            }
+            if (deepContains(measuresForRisks[key],(item.code))) {
+              return -1;
+            }
+          }
+          return 1;
+        })
       });
     }
   }
 
   filterList(query) {
-    // This behavior is strange. I disable it for now.
-    // this.props.expandAbout(false);
+    this.props.expandAbout(false);
     this.setState({
       measurements: this.props.measurements.filter(function(item){
         return item.name.toLowerCase().indexOf(query) !== -1;
@@ -125,7 +132,7 @@ class Measurements extends React.Component {
 
     return (
       <div className="measurements full-wh flex-c flex-col">
-        <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
+        <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
             <div className="flex-c flexc-v-center title-bar" ref={(r) => { this.wurstEl = r; }}>
               <h3

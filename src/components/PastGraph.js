@@ -57,9 +57,12 @@ class PastGraph extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.width = nextProps.absWidth - 150;
     this.update(nextProps);
+
+    
   }
 
   render() {
+    console.log("data from graph", this.props.data);
     return (
       <div className="past-graph">
         <div
@@ -102,11 +105,14 @@ class PastGraph extends React.Component {
       yMax = Math.max(d3.max(this.props.data, d => d.y), this.props.referenceRange[1]);
       yMin = Math.min(d3.min(this.props.data, d => d.y), this.props.referenceRange[0]);
     } else {
-      yMax = d3.max(this.props.data, d => d.y);
-      yMin = d3.min(this.props.data, d => d.y);
+      let dataValMax = d3.max(this.props.data, d => d.y)
+      let dataValMin = d3.min(this.props.data, d => d.y)
+      yMax = dataValMax
+      yMin = dataValMin
     }
-    const yMaxPadded = yMax * 1.25;
-    const yMinPadded = yMin * 0.75;
+
+    const yMaxPadded = Math.abs(yMax * 0.25) + yMax;
+    const yMinPadded = yMin - Math.abs(yMin * 0.25);
     // we want to create custom tick values, 8 is the max divison before you
     // can't see the numbers anymore
     const tickArray = [];
@@ -445,7 +451,7 @@ class PastGraph extends React.Component {
       const measurementPastDate = new Date(nextProps.pastDateMeasurement);
       const pastDateVal = nextProps.data
         .find(meas => meas.x.getTime() === measurementPastDate.getTime());
-
+      console.log("pastDateval", pastDateVal);
       const pastDateData = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT
