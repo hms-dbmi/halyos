@@ -127,9 +127,9 @@ class Measurements extends React.Component {
       const searchWidth = this.wurstEl.getBoundingClientRect().width;
       titleStyle = this.getPxLen('marginLeft', -titleWidth);
       searchStyle = this.getPxLen('width', searchWidth - 0.25);
+      searchStyle['background-color'] = '#eeeeee';
       searchClass += ' is-expanded';
     }
-
     return (
       <div className="measurements full-wh flex-c flex-col">
         <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">

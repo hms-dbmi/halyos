@@ -5,6 +5,8 @@ import * as d3 from 'd3';
 
 // Styles
 import './PastGraph.css';
+//Utils
+import {sortGraphDataByDate} from '../services/general_utils';
 
 const WIDTH = 650; // 560 + 40 + 50 === 650
 const HEIGHT = 140;
@@ -34,6 +36,9 @@ class PastGraph extends React.Component {
   constructor(props) {
     super(props);
     // Detached SVG base element
+    this.state = {
+      data: sortGraphDataByDate(this.props.data)
+    }
     this.svg = d3.select('body').append('svg')
       .remove()
       .attr('class', 'past-graph-svg')
@@ -62,7 +67,6 @@ class PastGraph extends React.Component {
   }
 
   render() {
-    console.log("data from graph", this.props.data);
     return (
       <div className="past-graph">
         <div
@@ -102,13 +106,11 @@ class PastGraph extends React.Component {
     let yMin;
     let yMax;
     if (this.props.referenceRange) {
-      yMax = Math.max(d3.max(this.props.data, d => d.y), this.props.referenceRange[1]);
-      yMin = Math.min(d3.min(this.props.data, d => d.y), this.props.referenceRange[0]);
+      yMax = Math.max(d3.max(this.state.data, d => d.y), this.props.referenceRange[1]);
+      yMin = Math.min(d3.min(this.state.data, d => d.y), this.props.referenceRange[0]);
     } else {
-      let dataValMax = d3.max(this.props.data, d => d.y)
-      let dataValMin = d3.min(this.props.data, d => d.y)
-      yMax = dataValMax
-      yMin = dataValMin
+      yMax = d3.max(this.state.data, d => d.y);
+      yMin = d3.min(this.state.data, d => d.y);
     }
 
     const yMaxPadded = Math.abs(yMax * 0.25) + yMax;
@@ -165,7 +167,7 @@ class PastGraph extends React.Component {
     this.focusGraph = this.focus.append('g')
       .attr('clip-path', 'url(#clip)');
 
-    if(this.props.data.length > 1) {
+    if(this.state.data.length > 1) {
       this.context = this.svg.append('g')
         .attr('class', 'context')
         .attr('transform', `translate(${margin2.left},${margin2.top})`);
@@ -182,7 +184,7 @@ class PastGraph extends React.Component {
       .y1(HEIGHT2);
 
     // Add three months padding to the left, i.e., the first measurement
-    const dateExtent = d3.extent(this.props.data, d => d.x);
+    const dateExtent = d3.extent(this.state.data, d => d.x);
     const firstDate = new Date(dateExtent[0]);
     firstDate.setMonth(firstDate.getMonth() - 3);
     dateExtent[0] = firstDate;
@@ -193,7 +195,7 @@ class PastGraph extends React.Component {
     this.y2.domain(this.y.domain());
 
     this.focusGraph.append('path')
-      .datum(this.props.data)
+      .datum(this.state.data)
       .attr('class', 'past-graph-connection')
       .attr('d', this.line);
 
@@ -206,9 +208,9 @@ class PastGraph extends React.Component {
       .attr('class', 'axis axis--y')
       .call(yAxis);
 
-    if(this.props.data.length > 1) {
+    if(this.state.data.length > 1) {
       this.context.append('path')
-        .datum(this.props.data)
+        .datum(this.state.data)
         .attr('class', 'past-graph-connection-overview')
         .attr('d', this.line2);
 
@@ -228,10 +230,10 @@ class PastGraph extends React.Component {
       this.x.range()[1] - bufferSize
     ];
 
-    const presentDate = this.props.data[0].x;
+    const presentDate = this.state.data[0].x;
     // add scatter points
     const measurementPastDate = new Date(this.props.pastDateMeasurement);
-    const pastDateVal = this.props.data
+    const pastDateVal = this.state.data
       .find(meas => meas.x.getTime() === measurementPastDate.getTime());
     const graphFindPastNode = augmentPastGraphNode(
       presentDate, measurementPastDate
@@ -245,7 +247,7 @@ class PastGraph extends React.Component {
       .text("a simple tooltip");
 
     this.focusGraph.selectAll('.past-graph-node')
-      .data(this.props.data)
+      .data(this.state.data)
       .enter().append('circle')
       .attr('r', 5)
       .attr('cx', d => this.x(d.x))
@@ -287,9 +289,9 @@ class PastGraph extends React.Component {
         .attr('id', 'test')
     }
 
-    if(this.props.data.length > 1){
+    if(this.state.data.length > 1){
       this.context.selectAll('past-graph-node-overview')
-        .data(this.props.data)
+        .data(this.state.data)
         .enter().append('circle')
         .attr('r', 3)
         .attr('cx', d => this.x2(d.x))
@@ -354,7 +356,7 @@ class PastGraph extends React.Component {
         .attr('id', 'past-line');
     }
 
-    if(this.props.data.length > 1){ 
+    if(this.state.data.length > 1){ 
       this.context.append('path')
         .datum(pastDateDataContext)
         .attr('d', this.pastDateAreaOverview)
@@ -373,7 +375,7 @@ class PastGraph extends React.Component {
     this.presentFutureLine = this.future.append('line')
       .attr('class', 'graph-present-future-line')
       .attr('x1', 0)
-      .attr('y1', this.y(this.props.data[0].y))
+      .attr('y1', this.y(this.state.data[0].y))
       .attr('x2', 100)
       .attr('y2', this.y(this.props.futureValue));
 
@@ -451,7 +453,6 @@ class PastGraph extends React.Component {
       const measurementPastDate = new Date(nextProps.pastDateMeasurement);
       const pastDateVal = nextProps.data
         .find(meas => meas.x.getTime() === measurementPastDate.getTime());
-      console.log("pastDateval", pastDateVal);
       const pastDateData = [{
         x: nextProps.pastDate.toDate(),
         y: HEIGHT

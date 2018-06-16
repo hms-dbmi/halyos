@@ -157,7 +157,7 @@ class Measurement extends React.Component {
     );
 
     const isShownClass = this.state.isDetailsShown ? 'is-active' : '';
-
+    //{(sliderValue != this.props.presentMeasurements[this.props.code]) ? "*" : ""}
     return (
       <div className={`measurement ${isShownClass}`}>
         <div className="measurement-info pure-g">

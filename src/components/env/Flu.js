@@ -55,12 +55,12 @@ class Flu extends React.Component {
         <div>
           <h5>Mentions of Flu Symptoms Near You</h5>
             {closestFluMarkerLocalOrRemote && (
-              <p>
-                { closestFluMarkerLocalOrRemote.flu } Mentions of Flu Symptoms
+              <p style={{'font-size': '0.8rem' }}>
+                { closestFluMarkerLocalOrRemote.flu } {(closestFluMarkerLocalOrRemote.flu == 1) ? 'Mention' : 'Mentions'} of Flu Symptoms
               </p> )}
           <h5>Explanation</h5>
             {closestFluMarkerLocalOrRemote && (
-              <p className="flu-explanation-text">
+              <p className="flu-explanation-text" style={{'font-size': '0.8rem' }}>
                 { currentFluLevel[3] }
               </p> )}        
         </div>
