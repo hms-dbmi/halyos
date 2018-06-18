@@ -23,7 +23,7 @@ import requiresExternalData from '../texts/requiresExternalData';
 //utils
 import deepContains from '../utils/deep-contains';
 
-var firstBy = require('thenby');
+import sortBy from 'lodash/sortBy';
 
 class Measurements extends React.Component {
   constructor(props) {
@@ -51,14 +51,14 @@ class Measurements extends React.Component {
     return 1;
   }
 
-  measurementSort2(mea1, mea2){
-    return mea1.code > mea2.code
+  measurementSort2(mea1){
+    return mea1.code;
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({
-          measurements: nextProps.measurements.sort(firstBy(this.measurementSort).thenBy(this.measurementSort2))
+          measurements: sortBy(nextProps.measurements, [this.measurementSort, this.measurementSort2])
       });
     }
   }
@@ -67,8 +67,7 @@ class Measurements extends React.Component {
     this.setState({
       measurements: this.props.measurements.filter(function(item){
         return item.name.toLowerCase().indexOf(query) !== -1;
-      }
-      ).sort(firstBy(this.measurementSort).thenBy(this.measurementSort2))
+      }).sortBy(this.props.measurements, [this.measurementSort, this.measurementSort2])
     });
   }
 
