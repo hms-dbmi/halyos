@@ -23,6 +23,8 @@ import requiresExternalData from '../texts/requiresExternalData';
 //utils
 import deepContains from '../utils/deep-contains';
 
+var firstBy = require('thenby');
+
 class Measurements extends React.Component {
   constructor(props) {
     super(props);
@@ -37,36 +39,26 @@ class Measurements extends React.Component {
    return true;
   }
 
-  componentDidMount(){
-    this.setState({
-        measurements: this.props.measurements.sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-          if (deepContains(measuresForRisks[key],(item.code))) {
-            return -1;
-          }
-        }
-        return 1;
-      })
-    });
+  measurementSort(mea1){
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        continue;
+      }
+      if (deepContains(measuresForRisks[key],(mea1.code))) {
+        return -1;
+      }
+    }    
+    return 1;
+  }
+
+  measurementSort2(mea1, mea2){
+    return mea1.code > mea2.code
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({
-          measurements: nextProps.measurements.sort((item) => {
-          for (const key in measuresForRisks) {
-            if (!measuresForRisks.hasOwnProperty(key)) {
-              continue;
-            }
-            if (deepContains(measuresForRisks[key],(item.code))) {
-              return -1;
-            }
-          }
-          return 1;
-        })
+          measurements: nextProps.measurements.sort(firstBy(this.measurementSort).thenBy(this.measurementSort2))
       });
     }
   }
@@ -77,18 +69,7 @@ class Measurements extends React.Component {
       measurements: this.props.measurements.filter(function(item){
         return item.name.toLowerCase().indexOf(query) !== -1;
       }
-      ).sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-
-          if (deepContains(measuresForRisks[key],item.code)) {
-            return -1;
-          }
-        }
-        return 1;
-      })
+      ).sort(firstBy(this.measurementSort).thenBy(this.measurementSort2))
     });
   }
 
