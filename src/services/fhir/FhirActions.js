@@ -205,7 +205,6 @@ export function fetchAllConditionData(patientID) {
         dispatch(receiveAllConditionData(patientID, bundle));
       })
       .catch(function(res){
-        console.log("????", res);
         if (res.status){
           console.log("error1", res.status)
         }
@@ -584,6 +583,7 @@ export function fetchAllObs(patientID) {
             allUncollectedMeasures.push(measure);
           }
         }
+
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){

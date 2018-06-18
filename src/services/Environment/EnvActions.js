@@ -55,6 +55,10 @@ export function fetchPollenLevels(lat,long) {
             error => console.error('Could not load pollen levels.', error)
           )
           .then(function(json) {
+              if(!json){
+                dispatch(failurePollenLevels());
+                return Promise.resolve();
+              }
               if(json.DailyForecasts){
                 dispatch(receivePollenLevels(lat,long, json.DailyForecasts[0].AirAndPollen));  
               }

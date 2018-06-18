@@ -23,17 +23,7 @@ import requiresExternalData from '../texts/requiresExternalData';
 //utils
 import deepContains from '../utils/deep-contains';
 
-const sortMeasurements = (item) => {
-  for (const key in measuresForRisks) {
-    if (!measuresForRisks.hasOwnProperty(key)) {
-      continue;
-    }
-    if (deepContains(measuresForRisks[key],(item.code))) {
-      return -1;
-    }
-  }
-  return 1;
-};
+import sortBy from 'lodash/sortBy';
 
 class Measurements extends React.Component {
   constructor(props) {
@@ -41,7 +31,7 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements: []
+      measurements: []   
     };
   }
 
@@ -49,39 +39,35 @@ class Measurements extends React.Component {
    return true;
   }
 
-  componentDidMount(){
-    this.setState({
-      measurements: this.props.measurements.sort(sortMeasurements)
-    });
+  measurementSort(mea1){
+    for (const key in measuresForRisks) {
+      if (!measuresForRisks.hasOwnProperty(key)) {
+        continue;
+      }
+      if (deepContains(measuresForRisks[key],(mea1.code))) {
+        return -1;
+      }
+    }    
+    return 1;
+  }
+
+  measurementSort2(mea1){
+    return mea1.code;
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.measurements.length !== nextProps.measurements.length){
       this.setState({
-        measurements: nextProps.measurements.sort(sortMeasurements)
+          measurements: sortBy(nextProps.measurements, [this.measurementSort, this.measurementSort2])
       });
     }
   }
 
   filterList(query) {
-    // This behavior is strange. I disable it for now.
-    // this.props.expandAbout(false);
     this.setState({
       measurements: this.props.measurements.filter(function(item){
         return item.name.toLowerCase().indexOf(query) !== -1;
-      }
-      ).sort((item) => {
-        for (const key in measuresForRisks) {
-          if (!measuresForRisks.hasOwnProperty(key)) {
-            continue;
-          }
-
-          if (deepContains(measuresForRisks[key],item.code)) {
-            return -1;
-          }
-        }
-        return 1;
-      })
+      }).sortBy(this.props.measurements, [this.measurementSort, this.measurementSort2])
     });
   }
 
@@ -125,7 +111,7 @@ class Measurements extends React.Component {
     }
     return (
       <div className="measurements full-wh flex-c flex-col">
-        <header className="dashboard-panel-headline pure-g flex-c flex-align-sb">
+        <header className="dashboard-panel-headline ass pure-g flex-c flex-align-sb">
           <div className="pure-u-15-24">
             <div className="flex-c flexc-v-center title-bar" ref={(r) => { this.wurstEl = r; }}>
               <h3

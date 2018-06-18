@@ -22,7 +22,30 @@ export function calcKFRisk(gender, age, gfr, uac) {
   return score;
 }
 
+function hasNecessaryMeasuresForKFRRisk(presMeasures = null, futureMeasures = null){
+  if(presMeasures == null || futureMeasures == null){
+    return false;
+  }
+    if( (futureMeasures.hasOwnProperty('48643-1') ||
+         futureMeasures.hasOwnProperty('48642-3') ||
+         futureMeasures.hasOwnProperty('33914-3') || 
+         futureMeasures.hasOwnProperty('48643-1') ||
+         futureMeasures.hasOwnProperty('48642-3') || 
+         futureMeasures.hasOwnProperty('33914-3')) 
+      && (futureMeasures.hasOwnProperty('14958-3') || 
+          futureMeasures.hasOwnProperty('14959-1')|| 
+          presMeasures.hasOwnProperty('14958-3') || 
+          presMeasures.hasOwnProperty('14959-1')) ) {
+      return true;
+    } else {
+      return false;
+    }
+
+}
+
 export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = null, obs = null, conds = null, meds = null) {
+  if(hasNecessaryMeasuresForKFRRisk(presMeasures, futureMeasures)){
+
   if(presMeasures && pt && futureMeasures) {
       return calcKFRisk(
         pt.gender,
@@ -39,6 +62,7 @@ export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = n
         presMeasures['14958-3'] || presMeasures['14959-1']
       );
   }
+}
   return '...'
 }
 
