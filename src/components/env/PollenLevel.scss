@@ -1,0 +1,19 @@
+@import '../../styles/colors.scss';
+
+table {
+    border-collapse: collapse;
+    width: 45%;
+}
+
+td, th {
+    text-align: left;
+    padding: 2px;
+}
+
+.tile-container {
+  overflow:hidden;
+}
+
+.env-tile-heading{
+  color:$gray-darker
+}
