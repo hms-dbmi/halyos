@@ -4,10 +4,11 @@ import './About.css';
 const About = () => (
   <div className="about-us-container">
     <h1 className="about-heading">Halyos: A patient-facing visual EHR interface for longitudinal risk awareness</h1>
-    <p className="dev-names"> Developed By: Vimig Socrates, Samson Mataraso, Fritz Lekschas, and Nils Gehlenborg </p>
+    <p className="dev-names">Developed By: Vimig Socrates, Samson Mataraso, Fritz Lekschas, and Nils Gehlenborg</p>
+    <p className="affiliation"><a href="http://gehlenborglab.org/">Gehlenborg Lab at Harvard Medical School</a></p>
 
     <h3 className="description">What is Halyos?</h3>
-    <p>Halyos <a href="halyos.gehlenborglab.org">(halyos.gehlenborglab.org)</a>, is a visual EHR web app that complements the functionality of existing patient portals. Halyos is designed to integrate with existing EHR systems to help patients interpret their health data. </p>
+    <p>Halyos <a href="halyos.gehlenborglab.org">(halyos.gehlenborglab.org)</a>, is a visual EHR web app that complements the functionality of existing patient portals. Halyos is designed to integrate with existing EHR systems to help patients interpret their health data. A link to the code is available on <a href="https://github.com/hms-dbmi/fhir-ignite/">Github</a>.</p>
     
     <h3 className="description">How does Halyos work?</h3>
     <p>The Halyos application utilizes the <a href="https://smarthealthit.org/">SMART on FHIR</a> platform to create an interoperable interface that provides <b>interactive visualizations of clinically validated risk scores</b> and longitudinal data derived from a patient’s clinical measurements. These visualizations allow patients to investigate the relationships between key clinical measurements and risk over time. By allowing patients to set hypothetical future values for these clinical measurements, patients can see how changes in their health will impact their risks. Using Halyos, patients are provided with the opportunity to actively improve their health based on increased understanding of longitudinal information available in EHRs and to begin a dialogue with their healthcare providers.</p>
