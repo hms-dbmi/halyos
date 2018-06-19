@@ -70,10 +70,12 @@ class Measurements extends React.Component {
   }
 
   filterList(query) {
-    this.setState({
-      measurements: this.props.measurements.filter(function(item){
+    let outputList = this.props.measurements.filter(function(item){
         return item.name.toLowerCase().indexOf(query) !== -1;
-      }).sortBy(this.props.measurements, [this.measurementSort, this.measurementSort2])
+      })
+    sortBy(outputList, [this.measurementSort, this.measurementSort2])
+    this.setState({
+      measurements: outputList
     });
   }
 
