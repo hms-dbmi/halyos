@@ -2,10 +2,9 @@ import React from 'react';
 import './About.css';
 
 const About = () => (
-  <div className="about-us">
+  <div className="about-us-container">
     <h1 className="about-heading">Halyos: A patient-facing visual EHR interface for longitudinal risk awareness</h1>
     <p className="dev-names"> Developed By: Vimig Socrates, Samson Mataraso, Fritz Lekschas, and Nils Gehlenborg </p>
-    <br/>
 
     <h3 className="description">What is Halyos?</h3>
     <p>Halyos <a href="halyos.gehlenborglab.org">(halyos.gehlenborglab.org)</a>, is a visual EHR web app that complements the functionality of existing patient portals. Halyos is designed to integrate with existing EHR systems to help patients interpret their health data. </p>
