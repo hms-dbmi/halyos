@@ -1,0 +1,27 @@
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
+
+.about-heading {
+  color:$gray-darkest-alpha
+}
+
+.dev-names {
+  color: $gray-dark;
+  font-size:1.3em;
+}
+
+.description {
+  color: $gray-dark;
+  margin-top:2rem;
+}
+
+.disclaimer {
+  color: $gray;
+  margin-top:2rem;
+  font-size:1.1em;
+}
+
+.disclaimer-text {
+  color: $gray;
+  font-size:0.9em;
+}
