@@ -7,6 +7,10 @@ import EnvironmentTile from '../EnvironmentTile';
 //Static Data
 import {airQualityLocal} from '../../data/fhirData';
 
+//styles
+
+import './AirQuality.css';
+
 // const pollutants = {
 //   "dp2": ["ugm3", "Atmospheric Particulate Matter (2.5 micrometers)", "Fine particles that can bypass the nose and throat and penetrate deep into the lungs and some may even enter the circulatory system."], //pm2.5
 //   "p1": ["ugm3", "Atmospheric Particulate Matter (10 micrometers)", ""], //pm10
@@ -56,17 +60,17 @@ class AirQuality extends React.Component {
         isExpanded={this.props.isExpanded}
         level={currentAIQLevel[1]}
       >
-        <div>
-          <h5>Air Quality (AQI) Near You</h5>
+        <div className="tile-container">
+          <h5 className="env-tile-heading">Air Quality (AQI) Near You</h5>
           <div>
             {aiqData ? (
-              <p>Main Pollutant: {aiqData.current.pollution.mainus}</p>
+              <p><b>Main Pollutant:</b> {aiqData.current.pollution.mainus}</p>
             ) : "..." }
             {aiqData ? (
-              <p>Air Quality Level: {aiqData.current.pollution.aqius} {'\u03BC'}g/m3.</p>
+              <p><b>Air Quality Level:</b> {aiqData.current.pollution.aqius} {'\u03BC'}g/m3.</p>
             ) : "..." }
             {aiqData ? (
-              <p>{currentAIQLevel[3]}</p>
+              <p className="desc-text">{currentAIQLevel[3]}</p>
             ) : "..." }
           </div>
         </div>

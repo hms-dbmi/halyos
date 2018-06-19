@@ -53,6 +53,7 @@
     "react-test-renderer": "^15.6.2",
     "recharts": "^1.0.0-beta.10",
     "redux": "^3.7.2",
+    "hoek": "^4.2.1",
     "redux-batched-actions": "^0.1.6",
     "redux-freeze": "^0.1.5",
     "redux-logger": "^3.0.6",
