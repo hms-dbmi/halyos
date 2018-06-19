@@ -39,6 +39,12 @@ class Measurements extends React.Component {
    return true;
   }
 
+  componentDidMount(){
+    this.setState({
+        measurements: sortBy(this.props.measurements, [this.measurementSort, this.measurementSort2])
+    });
+  }
+
   measurementSort(mea1){
     for (const key in measuresForRisks) {
       if (!measuresForRisks.hasOwnProperty(key)) {
