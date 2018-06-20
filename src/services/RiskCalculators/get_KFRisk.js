@@ -10,7 +10,7 @@
     @return kidney failure risk score
 
 */
-import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {calculateAge} from '../../services/risk_score_utils.js';
 import {getNearestFlat, sortMeasurements} from '../../services/general_utils';
 
 export function calcKFRisk(gender, age, gfr, uac) {
@@ -68,13 +68,13 @@ export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = n
 
 export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = null) {
   if(pt && obs) {
-    const codesObject = {
-      "48643-1": [],
-      "48642-3": [],
-      "33914-3": [],//
-      "14958-3": [],
-      "14959-1": []//
-    };
+    // const codesObject = {
+    //   "48643-1": [],
+    //   "48642-3": [],
+    //   "33914-3": [],//
+    //   "14958-3": [],
+    //   "14959-1": []//
+    // };
 
     // due to the differences in where the data comes from, we have to check if we got the original data bundle
     // or if it is preprocessed from remote server by redux.

@@ -24,7 +24,7 @@ class Environment extends React.Component {
 
   componentWillReceiveProps(nextProps){
     // we make the call for the environmental factors here
-    if(!this.props.ptLoc && this.props.ptLoc.latitude != nextProps.ptLoc.latitude && this.props.ptLoc.longitude != nextProps.ptLoc.longitiude){
+    if(!this.props.ptLoc && this.props.ptLoc.latitude !== nextProps.ptLoc.latitude && this.props.ptLoc.longitude !== nextProps.ptLoc.longitiude){
       this.props.getPollenLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
       this.props.getAIQLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);
       this.props.getFluLevels(this.props.ptLoc.latitude,this.props.ptLoc.longitude);

@@ -99,7 +99,7 @@ class RiskTile extends React.Component {
                 {this.props.name} Risk
               </h2>
               <div className="risk-tile-time">
-                within <span className="highlight">{this.props.context} {(this.props.context == 1) ? "year" : "years"}</span>
+                within <span className="highlight">{this.props.context} {(this.props.context === 1) ? "year" : "years"}</span>
               </div>
               <div className="risk-tile-score flex-c flex-align-c">
                 <RiskVisualization
@@ -143,7 +143,7 @@ class RiskTile extends React.Component {
             {this.props.pastScore &&
               <div className="flex-c flex-align-c flex-v-bottom risk-tile-score-past">
                 <div className="risk-tile-score-value tooltip">{this.props.pastScore}
-                  <div className="tooltiptext">{`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}</div>
+                  <div className="tooltiptext">{`${yearsPast} years, ${monthsPast} ${monthsPast === 1 ? 'month' : 'months'} ago` || 'N/A'}</div>
                 </div>
                 <div className="risk-tile-score-unit">{this.props.unit}</div>
               </div>

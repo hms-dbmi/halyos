@@ -13,7 +13,7 @@
 
 */
 
-import {searchByCode, calculateAge, pullCondition} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 import {getNearestFlat, sortMeasurements } from '../../services/general_utils';
 
 export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
@@ -48,12 +48,12 @@ export function calcCOPD(age, confusion, bun, rr, sysbp, diasbp) {
 export function pastCOPDScore(date, pt = null, obs = null, conds = null, meds = null) {
     if(pt && obs && conds) {
         var confusion = pullCondition(conds, ["40917007"]); //could be reprogrammed for O(n) instead of O(n*m) if time
-        var measurementObject = {
-            '8480-6': [], //sysBP
-            '8462-4': [], //diasBP
-            '6299-2': [], //bun
-            '9279-1': [] //rr
-        };
+        // var measurementObject = {
+        //     '8480-6': [], //sysBP
+        //     '8462-4': [], //diasBP
+        //     '6299-2': [], //bun
+        //     '9279-1': [] //rr
+        // };
         // var sortedObs = searchByCode(obs, measurementObject);
         // for (var key in sortedObs) {
         //     if(sortedObs.hasOwnProperty(key)) {

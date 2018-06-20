@@ -12,7 +12,7 @@
     @return diabetes risk score
 
 */
-import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 import { getNearestFlat, sortMeasurements } from '../../services/general_utils';
 
 // const WAIST_CIRCUM = ['56115-9', '56114-2', '56117-5', '8280-0', '8281-8'];
@@ -106,14 +106,14 @@ export function futureDiabetes(presMeasures = null, futureMeasures = null, pt = 
 
 export function diabetesPast(date, pt = null, obs = null, conds = null, meds = null) {
     if(pt && obs && conds && meds) {
-      const codesObject = {
-        '56115-9': [],
-        '56114-2': [],
-        '56117-5': [],
-        '8280-0': [],
-        '8281-8': [],
-        '39156-5': []
-      };
+      // const codesObject = {
+      //   '56115-9': [],
+      //   '56114-2': [],
+      //   '56117-5': [],
+      //   '8280-0': [],
+      //   '8281-8': [],
+      //   '39156-5': []
+      // };
 
       // due to the differences in where the data comes from, we have to check if we got the original data bundle
       // or if it is preprocessed from remote server by redux.
