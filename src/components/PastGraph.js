@@ -496,22 +496,25 @@ class PastGraph extends React.Component {
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
 
+      var myScale = d3.scaleLinear()
+        .domain([this.x.domain()[0],this.x.domain()[1]])
+        .range([this.x.range()[0], this.x.range()[1]]);
       //update the horizontal line  
       if(pastDateData[0].x > dateExtent[0] && pastDateData[0].x < dateExtent[1]) {
         if(!this.focus.select('#past-line').empty()) {
           this.focus.select('#past-line')
             .attr('class', 'graph-past-bar-point-line')
-            .attr('x1', this.x(pastDateData[0].x))
-            .attr('y1', this.y(pastDateVal.y))
-            .attr('x2', this.x(pastDateVal.x))
-            .attr('y2', this.y(pastDateVal.y));
+            .attr('x1', Math.min(myScale(this.x.domain()[1]),Math.max(myScale(this.pastDateAreaPointLine.x1), myScale(this.x.domain()[0]))))
+            .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+            .attr('x2', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x2), myScale(this.x.domain()[1]))))
+            .attr('y2', this.y(this.pastDateAreaPointLine.y2))
           } else {
             this.focus.append('line')
               .attr('class', 'graph-past-bar-point-line')
-              .attr('x1', this.x(pastDateData[0].x))
-              .attr('y1', this.y(pastDateVal.y))
-              .attr('x2', this.x(pastDateVal.x))
-              .attr('y2', this.y(pastDateVal.y))
+              .attr('x1', Math.min(myScale(this.x.domain()[1]),Math.max(myScale(this.pastDateAreaPointLine.x1), myScale(this.x.domain()[0]))))
+              .attr('y1', this.y(this.pastDateAreaPointLine.y1))
+              .attr('x2', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x2), myScale(this.x.domain()[1]))))
+              .attr('y2', this.y(this.pastDateAreaPointLine.y2))
               .attr('id', 'past-line');
           }
       } else {
@@ -542,7 +545,7 @@ class PastGraph extends React.Component {
       .range([this.x.range()[0], this.x.range()[1]]);
 
     this.focus.select('.graph-past-bar-point-line')
-      .attr('x1', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x1), myScale(this.x.domain()[1]))))
+      .attr('x1', Math.min(myScale(this.x.domain()[1]),Math.max(myScale(this.pastDateAreaPointLine.x1), myScale(this.x.domain()[0]))))
       .attr('y1', this.y(this.pastDateAreaPointLine.y1))
       .attr('x2', Math.max(0,Math.min(myScale(this.pastDateAreaPointLine.x2), myScale(this.x.domain()[1]))))
       .attr('y2', this.y(this.pastDateAreaPointLine.y2))
