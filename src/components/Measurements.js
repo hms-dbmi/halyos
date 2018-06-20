@@ -114,7 +114,6 @@ class Measurements extends React.Component {
       const searchWidth = this.wurstEl.getBoundingClientRect().width;
       titleStyle = this.getPxLen('marginLeft', -titleWidth);
       searchStyle = this.getPxLen('width', searchWidth - 0.25);
-      searchStyle['background-color'] = '#eeeeee';
       searchClass += ' is-expanded';
     }
     return (
@@ -178,7 +177,7 @@ class Measurements extends React.Component {
                 <div className="pure-u-3-24"></div>
               </div>
             )}
-            {(this.props.risk == null || requiresExternalData.includes(this.props.risk)) &&
+            {(this.props.risk === null || requiresExternalData.includes(this.props.risk)) &&
             (<div className="measurements-sublist-header">
               <div className="pure-u-24-24">
                 <div className="flex-c flex-v-center">
@@ -196,7 +195,7 @@ class Measurements extends React.Component {
               </div>
             </div>
             <div className='none-found'>
-            {this.state.measurements.length == 0 ? "None found." : ""}
+            {this.state.measurements.length === 0 ? "None found." : ""}
             </div>
             {this.state.measurements.filter((item) => {
                 if (this.props.risk) {

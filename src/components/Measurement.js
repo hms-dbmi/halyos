@@ -170,7 +170,7 @@ class Measurement extends React.Component {
                 <span className="tooltiptext">Click to Expand!</span>
                 {this.props.name}
               </p>
-              <div className="measurement-unit">({this.props.unit == "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
+              <div className="measurement-unit">({this.props.unit === "N/A" ? "Unitless" : this.props.unit})</div> &nbsp;
               <Button
                 icon="plot"
                 iconOnly={true}
@@ -185,7 +185,7 @@ class Measurement extends React.Component {
             )}
             {(this.props.graphData.length > 1) && (pastValue &&
               <span className="tooltiptext">
-                {`${yearsPast} years, ${monthsPast} ${monthsPast == 1 ? 'month' : 'months'} ago` || 'N/A'}
+                {`${yearsPast} years, ${monthsPast} ${monthsPast === 1 ? 'month' : 'months'} ago` || 'N/A'}
               </span>
             )}
           </div>
