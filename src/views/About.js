@@ -16,10 +16,12 @@ const About = () => (
     <h3 className="description">Acknowledgements</h3>    
     <p>First off, thanks to everyone that helped out with brainstorming, design, and technical issues! Specifically, we'd like to thank the members of the Gehlenborg Lab, as well as Dr. Susanne Churchill, for their mentorship and support.</p>
 
-    <div>Icons made by <a href="https://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
-    <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div> 
     <div>Phoenix Favicon by Design Rails from the Noun Project</div>
     <div>Graph icon by Mister Pixel from the Noun Project</div>
+    <div>Calendar by Adrien Coquet from the Noun Project</div>
+    <div>Map Marker by Antonio Vicién Faure from the Noun Project</div>
+    <div>User by TukTuk Design from the Noun Project</div>
+    <div>Right by Aybige from the Noun Project</div>
     <br/>
 
     <h4 className="disclaimer">The Nitty Gritty (Disclaimer)</h4>
