@@ -15,13 +15,15 @@ const About = () => (
 
     <h3 className="description">Acknowledgements</h3>    
     <p>First off, thanks to everyone that helped out with brainstorming, design, and technical issues! Specifically, we'd like to thank the members of the Gehlenborg Lab, as well as Dr. Susanne Churchill, for their mentorship and support.</p>
-
-    <div>Phoenix Favicon by Design Rails from the Noun Project</div>
-    <div>Graph icon by Mister Pixel from the Noun Project</div>
-    <div>Calendar by Adrien Coquet from the Noun Project</div>
-    <div>Map Marker by Antonio Vicién Faure from the Noun Project</div>
-    <div>User by TukTuk Design from the Noun Project</div>
-    <div>Right by Aybige from the Noun Project</div>
+      <div>Phoenix Favicon by Design Rails from the Noun Project</div>
+      <div>Graph icon by Mister Pixel from the Noun Project</div>
+      <div>Calendar by Adrien Coquet from the Noun Project</div>
+      <div>Map Marker by Antonio Vicién Faure from the Noun Project</div>
+      <div>User by TukTuk Design from the Noun Project</div>
+      <div>Right by Aybige from the Noun Project</div>
+      <div>Syringe by lastspark from the Noun Project</div>
+      <div>Air by Setyo Ari Wibowo from the Noun Project</div>
+      <div>Flower by Magicon from the Noun Project</div>
     <br/>
 
     <h4 className="disclaimer">The Nitty Gritty (Disclaimer)</h4>
