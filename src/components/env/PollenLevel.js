@@ -7,6 +7,9 @@ import EnvironmentTile from '../EnvironmentTile';
 // static data
 import { pollenLocal } from '../../data/fhirData';
 
+// styles
+import './PollenLevel.css';
+
 const CATEGORIES = {
   1: 'Low',
   2: 'High',
@@ -72,8 +75,8 @@ class PollenLevel extends React.Component {
         isExpanded={this.props.isExpanded}
         level={CATEGORIES[avgLevel]}
       >
-        <div>
-          <h5>Pollen Levels</h5>
+        <div className="tile-container">
+          <h5 className="env-tile-heading">Pollen Levels</h5>
           {!listItems.length ? (
             <div>...</div>
           ) : (

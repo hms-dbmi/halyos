@@ -13,7 +13,7 @@
     @return CHAD risk score
 
 */
-import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {calculateAge, pullCondition} from '../../services/risk_score_utils.js';
 import {getNearestFlat, sortMeasurements} from '../../services/general_utils';
 
 export function calcCHADScore(age, BMI, diabetes, astalt, platelet, albumin) {
@@ -63,12 +63,12 @@ export function CHADPastScore(date, pt = null, obs = null, conds = null, meds = 
           filteredConds.push(conds[i]);
         }
       }
-      const codesObject = {
-        '39156-5': [],
-        '1916-6': [],
-        '777-3': [],
-        '1751-7': [] 
-      };
+      // const codesObject = {
+      //   '39156-5': [],
+      //   '1916-6': [],
+      //   '777-3': [],
+      //   '1751-7': [] 
+      // };
 
       // due to the differences in where the data comes from, we have to check if we got the original data bundle
       // or if it is preprocessed from remote server by redux.

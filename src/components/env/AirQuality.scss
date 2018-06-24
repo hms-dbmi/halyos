@@ -1,0 +1,14 @@
+@import '../../styles/colors.scss';
+
+.env-tile-heading{
+  color:$gray-darker
+}
+
+
+.tile-container {
+  overflow:hidden;
+}
+
+.desc-text{
+  font-size:0.9rem;
+}

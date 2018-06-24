@@ -205,7 +205,6 @@ export function fetchAllConditionData(patientID) {
         dispatch(receiveAllConditionData(patientID, bundle));
       })
       .catch(function(res){
-        console.log("????", res);
         if (res.status){
           console.log("error1", res.status)
         }
@@ -309,7 +308,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
       .then(function(json){
           let dataDict = {};
           if(json){
-            if(json.total == 0){
+            if(json.total === 0){
               return Promise.resolve();
             }
             else {
@@ -318,7 +317,7 @@ export function fetchMostRecentObsByCode(patientID, code, subcode = null) {
               if(item.resource.component){
                 let subdata = item.resource.component;
                 for(let part of subdata){
-                  if(part.code.coding[0].code == subcode){
+                  if(part.code.coding[0].code === subcode){
                     data = part.valueQuantity;
                     data['date'] = item.resource.effectiveDateTime;
                     //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
@@ -387,7 +386,7 @@ export function shouldFetchAllObsByCode(state, code, subcode = null) {
 
   let allMeasures = state.fhirObservationData.codeList;  
   for(let measure of allMeasures) {
-    if(measure == code || measure == subcode){
+    if(measure === code || measure === subcode){
       return false;
     }
   }    
@@ -416,7 +415,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
           let dataDict = {};
           let outputCode = "";
           if(json){
-            if(json.total == 0){
+            if(json.total === 0){
               return Promise.resolve();
             }
             else {
@@ -426,7 +425,7 @@ export function fetchAllObsByCode(patientID, code, subcode = null) {
                 if(item.resource.component){
                   let subdata = item.resource.component;
                   for(let part of subdata){
-                    if(part.code.coding[0].code == subcode){
+                    if(part.code.coding[0].code === subcode){
                       data = part.valueQuantity;
                       data['date'] = item.resource.effectiveDateTime;
                       //TODO figure out if part.code.coding.text is different from part.code.coding[0].display
@@ -584,6 +583,7 @@ export function fetchAllObs(patientID) {
             allUncollectedMeasures.push(measure);
           }
         }
+
         dispatch(receiveAllObs(patientID, allUncollectedMeasures));
       })
       .catch(function(res){

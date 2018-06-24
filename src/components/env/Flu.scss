@@ -1,3 +1,28 @@
-.flu-explanation-text{
-  font-size:14px;
+@import '../../styles/colors.scss';
+
+
+.desc-text{
+  font-size:0.9rem;
+}
+
+
+.env-tile-heading{
+  color:$gray-darker
+}
+
+.tile-container {
+  overflow:hidden;
+}
+
+.explanation-heading{
+  color:$gray-dark;
+  margin-top:2px;
+  margin-bottom:2px;
+  font-size:0.8rem;
+
+}
+
+
+.mention-text{
+  margin:0.25rem;
 }

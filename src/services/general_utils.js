@@ -222,6 +222,15 @@ export function sortByDate(obsList){
   })
   return obsList;
 }
+
+export function sortGraphDataByDate(obsList){
+
+  // even though we really don't need to (since we can assume ISO date format) we parse the date in case here.
+  obsList.sort((obs1,obs2) => {
+    return new Date(obs2.x) - new Date(obs1.x);
+  })
+  return obsList;
+}
 /**
   
     This function takes two latitude/longitude points and calculates the difference between them using the Haversine algorithm

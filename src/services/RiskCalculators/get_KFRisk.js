@@ -10,7 +10,7 @@
     @return kidney failure risk score
 
 */
-import {calculateAge, pullCondition, searchByCode} from '../../services/risk_score_utils.js';
+import {calculateAge} from '../../services/risk_score_utils.js';
 import {getNearestFlat, sortMeasurements} from '../../services/general_utils';
 
 export function calcKFRisk(gender, age, gfr, uac) {
@@ -22,7 +22,30 @@ export function calcKFRisk(gender, age, gfr, uac) {
   return score;
 }
 
+function hasNecessaryMeasuresForKFRRisk(presMeasures = null, futureMeasures = null){
+  if(presMeasures == null || futureMeasures == null){
+    return false;
+  }
+    if( (futureMeasures.hasOwnProperty('48643-1') ||
+         futureMeasures.hasOwnProperty('48642-3') ||
+         futureMeasures.hasOwnProperty('33914-3') || 
+         futureMeasures.hasOwnProperty('48643-1') ||
+         futureMeasures.hasOwnProperty('48642-3') || 
+         futureMeasures.hasOwnProperty('33914-3')) 
+      && (futureMeasures.hasOwnProperty('14958-3') || 
+          futureMeasures.hasOwnProperty('14959-1')|| 
+          presMeasures.hasOwnProperty('14958-3') || 
+          presMeasures.hasOwnProperty('14959-1')) ) {
+      return true;
+    } else {
+      return false;
+    }
+
+}
+
 export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = null, obs = null, conds = null, meds = null) {
+  if(hasNecessaryMeasuresForKFRRisk(presMeasures, futureMeasures)){
+
   if(presMeasures && pt && futureMeasures) {
       return calcKFRisk(
         pt.gender,
@@ -39,18 +62,19 @@ export function futureKFRRisk(presMeasures = null, futureMeasures = null, pt = n
         presMeasures['14958-3'] || presMeasures['14959-1']
       );
   }
+}
   return '...'
 }
 
 export function pastKFRRisk(date, pt = null, obs = null, conds = null, meds = null) {
   if(pt && obs) {
-    const codesObject = {
-      "48643-1": [],
-      "48642-3": [],
-      "33914-3": [],//
-      "14958-3": [],
-      "14959-1": []//
-    };
+    // const codesObject = {
+    //   "48643-1": [],
+    //   "48642-3": [],
+    //   "33914-3": [],//
+    //   "14958-3": [],
+    //   "14959-1": []//
+    // };
 
     // due to the differences in where the data comes from, we have to check if we got the original data bundle
     // or if it is preprocessed from remote server by redux.
