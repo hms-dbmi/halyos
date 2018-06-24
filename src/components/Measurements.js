@@ -143,7 +143,7 @@ class Measurements extends React.Component {
             </div>
           </div>
           <div
-            className="pure-u-3-24 smaller flex-c flex-v-center past-label pulse"
+            className="pure-u-3-24 smaller flex-c flex-v-center flex-align-c past-label pulse"
             onClick={this.toggleDatePicker.bind(this)}
           >
             <Icon id="calendar"/>
