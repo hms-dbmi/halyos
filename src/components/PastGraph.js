@@ -261,24 +261,6 @@ class PastGraph extends React.Component {
 
 
     if (this.props.referenceRange) {
-      // const minRef = [
-      //   { x: this.x.domain()[0], y: this.props.referenceRange[0] },
-      //   { x: this.x.domain()[1], y: this.props.referenceRange[0] },
-      // ];
-      // const maxRef = [
-      //   { x: this.x.domain()[0], y: this.props.referenceRange[1] },
-      //   { x: this.x.domain()[1], y: this.props.referenceRange[1] },
-      // ];
-      // this.focusGraph.append('path')
-      //   .datum(minRef)
-      //   .attr('class', 'past-graph-connection')
-      //   .attr('d', this.line);
-
-      // this.focusGraph.append('path')
-      //   .datum(maxRef)
-      //   .attr('class', 'past-graph-connection')
-      //   .attr('d', this.line);
-
       this.focusGraph.append('rect')
         .attr('x', this.x.domain()[0])
         .attr('y', this.y.range()[0]/(yMaxPadded-yMinPadded)*(yMaxPadded-this.props.referenceRange[1]))
@@ -438,8 +420,6 @@ class PastGraph extends React.Component {
     this.props.activeMeasureHandler(null);
   }
 
-  wrangleData() {}
-
   update(nextProps) {
     if (this.props.absWidth !== nextProps.absWidth) {
       this.init(nextProps.absWidth);
@@ -496,6 +476,13 @@ class PastGraph extends React.Component {
         .attr('cy', d => this.y(d.y))
         .each(augmentPastGraphNode(presentDate, measurementPastDate));
 
+
+      this.svg.select(".context").selectAll(".past-graph-node")
+        .attr('r', 3)
+        .attr('cx', d => this.x2(d.x))
+        .attr('cy', d => this.y2(d.y))
+        .each(augmentPastGraphNode(presentDate, measurementPastDate));
+
       var myScale = d3.scaleLinear()
         .domain([this.x.domain()[0],this.x.domain()[1]])
         .range([this.x.range()[0], this.x.range()[1]]);
@@ -521,6 +508,7 @@ class PastGraph extends React.Component {
         this.focus.select('#past-line').remove()
       }
     }
+
   }
 
   brushed() {
@@ -560,6 +548,9 @@ class PastGraph extends React.Component {
         .scale(this.width / (s[1] - s[0]))
         .translate(-s[0], 0)
     );
+       
+
+
   }
 
   setPresent() {
