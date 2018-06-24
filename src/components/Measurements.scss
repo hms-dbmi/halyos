@@ -1,5 +1,6 @@
-@import 'styles/flexbox.scss';
-@import 'styles/colors.scss';
+@import '../styles/flexbox.scss';
+@import '../styles/colors.scss';
+@import '../styles/transitions.scss';
 
 .measurements {
   .dashboard-panel-headline {
@@ -60,6 +61,11 @@
     transform: scale(1.0);
     animation: pulse 2s 2;
     animation-delay: 3s;
+    transition: background $fast $ease;
+  }
+
+  .pulse:hover {
+    background: transparentize($highlight-bg, 0.8);
   }
 
   @keyframes pulse {
