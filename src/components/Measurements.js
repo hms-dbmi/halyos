@@ -20,7 +20,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import measuresForRisks from '../texts/measurementsForRiskScores';
 import requiresExternalData from '../texts/requiresExternalData';
 
-//utils
+// Utils
 import deepContains from '../utils/deep-contains';
 
 import sortBy from 'lodash/sortBy';
@@ -31,7 +31,7 @@ class Measurements extends React.Component {
     this.state = {
       query: '',
       isDatePickerShown: false,
-      measurements: []   
+      measurements: []
     };
   }
 
@@ -53,7 +53,7 @@ class Measurements extends React.Component {
       if (deepContains(measuresForRisks[key],(mea1.code))) {
         return -1;
       }
-    }    
+    }
     return 1;
   }
 
@@ -143,7 +143,7 @@ class Measurements extends React.Component {
             </div>
           </div>
           <div
-            className="pure-u-3-24 smaller flex-c flex-v-center past-label"
+            className="pure-u-3-24 smaller flex-c flex-v-center past-label pulse"
             onClick={this.toggleDatePicker.bind(this)}
           >
             <Icon id="calendar"/>

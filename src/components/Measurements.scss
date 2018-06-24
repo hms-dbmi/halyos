@@ -52,6 +52,30 @@
     color: $future;
     font-weight: bold;
   }
+
+  .pulse {
+    cursor: pointer;
+    // box-shadow: 0 0 0 transparentize($highlight-bg, 0.6);
+    background: transparentize($highlight-bg, 1);
+    transform: scale(1.0);
+    animation: pulse 2s 2;
+    animation-delay: 3s;
+  }
+
+  @keyframes pulse {
+    0% {
+      background: transparentize($highlight-bg, 0.6);
+      transform: scale(1.2);
+    }
+    70% {
+      background: transparentize($highlight-bg, 1);
+      transform: scale(1.0);
+    }
+    100% {
+      background: transparentize($highlight-bg, 1);
+      transform: scale(1.0);
+    }
+  }
 }
 
 .title-bar {
