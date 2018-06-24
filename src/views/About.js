@@ -9,11 +9,11 @@ const About = () => (
 
     <h3 className="description">What is Halyos?</h3>
     <p>Halyos <a href="halyos.gehlenborglab.org">(halyos.gehlenborglab.org)</a>, is a visual EHR web app that complements the functionality of existing patient portals. Halyos is designed to integrate with existing EHR systems to help patients interpret their health data. A link to the code is available on <a href="https://github.com/hms-dbmi/fhir-ignite/">Github</a>.</p>
-    
+
     <h3 className="description">How does Halyos work?</h3>
     <p>The Halyos application utilizes the <a href="https://smarthealthit.org/">SMART on FHIR</a> platform to create an interoperable interface that provides <b>interactive visualizations of clinically validated risk scores</b> and longitudinal data derived from a patient’s clinical measurements. These visualizations allow patients to investigate the relationships between key clinical measurements and risk over time. By allowing patients to set hypothetical future values for these clinical measurements, patients can see how changes in their health will impact their risks. Using Halyos, patients are provided with the opportunity to actively improve their health based on increased understanding of longitudinal information available in EHRs and to begin a dialogue with their healthcare providers.</p>
 
-    <h3 className="description">Acknowledgements</h3>    
+    <h3 className="description">Acknowledgements</h3>
     <p>First off, thanks to everyone that helped out with brainstorming, design, and technical issues! Specifically, we'd like to thank the members of the Gehlenborg Lab, as well as Dr. Susanne Churchill, for their mentorship and support.</p>
       <div>Phoenix Favicon by Design Rails from the Noun Project</div>
       <div>Graph icon by Mister Pixel from the Noun Project</div>
