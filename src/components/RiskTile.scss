@@ -74,6 +74,10 @@
   text-align: center;
 }
 
+.risk-tile-large .risk-tile-time {
+  padding: 0 0 0 0;
+}
+
 .risk-tile-status {
   margin: 0 auto;
   font-size: 1rem;
@@ -89,6 +93,12 @@
   > div {
     width: 30%;
   }
+}
+
+.risk-tile-large .risk-tile-score {
+  margin: 0.75rem auto 0.75rem auto;
+  padding-bottom: 0rem;
+  width: 80%;
 }
 
 .risk-tile-score-past,
