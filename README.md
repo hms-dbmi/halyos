@@ -1,9 +1,13 @@
-# FHIR Ignite  [![Build Status](https://travis-ci.org/hms-dbmi/fhir-ignite.svg?branch=master)](https://travis-ci.org/hms-dbmi/fhir-ignite)
+# Halyos  [![Build Status](https://travis-ci.org/hms-dbmi/halyos.svg?branch=master)](https://travis-ci.org/hms-dbmi/halyos)
 Redesigning the Patient Portal Experience with SMART on FHIR
 
-**Demo:** http://socrates-fhir-ignite.s3-website-us-east-1.amazonaws.com
+Halyos is a visual EHR web app developed at the Harvard Medical School by the [Gehlenborg Lab](http://gehlenborglab.org/) that complements the functionality of existing patient portals. Halyos is designed to integrate with existing EHR systems to help patients interpret their health data.
 
-**Wiki:** https://github.com/hms-dbmi/fhir-ignite/wiki
+The Halyos application utilizes the SMART on FHIR platform to create an interoperable interface that provides interactive visualizations of clinically validated risk scores and longitudinal data derived from a patient’s clinical measurements.
+
+**Demo:** http://halyos.gehlenborglab.org/
+
+**Wiki:** https://github.com/hms-dbmi/halyos/wiki (In progress)
 
 ## Development
 
