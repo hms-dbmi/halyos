@@ -7,7 +7,7 @@ import Icon from './Icon';
 // Styles
 import './Topbar.css';
 import {patientLocal} from '../data/fhirData.js';
-
+import {observationsLocal} from '../data/fhirData.js';
 // utils
 import { getPatID } from '../services/smart_setup'
 
@@ -19,7 +19,15 @@ class Header extends React.Component {
   }
 
   render() {
-    const recentVisit = new Date(this.props.mostRecentVisit);
+    var recentVisit = new Date();
+    if(this.props.mostRecentVisit){
+      recentVisit = new Date(this.props.mostRecentVisit);  
+    } else {
+      console.log("asdfasdfsdf", observationsLocal[0]);
+      recentVisit = new Date(observationsLocal[0].resource.effectiveDateTime);
+    }
+    
+    console.log("this.props.patient" , this.props.patient);
 
     return (
       <header className="topbar flex-c flex-align-sb">
@@ -63,7 +71,7 @@ class Header extends React.Component {
             {this.props.mostRecentVisit ? (
               <date>{recentVisit.getMonth() + 1}/{recentVisit.getDate()}/{recentVisit.getFullYear().toString().substring(2,4)}</date>
               ) : (
-              'Unavailable'
+              <date>{recentVisit.getMonth() + 1}/{recentVisit.getDate()}/{recentVisit.getFullYear().toString().substring(2,4)}</date>
               )
             }
           </div>

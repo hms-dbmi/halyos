@@ -5,7 +5,8 @@ export function getURL() {
 }
 
 export function getInsecureURL() {
-  return 'http://fhirtest.uhn.ca/baseDstu3';
+  // return 'http://fhirtest.uhn.ca/baseDstu3';
+  return "http://hapi.fhir.org/baseDstu3"
 }
 //@param patient ID
 //@ return returns the FHIR client with the patient ID

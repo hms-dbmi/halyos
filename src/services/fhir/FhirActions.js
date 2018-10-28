@@ -53,7 +53,7 @@ export function fetchAllPatientData(patientID) {
         }
       )
       .then(json => {
-        if(!json){
+        if(!json || !json.entry){
           dispatch(failAllPatientData(patientID));
           return Promise.resolve();
         }
@@ -111,7 +111,7 @@ export function fetchMostRecentVisitDate(patientID) {
         error => console.error('An error occured.', error)
       )
       .then((json) => {
-        if(!json){
+        if(!json || !json.entry){
           return Promise.resolve();
         }
         let recentDate = json.entry[0].resource.effectiveDateTime;
@@ -256,7 +256,7 @@ export function fetchAllMedReqData(patientID) {
         error => console.error('An error occured.', error)
       )
       .then(function(json){
-          if(!json){
+          if(!json || !json.entry){
             dispatch(failAllMedReqData());
             return Promise.resolve();
           }
