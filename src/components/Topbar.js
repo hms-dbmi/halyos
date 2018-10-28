@@ -23,12 +23,9 @@ class Header extends React.Component {
     if(this.props.mostRecentVisit){
       recentVisit = new Date(this.props.mostRecentVisit);  
     } else {
-      console.log("asdfasdfsdf", observationsLocal[0]);
       recentVisit = new Date(observationsLocal[0].resource.effectiveDateTime);
     }
     
-    console.log("this.props.patient" , this.props.patient);
-
     return (
       <header className="topbar flex-c flex-align-sb">
         <nav className="flex-c flex-v-center">
