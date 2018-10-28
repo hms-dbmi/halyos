@@ -23,7 +23,6 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
-    "fhir": "github:smart-on-fhir/client-js",
     "fhir-js-client": "github:smart-on-fhir/client-js",
     "fhir.js": "0.0.20",
     "history": "^4.7.2",
