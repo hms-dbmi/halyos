@@ -261,15 +261,31 @@ class PastGraph extends React.Component {
 
 
     if (this.props.referenceRange) {
+
       this.focusGraph.append('rect')
         .attr('x', this.x.domain()[0])
         .attr('y', this.y.range()[0]/(yMaxPadded-yMinPadded)*(yMaxPadded-this.props.referenceRange[1]))
         .attr('height', this.y.range()[0]/(yMaxPadded-yMinPadded)*(this.props.referenceRange[1]-this.props.referenceRange[0]))
-        .attr('width', this.x.domain()[1]-this.x.domain()[0])
-        .attr('fill', '#98FB98')
-        .attr('opacity', 0.2)
+        // had to add a little extra so we wouldn't see the right border of the box, could have done 2 lines but oh well
+        .attr('width', this.x.range()[1] + 20)
+        .attr('fill', 'none')
+        .attr("stroke", "#000000")
+        .attr("stroke-width", "2px")
+        .attr("stroke-dasharray", "6")
+        .attr('opacity', 0.15)
         .attr('id', 'test')
+
+      // add ref range rext
+      this.focusGraph.append("text")
+        .text("Reference Range")
+        .attr('x', 5)
+        .attr('y', this.y.range()[0] - 25)
+        .attr("font-family", "'Overpass', sans-serif")
+        .attr("font-size", "x-small")
+        .attr("fill", "#666")
+
     }
+
 
     if(this.state.data.length > 1){
       this.context.selectAll('past-graph-node-overview')
