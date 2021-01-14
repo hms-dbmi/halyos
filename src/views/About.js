@@ -2,7 +2,8 @@ import React from 'react';
 import './About.css';
 
 const About = () => (
-  <div className="about-us-container top-border scrollbar">
+  <div></div>
+  /*<div className="about-us-container top-border scrollbar">
     <h1 className="about-heading">Halyos: A patient-facing visual EHR interface for longitudinal risk awareness</h1>
     <p className="dev-names">Vimig Socrates<sup>1</sup>, Samson Mataraso<sup>1</sup>, <a href="https://lekschas.de" target="_blank">Fritz Lekschas</a><sup>1,2</sup>, and <a href="http://gehlenborglab.org" target="_blank">Nils Gehlenborg</a><sup>1</sup></p>
     <ol className="affiliation">
@@ -33,7 +34,7 @@ const About = () => (
 
     <h4 className="disclaimer">The Nitty Gritty (Disclaimer)</h4>
     <p className="disclaimer-text">All content found on the Halyos Website, including: text, images, audio, or other formats were created for informational purposes only. The Content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this Website. If you think you may have a medical emergency, call your doctor, go to the emergency department, or call 911 immediately. We do not recommend or endorse any specific tests, physicians, products, procedures, opinions, or other information that may be mentioned on this site. Reliance on any information provided by this site is solely at your own risk. Links to external content are taken at your own risk. We are not responsible for the claims of external websites and education companies.</p>
-  </div>
+  </div>*/
 );
 
 export default About;
