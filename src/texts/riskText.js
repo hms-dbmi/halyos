@@ -1,7 +1,7 @@
 export default {
 	'Cardiac': {
 		name: "Reynolds Risk Score",
-		'text': "The Reynolds Risk Score is a widely used score to determine overall cardiac health. It represents your risk of having a major cardiac event, such as a heart attack or stroke."
+		'text': "The Reynolds Risk Score is a widely used score to determine overall cardiac health. It represents your risk of having a major cardiac event, such as a heart attack or stroke.\n\n The following factors are involved in the risk computation: Gender\nSmoking Status\nBlood Pressure (BP)\nCholesterol\nHigh-density lipoprotein (HDL) cholesterol\nhigh-sensitivity C-reactive protein (hs-CRP)\nand Family History"
 	},
 
 	'Stroke': { 
