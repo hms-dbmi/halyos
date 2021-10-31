@@ -34,8 +34,7 @@ class Header extends React.Component {
             className="topbar-element topbar-logo flex-c flex-v-center"
             activeClassName="is-active"
           >
-            {/* Halyos */}
-            EHR Risk Viz
+            Halyos
           </NavLink>
           <NavLink
             to="/about"
