@@ -4,7 +4,7 @@ import './About.css';
 const About = () => (
   <div className="about-us-container top-border scrollbar">
     <h1 className="about-heading">Halyos: A patient-facing visual EHR interface for longitudinal risk awareness</h1>
-    <p className="dev-names">Vimig Socrates<sup>1</sup>, Samson Mataraso<sup>1</sup>, <a href="https://lekschas.de" target="_blank">Fritz Lekschas</a><sup>1,2</sup>, and <a href="http://gehlenborglab.org" target="_blank">Nils Gehlenborg</a><sup>1</sup></p>
+    <p className="dev-names">Samson Mataraso<sup>1</sup>, Vimig Socrates<sup>1</sup>, <a href="https://lekschas.de" target="_blank">Fritz Lekschas</a><sup>1,2</sup>, and <a href="http://gehlenborglab.org" target="_blank">Nils Gehlenborg</a><sup>1</sup></p>
     <ol className="affiliation">
       <li>Department of Biomedical Informatics, Harvard Medical School, Boston, USA</li>
       <li>Harvard John A Paulson School of Engineering and Applied Sciences, Cambridge, USA</li>
